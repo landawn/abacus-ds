@@ -1,4 +1,4 @@
-package com.landawn.abacus.util;
+package com.landawn.abacus.util.entity;
 
 import java.util.Map;
 import java.util.UUID;
