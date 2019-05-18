@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="test"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk1.8.0_202"/>
+	<classpathentry kind="lib" path="lib/hamcrest-all-1.3.jar"/>
+	<classpathentry kind="lib" path="lib/zookeeper-3.4.6.jar" sourcepath="C:/Users/haiyangl/AppData/Local/Temp/decompiler/source/zookeeper-3.4.6-sources.jar"/>
+	<classpathentry kind="lib" path="lib/aws-java-sdk-dynamodb-1.10.6.jar" sourcepath="lib/aws-java-sdk-dynamodb-1.10.6-sources.jar"/>
+	<classpathentry kind="lib" path="lib/aws-java-sdk-kms-1.10.6.jar"/>
+	<classpathentry kind="lib" path="lib/aws-java-sdk-s3-1.10.6.jar" sourcepath="lib/aws-java-sdk-s3-1.10.6-sources.jar"/>
+	<classpathentry kind="lib" path="lib/aws-java-sdk-core-1.10.6.jar" sourcepath="lib/aws-java-sdk-core-1.10.6-sources.jar"/>
+	<classpathentry kind="lib" path="lib/elasticsearch-2.0.0-rc1.jar" sourcepath="lib/elasticsearch-2.0.0-rc1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/netty-all-4.0.33.Final.jar"/>
+	<classpathentry kind="lib" path="lib/hadoop-common-2.7.1.jar" sourcepath="lib/hadoop-common-2.7.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/hadoop-hdfs-2.7.1.jar" sourcepath="lib/hadoop-hdfs-2.7.1-sources.jar"/>
+	<classpathentry kind="lib" path="lib/hadoop-auth-2.7.1.jar"/>
+	<classpathentry kind="lib" path="lib/hbase-annotations-1.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/hbase-client-1.1.2.jar" sourcepath="C:/Users/haiyangl/AppData/Local/Temp/decompiler/source/hbase-client-1.1.2-sources.jar"/>
+	<classpathentry kind="lib" path="lib/hbase-common-1.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/hbase-protocol-1.1.2.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-dataformat-avro-2.6.3.jar" sourcepath="lib/jackson-dataformat-avro-2.6.3-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-annotations-2.6.3.jar" sourcepath="lib/jackson-annotations-2.6.3-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-2.6.3.jar" sourcepath="lib/jackson-core-2.6.3-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-databind-2.6.3.jar" sourcepath="lib/jackson-databind-2.6.3-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-dataformat-csv-2.6.3.jar" sourcepath="lib/jackson-dataformat-csv-2.6.3-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-dataformat-xml-2.6.3.jar" sourcepath="lib/jackson-dataformat-xml-2.6.3-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-module-jaxb-annotations-2.6.3.jar" sourcepath="lib/jackson-module-jaxb-annotations-2.6.3-sources.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-mapper-asl-1.9.13.jar"/>
+	<classpathentry kind="lib" path="lib/mongo-java-driver-3.5.0.jar" sourcepath="lib/mongo-java-driver-3.5.0-sources.jar"/>
+	<classpathentry kind="lib" path="lib/neo4j-ogm-api-2.0.0-M03.jar" sourcepath="lib/neo4j-ogm-api-2.0.0-M03-sources.jar"/>
+	<classpathentry kind="lib" path="lib/neo4j-ogm-bolt-driver-2.0.0-M03.jar"/>
+	<classpathentry kind="lib" path="lib/neo4j-ogm-compiler-2.0.0-M03.jar"/>
+	<classpathentry kind="lib" path="lib/neo4j-ogm-core-2.0.0-M03.jar" sourcepath="lib/neo4j-ogm-core-2.0.0-M03-sources.jar"/>
+	<classpathentry kind="lib" path="lib/neo4j-ogm-http-driver-2.0.0-M03.jar"/>
+	<classpathentry kind="lib" path="lib/javaee-api-7.0.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="lib/cassandra-driver-core-3.3.0.jar" sourcepath="lib/cassandra-driver-core-3.3.0-sources.jar"/>
+	<classpathentry kind="lib" path="lib/cassandra-driver-extras-3.3.0.jar" sourcepath="lib/cassandra-driver-extras-3.3.0-sources.jar"/>
+	<classpathentry kind="lib" path="lib/cassandra-driver-mapping-3.3.0.jar" sourcepath="lib/cassandra-driver-mapping-3.3.0-sources.jar"/>
+	<classpathentry kind="lib" path="lib/abacus-util-1.7.2.jar"/>
+	<classpathentry kind="lib" path="lib/protobuf-java-2.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/guava-27.1-jre.jar"/>
+	<classpathentry kind="lib" path="lib/couchbase-core-io-1.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/couchbase-java-client-2.1.0.jar"/>
+	<classpathentry kind="output" path="build/classes"/>
+</classpath>
