@@ -8,12 +8,19 @@ import java.util.Map;
 
 import org.junit.Test;
 
-import com.landawn.abacus.condition.ConditionFactory.L;
-import com.landawn.abacus.util.CQLBuilder.E;
-import com.landawn.abacus.util.CQLBuilder.E2;
-import com.landawn.abacus.util.CQLBuilder.E3;
-import com.landawn.abacus.util.CQLBuilder.NE;
-import com.landawn.abacus.util.CQLBuilder.RE;
+import com.landawn.abacus.condition.ConditionFactory.CF;
+import com.landawn.abacus.util.N;
+import com.landawn.abacus.util.Profiler;
+import com.landawn.abacus.util.Try;
+import com.landawn.abacus.util.CQLBuilder.ACCB;
+import com.landawn.abacus.util.CQLBuilder.LCCB;
+import com.landawn.abacus.util.CQLBuilder.NAC;
+import com.landawn.abacus.util.CQLBuilder.NLC;
+import com.landawn.abacus.util.CQLBuilder.NSC;
+import com.landawn.abacus.util.CQLBuilder.PAC;
+import com.landawn.abacus.util.CQLBuilder.PLC;
+import com.landawn.abacus.util.CQLBuilder.PSC;
+import com.landawn.abacus.util.CQLBuilder.SCCB;
 import com.landawn.abacus.util.entity.Account;
 
 /**
@@ -23,24 +30,41 @@ import com.landawn.abacus.util.entity.Account;
  * @author Haiyang Li
  */
 public class CQLBuilderTest extends AbstractNoSQLTest {
+    public void test_00() {
+        N.println(SCCB.select("firstName", "lastName").from("account").where(CF.eq("id", 1)).cql());
+        N.println(ACCB.select("firstName", "lastName").from("account").where(CF.eq("id", 1)).cql());
+        N.println(LCCB.select("firstName", "lastName").from("account").where(CF.eq("id", 1)).cql());
+
+        N.println(PSC.select("firstName", "lastName").from("account").where(CF.eq("id", 1)).cql());
+        N.println(PAC.select("firstName", "lastName").from("account").where(CF.eq("id", 1)).cql());
+        N.println(PLC.select("firstName", "lastName").from("account").where(CF.eq("id", 1)).cql());
+
+        N.println(NSC.select("firstName", "lastName").from("account").where(CF.eq("id", 1)).cql());
+        N.println(NAC.select("firstName", "lastName").from("account").where(CF.eq("id", 1)).cql());
+        N.println(NLC.select("firstName", "lastName").from("account").where(CF.eq("id", 1)).cql());
+
+        N.println(LCCB.select("firstName", "last_name").from("account").where(CF.eq("id", 1).and(CF.ne("first_name", "fn"))).cql());
+        N.println(PLC.select("firstName", "last_name").from("account").where(CF.eq("id", 1).and(CF.ne("first_name", "fn"))).cql());
+        N.println(NLC.select("firstName", "last_name").from("account").where(CF.eq("id", 1).and(CF.ne("first_name", "fn"))).cql());
+    }
 
     @Test
     public void test_performance() {
         for (int i = 0; i < 10; i++) {
-            String cql = E.insert("gui", "firstName", "lastName", "lastUpdateTime", "createTime").into("account").cql();
+            String cql = SCCB.insert("gui", "firstName", "lastName", "lastUpdateTime", "createTime").into("account").cql();
             assertEquals(102, cql.length());
 
-            cql = NE.select("gui", "firstName", "lastName", "lastUpdateTime", "createTime").from("account").where(L.eq("id", 1)).cql();
+            cql = NSC.select("gui", "firstName", "lastName", "lastUpdateTime", "createTime").from("account").where(CF.eq("id", 1)).cql();
             assertEquals(166, cql.length());
         }
 
         Profiler.run(16, 100000, 3, new Try.Runnable() {
             @Override
             public void run() {
-                String cql = E.insert("gui", "firstName", "lastName", "lastUpdateTime", "createTime").into("account").cql();
+                String cql = SCCB.insert("gui", "firstName", "lastName", "lastUpdateTime", "createTime").into("account").cql();
                 assertEquals(102, cql.length());
 
-                cql = NE.select("gui", "firstName", "lastName", "lastUpdateTime", "createTime").from("account").where(L.eq("id", 1)).cql();
+                cql = NSC.select("gui", "firstName", "lastName", "lastUpdateTime", "createTime").from("account").where(CF.eq("id", 1)).cql();
                 assertEquals(166, cql.length());
             }
         }).writeHtmlResult(System.out);
@@ -48,105 +72,105 @@ public class CQLBuilderTest extends AbstractNoSQLTest {
 
     public void test_11() {
 
-        N.println(NE.update(Account.class).set("firstName", "lastName").iF(L.eq("firstName", "123")).cql());
+        N.println(NSC.update(Account.class).set("firstName", "lastName").iF(CF.eq("firstName", "123")).cql());
 
-        String cql = E.insert("gui", "firstName", "lastName").into("account").cql();
+        String cql = SCCB.insert("gui", "firstName", "lastName").into("account").cql();
         N.println(cql);
 
-        cql = RE.insert("gui", "firstName", "lastName").into("account").cql();
+        cql = PSC.insert("gui", "firstName", "lastName").into("account").cql();
         N.println(cql);
 
         Map<String, Object> props = N.asProps("gui", N.uuid(), "firstName", "fn", "lastName", "ln");
 
-        cql = E.insert(props).into("account").cql();
+        cql = SCCB.insert(props).into("account").cql();
         N.println(cql);
-        N.println(E.insert(props).into("account").parameters());
+        N.println(SCCB.insert(props).into("account").parameters());
 
-        cql = RE.insert(props).into("account").cql();
+        cql = PSC.insert(props).into("account").cql();
         N.println(cql);
-        N.println(RE.insert(props).into("account").parameters());
+        N.println(PSC.insert(props).into("account").parameters());
 
-        cql = E.select(E.DISTINCT, N.asList("firstName", "lastName")).from("account2", "account2").where("id > ?").cql();
+        cql = SCCB.select(SCCB.DISTINCT, N.asList("firstName", "lastName")).from("account2", "account2").where("id > ?").cql();
         N.println(cql);
 
         Map<String, String> m = N.asMap("firstName", "lastName");
-        cql = E.select(E.DISTINCT, m).from("account2", "account2").where("id > ?").cql();
+        cql = SCCB.select(SCCB.DISTINCT, m).from("account2", "account2").where("id > ?").cql();
         N.println(cql);
     }
 
     public void test_set() {
-        N.println(E.update(Account.class, N.asSet(Account.ID)).using("a11", "b11").where(L.eq(Account.ID, L.QME)).cql());
-        N.println(E.update(Account.class, N.asSet(Account.FIRST_NAME)).using("a11", "b11").where(L.eq(Account.ID, L.QME)).cql());
-        N.println(E2.update(Account.class, N.asSet(Account.FIRST_NAME)).using("a11", "b11").where(L.eq(Account.ID, L.QME)).cql());
-        N.println(E3.update(Account.class, N.asSet(Account.FIRST_NAME)).using("a11", "b11").where(L.eq(Account.ID, L.QME)).cql());
+        N.println(SCCB.update(Account.class, N.asSet(Account.ID)).using("a11", "b11").where(CF.eq(Account.ID, CF.QME)).cql());
+        N.println(SCCB.update(Account.class, N.asSet(Account.FIRST_NAME)).using("a11", "b11").where(CF.eq(Account.ID, CF.QME)).cql());
+        N.println(ACCB.update(Account.class, N.asSet(Account.FIRST_NAME)).using("a11", "b11").where(CF.eq(Account.ID, CF.QME)).cql());
+        N.println(LCCB.update(Account.class, N.asSet(Account.FIRST_NAME)).using("a11", "b11").where(CF.eq(Account.ID, CF.QME)).cql());
 
         String cql = "UPDATE account SET id = ?, first_name=? WHERE id > 0";
-        assertEquals(cql, E.update("account").set("id = ?, first_name=?").where("id > 0").cql());
+        assertEquals(cql, SCCB.update("account").set("id = ?, first_name=?").where("id > 0").cql());
 
         cql = "UPDATE account SET first_name = ? WHERE id > 0";
-        assertEquals(cql, E.update("account").set("first_name").where("id > 0").cql());
+        assertEquals(cql, SCCB.update("account").set("first_name").where("id > 0").cql());
 
         cql = "UPDATE account SET id = ?, first_name = ? WHERE id > 0";
-        assertEquals(cql, E.update("account").set("id", "first_name").where("id > 0").cql());
+        assertEquals(cql, SCCB.update("account").set("id", "first_name").where("id > 0").cql());
 
         cql = "UPDATE account SET id = ?, first_name = ? WHERE id > 0";
-        assertEquals(cql, E.update("account").set(N.asList("id", "first_name")).where("id > 0").cql());
+        assertEquals(cql, SCCB.update("account").set(N.asList("id", "first_name")).where("id > 0").cql());
 
         cql = "UPDATE account SET id = 1, first_name = 'updatedFM' WHERE id > 0";
-        assertEquals(cql, E.update("account").set(N.asMap("id", 1, "first_name", "updatedFM")).where("id > 0").cql());
+        assertEquals(cql, SCCB.update("account").set(N.asMap("id", 1, "first_name", "updatedFM")).where("id > 0").cql());
 
         cql = "UPDATE account SET id = ?, first_name = ? WHERE id > 0";
-        assertEquals(cql, E.update("account").set(N.asMap("id", L.QME, "first_name", L.QME)).where("id > 0").cql());
+        assertEquals(cql, SCCB.update("account").set(N.asMap("id", CF.QME, "first_name", CF.QME)).where("id > 0").cql());
     }
 
     public void testCQLBuilder_2() {
-        Account account = TestUtil.createEntity(Account.class);
-        String cql = E.insert(account).into("account").cql();
+        Account account = UnitTestUtil.createEntity(Account.class);
+        String cql = SCCB.insert(account).into("account").cql();
 
         N.println(cql);
 
-        N.println(E.update("account").set("first_name = ?").where("id = ?").cql());
+        N.println(SCCB.update("account").set("first_name = ?").where("id = ?").cql());
     }
 
     public void testSQL_1() {
-        String cql = E2.insert("id", "first_name", "last_name").into("account").cql();
+        String cql = ACCB.insert("id", "first_name", "last_name").into("account").cql();
         N.println(cql);
 
-        cql = E2.insert(N.asList("id", "first_name", "last_name")).into("account").cql();
+        cql = ACCB.insert(N.asList("id", "first_name", "last_name")).into("account").cql();
         N.println(cql);
 
-        cql = E.insert(N.asProps("id", 1, "first_name", "firstNamae", "last_name", "last_name")).into("account").cql();
+        cql = SCCB.insert(N.asProps("id", 1, "first_name", "firstNamae", "last_name", "last_name")).into("account").cql();
         N.println(cql);
 
-        cql = E.select("id, first_name").from("account").where("id > 0").limit(10).cql();
+        cql = SCCB.select("id, first_name").from("account").where("id > 0").limit(10).cql();
         N.println(cql);
 
-        cql = E.select("id", "first_name").from("account").where("id > 0").limit(10).cql();
+        cql = SCCB.select("id", "first_name").from("account").where("id > 0").limit(10).cql();
         N.println(cql);
 
-        cql = E.select(N.asList("id", "first_name")).from("account").where("id > 0").limit(10).cql();
+        cql = SCCB.select(N.asList("id", "first_name")).from("account").where("id > 0").limit(10).cql();
         N.println(cql);
 
-        cql = E.select("id, first_name").from("account").where("id > 0").limit(10).cql();
+        cql = SCCB.select("id, first_name").from("account").where("id > 0").limit(10).cql();
         N.println(cql);
 
         Account account = new Account();
         account.setId(123);
         account.setFirstName("first_name");
 
-        cql = E.update("account").set("first_name=?").where("id = 1").cql();
+        cql = SCCB.update("account").set("first_name=?").where("id = 1").cql();
         N.println(cql);
         assertEquals("UPDATE account SET first_name=? WHERE id = 1", cql);
 
-        cql = E.update("account").set("first_name = ?").where("id = 1").cql();
+        cql = SCCB.update("account").set("first_name = ?").where("id = 1").cql();
         N.println(cql);
         assertEquals("UPDATE account SET first_name = ? WHERE id = 1", cql);
 
-        cql = E.update("account").set("first_name= ?").where("id = 1").cql();
+        cql = SCCB.update("account").set("first_name= ?").where("id = 1").cql();
         N.println(cql);
         assertEquals("UPDATE account SET first_name= ? WHERE id = 1", cql);
 
-        cql = E.update("account").set("first_name =?").where("id = 1").cql();
+        cql = SCCB.update("account").set("first_name =?").where("id = 1").cql();
         N.println(cql);
         assertEquals("UPDATE account SET first_name =? WHERE id = 1", cql);
 
@@ -170,111 +194,111 @@ public class CQLBuilderTest extends AbstractNoSQLTest {
     //    }
     //
     public void test_QME() {
-        String cql = E.select("first_name", "last_name").from("account").where(L.eq("first_name", L.QME)).cql();
+        String cql = SCCB.select("first_name", "last_name").from("account").where(CF.eq("first_name", CF.QME)).cql();
         N.println(cql);
 
-        assertEquals("SELECT first_name AS 'first_name', last_name AS 'last_name' FROM account WHERE first_name = ?", cql);
+        assertEquals("SELECT first_name AS \"first_name\", last_name AS \"last_name\" FROM account WHERE first_name = ?", cql);
 
         Map<String, Object> props = N.asProps("first_name", "?", "last_name", "?");
-        cql = E.insert(props).into("account").cql();
+        cql = SCCB.insert(props).into("account").cql();
         N.println(cql);
         assertEquals("INSERT INTO account (first_name, last_name) VALUES ('?', '?')", cql);
 
-        props = N.asProps("first_name", L.QME, "last_name", L.QME);
-        cql = E.insert(props).into("account").cql();
+        props = N.asProps("first_name", CF.QME, "last_name", CF.QME);
+        cql = SCCB.insert(props).into("account").cql();
         N.println(cql);
         assertEquals("INSERT INTO account (first_name, last_name) VALUES (?, ?)", cql);
     }
 
     public void test_NPE() {
-        String cql = E.select("firstName", "last_name").from("account").where(L.eq("firstName", L.QME)).cql();
+        String cql = SCCB.select("firstName", "last_name").from("account").where(CF.eq("firstName", CF.QME)).cql();
         N.println(cql);
 
         // assertEquals("SELECT first_name, last_name FROM account WHERE first_name = #{firstName}", cql);
 
-        cql = E.insert(N.asProps("firstName", L.QME, "lastName", L.QME)).into("account").cql();
+        cql = SCCB.insert(N.asProps("firstName", CF.QME, "lastName", CF.QME)).into("account").cql();
         N.println(cql);
         assertEquals("INSERT INTO account (first_name, last_name) VALUES (?, ?)", cql);
 
-        cql = E.insert(N.asProps("first_name", L.QME, "last_name", L.QME)).into("account").cql();
+        cql = SCCB.insert(N.asProps("first_name", CF.QME, "last_name", CF.QME)).into("account").cql();
         N.println(cql);
         assertEquals("INSERT INTO account (first_name, last_name) VALUES (?, ?)", cql);
 
-        cql = E.update("account").set(N.asProps("first_name", L.QME, "last_name", L.QME)).cql();
+        cql = SCCB.update("account").set(N.asProps("first_name", CF.QME, "last_name", CF.QME)).cql();
         N.println(cql);
         assertEquals("UPDATE account SET first_name = ?, last_name = ?", cql);
 
-        cql = E.update("account").set(N.asProps("firstNmae", L.QME, "lastName", L.QME)).cql();
+        cql = SCCB.update("account").set(N.asProps("firstNmae", CF.QME, "lastName", CF.QME)).cql();
         N.println(cql);
         assertEquals("UPDATE account SET first_nmae = ?, last_name = ?", cql);
     }
 
     public void test_excludedPropNames() throws Exception {
-        String cql = E.select(Account.class, N.asSet("firstName")).from("account").cql();
+        String cql = SCCB.select(Account.class, N.asSet("firstName")).from("account").cql();
         N.println(cql);
         assertEquals(
-                "SELECT id AS 'id', gui AS 'gui', email_address AS 'emailAddress', middle_name AS 'middleName', last_name AS 'lastName', birth_date AS 'birthDate', status AS 'status', last_update_time AS 'lastUpdateTime', create_time AS 'createTime', contact AS 'contact', devices AS 'devices' FROM account",
+                "SELECT id AS \"id\", gui AS \"gui\", email_address AS \"emailAddress\", middle_name AS \"middleName\", last_name AS \"lastName\", birth_date AS \"birthDate\", status AS \"status\", last_update_time AS \"lastUpdateTime\", create_time AS \"createTime\", contact AS \"contact\", devices AS \"devices\" FROM account",
                 cql);
     }
 
     public void test_expr_cond() throws Exception {
-        String cql = NE.select("id", "firstName").from("account").where("firstName=?").cql();
+        String cql = NSC.select("id", "firstName").from("account").where("firstName=?").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name=?", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name=?", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName=:firstName").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName=:firstName").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name=:firstName", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name=:firstName", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName = :firstName").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName = :firstName").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name = :firstName", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name = :firstName", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName=$firstName").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName=$firstName").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name=$firstName", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name=$firstName", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName = $firstName").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName = $firstName").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name = $firstName", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name = $firstName", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName=#{firstName}").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName=#{firstName}").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name=#{firstName}", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name=#{firstName}", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName = #{firstName}").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName = #{firstName}").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name = #{firstName}", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name = #{firstName}", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName='firstName'").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName=\"firstName\"").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name='firstName'", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name=\"firstName\"", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName = 'firstName'").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName = \"firstName\"").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name = 'firstName'", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name = \"firstName\"", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName='firstName'").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName=\"firstName\"").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name='firstName'", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name=\"firstName\"", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName = 'firstName'").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName = \"firstName\"").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name = 'firstName'", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name = \"firstName\"", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName(abc, 123) = 'firstName'").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName(abc, 123) = \"firstName\"").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE firstName(abc, 123) = 'firstName'", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE firstName(abc, 123) = \"firstName\"", cql);
 
-        cql = NE.select("id", "firstName").from("account").where("firstName (abc, 123) = 'firstName'").cql();
+        cql = NSC.select("id", "firstName").from("account").where("firstName (abc, 123) = \"firstName\"").cql();
         N.println(cql);
-        assertEquals("SELECT id AS 'id', first_name AS 'firstName' FROM account WHERE first_name (abc, 123) = 'firstName'", cql);
+        assertEquals("SELECT id AS \"id\", first_name AS \"firstName\" FROM account WHERE first_name (abc, 123) = \"firstName\"", cql);
     }
 
     @Test
     public void test_limit_offset() {
-        String cql = NE.select("firstName", "lastName").from("account").where(L.eq("id", L.QME)).limit(9).cql();
+        String cql = NSC.select("firstName", "lastName").from("account").where(CF.eq("id", CF.QME)).limit(9).cql();
         N.println(cql);
-        assertEquals("SELECT first_name AS 'firstName', last_name AS 'lastName' FROM account WHERE id = :id LIMIT 9", cql);
+        assertEquals("SELECT first_name AS \"firstName\", last_name AS \"lastName\" FROM account WHERE id = :id LIMIT 9", cql);
     }
 }

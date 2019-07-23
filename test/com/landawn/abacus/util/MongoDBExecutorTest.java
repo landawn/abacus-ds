@@ -20,6 +20,14 @@ import org.bson.types.ObjectId;
 import org.junit.Test;
 
 import com.landawn.abacus.DataSet;
+import com.landawn.abacus.util.AsyncMongoCollectionExecutor;
+import com.landawn.abacus.util.Clazz;
+import com.landawn.abacus.util.Fn;
+import com.landawn.abacus.util.Maps;
+import com.landawn.abacus.util.MongoCollectionExecutor;
+import com.landawn.abacus.util.MongoDB;
+import com.landawn.abacus.util.N;
+import com.landawn.abacus.util.Seq;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
@@ -99,6 +107,7 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
         Account account = createAccount();
         collExecutor.insert(account);
         collExecutor.insert(createAccount());
+        account.setId(generateId());
         collExecutor.insert(account);
 
         List<String> firstNameList = collExecutor.distinct(String.class, "firstName").toList();
@@ -114,7 +123,9 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
         Account account = createAccount();
         collExecutor.insert(account);
         collExecutor.insert(createAccount());
+        account.setId(generateId());
         collExecutor.insert(account);
+        account.setId(generateId());
         account.setFirstName("firstName123");
         collExecutor.insert(account);
 
@@ -140,6 +151,7 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
         Account account = createAccount();
         collExecutor.insert(account);
         collExecutor.insert(createAccount());
+        account.setId(generateId());
         collExecutor.insert(account);
 
         List<Bson> pipeline = N.asList();
@@ -160,6 +172,7 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
         Account account = createAccount();
         collExecutor.insert(account);
         collExecutor.insert(createAccount());
+        account.setId(generateId());
         collExecutor.insert(account);
 
         List<Bson> pipeline = N.asList();
@@ -285,6 +298,8 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
 
         docList = collExecutor.list(Document.class, N.asList("lastName"), filter);
 
+        Seq.of(collExecutor.list(String.class, N.asList("lastName"), filter)).foreach(Fn.println());
+
         assertNull(docList.get(0).get("firstName"));
         assertEquals(account.getLastName(), docList.get(0).get("lastName"));
 
@@ -386,6 +401,8 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
         assertEquals(account.getFirstName(), docList.get(0).get("firstName"));
 
         docList = asyncCollExecutor.list(Document.class, N.asList("lastName"), filter).get();
+
+        Seq.of(asyncCollExecutor.list(String.class, N.asList("lastName"), filter).get()).foreach(Fn.println());
 
         assertNull(docList.get(0).get("firstName"));
         assertEquals(account.getLastName(), docList.get(0).get("lastName"));
@@ -925,6 +942,7 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
         //++++++++++++++++++++++++++++++++++++++++++++++ delete.
 
         // =======================================================================================
+        account.setId(generateId());
         collExecutor.insert(account);
         doc = collExecutor.findFirst(Filters.eq("lastName", account.getLastName())).orElse(null);
         objectId = doc.getObjectId(MongoDB._ID);
@@ -1216,6 +1234,7 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
         //++++++++++++++++++++++++++++++++++++++++++++++ delete.
 
         // =======================================================================================
+        account.setId(generateId());
         asyncCollExecutor.insert(account).get();
         doc = asyncCollExecutor.findFirst(Filters.eq("lastName", account.getLastName())).get().orElse(null);
         objectId = doc.getObjectId(MongoDB._ID);
@@ -1497,6 +1516,7 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
         //++++++++++++++++++++++++++++++++++++++++++++++ delete.
 
         // =======================================================================================
+        account.setId(generateId());
         collExecutor.insert(account);
         doc = collExecutor.findFirst(Filters.eq("lastName", account.getLastName())).orElse(null);
         objectId = doc.getObjectId(MongoDB._ID);
@@ -1788,6 +1808,7 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
         //++++++++++++++++++++++++++++++++++++++++++++++ delete.
 
         // =======================================================================================
+        account.setId(generateId());
         asyncCollExecutor.insert(account).get();
         doc = asyncCollExecutor.findFirst(Filters.eq("lastName", account.getLastName())).get().orElse(null);
         objectId = doc.getObjectId(MongoDB._ID);
@@ -1873,8 +1894,12 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
 
     public void test_bulkInsert() {
         Account account = createAccount();
+        Account account2 = createAccount();
+        Account account3 = createAccount();
+        Account account4 = createAccount();
+        Account account5 = createAccount();
 
-        assertEquals(5, collExecutor.bulkInsert(N.asList(account, account, account, MongoDB.toDocument(account), MongoDB.toDocument(account))));
+        assertEquals(5, collExecutor.bulkInsert(N.asList(account, account2, account3, MongoDB.toDocument(account4), MongoDB.toDocument(account5))));
     }
 
     public void test_01() {

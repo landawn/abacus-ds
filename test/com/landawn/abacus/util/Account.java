@@ -10,6 +10,7 @@ import java.util.List;
 import javax.xml.bind.annotation.XmlTransient;
 
 import com.landawn.abacus.core.AbstractDirtyMarker;
+import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.entity.AccountContact;
 import com.landawn.abacus.util.entity.AccountDevice;
 import com.landawn.abacus.util.entity.ExtendDirtyBasicPNL;

@@ -17,9 +17,11 @@ package com.landawn.abacus.util;
 import java.io.Closeable;
 import java.io.IOException;
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -42,7 +44,6 @@ import org.apache.hadoop.hbase.client.RowMutations;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.client.Table;
 import org.apache.hadoop.hbase.client.coprocessor.Batch;
-import org.apache.hadoop.hbase.filter.CompareFilter;
 import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
 import org.apache.hadoop.hbase.util.Bytes;
 
@@ -55,7 +56,21 @@ import com.landawn.abacus.parser.ParserUtil;
 import com.landawn.abacus.parser.ParserUtil.EntityInfo;
 import com.landawn.abacus.parser.ParserUtil.PropInfo;
 import com.landawn.abacus.type.Type;
+import com.landawn.abacus.util.AnyDelete;
+import com.landawn.abacus.util.AnyGet;
+import com.landawn.abacus.util.AnyPut;
+import com.landawn.abacus.util.AnyScan;
+import com.landawn.abacus.util.AsyncExecutor;
+import com.landawn.abacus.util.AsyncHBaseExecutor;
+import com.landawn.abacus.util.BooleanList;
+import com.landawn.abacus.util.ClassUtil;
+import com.landawn.abacus.util.HBaseColumn;
+import com.landawn.abacus.util.IOUtil;
+import com.landawn.abacus.util.N;
+import com.landawn.abacus.util.NamingPolicy;
 import com.landawn.abacus.util.function.Function;
+import com.landawn.abacus.util.function.Supplier;
+import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 /**
@@ -322,8 +337,8 @@ public final class HBaseExecutor implements Closeable {
                     familyColumnValueTypeMap.put(family, columnValueTypeMap);
                 }
 
-                if (familyPropInfo.type.isEntity()) {
-                    final Class<?> propEntityClass = familyPropInfo.type.clazz();
+                if (familyPropInfo.jsonXmlType.isEntity()) {
+                    final Class<?> propEntityClass = familyPropInfo.jsonXmlType.clazz();
                     final EntityInfo propEntityInfo = ParserUtil.getEntityInfo(propEntityClass);
                     Object propEntity = ClassUtil.getPropValue(entity, ClassUtil.getPropGetMethod(targetClass, family));
 
@@ -340,7 +355,7 @@ public final class HBaseExecutor implements Closeable {
                         continue;
                     }
 
-                    if (columnPropInfo.type.isMap() && columnPropInfo.type.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
+                    if (columnPropInfo.jsonXmlType.isMap() && columnPropInfo.jsonXmlType.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
                         addMethod = ClassUtil.getDeclaredMethod(propEntityClass, getAddMethodName(columnPropInfo.setMethod), HBaseColumn.class);
                         columnValueType = N.typeOf(ClassUtil.getTypeArgumentsByMethod(addMethod)[0]);
                         columnValueTypeMap.put(qualifier, columnValueType);
@@ -356,7 +371,8 @@ public final class HBaseExecutor implements Closeable {
                         }
 
                         columnMapMap.put(qualifier, columnMap);
-                    } else if (columnPropInfo.type.isCollection() && columnPropInfo.type.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
+                    } else if (columnPropInfo.jsonXmlType.isCollection()
+                            && columnPropInfo.jsonXmlType.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
                         addMethod = ClassUtil.getDeclaredMethod(propEntityClass, getAddMethodName(columnPropInfo.setMethod), HBaseColumn.class);
                         columnValueType = N.typeOf(ClassUtil.getTypeArgumentsByMethod(addMethod)[0]);
                         columnValueTypeMap.put(qualifier, columnValueType);
@@ -372,11 +388,11 @@ public final class HBaseExecutor implements Closeable {
                         }
 
                         columnCollectionMap.put(qualifier, columnColl);
-                    } else if (columnPropInfo.type.clazz().equals(HBaseColumn.class)) {
+                    } else if (columnPropInfo.jsonXmlType.clazz().equals(HBaseColumn.class)) {
                         columnValueType = columnValueTypeMap.get(qualifier);
 
                         if (columnValueType == null) {
-                            columnValueType = columnPropInfo.type.getParameterTypes()[0];
+                            columnValueType = columnPropInfo.jsonXmlType.getParameterTypes()[0];
                             columnValueTypeMap.put(qualifier, columnValueType);
                         }
 
@@ -384,10 +400,10 @@ public final class HBaseExecutor implements Closeable {
 
                         ClassUtil.setPropValue(propEntity, columnPropInfo.setMethod, column);
                     } else {
-                        ClassUtil.setPropValue(propEntity, columnPropInfo.setMethod, columnPropInfo.type.valueOf(getValueString(cell)));
+                        ClassUtil.setPropValue(propEntity, columnPropInfo.setMethod, columnPropInfo.jsonXmlType.valueOf(getValueString(cell)));
                     }
 
-                } else if (familyPropInfo.type.isMap() && familyPropInfo.type.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
+                } else if (familyPropInfo.jsonXmlType.isMap() && familyPropInfo.jsonXmlType.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
                     addMethod = ClassUtil.getDeclaredMethod(targetClass, getAddMethodName(familyPropInfo.setMethod), HBaseColumn.class);
                     columnValueType = N.typeOf(ClassUtil.getTypeArgumentsByMethod(addMethod)[0]);
                     columnValueTypeMap.put(qualifier, columnValueType);
@@ -403,7 +419,7 @@ public final class HBaseExecutor implements Closeable {
                     }
 
                     columnMapMap.put(qualifier, columnMap);
-                } else if (familyPropInfo.type.isCollection() && familyPropInfo.type.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
+                } else if (familyPropInfo.jsonXmlType.isCollection() && familyPropInfo.jsonXmlType.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
                     addMethod = ClassUtil.getDeclaredMethod(targetClass, getAddMethodName(familyPropInfo.setMethod), HBaseColumn.class);
                     columnValueType = N.typeOf(ClassUtil.getTypeArgumentsByMethod(addMethod)[0]);
                     columnValueTypeMap.put(qualifier, columnValueType);
@@ -419,11 +435,11 @@ public final class HBaseExecutor implements Closeable {
                     }
 
                     columnCollectionMap.put(qualifier, columnColl);
-                } else if (familyPropInfo.type.clazz().equals(HBaseColumn.class)) {
+                } else if (familyPropInfo.jsonXmlType.clazz().equals(HBaseColumn.class)) {
                     columnValueType = columnValueTypeMap.get(qualifier);
 
                     if (columnValueType == null) {
-                        columnValueType = familyPropInfo.type.getParameterTypes()[0];
+                        columnValueType = familyPropInfo.jsonXmlType.getParameterTypes()[0];
                         columnValueTypeMap.put(qualifier, columnValueType);
                     }
 
@@ -431,11 +447,11 @@ public final class HBaseExecutor implements Closeable {
 
                     ClassUtil.setPropValue(entity, familyPropInfo.setMethod, column);
                 } else {
-                    ClassUtil.setPropValue(entity, familyPropInfo.setMethod, familyPropInfo.type.valueOf(getValueString(cell)));
+                    ClassUtil.setPropValue(entity, familyPropInfo.setMethod, familyPropInfo.jsonXmlType.valueOf(getValueString(cell)));
                 }
             }
 
-            if (N.isDirtyMarker(entity.getClass())) {
+            if (ClassUtil.isDirtyMarker(entity.getClass())) {
                 ((DirtyMarker) entity).markDirty(false);
             }
 
@@ -465,7 +481,7 @@ public final class HBaseExecutor implements Closeable {
     }
 
     private static <T> void checkEntityClass(final Class<T> targetClass) {
-        if (!N.isEntity(targetClass)) {
+        if (!ClassUtil.isEntity(targetClass)) {
             throw new IllegalArgumentException("Unsupported type: " + ClassUtil.getCanonicalClassName(targetClass)
                     + ". Only Entity class generated by CodeGenerator with getter/setter methods are supported");
         }
@@ -525,7 +541,7 @@ public final class HBaseExecutor implements Closeable {
                     "Row key property is required to create AnyPut instance. But no row key property found in class: " + ClassUtil.getCanonicalClassName(cls));
         }
 
-        final AnyPut anyPut = outputAnyPut == null ? new AnyPut(ClassUtil.getPropValue(obj, rowKeyGetMethod)) : outputAnyPut;
+        final AnyPut anyPut = outputAnyPut == null ? new AnyPut(ClassUtil.<Object> getPropValue(obj, rowKeyGetMethod)) : outputAnyPut;
         final Map<String, Method> familyGetMethodMap = ClassUtil.getPropGetMethodList(cls);
 
         String familyName = null;
@@ -551,8 +567,8 @@ public final class HBaseExecutor implements Closeable {
                 continue;
             }
 
-            if (familyPropInfo.type.isEntity()) {
-                final Class<?> propEntityClass = familyPropInfo.type.clazz();
+            if (familyPropInfo.jsonXmlType.isEntity()) {
+                final Class<?> propEntityClass = familyPropInfo.jsonXmlType.clazz();
                 final EntityInfo propEntityInfo = ParserUtil.getEntityInfo(propEntityClass);
                 final Object propEntity = propValue;
 
@@ -568,42 +584,43 @@ public final class HBaseExecutor implements Closeable {
                         continue;
                     }
 
-                    if (columnPropInfo.type.isMap() && columnPropInfo.type.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
+                    if (columnPropInfo.jsonXmlType.isMap() && columnPropInfo.jsonXmlType.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
                         columnMap = (Map<Long, HBaseColumn<?>>) propValue;
 
                         for (HBaseColumn<?> e : columnMap.values()) {
                             anyPut.addColumn(familyName, columnName, e.version(), e.value());
 
                         }
-                    } else if (columnPropInfo.type.isCollection() && columnPropInfo.type.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
+                    } else if (columnPropInfo.jsonXmlType.isCollection()
+                            && columnPropInfo.jsonXmlType.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
                         columnColl = (Collection<HBaseColumn<?>>) propValue;
 
                         for (HBaseColumn<?> e : columnColl) {
                             anyPut.addColumn(familyName, columnName, e.version(), e.value());
 
                         }
-                    } else if (columnPropInfo.type.clazz().equals(HBaseColumn.class)) {
+                    } else if (columnPropInfo.jsonXmlType.clazz().equals(HBaseColumn.class)) {
                         column = (HBaseColumn<?>) propValue;
                         anyPut.addColumn(familyName, columnName, column.version(), column.value());
                     } else {
                         anyPut.addColumn(familyName, columnName, propValue);
                     }
                 }
-            } else if (familyPropInfo.type.isMap() && familyPropInfo.type.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
+            } else if (familyPropInfo.jsonXmlType.isMap() && familyPropInfo.jsonXmlType.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
                 columnMap = (Map<Long, HBaseColumn<?>>) propValue;
 
                 for (HBaseColumn<?> e : columnMap.values()) {
                     anyPut.addColumn(familyName, EMPTY_QULIFIER, e.version(), e.value());
 
                 }
-            } else if (familyPropInfo.type.isCollection() && familyPropInfo.type.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
+            } else if (familyPropInfo.jsonXmlType.isCollection() && familyPropInfo.jsonXmlType.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
                 columnColl = (Collection<HBaseColumn<?>>) propValue;
 
                 for (HBaseColumn<?> e : columnColl) {
                     anyPut.addColumn(familyName, EMPTY_QULIFIER, e.version(), e.value());
 
                 }
-            } else if (familyPropInfo.type.clazz().equals(HBaseColumn.class)) {
+            } else if (familyPropInfo.jsonXmlType.clazz().equals(HBaseColumn.class)) {
                 column = (HBaseColumn<?>) propValue;
                 anyPut.addColumn(familyName, EMPTY_QULIFIER, column.version(), column.value());
             } else {
@@ -667,7 +684,7 @@ public final class HBaseExecutor implements Closeable {
         final List<Put> puts = new ArrayList<>(objs.size());
 
         for (Object entity : objs) {
-            puts.add(entity instanceof AnyPut ? ((AnyPut) entity).value() : toAnyPut(entity).value());
+            puts.add(entity instanceof AnyPut ? ((AnyPut) entity).val() : toAnyPut(entity).val());
         }
 
         return puts;
@@ -683,7 +700,7 @@ public final class HBaseExecutor implements Closeable {
         final List<Put> puts = new ArrayList<>(objs.size());
 
         for (Object entity : objs) {
-            puts.add(entity instanceof AnyPut ? ((AnyPut) entity).value() : toAnyPut(entity, namingPolicy).value());
+            puts.add(entity instanceof AnyPut ? ((AnyPut) entity).val() : toAnyPut(entity, namingPolicy).val());
         }
 
         return puts;
@@ -693,7 +710,7 @@ public final class HBaseExecutor implements Closeable {
         final List<Get> gets = new ArrayList<>(anyGets.size());
 
         for (AnyGet anyGet : anyGets) {
-            gets.add(anyGet.value());
+            gets.add(anyGet.val());
         }
 
         return gets;
@@ -703,7 +720,7 @@ public final class HBaseExecutor implements Closeable {
         final List<Delete> deletes = new ArrayList<>(anyDeletes.size());
 
         for (AnyDelete anyDelete : anyDeletes) {
-            deletes.add(anyDelete.value());
+            deletes.add(anyDelete.val());
         }
 
         return deletes;
@@ -739,6 +756,32 @@ public final class HBaseExecutor implements Closeable {
         }
     }
 
+    public List<Boolean> exists(final String tableName, final List<Get> gets) throws UncheckedIOException {
+        final Table table = getTable(tableName);
+
+        try {
+            return BooleanList.of(table.exists(gets)).toList();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        } finally {
+            closeQuietly(table);
+        }
+    }
+
+    /**
+     * Test for the existence of columns in the table, as specified by the Gets.
+     * This will return an array of booleans. Each value will be true if the related Get matches
+     * one or more keys, false if not.
+     * This is a server-side call so it prevents any data from being transferred to
+     * the client.
+     *
+     * @param gets the Gets
+     * @return Array of boolean.  True if the specified Get matches one or more keys, false if not.
+     * @throws IOException e
+     * @deprecated since 2.0 version and will be removed in 3.0 version.
+     *             use {@link #exists(List)}
+     */
+    @Deprecated
     public List<Boolean> existsAll(final String tableName, final List<Get> gets) throws UncheckedIOException {
         final Table table = getTable(tableName);
 
@@ -752,9 +795,22 @@ public final class HBaseExecutor implements Closeable {
     }
 
     public boolean exists(final String tableName, final AnyGet anyGet) throws UncheckedIOException {
-        return exists(tableName, anyGet.value());
+        return exists(tableName, anyGet.val());
     }
 
+    public List<Boolean> exists(final String tableName, final Collection<AnyGet> anyGets) throws UncheckedIOException {
+        return existsAll(tableName, toGet(anyGets));
+    }
+
+    /**
+     * 
+     * @param tableName
+     * @param anyGets
+     * @return
+     * @throws UncheckedIOException
+     * @deprecated  use {@link #exists(String, Collection)}
+     */
+    @Deprecated
     public List<Boolean> existsAll(final String tableName, final Collection<AnyGet> anyGets) throws UncheckedIOException {
         return existsAll(tableName, toGet(anyGets));
     }
@@ -790,7 +846,7 @@ public final class HBaseExecutor implements Closeable {
     }
 
     public Result get(final String tableName, final AnyGet anyGet) throws UncheckedIOException {
-        return get(tableName, anyGet.value());
+        return get(tableName, anyGet.val());
     }
 
     public List<Result> get(final String tableName, final Collection<AnyGet> anyGets) throws UncheckedIOException {
@@ -820,35 +876,104 @@ public final class HBaseExecutor implements Closeable {
     }
 
     public Stream<Result> scan(final String tableName, final Scan scan) {
-        return Stream.of(getScanner(tableName, scan).iterator());
+        N.checkArgNotNull(tableName, "tableName");
+        N.checkArgNotNull(scan, "scan");
+
+        final ObjIteratorEx<Result> lazyIter = ObjIteratorEx.of(new Supplier<ObjIteratorEx<Result>>() {
+            private ObjIteratorEx<Result> internalIter = null;
+
+            @Override
+            public ObjIteratorEx<Result> get() {
+                if (internalIter == null) {
+                    final Table table = getTable(tableName);
+
+                    try {
+                        final ResultScanner resultScanner = table.getScanner(scan);
+                        final Iterator<Result> iter = resultScanner.iterator();
+
+                        internalIter = new ObjIteratorEx<Result>() {
+                            @Override
+                            public boolean hasNext() {
+                                return iter.hasNext();
+                            }
+
+                            @Override
+                            public Result next() {
+                                return iter.next();
+                            }
+
+                            @Override
+                            public void close() {
+                                try {
+                                    IOUtil.closeQuietly(resultScanner);
+                                } finally {
+                                    IOUtil.closeQuietly(table);
+                                }
+                            }
+                        };
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
+                    } finally {
+                        if (internalIter == null) {
+                            IOUtil.closeQuietly(table);
+                        }
+                    }
+                }
+
+                return internalIter;
+            }
+        });
+
+        return Stream.of(lazyIter).onClose(new Runnable() {
+            @Override
+            public void run() {
+                lazyIter.close();
+            }
+        });
     }
 
     public Stream<Result> scan(final String tableName, final AnyScan anyScan) {
-        return Stream.of(getScanner(tableName, anyScan).iterator());
+        return scan(tableName, anyScan.val());
     }
 
     public Stream<Result> scan(final String tableName, final String family) {
-        return Stream.of(getScanner(tableName, family).iterator());
+        return scan(tableName, AnyScan.create().addFamily(family));
     }
 
     public Stream<Result> scan(final String tableName, final String family, final String qualifier) {
-        return Stream.of(getScanner(tableName, family, qualifier).iterator());
+        return scan(tableName, AnyScan.create().addColumn(family, qualifier));
+    }
+
+    public Stream<Result> scan(final String tableName, final byte[] family) {
+        return scan(tableName, AnyScan.create().addFamily(family));
+    }
+
+    public Stream<Result> scan(final String tableName, final byte[] family, final byte[] qualifier) {
+        return scan(tableName, AnyScan.create().addColumn(family, qualifier));
     }
 
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final Scan scan) {
-        return Stream.of(getScanner(tableName, scan).iterator()).map(toEntity(targetClass));
+        return scan(tableName, scan).map(toEntity(targetClass));
     }
 
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final AnyScan anyScan) {
-        return Stream.of(getScanner(tableName, anyScan).iterator()).map(toEntity(targetClass));
+        return scan(tableName, anyScan).map(toEntity(targetClass));
     }
 
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final String family) {
-        return Stream.of(getScanner(tableName, family).iterator()).map(toEntity(targetClass));
+        return scan(tableName, family).map(toEntity(targetClass));
     }
 
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final String family, final String qualifier) {
-        return Stream.of(getScanner(tableName, family, qualifier).iterator()).map(toEntity(targetClass));
+        return scan(tableName, family, qualifier).map(toEntity(targetClass));
+    }
+
+    public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final byte[] family) {
+        return scan(tableName, family).map(toEntity(targetClass));
+    }
+
+    public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final byte[] family, final byte[] qualifier) {
+        return scan(tableName, family, qualifier).map(toEntity(targetClass));
     }
 
     private <T> Function<Result, T> toEntity(final Class<T> targetClass) {
@@ -885,7 +1010,7 @@ public final class HBaseExecutor implements Closeable {
     }
 
     public void put(final String tableName, final AnyPut anyPut) throws UncheckedIOException {
-        put(tableName, anyPut.value());
+        put(tableName, anyPut.val());
     }
 
     public void put(final String tableName, final Collection<AnyPut> anyPuts) throws UncheckedIOException {
@@ -923,79 +1048,11 @@ public final class HBaseExecutor implements Closeable {
     }
 
     public void delete(final String tableName, final AnyDelete anyDelete) throws UncheckedIOException {
-        delete(tableName, anyDelete.value());
+        delete(tableName, anyDelete.val());
     }
 
     public void delete(final String tableName, final Collection<AnyDelete> anyDeletes) throws UncheckedIOException {
         delete(tableName, toDelete(anyDeletes));
-    }
-
-    public boolean checkAndPut(final String tableName, final Object rowKey, final String family, final String qualifier, final Object value, final Put put)
-            throws UncheckedIOException {
-        final Table table = getTable(tableName);
-
-        try {
-            return table.checkAndPut(toRowKeyBytes(rowKey), toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), toValueBytes(value), put);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } finally {
-            closeQuietly(table);
-        }
-    }
-
-    public boolean checkAndPut(final String tableName, final Object rowKey, final String family, final String qualifier,
-            final CompareFilter.CompareOp compareOp, final Object value, final Put put) throws UncheckedIOException {
-        final Table table = getTable(tableName);
-
-        try {
-            return table.checkAndPut(toRowKeyBytes(rowKey), toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), compareOp, toValueBytes(value),
-                    put);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } finally {
-            closeQuietly(table);
-        }
-    }
-
-    public boolean checkAndDelete(final String tableName, final Object rowKey, final String family, final String qualifier, final Object value,
-            final Delete delete) throws UncheckedIOException {
-        final Table table = getTable(tableName);
-
-        try {
-            return table.checkAndDelete(toRowKeyBytes(rowKey), toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), toValueBytes(value), delete);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } finally {
-            closeQuietly(table);
-        }
-    }
-
-    public boolean checkAndDelete(final String tableName, final Object rowKey, final String family, final String qualifier,
-            final CompareFilter.CompareOp compareOp, final Object value, final Delete delete) throws UncheckedIOException {
-        final Table table = getTable(tableName);
-
-        try {
-            return table.checkAndDelete(toRowKeyBytes(rowKey), toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), compareOp,
-                    toValueBytes(value), delete);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } finally {
-            closeQuietly(table);
-        }
-    }
-
-    public boolean checkAndMutate(final String tableName, final Object rowKey, final String family, final String qualifier,
-            final CompareFilter.CompareOp compareOp, final Object value, final RowMutations mutation) throws UncheckedIOException {
-        final Table table = getTable(tableName);
-
-        try {
-            return table.checkAndMutate(toRowKeyBytes(rowKey), toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), compareOp,
-                    toValueBytes(value), mutation);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } finally {
-            closeQuietly(table);
-        }
     }
 
     public void mutateRow(final String tableName, final RowMutations rm) throws UncheckedIOException {
@@ -1036,10 +1093,20 @@ public final class HBaseExecutor implements Closeable {
 
     public long incrementColumnValue(final String tableName, final Object rowKey, final String family, final String qualifier, final long amount)
             throws UncheckedIOException {
+        return incrementColumnValue(tableName, rowKey, toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), amount);
+    }
+
+    public long incrementColumnValue(final String tableName, final Object rowKey, final String family, final String qualifier, final long amount,
+            final Durability durability) throws UncheckedIOException {
+        return incrementColumnValue(tableName, rowKey, toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), amount, durability);
+    }
+
+    public long incrementColumnValue(final String tableName, final Object rowKey, final byte[] family, final byte[] qualifier, final long amount)
+            throws UncheckedIOException {
         final Table table = getTable(tableName);
 
         try {
-            return table.incrementColumnValue(toRowKeyBytes(rowKey), toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), amount);
+            return table.incrementColumnValue(toRowKeyBytes(rowKey), family, qualifier, amount);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         } finally {
@@ -1047,12 +1114,12 @@ public final class HBaseExecutor implements Closeable {
         }
     }
 
-    public long incrementColumnValue(final String tableName, final Object rowKey, final String family, final String qualifier, final long amount,
+    public long incrementColumnValue(final String tableName, final Object rowKey, final byte[] family, final byte[] qualifier, final long amount,
             final Durability durability) throws UncheckedIOException {
         final Table table = getTable(tableName);
 
         try {
-            return table.incrementColumnValue(toRowKeyBytes(rowKey), toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), amount, durability);
+            return table.incrementColumnValue(toRowKeyBytes(rowKey), family, qualifier, amount, durability);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         } finally {
@@ -1131,50 +1198,6 @@ public final class HBaseExecutor implements Closeable {
         }
     }
 
-    public ResultScanner getScanner(final String tableName, final Scan scan) throws UncheckedIOException {
-        final Table table = getTable(tableName);
-
-        try {
-            return table.getScanner(scan);
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } finally {
-            closeQuietly(table);
-        }
-    }
-
-    public ResultScanner getScanner(final String tableName, final AnyScan anyScan) throws UncheckedIOException {
-        return getScanner(tableName, anyScan.value());
-    }
-
-    public ResultScanner getScanner(final String tableName, final String family) throws UncheckedIOException {
-        final Table table = getTable(tableName);
-
-        try {
-            return table.getScanner(toFamilyQualifierBytes(family));
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } finally {
-            closeQuietly(table);
-        }
-    }
-
-    public ResultScanner getScanner(final String tableName, final String family, final String qualifier) throws UncheckedIOException {
-        final Table table = getTable(tableName);
-
-        try {
-            return table.getScanner(toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier));
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        } finally {
-            closeQuietly(table);
-        }
-    }
-
-    static byte[] toRowKeyBytes(final Object obj) {
-        return obj == null ? null : (obj instanceof byte[] ? (byte[]) obj : Bytes.toBytes(N.stringOf(obj)));
-    }
-
     static byte[] toFamilyQualifierBytes(final String str) {
         if (str == null) {
             return null;
@@ -1191,8 +1214,26 @@ public final class HBaseExecutor implements Closeable {
         return bytes;
     }
 
-    static byte[] toValueBytes(final Object obj) {
-        return obj == null ? null : (obj instanceof byte[] ? (byte[]) obj : Bytes.toBytes(N.stringOf(obj)));
+    static byte[] toRowKeyBytes(final Object rowKey) {
+        return toValueBytes(rowKey);
+    }
+
+    static byte[] toRowBytes(final Object row) {
+        return toValueBytes(row);
+    }
+
+    static byte[] toValueBytes(final Object value) {
+        if (value == null) {
+            return null;
+        } else if (value instanceof byte[]) {
+            return (byte[]) value;
+        } else if (value instanceof ByteBuffer) {
+            return ((ByteBuffer) value).array();
+        } else if (value instanceof String) {
+            return Bytes.toBytes((String) value);
+        } else {
+            return Bytes.toBytes(N.stringOf(value));
+        }
     }
 
     //

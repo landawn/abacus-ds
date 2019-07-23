@@ -7,6 +7,7 @@ package com.landawn.abacus.util;
 import com.landawn.abacus.parser.JSONParser;
 import com.landawn.abacus.parser.ParserFactory;
 import com.landawn.abacus.parser.XMLParser;
+import com.landawn.abacus.util.TestUtil;
 
 import junit.framework.TestCase;
 

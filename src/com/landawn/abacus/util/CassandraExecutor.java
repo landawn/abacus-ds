@@ -26,14 +26,12 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
@@ -63,7 +61,7 @@ import com.landawn.abacus.DirtyMarker;
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.condition.And;
 import com.landawn.abacus.condition.Condition;
-import com.landawn.abacus.condition.ConditionFactory.L;
+import com.landawn.abacus.condition.ConditionFactory.CF;
 import com.landawn.abacus.core.RowDataSet;
 import com.landawn.abacus.exception.DuplicatedResultException;
 import com.landawn.abacus.pool.KeyedObjectPool;
@@ -71,9 +69,10 @@ import com.landawn.abacus.pool.PoolFactory;
 import com.landawn.abacus.pool.PoolableWrapper;
 import com.landawn.abacus.type.Type;
 import com.landawn.abacus.util.CQLBuilder.CP;
-import com.landawn.abacus.util.CQLBuilder.NE;
-import com.landawn.abacus.util.CQLBuilder.NE2;
-import com.landawn.abacus.util.CQLBuilder.NE3;
+import com.landawn.abacus.util.CQLBuilder.NAC;
+import com.landawn.abacus.util.CQLBuilder.NLC;
+import com.landawn.abacus.util.CQLBuilder.NSC;
+import com.landawn.abacus.util.Tuple.Tuple2;
 import com.landawn.abacus.util.u.Nullable;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.u.OptionalBoolean;
@@ -110,13 +109,12 @@ import com.landawn.abacus.util.stream.Stream;
  * @author Haiyang Li
  * 
  * @see CQLBuilder
+ * @see {@link com.datastax.driver.core.Cluster}
+ * @see {@link com.datastax.driver.core.Session}
  */
 public final class CassandraExecutor implements Closeable {
-
-    static final String ID = "id";
-    static final ImmutableSet<String> ID_SET = ImmutableSet.of(ID);
     static final List<String> EXISTS_SELECT_PROP_NAMES = ImmutableList.of("1");
-    static final List<String> COUNT_SELECT_PROP_NAMES = ImmutableList.of(NE.COUNT_ALL);
+    static final List<String> COUNT_SELECT_PROP_NAMES = ImmutableList.of(NSC.COUNT_ALL);
 
     static final int POOLABLE_LENGTH = 1024;
 
@@ -160,8 +158,6 @@ public final class CassandraExecutor implements Closeable {
         namedDataType.put("CUSTOM", ByteBuffer.class);
     }
 
-    private static final Map<Class<?>, Set<String>> entityKeyNamesMap = new ConcurrentHashMap<>();
-
     private final KeyedObjectPool<String, PoolableWrapper<Statement>> stmtPool = PoolFactory.createKeyedObjectPool(1024, 3000);
     private final KeyedObjectPool<String, PoolableWrapper<PreparedStatement>> preStmtPool = PoolFactory.createKeyedObjectPool(1024, 3000);
 
@@ -183,6 +179,15 @@ public final class CassandraExecutor implements Closeable {
         this(session, settings, (AsyncExecutor) null);
     }
 
+    /**
+     * 
+     * @param session
+     * @param settings
+     * @param asyncExecutor
+     * @see {@link com.datastax.driver.core.Session#executeAsync}
+     * @deprecated {@code asyncExecutor} is not used anymore. {@code Session.executeAsync} is called.
+     */
+    @Deprecated
     public CassandraExecutor(final Session session, final StatementSettings settings, final AsyncExecutor asyncExecutor) {
         this(session, settings, null, null, asyncExecutor);
     }
@@ -195,6 +200,17 @@ public final class CassandraExecutor implements Closeable {
         this(session, settings, cqlMapper, namingPolicy, null);
     }
 
+    /**
+     * 
+     * @param session
+     * @param settings
+     * @param cqlMapper
+     * @param namingPolicy
+     * @param asyncExecutor
+     * @see {@link com.datastax.driver.core.Session#executeAsync}
+     * @deprecated {@code asyncExecutor} is not used anymore. {@code Session.executeAsync} is called.
+     */
+    @Deprecated
     public CassandraExecutor(final Session session, final StatementSettings settings, final CQLMapper cqlMapper, final NamingPolicy namingPolicy,
             final AsyncExecutor asyncExecutor) {
         this.cluster = session.getCluster();
@@ -229,6 +245,8 @@ public final class CassandraExecutor implements Closeable {
         return mappingManager.mapper(targetClass);
     }
 
+    private static final Map<Class<?>, Tuple2<List<String>, Set<String>>> entityKeyNamesMap = new ConcurrentHashMap<>();
+
     public static void registerKeys(Class<?> entityClass, Collection<String> keyNames) {
         N.checkArgument(N.notNullOrEmpty(keyNames), "'keyNames' can't be null or empty");
 
@@ -238,7 +256,31 @@ public final class CassandraExecutor implements Closeable {
             keyNameSet.add(ClassUtil.getPropNameByMethod(ClassUtil.getPropGetMethod(entityClass, keyName)));
         }
 
-        entityKeyNamesMap.put(entityClass, ImmutableSet.of(keyNameSet));
+        entityKeyNamesMap.put(entityClass, Tuple.<List<String>, Set<String>> of(ImmutableList.copyOf(keyNameSet), ImmutableSet.of(keyNameSet)));
+    }
+
+    private static List<String> getKeyNames(final Class<?> entityClass) {
+        Tuple2<List<String>, Set<String>> tp = entityKeyNamesMap.get(entityClass);
+
+        if (tp == null) {
+            List<String> idPropNames = ClassUtil.getIdFieldNames(entityClass);
+            tp = Tuple.<List<String>, Set<String>> of(ImmutableList.copyOf(idPropNames), ImmutableSet.copyOf(idPropNames));
+            entityKeyNamesMap.put(entityClass, tp);
+        }
+
+        return tp._1;
+    }
+
+    private static Set<String> getKeyNameSet(final Class<?> entityClass) {
+        Tuple2<List<String>, Set<String>> tp = entityKeyNamesMap.get(entityClass);
+
+        if (tp == null) {
+            List<String> idPropNames = ClassUtil.getIdFieldNames(entityClass);
+            tp = Tuple.<List<String>, Set<String>> of(ImmutableList.copyOf(idPropNames), ImmutableSet.copyOf(idPropNames));
+            entityKeyNamesMap.put(entityClass, tp);
+        }
+
+        return tp._2;
     }
 
     public static DataSet extractData(final ResultSet resultSet) {
@@ -252,7 +294,7 @@ public final class CassandraExecutor implements Closeable {
      * @return
      */
     public static DataSet extractData(final Class<?> targetClass, final ResultSet resultSet) {
-        final boolean isEntity = targetClass != null && N.isEntity(targetClass);
+        final boolean isEntity = targetClass != null && ClassUtil.isEntity(targetClass);
         final boolean isMap = targetClass != null && Map.class.isAssignableFrom(targetClass);
         final ColumnDefinitions columnDefinitions = resultSet.getColumnDefinitions();
         final int columnCount = columnDefinitions.size();
@@ -425,7 +467,7 @@ public final class CassandraExecutor implements Closeable {
             }
 
             return (T) map;
-        } else {
+        } else if (ClassUtil.isEntity(targetClass)) {
             final T entity = N.newInstance(targetClass);
 
             String propName = null;
@@ -452,7 +494,7 @@ public final class CassandraExecutor implements Closeable {
                     ClassUtil.setPropValue(entity, propSetMethod, propValue);
                 } else {
                     if (propValue instanceof Row) {
-                        if (parameterType.isAssignableFrom(Map.class) || N.isEntity(parameterType)) {
+                        if (Map.class.isAssignableFrom(parameterType) || ClassUtil.isEntity(parameterType)) {
                             ClassUtil.setPropValue(entity, propSetMethod, toEntity(parameterType, (Row) propValue));
                         } else {
                             ClassUtil.setPropValue(entity, propSetMethod, N.valueOf(parameterType, N.stringOf(toEntity(Map.class, (Row) propValue))));
@@ -463,58 +505,62 @@ public final class CassandraExecutor implements Closeable {
                 }
             }
 
-            if (N.isDirtyMarker(entity.getClass())) {
+            if (ClassUtil.isDirtyMarker(entity.getClass())) {
                 ((DirtyMarker) entity).markDirty(false);
             }
 
             return entity;
+        } else if (columnDefinitions.size() == 1) {
+            return N.convert(row.getObject(0), targetClass);
+        } else {
+            throw new IllegalArgumentException("Unsupported target type: " + targetClass);
         }
     }
 
     static Condition ids2Cond(final Class<?> targetClass, final Object... ids) {
         N.checkArgNotNullOrEmpty(ids, "ids");
 
-        final Set<String> keyNameSet = entityKeyNamesMap.get(targetClass);
+        final List<String> keyNames = getKeyNames(targetClass);
 
-        if (keyNameSet == null && ids.length == 1) {
-            return L.eq(ID, ids[0]);
-        } else if (keyNameSet != null && ids.length <= keyNameSet.size()) {
-            final Iterator<String> iter = keyNameSet.iterator();
+        if (keyNames.size() == 1 && ids.length == 1) {
+            return CF.eq(keyNames.get(0), ids[0]);
+        } else if (ids.length <= keyNames.size()) {
+            final Iterator<String> iter = keyNames.iterator();
             final And and = new And();
 
             for (Object id : ids) {
-                and.add(L.eq(iter.next(), id));
+                and.add(CF.eq(iter.next(), id));
             }
 
             return and;
         } else {
             throw new IllegalArgumentException("The number: " + ids.length + " of input ids doesn't match the (registered) key names: "
-                    + (keyNameSet == null ? "[id]" : N.toString(keyNameSet)) + " in class: " + ClassUtil.getCanonicalClassName(targetClass));
+                    + (keyNames == null ? "[id]" : N.toString(keyNames)) + " in class: " + ClassUtil.getCanonicalClassName(targetClass));
         }
     }
 
     static Condition entity2Cond(final Object entity) {
         final Class<?> targetClass = entity.getClass();
-        final Set<String> keyNameSet = entityKeyNamesMap.get(targetClass);
+        final List<String> keyNames = getKeyNames(targetClass);
 
-        if (keyNameSet == null) {
-            return L.eq(ID, ClassUtil.getPropValue(entity, ID));
+        if (keyNames.size() == 1) {
+            return CF.eq(keyNames.get(0), ClassUtil.getPropValue(entity, keyNames.get(0)));
         } else {
             final And and = new And();
             Object propVal = null;
 
-            for (String keyName : keyNameSet) {
+            for (String keyName : keyNames) {
                 propVal = ClassUtil.getPropValue(entity, keyName);
 
                 if (propVal == null || (propVal instanceof CharSequence) && N.isNullOrEmpty(((CharSequence) propVal))) {
                     break;
                 }
 
-                and.add(L.eq(keyName, ClassUtil.getPropValue(entity, keyName)));
+                and.add(CF.eq(keyName, ClassUtil.getPropValue(entity, keyName)));
             }
 
             if (N.isNullOrEmpty(and.getConditions())) {
-                throw new IllegalArgumentException("No property value specified in entity for key names: " + keyNameSet);
+                throw new IllegalArgumentException("No property value specified in entity for key names: " + keyNames);
             }
 
             return and;
@@ -572,8 +618,8 @@ public final class CassandraExecutor implements Closeable {
      * @throws DuplicatedResultException if more than one record found.
      */
     public <T> T gett(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) throws DuplicatedResultException {
-        final CP pair = prepareQuery(targetClass, selectPropNames, whereCause, 2);
-        final ResultSet resultSet = execute(pair.cql, pair.parameters.toArray());
+        final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 2);
+        final ResultSet resultSet = execute(cp);
         final Row row = resultSet.one();
 
         if (row == null) {
@@ -586,179 +632,72 @@ public final class CassandraExecutor implements Closeable {
     }
 
     public ResultSet insert(final Object entity) {
-        return insert(entity.getClass(), Maps.entity2Map(entity));
+        final CP cp = prepareInsert(entity);
+
+        return execute(cp);
     }
 
-    public ResultSet insert(final Class<?> targetClass, final Map<String, Object> props) {
-        final CP pair = prepareAdd(targetClass, props);
+    private CP prepareInsert(final Object entity) {
+        final Class<?> targetClass = entity.getClass();
 
-        return this.execute(pair.cql, pair.parameters.toArray());
-    }
-
-    public ResultSet batchInsert(final Collection<?> entities, final BatchStatement.Type type) {
-        N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
-
-        return batchInsert(entities.iterator().next().getClass(), Maps.entity2Map(entities), type);
-    }
-
-    public ResultSet batchInsert(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList, final BatchStatement.Type type) {
-        N.checkArgument(N.notNullOrEmpty(propsList), "'propsList' can't be null or empty.");
-
-        final BatchStatement batchStatement = new BatchStatement(type == null ? BatchStatement.Type.LOGGED : type);
-
-        if (settings != null) {
-            batchStatement.setConsistencyLevel(settings.getConsistency());
-            batchStatement.setSerialConsistencyLevel(settings.getSerialConsistency());
-            batchStatement.setRetryPolicy(settings.getRetryPolicy());
-
-            if (settings.traceQuery) {
-                batchStatement.enableTracing();
-            } else {
-                batchStatement.disableTracing();
-            }
-        }
-
-        CP pair = null;
-
-        for (Map<String, Object> props : propsList) {
-            pair = prepareAdd(targetClass, props);
-            batchStatement.add(prepareStatement(pair.cql, pair.parameters.toArray()));
-        }
-
-        return session.execute(batchStatement);
-    }
-
-    private CP prepareAdd(final Class<?> targetClass, final Map<String, Object> props) {
         switch (namingPolicy) {
             case LOWER_CASE_WITH_UNDERSCORE:
-                return NE.insert(props).into(targetClass).pair();
+                return NSC.insert(entity).into(targetClass).pair();
 
             case UPPER_CASE_WITH_UNDERSCORE:
-                return NE2.insert(props).into(targetClass).pair();
+                return NAC.insert(entity).into(targetClass).pair();
 
             case LOWER_CAMEL_CASE:
-                return NE3.insert(props).into(targetClass).pair();
+                return NLC.insert(entity).into(targetClass).pair();
 
             default:
                 throw new RuntimeException("Unsupported naming policy: " + namingPolicy);
         }
     }
 
-    @SuppressWarnings("deprecation")
-    public ResultSet update(final Object entity) {
-        final Class<?> targetClass = entity.getClass();
-        final Set<String> keyNameSet = Maps.getOrDefault(entityKeyNamesMap, targetClass, ID_SET);
-        final boolean isDirtyMarker = N.isDirtyMarker(targetClass);
+    public ResultSet insert(final Class<?> targetClass, final Map<String, Object> props) {
+        final CP cp = prepareInsert(targetClass, props);
 
-        if (isDirtyMarker) {
-            final Map<String, Object> props = new HashMap<>();
+        return execute(cp);
+    }
 
-            for (String propName : ((DirtyMarker) entity).dirtyPropNames()) {
-                props.put(propName, ClassUtil.getPropValue(entity, propName));
-            }
+    private CP prepareInsert(final Class<?> targetClass, final Map<String, Object> props) {
+        switch (namingPolicy) {
+            case LOWER_CASE_WITH_UNDERSCORE:
+                return NSC.insert(props).into(targetClass).pair();
 
-            Maps.removeKeys(props, keyNameSet);
+            case UPPER_CASE_WITH_UNDERSCORE:
+                return NAC.insert(props).into(targetClass).pair();
 
-            return update(targetClass, props, entity2Cond(entity));
-        } else {
-            return update(targetClass, Maps.entity2Map(entity, keyNameSet), entity2Cond(entity));
+            case LOWER_CAMEL_CASE:
+                return NLC.insert(props).into(targetClass).pair();
+
+            default:
+                throw new RuntimeException("Unsupported naming policy: " + namingPolicy);
         }
     }
 
-    @SuppressWarnings("deprecation")
-    public ResultSet update(final Object entity, final Collection<String> primaryKeyNames) {
-        N.checkArgNotNullOrEmpty(primaryKeyNames, "primaryKeyNames");
+    public ResultSet batchInsert(final Collection<?> entities, final BatchStatement.Type type) {
+        final BatchStatement batchStatement = prepareBatchInsertStatement(entities, type);
 
-        final Class<?> targetClass = entity.getClass();
-        final Set<String> keyNameSet = new HashSet<>(N.initHashCapacity(primaryKeyNames.size()));
-        final And and = new And();
-
-        for (String keyName : primaryKeyNames) {
-            String propName = ClassUtil.getPropNameByMethod(ClassUtil.getPropGetMethod(targetClass, keyName));
-            and.add(L.eq(propName, ClassUtil.getPropValue(entity, propName)));
-            keyNameSet.add(propName);
-        }
-
-        final boolean isDirtyMarker = N.isDirtyMarker(targetClass);
-
-        if (isDirtyMarker) {
-            final Map<String, Object> props = new HashMap<>();
-
-            for (String propName : ((DirtyMarker) entity).dirtyPropNames()) {
-                props.put(propName, ClassUtil.getPropValue(entity, propName));
-            }
-
-            Maps.removeKeys(props, keyNameSet);
-
-            return update(targetClass, props, and);
-        } else {
-            return update(targetClass, Maps.entity2Map(entity, keyNameSet), and);
-        }
+        return execute(batchStatement);
     }
 
-    public ResultSet update(final Class<?> targetClass, final Map<String, Object> props, final Condition whereCause) {
-        final CP pair = prepareUpdate(targetClass, props, whereCause);
-
-        return this.execute(pair.cql, pair.parameters.toArray());
-    }
-
-    public ResultSet batchUpdate(final Collection<?> entities, final BatchStatement.Type type) {
+    private BatchStatement prepareBatchInsertStatement(final Collection<?> entities, final BatchStatement.Type type) {
         N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
 
-        final Class<?> targetClass = N.first(entities).get().getClass();
-        final Set<String> keyNameSet = Maps.getOrDefault(entityKeyNamesMap, targetClass, ID_SET);
-        return batchUpdate(entities, keyNameSet, type);
-    }
+        final BatchStatement batchStatement = prepareBatchStatement(type);
+        CP cp = null;
 
-    @SuppressWarnings("deprecation")
-    public ResultSet batchUpdate(final Collection<?> entities, final Collection<String> primaryKeyNames, final BatchStatement.Type type) {
-        N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
-        N.checkArgument(N.notNullOrEmpty(primaryKeyNames), "'primaryKeyNames' can't be null or empty");
-
-        final Class<?> targetClass = N.first(entities).get().getClass();
-        final Set<String> keyNameSet = new HashSet<>(N.initHashCapacity(primaryKeyNames.size()));
-
-        for (String keyName : primaryKeyNames) {
-            keyNameSet.add(ClassUtil.getPropNameByMethod(ClassUtil.getPropGetMethod(targetClass, keyName)));
+        for (Object entity : entities) {
+            cp = prepareInsert(entity);
+            batchStatement.add(prepareStatement(cp.cql, cp.parameters.toArray()));
         }
 
-        final boolean isDirtyMarker = N.isDirtyMarker(targetClass);
-
-        if (isDirtyMarker) {
-            final List<Map<String, Object>> propsList = new ArrayList<>(entities.size());
-
-            for (Object entity : entities) {
-                final Map<String, Object> props = new HashMap<>();
-
-                for (String propName : ((DirtyMarker) entity).dirtyPropNames()) {
-                    props.put(propName, ClassUtil.getPropValue(entity, propName));
-                }
-
-                for (String keyName : keyNameSet) {
-                    if (props.containsKey(keyName) == false) {
-                        props.put(keyName, ClassUtil.getPropValue(entity, keyName));
-                    }
-                }
-
-                propsList.add(props);
-            }
-
-            return batchUpdate(targetClass, propsList, keyNameSet, type, true);
-        } else {
-            return batchUpdate(targetClass, Maps.entity2Map(entities), keyNameSet, type, true);
-        }
+        return batchStatement;
     }
 
-    public ResultSet batchUpdate(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList,
-            final Collection<String> primaryKeyNames, final BatchStatement.Type type) {
-
-        return batchUpdate(targetClass, propsList, primaryKeyNames, type, false);
-    }
-
-    private ResultSet batchUpdate(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList,
-            final Collection<String> primaryKeyNames, final BatchStatement.Type type, boolean isFromEntity) {
-        N.checkArgument(N.notNullOrEmpty(propsList), "'propsList' can't be null or empty.");
-
+    private BatchStatement prepareBatchStatement(final BatchStatement.Type type) {
         final BatchStatement batchStatement = new BatchStatement(type == null ? BatchStatement.Type.LOGGED : type);
 
         if (settings != null) {
@@ -773,35 +712,144 @@ public final class CassandraExecutor implements Closeable {
             }
         }
 
+        return batchStatement;
+    }
+
+    public ResultSet batchInsert(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList, final BatchStatement.Type type) {
+        final BatchStatement batchStatement = prepareBatchInsertStatement(targetClass, propsList, type);
+
+        return execute(batchStatement);
+    }
+
+    private BatchStatement prepareBatchInsertStatement(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList,
+            final BatchStatement.Type type) {
+        N.checkArgument(N.notNullOrEmpty(propsList), "'propsList' can't be null or empty.");
+
+        final BatchStatement batchStatement = prepareBatchStatement(type);
+        CP cp = null;
+
         for (Map<String, Object> props : propsList) {
-            final Map<String, Object> tmp = isFromEntity ? props : new HashMap<>(props);
-            final And and = new And();
-
-            for (String keyName : primaryKeyNames) {
-                and.add(L.eq(keyName, tmp.remove(keyName)));
-            }
-
-            final CP pair = prepareUpdate(targetClass, tmp, and);
-            batchStatement.add(prepareStatement(pair.cql, pair.parameters.toArray()));
+            cp = prepareInsert(targetClass, props);
+            batchStatement.add(prepareStatement(cp.cql, cp.parameters.toArray()));
         }
 
-        return session.execute(batchStatement);
+        return batchStatement;
+    }
+
+    public ResultSet update(final Object entity) {
+        return update(entity, getKeyNameSet(entity.getClass()));
+    }
+
+    public ResultSet update(final Object entity, final Set<String> primaryKeyNames) {
+        final CP cp = prepareUpdate(entity, primaryKeyNames);
+
+        return execute(cp);
+    }
+
+    private CP prepareUpdate(final Object entity, final Set<String> primaryKeyNames) {
+        N.checkArgument(N.notNullOrEmpty(primaryKeyNames), "'primaryKeyNames' can't be null or empty.");
+
+        final Class<?> targetClass = entity.getClass();
+        final And and = new And();
+
+        for (String keyName : primaryKeyNames) {
+            and.add(CF.eq(keyName, ClassUtil.getPropValue(entity, keyName)));
+        }
+
+        switch (namingPolicy) {
+            case LOWER_CASE_WITH_UNDERSCORE:
+                return NSC.update(targetClass).set(entity, primaryKeyNames).where(and).pair();
+
+            case UPPER_CASE_WITH_UNDERSCORE:
+                return NAC.update(targetClass).set(entity, primaryKeyNames).where(and).pair();
+
+            case LOWER_CAMEL_CASE:
+                return NLC.update(targetClass).set(entity, primaryKeyNames).where(and).pair();
+
+            default:
+                throw new RuntimeException("Unsupported naming policy: " + namingPolicy);
+        }
+    }
+
+    public ResultSet update(final Class<?> targetClass, final Map<String, Object> props, final Condition whereCause) {
+        N.checkArgument(N.notNullOrEmpty(props), "'props' can't be null or empty.");
+
+        final CP cp = prepareUpdate(targetClass, props, whereCause);
+
+        return execute(cp);
     }
 
     private CP prepareUpdate(final Class<?> targetClass, final Map<String, Object> props, final Condition whereCause) {
         switch (namingPolicy) {
             case LOWER_CASE_WITH_UNDERSCORE:
-                return NE.update(targetClass).set(props).where(whereCause).pair();
+                return NSC.update(targetClass).set(props).where(whereCause).pair();
 
             case UPPER_CASE_WITH_UNDERSCORE:
-                return NE2.update(targetClass).set(props).where(whereCause).pair();
+                return NAC.update(targetClass).set(props).where(whereCause).pair();
 
             case LOWER_CAMEL_CASE:
-                return NE3.update(targetClass).set(props).where(whereCause).pair();
+                return NLC.update(targetClass).set(props).where(whereCause).pair();
 
             default:
                 throw new RuntimeException("Unsupported naming policy: " + namingPolicy);
         }
+    }
+
+    public ResultSet batchUpdate(final Collection<?> entities, final BatchStatement.Type type) {
+        N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
+
+        return batchUpdate(entities, getKeyNameSet(N.firstOrNullIfEmpty(entities).getClass()), type);
+    }
+
+    public ResultSet batchUpdate(final Collection<?> entities, final Set<String> primaryKeyNames, final BatchStatement.Type type) {
+        N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
+
+        final BatchStatement batchStatement = prepareBatchUpdateStatement(entities, primaryKeyNames, type);
+
+        return execute(batchStatement);
+    }
+
+    private BatchStatement prepareBatchUpdateStatement(final Collection<?> entities, final Set<String> primaryKeyNames, final BatchStatement.Type type) {
+        N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
+        N.checkArgument(N.notNullOrEmpty(primaryKeyNames), "'primaryKeyNames' can't be null or empty");
+
+        final BatchStatement batchStatement = prepareBatchStatement(type);
+
+        for (Object entity : entities) {
+            final CP cp = prepareUpdate(entity, primaryKeyNames);
+            batchStatement.add(prepareStatement(cp.cql, cp.parameters.toArray()));
+        }
+
+        return batchStatement;
+    }
+
+    public ResultSet batchUpdate(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList, final Set<String> primaryKeyNames,
+            final BatchStatement.Type type) {
+        final BatchStatement batchStatement = prepareBatchUpdateStatement(targetClass, propsList, primaryKeyNames, type);
+
+        return execute(batchStatement);
+    }
+
+    private BatchStatement prepareBatchUpdateStatement(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList,
+            final Set<String> primaryKeyNames, final BatchStatement.Type type) {
+        N.checkArgument(N.notNullOrEmpty(propsList), "'propsList' can't be null or empty.");
+        N.checkArgument(N.notNullOrEmpty(primaryKeyNames), "'primaryKeyNames' can't be null or empty.");
+
+        final BatchStatement batchStatement = prepareBatchStatement(type);
+
+        for (Map<String, Object> props : propsList) {
+            final Map<String, Object> tmp = new HashMap<>(props);
+            final And and = new And();
+
+            for (String keyName : primaryKeyNames) {
+                and.add(CF.eq(keyName, tmp.remove(keyName)));
+            }
+
+            final CP cp = prepareUpdate(targetClass, tmp, and);
+            batchStatement.add(prepareStatement(cp.cql, cp.parameters.toArray()));
+        }
+
+        return batchStatement;
     }
 
     public ResultSet delete(final Object entity) {
@@ -841,32 +889,32 @@ public final class CassandraExecutor implements Closeable {
      * @param whereCause
      */
     public ResultSet delete(final Class<?> targetClass, final Collection<String> deletingPropNames, final Condition whereCause) {
-        final CP pair = prepareDelete(targetClass, deletingPropNames, whereCause);
+        final CP cp = prepareDelete(targetClass, deletingPropNames, whereCause);
 
-        return this.execute(pair.cql, pair.parameters.toArray());
+        return execute(cp);
     }
 
     private CP prepareDelete(final Class<?> targetClass, final Collection<String> deletingPropNames, final Condition whereCause) {
         switch (namingPolicy) {
             case LOWER_CASE_WITH_UNDERSCORE:
                 if (N.isNullOrEmpty(deletingPropNames)) {
-                    return NE.deleteFrom(targetClass).where(whereCause).pair();
+                    return NSC.deleteFrom(targetClass).where(whereCause).pair();
                 } else {
-                    return NE.delete(deletingPropNames).from(targetClass).where(whereCause).pair();
+                    return NSC.delete(deletingPropNames).from(targetClass).where(whereCause).pair();
                 }
 
             case UPPER_CASE_WITH_UNDERSCORE:
                 if (N.isNullOrEmpty(deletingPropNames)) {
-                    return NE2.deleteFrom(targetClass).where(whereCause).pair();
+                    return NAC.deleteFrom(targetClass).where(whereCause).pair();
                 } else {
-                    return NE2.delete(deletingPropNames).from(targetClass).where(whereCause).pair();
+                    return NAC.delete(deletingPropNames).from(targetClass).where(whereCause).pair();
                 }
 
             case LOWER_CAMEL_CASE:
                 if (N.isNullOrEmpty(deletingPropNames)) {
-                    return NE3.deleteFrom(targetClass).where(whereCause).pair();
+                    return NLC.deleteFrom(targetClass).where(whereCause).pair();
                 } else {
-                    return NE3.delete(deletingPropNames).from(targetClass).where(whereCause).pair();
+                    return NLC.delete(deletingPropNames).from(targetClass).where(whereCause).pair();
                 }
 
             default:
@@ -880,17 +928,17 @@ public final class CassandraExecutor implements Closeable {
     }
 
     public boolean exists(final Class<?> targetClass, final Condition whereCause) {
-        final Collection<String> selectPropNames = Maps.getOrDefault(entityKeyNamesMap, targetClass, ID_SET);
-        final CP pair = prepareQuery(targetClass, selectPropNames, whereCause, 1);
-        final ResultSet resultSet = execute(pair.cql, pair.parameters.toArray());
+        final List<String> keyNames = getKeyNames(targetClass);
+        final CP cp = prepareQuery(targetClass, keyNames, whereCause, 1);
+        final ResultSet resultSet = execute(cp);
 
         return resultSet.iterator().hasNext();
     }
 
     public long count(final Class<?> targetClass, final Condition whereCause) {
-        final CP pair = prepareQuery(targetClass, N.asList(NE.COUNT_ALL), whereCause, 1);
+        final CP cp = prepareQuery(targetClass, N.asList(CQLBuilder.COUNT_ALL), whereCause, 1);
 
-        return count(pair.cql, pair.parameters.toArray());
+        return count(cp.cql, cp.parameters.toArray());
     }
 
     public <T> Optional<T> findFirst(final Class<T> targetClass, final Condition whereCause) {
@@ -898,9 +946,9 @@ public final class CassandraExecutor implements Closeable {
     }
 
     public <T> Optional<T> findFirst(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
-        final CP pair = prepareQuery(targetClass, selectPropNames, whereCause, 1);
+        final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 1);
 
-        return findFirst(targetClass, pair.cql, pair.parameters.toArray());
+        return findFirst(targetClass, cp.cql, cp.parameters.toArray());
     }
 
     public <T> List<T> list(final Class<T> targetClass, final Condition whereCause) {
@@ -908,9 +956,9 @@ public final class CassandraExecutor implements Closeable {
     }
 
     public <T> List<T> list(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
-        final CP pair = prepareQuery(targetClass, selectPropNames, whereCause);
+        final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
 
-        return list(targetClass, pair.cql, pair.parameters.toArray());
+        return list(targetClass, cp.cql, cp.parameters.toArray());
     }
 
     public <T> DataSet query(final Class<T> targetClass, final Condition whereCause) {
@@ -918,9 +966,9 @@ public final class CassandraExecutor implements Closeable {
     }
 
     public <T> DataSet query(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
-        final CP pair = prepareQuery(targetClass, selectPropNames, whereCause);
+        final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
 
-        return query(targetClass, pair.cql, pair.parameters.toArray());
+        return query(targetClass, cp.cql, cp.parameters.toArray());
     }
 
     @Beta
@@ -980,9 +1028,9 @@ public final class CassandraExecutor implements Closeable {
     }
 
     public <T, V> Nullable<V> queryForSingleResult(final Class<T> targetClass, final Class<V> valueClass, final String propName, final Condition whereCause) {
-        final CP pair = prepareQuery(targetClass, Arrays.asList(propName), whereCause, 1);
+        final CP cp = prepareQuery(targetClass, Arrays.asList(propName), whereCause, 1);
 
-        return queryForSingleResult(valueClass, pair.cql, pair.parameters.toArray());
+        return queryForSingleResult(valueClass, cp.cql, cp.parameters.toArray());
     }
 
     public <T> Stream<T> stream(final Class<T> targetClass, final Condition whereCause) {
@@ -990,20 +1038,10 @@ public final class CassandraExecutor implements Closeable {
     }
 
     public <T> Stream<T> stream(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
-        final CP pair = prepareQuery(targetClass, selectPropNames, whereCause);
+        final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
 
-        return stream(targetClass, pair.cql, pair.parameters.toArray());
+        return stream(targetClass, cp.cql, cp.parameters.toArray());
     }
-
-    //    public <T> Stream<Object[]> streamm(final Class<T> targetClass, final Condition whereCause) {
-    //        return streamm(targetClass, null, whereCause);
-    //    }
-    //
-    //    public <T> Stream<Object[]> streamm(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
-    //        final CP pair = prepareQuery(targetClass, selectPropNames, whereCause);
-    //
-    //        return stream(pair.cql, pair.parameters.toArray());
-    //    }
 
     /**
      * Always remember to set "<code>LIMIT 1</code>" in the cql statement for better performance.
@@ -1019,6 +1057,14 @@ public final class CassandraExecutor implements Closeable {
         return resultSet.iterator().hasNext();
     }
 
+    /**
+     * 
+     * @param query
+     * @param parameters
+     * @return
+     * @deprecated may be misused and it's inefficient.
+     */
+    @Deprecated
     @SafeVarargs
     public final long count(final String query, final Object... parameters) {
         return queryForSingleResult(long.class, query, parameters).orElse(0L);
@@ -1227,27 +1273,27 @@ public final class CassandraExecutor implements Closeable {
         switch (namingPolicy) {
             case LOWER_CASE_WITH_UNDERSCORE:
                 if (N.isNullOrEmpty(selectPropNames)) {
-                    cqlBuilder = NE.selectFrom(targetClass).where(whereCause);
+                    cqlBuilder = NSC.selectFrom(targetClass).where(whereCause);
                 } else {
-                    cqlBuilder = NE.select(selectPropNames).from(targetClass).where(whereCause);
+                    cqlBuilder = NSC.select(selectPropNames).from(targetClass).where(whereCause);
                 }
 
                 break;
 
             case UPPER_CASE_WITH_UNDERSCORE:
                 if (N.isNullOrEmpty(selectPropNames)) {
-                    cqlBuilder = NE2.selectFrom(targetClass).where(whereCause);
+                    cqlBuilder = NAC.selectFrom(targetClass).where(whereCause);
                 } else {
-                    cqlBuilder = NE2.select(selectPropNames).from(targetClass).where(whereCause);
+                    cqlBuilder = NAC.select(selectPropNames).from(targetClass).where(whereCause);
                 }
 
                 break;
 
             case LOWER_CAMEL_CASE:
                 if (N.isNullOrEmpty(selectPropNames)) {
-                    cqlBuilder = NE3.selectFrom(targetClass).where(whereCause);
+                    cqlBuilder = NLC.selectFrom(targetClass).where(whereCause);
                 } else {
-                    cqlBuilder = NE3.select(selectPropNames).from(targetClass).where(whereCause);
+                    cqlBuilder = NLC.select(selectPropNames).from(targetClass).where(whereCause);
                 }
 
                 break;
@@ -1261,6 +1307,10 @@ public final class CassandraExecutor implements Closeable {
         }
 
         return cqlBuilder.pair();
+    }
+
+    private ResultSet execute(CP cp) {
+        return execute(cp.cql, cp.parameters.toArray());
     }
 
     public ResultSet execute(final String query) {
@@ -1278,32 +1328,17 @@ public final class CassandraExecutor implements Closeable {
 
     @SafeVarargs
     public final <T> ContinuableFuture<Optional<T>> asyncGet(final Class<T> targetClass, final Object... ids) {
-        return asyncExecutor.execute(new Callable<Optional<T>>() {
-            @Override
-            public Optional<T> call() throws Exception {
-                return get(targetClass, ids);
-            }
-        });
+        return asyncGet(targetClass, null, ids);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<Optional<T>> asyncGet(final Class<T> targetClass, final Collection<String> selectPropNames, final Object... ids)
             throws DuplicatedResultException {
-        return asyncExecutor.execute(new Callable<Optional<T>>() {
-            @Override
-            public Optional<T> call() throws Exception {
-                return get(targetClass, selectPropNames, ids);
-            }
-        });
+        return asyncGet(targetClass, selectPropNames, ids2Cond(targetClass, ids));
     }
 
     public <T> ContinuableFuture<Optional<T>> asyncGet(final Class<T> targetClass, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Optional<T>>() {
-            @Override
-            public Optional<T> call() throws Exception {
-                return get(targetClass, whereCause);
-            }
-        });
+        return asyncGet(targetClass, null, whereCause);
     }
 
     /**
@@ -1314,42 +1349,37 @@ public final class CassandraExecutor implements Closeable {
      * @return
      */
     public <T> ContinuableFuture<Optional<T>> asyncGet(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Optional<T>>() {
+        final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 2);
+
+        return asyncExecute(cp).map(new Try.Function<ResultSet, Optional<T>, RuntimeException>() {
             @Override
-            public Optional<T> call() throws Exception {
-                return get(targetClass, selectPropNames, whereCause);
+            public Optional<T> apply(final ResultSet resultSet) throws RuntimeException {
+                final Row row = resultSet.one();
+
+                if (row == null) {
+                    return null;
+                } else if (resultSet.isExhausted()) {
+                    return Optional.ofNullable(toEntity(targetClass, row));
+                } else {
+                    throw new DuplicatedResultException();
+                }
             }
         });
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<T> asyncGett(final Class<T> targetClass, final Object... ids) {
-        return asyncExecutor.execute(new Callable<T>() {
-            @Override
-            public T call() throws Exception {
-                return gett(targetClass, ids);
-            }
-        });
+        return asyncGett(targetClass, null, ids);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<T> asyncGett(final Class<T> targetClass, final Collection<String> selectPropNames, final Object... ids)
             throws DuplicatedResultException {
-        return asyncExecutor.execute(new Callable<T>() {
-            @Override
-            public T call() throws Exception {
-                return gett(targetClass, selectPropNames, ids);
-            }
-        });
+        return asyncGett(targetClass, selectPropNames, ids2Cond(targetClass, ids));
     }
 
     public <T> ContinuableFuture<T> asyncGett(final Class<T> targetClass, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<T>() {
-            @Override
-            public T call() throws Exception {
-                return gett(targetClass, whereCause);
-            }
-        });
+        return asyncGett(targetClass, null, whereCause);
     }
 
     /**
@@ -1360,133 +1390,96 @@ public final class CassandraExecutor implements Closeable {
      * @return
      */
     public <T> ContinuableFuture<T> asyncGett(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<T>() {
+        final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 2);
+
+        return asyncExecute(cp).map(new Try.Function<ResultSet, T, RuntimeException>() {
             @Override
-            public T call() throws Exception {
-                return gett(targetClass, selectPropNames, whereCause);
+            public T apply(final ResultSet resultSet) throws RuntimeException {
+                final Row row = resultSet.one();
+
+                if (row == null) {
+                    return null;
+                } else if (resultSet.isExhausted()) {
+                    return toEntity(targetClass, row);
+                } else {
+                    throw new DuplicatedResultException();
+                }
             }
         });
     }
 
     public ContinuableFuture<ResultSet> asyncInsert(final Object entity) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return insert(entity);
-            }
-        });
+        final CP cp = prepareInsert(entity);
+
+        return asyncExecute(cp);
     }
 
     public ContinuableFuture<ResultSet> asyncInsert(final Class<?> targetClass, final Map<String, Object> props) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return insert(targetClass, props);
-            }
-        });
+        final CP cp = prepareInsert(targetClass, props);
+
+        return asyncExecute(cp);
     }
 
     public ContinuableFuture<ResultSet> asyncBatchInsert(final Collection<?> entities, final BatchStatement.Type type) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return batchInsert(entities, type);
-            }
-        });
+        final BatchStatement batchStatement = prepareBatchInsertStatement(entities, type);
+
+        return asyncExecute(batchStatement);
     }
 
     public ContinuableFuture<ResultSet> asyncBatchInsert(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList,
             final BatchStatement.Type type) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return batchInsert(targetClass, propsList, type);
-            }
-        });
+        final BatchStatement batchStatement = prepareBatchInsertStatement(targetClass, propsList, type);
+
+        return asyncExecute(batchStatement);
     }
 
     public ContinuableFuture<ResultSet> asyncUpdate(final Object entity) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return update(entity);
-            }
-        });
+        return asyncUpdate(entity, getKeyNameSet(entity.getClass()));
     }
 
-    public ContinuableFuture<ResultSet> asyncUpdate(final Object entity, final Collection<String> primaryKeyNames) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return update(entity, primaryKeyNames);
-            }
-        });
+    public ContinuableFuture<ResultSet> asyncUpdate(final Object entity, final Set<String> primaryKeyNames) {
+        final CP cp = prepareUpdate(entity, primaryKeyNames);
+
+        return asyncExecute(cp);
     }
 
     public ContinuableFuture<ResultSet> asyncUpdate(final Class<?> targetClass, final Map<String, Object> props, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return update(targetClass, props, whereCause);
-            }
-        });
+        final CP cp = prepareUpdate(targetClass, props, whereCause);
+
+        return asyncExecute(cp);
     }
 
     public ContinuableFuture<ResultSet> asyncBatchUpdate(final Collection<?> entities, final BatchStatement.Type type) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return batchUpdate(entities, type);
-            }
-        });
+        N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
+
+        return asyncBatchUpdate(entities, getKeyNameSet(N.firstOrNullIfEmpty(entities).getClass()), type);
     }
 
-    public ContinuableFuture<ResultSet> asyncBatchUpdate(final Collection<?> entities, final Collection<String> primaryKeyNames,
-            final BatchStatement.Type type) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return batchUpdate(entities, primaryKeyNames, type);
-            }
-        });
+    public ContinuableFuture<ResultSet> asyncBatchUpdate(final Collection<?> entities, final Set<String> primaryKeyNames, final BatchStatement.Type type) {
+        final BatchStatement batchStatement = prepareBatchUpdateStatement(entities, primaryKeyNames, type);
+
+        return asyncExecute(batchStatement);
+
     }
 
     public ContinuableFuture<ResultSet> asyncBatchUpdate(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList,
-            final Collection<String> primaryKeyNames, final BatchStatement.Type type) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return batchUpdate(targetClass, propsList, primaryKeyNames, type);
-            }
-        });
+            final Set<String> primaryKeyNames, final BatchStatement.Type type) {
+        final BatchStatement batchStatement = prepareBatchUpdateStatement(targetClass, propsList, primaryKeyNames, type);
+
+        return asyncExecute(batchStatement);
     }
 
     public ContinuableFuture<ResultSet> asyncDelete(final Object entity) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return delete(entity);
-            }
-        });
+        return asyncDelete(entity, null);
     }
 
     public ContinuableFuture<ResultSet> asyncDelete(final Object entity, final Collection<String> deletingPropNames) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return delete(entity, deletingPropNames);
-            }
-        });
+        return asyncDelete(entity.getClass(), deletingPropNames, entity2Cond(entity));
     }
 
     @SafeVarargs
     public final ContinuableFuture<ResultSet> asyncDelete(final Class<?> targetClass, final Object... ids) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return delete(targetClass, ids);
-            }
-        });
+        return asyncDelete(targetClass, null, ids);
     }
 
     /**
@@ -1499,21 +1492,11 @@ public final class CassandraExecutor implements Closeable {
      */
     @SafeVarargs
     public final ContinuableFuture<ResultSet> asyncDelete(final Class<?> targetClass, final Collection<String> deletingPropNames, final Object... ids) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return delete(targetClass, deletingPropNames, ids);
-            }
-        });
+        return asyncDelete(targetClass, deletingPropNames, ids2Cond(targetClass, ids));
     }
 
     public ContinuableFuture<ResultSet> asyncDelete(final Class<?> targetClass, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return delete(targetClass, whereCause);
-            }
-        });
+        return asyncDelete(targetClass, null, whereCause);
     }
 
     /**
@@ -1525,242 +1508,183 @@ public final class CassandraExecutor implements Closeable {
      * @return
      */
     public ContinuableFuture<ResultSet> asyncDelete(final Class<?> targetClass, final Collection<String> deletingPropNames, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() {
-                return delete(targetClass, deletingPropNames, whereCause);
-            }
-        });
+        final CP cp = prepareDelete(targetClass, deletingPropNames, whereCause);
+
+        return asyncExecute(cp);
     }
 
     @SafeVarargs
     public final ContinuableFuture<Boolean> asyncExists(final Class<?> targetClass, final Object... ids) {
-        return asyncExecutor.execute(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return exists(targetClass, ids);
-            }
-        });
+        return asyncExists(targetClass, ids2Cond(targetClass, ids));
     }
 
     public ContinuableFuture<Boolean> asyncExists(final Class<?> targetClass, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return exists(targetClass, whereCause);
-            }
-        });
+        final List<String> keyNames = getKeyNames(targetClass);
+        final CP cp = prepareQuery(targetClass, keyNames, whereCause, 1);
+
+        return asyncExists(cp.cql, cp.parameters.toArray());
     }
 
     public ContinuableFuture<Long> asyncCount(final Class<?> targetClass, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Long>() {
-            @Override
-            public Long call() throws Exception {
-                return count(targetClass, whereCause);
-            }
-        });
+        final CP cp = prepareQuery(targetClass, N.asList(NSC.COUNT_ALL), whereCause, 1);
+
+        return asyncCount(cp.cql, cp.parameters.toArray());
     }
 
     public <T> ContinuableFuture<List<T>> asyncList(final Class<T> targetClass, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<List<T>>() {
-            @Override
-            public List<T> call() throws Exception {
-                return list(targetClass, whereCause);
-            }
-        });
+        return asyncList(targetClass, null, whereCause);
     }
 
-    public <T> ContinuableFuture<List<T>> asyncList(final Class<T> targetClass, final Collection<String> selectPropName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<List<T>>() {
-            @Override
-            public List<T> call() throws Exception {
-                return list(targetClass, selectPropName, whereCause);
-            }
-        });
+    public <T> ContinuableFuture<List<T>> asyncList(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
+        final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
+
+        return asyncList(targetClass, cp.cql, cp.parameters.toArray());
     }
 
     public <T> ContinuableFuture<DataSet> asyncQuery(final Class<T> targetClass, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<DataSet>() {
-            @Override
-            public DataSet call() throws Exception {
-                return query(targetClass, whereCause);
-            }
-        });
+        return asyncQuery(targetClass, null, whereCause);
     }
 
-    public <T> ContinuableFuture<DataSet> asyncQuery(final Class<T> targetClass, final Collection<String> selectPropName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<DataSet>() {
-            @Override
-            public DataSet call() throws Exception {
-                return query(targetClass, selectPropName, whereCause);
-            }
-        });
+    public <T> ContinuableFuture<DataSet> asyncQuery(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
+        final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
+
+        return asyncQuery(targetClass, cp.cql, cp.parameters.toArray());
     }
+
+    private static final Try.Function<Nullable<Boolean>, OptionalBoolean, RuntimeException> boolean_mapper = new Try.Function<Nullable<Boolean>, OptionalBoolean, RuntimeException>() {
+        @Override
+        public OptionalBoolean apply(Nullable<Boolean> t) throws RuntimeException {
+            return t.mapToBoolean(ToBooleanFunction.UNBOX);
+        }
+    };
 
     public <T> ContinuableFuture<OptionalBoolean> asyncQueryForBoolean(final Class<T> targetClass, final String propName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<OptionalBoolean>() {
-            @Override
-            public OptionalBoolean call() throws Exception {
-                return queryForBoolean(targetClass, propName, whereCause);
-            }
-        });
+        return asyncQueryForSingleResult(targetClass, Boolean.class, propName, whereCause).map(boolean_mapper);
     }
+
+    private static final Try.Function<Nullable<Character>, OptionalChar, RuntimeException> char_mapper = new Try.Function<Nullable<Character>, OptionalChar, RuntimeException>() {
+        @Override
+        public OptionalChar apply(Nullable<Character> t) throws RuntimeException {
+            return t.mapToChar(ToCharFunction.UNBOX);
+        }
+    };
 
     public <T> ContinuableFuture<OptionalChar> asyncQueryForChar(final Class<T> targetClass, final String propName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<OptionalChar>() {
-            @Override
-            public OptionalChar call() throws Exception {
-                return queryForChar(targetClass, propName, whereCause);
-            }
-        });
+        return asyncQueryForSingleResult(targetClass, Character.class, propName, whereCause).map(char_mapper);
     }
+
+    private static final Try.Function<Nullable<Byte>, OptionalByte, RuntimeException> byte_mapper = new Try.Function<Nullable<Byte>, OptionalByte, RuntimeException>() {
+        @Override
+        public OptionalByte apply(Nullable<Byte> t) throws RuntimeException {
+            return t.mapToByte(ToByteFunction.UNBOX);
+        }
+    };
 
     public <T> ContinuableFuture<OptionalByte> asyncQueryForByte(final Class<T> targetClass, final String propName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<OptionalByte>() {
-            @Override
-            public OptionalByte call() throws Exception {
-                return queryForByte(targetClass, propName, whereCause);
-            }
-        });
+        return asyncQueryForSingleResult(targetClass, Byte.class, propName, whereCause).map(byte_mapper);
     }
+
+    private static final Try.Function<Nullable<Short>, OptionalShort, RuntimeException> short_mapper = new Try.Function<Nullable<Short>, OptionalShort, RuntimeException>() {
+        @Override
+        public OptionalShort apply(Nullable<Short> t) throws RuntimeException {
+            return t.mapToShort(ToShortFunction.UNBOX);
+        }
+    };
 
     public <T> ContinuableFuture<OptionalShort> asyncQueryForShort(final Class<T> targetClass, final String propName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<OptionalShort>() {
-            @Override
-            public OptionalShort call() throws Exception {
-                return queryForShort(targetClass, propName, whereCause);
-            }
-        });
+        return asyncQueryForSingleResult(targetClass, Short.class, propName, whereCause).map(short_mapper);
     }
+
+    private static final Try.Function<Nullable<Integer>, OptionalInt, RuntimeException> int_mapper = new Try.Function<Nullable<Integer>, OptionalInt, RuntimeException>() {
+        @Override
+        public OptionalInt apply(Nullable<Integer> t) throws RuntimeException {
+            return t.mapToInt(ToIntFunction.UNBOX);
+        }
+    };
 
     public <T> ContinuableFuture<OptionalInt> asyncQueryForInt(final Class<T> targetClass, final String propName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<OptionalInt>() {
-            @Override
-            public OptionalInt call() throws Exception {
-                return queryForInt(targetClass, propName, whereCause);
-            }
-        });
+        return asyncQueryForSingleResult(targetClass, Integer.class, propName, whereCause).map(int_mapper);
     }
+
+    private static final Try.Function<Nullable<Long>, OptionalLong, RuntimeException> long_mapper = new Try.Function<Nullable<Long>, OptionalLong, RuntimeException>() {
+        @Override
+        public OptionalLong apply(Nullable<Long> t) throws RuntimeException {
+            return t.mapToLong(ToLongFunction.UNBOX);
+        }
+    };
 
     public <T> ContinuableFuture<OptionalLong> asyncQueryForLong(final Class<T> targetClass, final String propName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<OptionalLong>() {
-            @Override
-            public OptionalLong call() throws Exception {
-                return queryForLong(targetClass, propName, whereCause);
-            }
-        });
+        return asyncQueryForSingleResult(targetClass, Long.class, propName, whereCause).map(long_mapper);
     }
+
+    private static final Try.Function<Nullable<Float>, OptionalFloat, RuntimeException> float_mapper = new Try.Function<Nullable<Float>, OptionalFloat, RuntimeException>() {
+        @Override
+        public OptionalFloat apply(Nullable<Float> t) throws RuntimeException {
+            return t.mapToFloat(ToFloatFunction.UNBOX);
+        }
+    };
 
     public <T> ContinuableFuture<OptionalFloat> asyncQueryForFloat(final Class<T> targetClass, final String propName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<OptionalFloat>() {
-            @Override
-            public OptionalFloat call() throws Exception {
-                return queryForFloat(targetClass, propName, whereCause);
-            }
-        });
+        return asyncQueryForSingleResult(targetClass, Float.class, propName, whereCause).map(float_mapper);
     }
 
+    private static final Try.Function<Nullable<Double>, OptionalDouble, RuntimeException> double_mapper = new Try.Function<Nullable<Double>, OptionalDouble, RuntimeException>() {
+        @Override
+        public OptionalDouble apply(Nullable<Double> t) throws RuntimeException {
+            return t.mapToDouble(ToDoubleFunction.UNBOX);
+        }
+    };
+
     public <T> ContinuableFuture<OptionalDouble> asyncQueryForDouble(final Class<T> targetClass, final String propName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<OptionalDouble>() {
-            @Override
-            public OptionalDouble call() throws Exception {
-                return queryForDouble(targetClass, propName, whereCause);
-            }
-        });
+        return asyncQueryForSingleResult(targetClass, Double.class, propName, whereCause).map(double_mapper);
     }
 
     public <T> ContinuableFuture<Nullable<String>> asyncQueryForString(final Class<T> targetClass, final String propName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Nullable<String>>() {
-            @Override
-            public Nullable<String> call() throws Exception {
-                return queryForString(targetClass, propName, whereCause);
-            }
-        });
+        return asyncQueryForSingleResult(targetClass, String.class, propName, whereCause);
     }
 
     public <T> ContinuableFuture<Nullable<Date>> asyncQueryForDate(final Class<T> targetClass, final String propName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Nullable<Date>>() {
-            @Override
-            public Nullable<Date> call() throws Exception {
-                return queryForDate(targetClass, propName, whereCause);
-            }
-        });
+        return asyncQueryForSingleResult(targetClass, Date.class, propName, whereCause);
     }
 
     public <T, E extends Date> ContinuableFuture<Nullable<E>> asyncQueryForDate(final Class<T> targetClass, final Class<E> valueClass, final String propName,
             final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Nullable<E>>() {
-            @Override
-            public Nullable<E> call() throws Exception {
-                return queryForDate(targetClass, valueClass, propName, whereCause);
-            }
-        });
+        return asyncQueryForSingleResult(targetClass, valueClass, propName, whereCause);
     }
 
     public <T, V> ContinuableFuture<Nullable<V>> asyncQueryForSingleResult(final Class<T> targetClass, final Class<V> valueClass, final String propName,
             final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Nullable<V>>() {
-            @Override
-            public Nullable<V> call() throws Exception {
-                return queryForSingleResult(targetClass, valueClass, propName, whereCause);
-            }
-        });
+        final CP cp = prepareQuery(targetClass, Arrays.asList(propName), whereCause, 1);
+
+        return asyncQueryForSingleResult(valueClass, cp.cql, cp.parameters.toArray());
     }
 
     public <T> ContinuableFuture<Optional<T>> asyncFindFirst(final Class<T> targetClass, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Optional<T>>() {
-            @Override
-            public Optional<T> call() throws Exception {
-                return findFirst(targetClass, whereCause);
-            }
-        });
+        return asyncFindFirst(targetClass, null, whereCause);
     }
 
-    public <T> ContinuableFuture<Optional<T>> asyncFindFirst(final Class<T> targetClass, final Collection<String> selectPropName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Optional<T>>() {
-            @Override
-            public Optional<T> call() throws Exception {
-                return findFirst(targetClass, selectPropName, whereCause);
-            }
-        });
+    public <T> ContinuableFuture<Optional<T>> asyncFindFirst(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
+        final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 1);
+
+        return asyncFindFirst(targetClass, cp.cql, cp.parameters.toArray());
     }
 
     public <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Stream<T>>() {
-            @Override
-            public Stream<T> call() throws Exception {
-                return stream(targetClass, whereCause);
-            }
-        });
+        return asyncStream(targetClass, null, whereCause);
     }
 
-    public <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final Collection<String> selectPropName, final Condition whereCause) {
-        return asyncExecutor.execute(new Callable<Stream<T>>() {
-            @Override
-            public Stream<T> call() throws Exception {
-                return stream(targetClass, selectPropName, whereCause);
-            }
-        });
+    public <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
+        final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
+
+        return asyncStream(targetClass, cp.cql, cp.parameters.toArray());
     }
 
-    //    public <T> ContinuableFuture<Stream<Object[]>> asyncStreamm(final Class<T> targetClass, final Condition whereCause) {
-    //        return asyncExecutor.execute(new Callable<Stream<Object[]>>() {
-    //            @Override
-    //            public Stream<Object[]> call() throws Exception {
-    //                return streamm(targetClass, whereCause);
-    //            }
-    //        });
-    //    }
-    //
-    //    public <T> ContinuableFuture<Stream<Object[]>> asyncStreamm(final Class<T> targetClass, final Collection<String> selectPropName,
-    //            final Condition whereCause) {
-    //        return asyncExecutor.execute(new Callable<Stream<Object[]>>() {
-    //            @Override
-    //            public Stream<Object[]> call() throws Exception {
-    //                return streamm(targetClass, selectPropName, whereCause);
-    //            }
-    //        });
-    //    }
+    private static final Try.Function<ResultSet, Boolean, RuntimeException> exists_mapper = new Try.Function<ResultSet, Boolean, RuntimeException>() {
+        @Override
+        public Boolean apply(ResultSet resultSet) throws RuntimeException {
+            return resultSet.iterator().hasNext();
+        }
+    };
 
     /**
      * Always remember to set "<code>LIMIT 1</code>" in the cql statement for better performance.
@@ -1771,190 +1695,164 @@ public final class CassandraExecutor implements Closeable {
      */
     @SafeVarargs
     public final ContinuableFuture<Boolean> asyncExists(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<Boolean>() {
-            @Override
-            public Boolean call() throws Exception {
-                return exists(query, parameters);
-            }
-        });
+        return asyncExecute(query, parameters).map(exists_mapper);
     }
 
+    private static final Try.Function<Nullable<Long>, Long, RuntimeException> long_mapper2 = new Try.Function<Nullable<Long>, Long, RuntimeException>() {
+        @Override
+        public Long apply(Nullable<Long> t) throws RuntimeException {
+            return t.mapToLong(ToLongFunction.UNBOX).orElse(0);
+        }
+    };
+
+    /**
+     * 
+     * @param query
+     * @param parameters
+     * @return
+     * @deprecated may be misused and it's inefficient.
+     */
+    @Deprecated
     @SafeVarargs
     public final ContinuableFuture<Long> asyncCount(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<Long>() {
-            @Override
-            public Long call() throws Exception {
-                return count(query, parameters);
-            }
-        });
+        return asyncQueryForSingleResult(Long.class, query, parameters).map(long_mapper2);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalBoolean> asyncQueryForBoolean(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<OptionalBoolean>() {
-            @Override
-            public OptionalBoolean call() throws Exception {
-                return queryForBoolean(query, parameters);
-            }
-        });
+        return asyncQueryForSingleResult(Boolean.class, query, parameters).map(boolean_mapper);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalChar> asyncQueryForChar(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<OptionalChar>() {
-            @Override
-            public OptionalChar call() throws Exception {
-                return queryForChar(query, parameters);
-            }
-        });
+        return asyncQueryForSingleResult(Character.class, query, parameters).map(char_mapper);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalByte> asyncQueryForByte(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<OptionalByte>() {
-            @Override
-            public OptionalByte call() throws Exception {
-                return queryForByte(query, parameters);
-            }
-        });
+        return asyncQueryForSingleResult(Byte.class, query, parameters).map(byte_mapper);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalShort> asyncQueryForShort(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<OptionalShort>() {
-            @Override
-            public OptionalShort call() throws Exception {
-                return queryForShort(query, parameters);
-            }
-        });
+        return asyncQueryForSingleResult(Short.class, query, parameters).map(short_mapper);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalInt> asyncQueryForInt(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<OptionalInt>() {
-            @Override
-            public OptionalInt call() throws Exception {
-                return queryForInt(query, parameters);
-            }
-        });
+        return asyncQueryForSingleResult(Integer.class, query, parameters).map(int_mapper);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalLong> asyncQueryForLong(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<OptionalLong>() {
-            @Override
-            public OptionalLong call() throws Exception {
-                return queryForLong(query, parameters);
-            }
-        });
+        return asyncQueryForSingleResult(Long.class, query, parameters).map(long_mapper);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalFloat> asyncQueryForFloat(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<OptionalFloat>() {
-            @Override
-            public OptionalFloat call() throws Exception {
-                return queryForFloat(query, parameters);
-            }
-        });
+        return asyncQueryForSingleResult(Float.class, query, parameters).map(float_mapper);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalDouble> asyncQueryForDouble(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<OptionalDouble>() {
-            @Override
-            public OptionalDouble call() throws Exception {
-                return queryForDouble(query, parameters);
-            }
-        });
+        return asyncQueryForSingleResult(Double.class, query, parameters).map(double_mapper);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<Nullable<String>> asyncQueryForString(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<Nullable<String>>() {
-            @Override
-            public Nullable<String> call() throws Exception {
-                return queryForString(query, parameters);
-            }
-        });
+        return asyncQueryForSingleResult(String.class, query, parameters);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<Nullable<T>> asyncQueryForSingleResult(final Class<T> valueClass, final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<Nullable<T>>() {
+        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, Nullable<T>, RuntimeException>() {
             @Override
-            public Nullable<T> call() throws Exception {
-                return queryForSingleResult(valueClass, query, parameters);
+            public Nullable<T> apply(final ResultSet resultSet) throws RuntimeException {
+                final Row row = resultSet.one();
+
+                return row == null ? (Nullable<T>) Nullable.empty() : Nullable.of(N.convert(row.getObject(0), valueClass));
             }
         });
     }
 
     @SafeVarargs
     public final ContinuableFuture<Optional<Map<String, Object>>> asyncFindFirst(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<Optional<Map<String, Object>>>() {
-            @Override
-            public Optional<Map<String, Object>> call() throws Exception {
-                return findFirst(query, parameters);
-            }
-        });
+        return asyncFindFirst(Clazz.PROPS_MAP, query, parameters);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<Optional<T>> asyncFindFirst(final Class<T> targetClass, final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<Optional<T>>() {
+        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, Optional<T>, RuntimeException>() {
             @Override
-            public Optional<T> call() throws Exception {
-                return findFirst(targetClass, query, parameters);
+            public Optional<T> apply(final ResultSet resultSet) throws RuntimeException {
+                final Row row = resultSet.one();
+
+                return row == null ? (Optional<T>) Optional.empty() : Optional.of(toEntity(targetClass, row));
             }
         });
     }
 
     @SafeVarargs
     public final ContinuableFuture<List<Map<String, Object>>> asyncList(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<List<Map<String, Object>>>() {
-            @Override
-            public List<Map<String, Object>> call() throws Exception {
-                return list(query, parameters);
-            }
-        });
+        return asyncList(Clazz.PROPS_MAP, query, parameters);
     }
 
     @SafeVarargs
     public final <T> ContinuableFuture<List<T>> asyncList(final Class<T> targetClass, final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<List<T>>() {
+        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, List<T>, RuntimeException>() {
             @Override
-            public List<T> call() throws Exception {
-                return list(targetClass, query, parameters);
+            public List<T> apply(final ResultSet resultSet) throws RuntimeException {
+                return toList(targetClass, resultSet);
             }
         });
     }
 
     @SafeVarargs
     public final ContinuableFuture<DataSet> asyncQuery(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<DataSet>() {
-            @Override
-            public DataSet call() throws Exception {
-                return query(query, parameters);
-            }
-        });
+        return asyncQuery(Map.class, query, parameters);
     }
 
     @SafeVarargs
     public final ContinuableFuture<DataSet> asyncQuery(final Class<?> targetClass, final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<DataSet>() {
+        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, DataSet, RuntimeException>() {
             @Override
-            public DataSet call() throws Exception {
-                return query(targetClass, query, parameters);
+            public DataSet apply(final ResultSet resultSet) throws RuntimeException {
+                return extractData(targetClass, resultSet);
             }
         });
     }
 
     @SafeVarargs
     public final ContinuableFuture<Stream<Object[]>> asyncStream(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<Stream<Object[]>>() {
+        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, Stream<Object[]>, RuntimeException>() {
             @Override
-            public Stream<Object[]> call() throws Exception {
-                return stream(query, parameters);
+            public Stream<Object[]> apply(final ResultSet resultSet) throws RuntimeException {
+                final MutableInt columnCount = MutableInt.of(0);
+
+                return Stream.of(resultSet.iterator()).map(new Function<Row, Object[]>() {
+                    @Override
+                    public Object[] apply(Row row) {
+                        if (columnCount.value() == 0) {
+                            final ColumnDefinitions columnDefinitions = row.getColumnDefinitions();
+                            columnCount.setAndGet(columnDefinitions.size());
+                        }
+
+                        final Object[] a = new Object[columnCount.value()];
+                        Object propValue = null;
+
+                        for (int i = 0, len = a.length; i < len; i++) {
+                            propValue = row.getObject(i);
+
+                            if (propValue instanceof Row) {
+                                a[i] = readRow(Object[].class, (Row) propValue);
+                            } else {
+                                a[i] = propValue;
+                            }
+                        }
+
+                        return a;
+                    }
+                });
             }
         });
     }
@@ -1968,10 +1866,15 @@ public final class CassandraExecutor implements Closeable {
      */
     @SafeVarargs
     public final <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<Stream<T>>() {
+        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, Stream<T>, RuntimeException>() {
             @Override
-            public Stream<T> call() throws Exception {
-                return stream(targetClass, query, parameters);
+            public Stream<T> apply(final ResultSet resultSet) throws RuntimeException {
+                return Stream.of(resultSet.iterator()).map(new Function<Row, T>() {
+                    @Override
+                    public T apply(Row row) {
+                        return toEntity(targetClass, row);
+                    }
+                });
             }
         });
     }
@@ -1979,40 +1882,40 @@ public final class CassandraExecutor implements Closeable {
     @SafeVarargs
     public final <T> ContinuableFuture<Stream<T>> asyncStream(final String query, final BiFunction<ColumnDefinitions, Row, T> rowMapper,
             final Object... parameters) {
-        return asyncExecutor.execute(new Callable<Stream<T>>() {
+        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, Stream<T>, RuntimeException>() {
             @Override
-            public Stream<T> call() throws Exception {
-                return stream(query, rowMapper, parameters);
+            public Stream<T> apply(final ResultSet resultSet) throws RuntimeException {
+                return Stream.of(resultSet.iterator()).map(new Function<Row, T>() {
+                    private volatile ColumnDefinitions cds = null;
+
+                    @Override
+                    public T apply(Row row) {
+                        if (cds == null) {
+                            cds = row.getColumnDefinitions();
+                        }
+
+                        return rowMapper.apply(cds, row);
+                    }
+                });
             }
         });
     }
 
+    private ContinuableFuture<ResultSet> asyncExecute(final CP cp) {
+        return asyncExecute(cp.cql, cp.parameters.toArray());
+    }
+
     public ContinuableFuture<ResultSet> asyncExecute(final String query) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() throws Exception {
-                return execute(query);
-            }
-        });
+        return ContinuableFuture.wrap(session.executeAsync(query));
     }
 
     @SafeVarargs
     public final ContinuableFuture<ResultSet> asyncExecute(final String query, final Object... parameters) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() throws Exception {
-                return execute(query, parameters);
-            }
-        });
+        return ContinuableFuture.wrap(session.executeAsync(query, parameters));
     }
 
     public final ContinuableFuture<ResultSet> asyncExecute(final Statement statement) {
-        return asyncExecutor.execute(new Callable<ResultSet>() {
-            @Override
-            public ResultSet call() throws Exception {
-                return execute(statement);
-            }
-        });
+        return ContinuableFuture.wrap(session.executeAsync(statement));
     }
 
     @Override
@@ -2029,7 +1932,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     private static <T> void checkTargetClass(final Class<T> targetClass) {
-        if (!(N.isEntity(targetClass) || Map.class.isAssignableFrom(targetClass))) {
+        if (!(ClassUtil.isEntity(targetClass) || Map.class.isAssignableFrom(targetClass))) {
             throw new IllegalArgumentException("The target class must be an entity class with getter/setter methods or Map.class. But it is: "
                     + ClassUtil.getCanonicalClassName(targetClass));
         }
@@ -2113,7 +2016,7 @@ public final class CassandraExecutor implements Closeable {
 
         Object[] values = parameters;
 
-        if (parameters.length == 1 && (parameters[0] instanceof Map || N.isEntity(parameters[0].getClass()))) {
+        if (parameters.length == 1 && (parameters[0] instanceof Map || ClassUtil.isEntity(parameters[0].getClass()))) {
             values = new Object[parameterCount];
             final Object parameter_0 = parameters[0];
             final Map<Integer, String> namedParameters = namedCQL.getNamedParameters();

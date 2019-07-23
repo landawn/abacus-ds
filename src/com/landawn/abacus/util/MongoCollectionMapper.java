@@ -34,6 +34,7 @@ import com.landawn.abacus.util.u.OptionalFloat;
 import com.landawn.abacus.util.u.OptionalInt;
 import com.landawn.abacus.util.u.OptionalLong;
 import com.landawn.abacus.util.u.OptionalShort;
+import com.landawn.abacus.util.MongoCollectionExecutor;
 import com.landawn.abacus.util.stream.Stream;
 import com.mongodb.bulk.BulkWriteResult;
 import com.mongodb.client.model.BulkWriteOptions;
@@ -41,6 +42,7 @@ import com.mongodb.client.model.CountOptions;
 import com.mongodb.client.model.DeleteOptions;
 import com.mongodb.client.model.InsertManyOptions;
 import com.mongodb.client.model.InsertOneOptions;
+import com.mongodb.client.model.ReplaceOptions;
 import com.mongodb.client.model.UpdateOptions;
 import com.mongodb.client.model.WriteModel;
 import com.mongodb.client.result.DeleteResult;
@@ -331,7 +333,7 @@ public final class MongoCollectionMapper<T> {
         return collExecutor.replaceOne(filter, replacement);
     }
 
-    public UpdateResult replaceOne(final Bson filter, final T replacement, final UpdateOptions options) {
+    public UpdateResult replaceOne(final Bson filter, final T replacement, final ReplaceOptions options) {
         return collExecutor.replaceOne(filter, replacement, options);
     }
 

@@ -17,9 +17,12 @@ import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.UDTValue;
 import com.landawn.abacus.DataSet;
+import com.landawn.abacus.util.CassandraExecutor;
+import com.landawn.abacus.util.CQLBuilder.LCCB;
+import com.landawn.abacus.util.CQLBuilder.NLC;
+import com.landawn.abacus.util.CQLBuilder.NSC;
+import com.landawn.abacus.util.CQLBuilder.SCCB;
 import com.landawn.abacus.util.CassandraExecutor.UDTCodec;
-import com.landawn.abacus.util.SQLBuilder.E;
-import com.landawn.abacus.util.SQLBuilder.NE;
 import com.landawn.abacus.util.entity.Song;
 import com.landawn.abacus.util.entity.Users;
 
@@ -107,7 +110,7 @@ public class CassandraExecutorTest extends AbstractNoSQLTest {
         Map<String, Users.Address> addresses = N.asMap("home", address);
         user.setAddresses(addresses);
 
-        String sql = NE.insert("id", "name", "addresses").into("simplex.users").sql();
+        String sql = NSC.insert("id", "name", "addresses").into("simplex.users").cql();
         cassandraExecutor.execute(sql, user);
 
         DataSet ds = cassandraExecutor.query("SELECT * FROM simplex.users");
@@ -313,7 +316,8 @@ public class CassandraExecutorTest extends AbstractNoSQLTest {
         N.println(uuid);
         assertEquals(song.getId(), uuid);
 
-        String strUUID = cassandraExecutor.asyncQueryForSingleResult(String.class, "SELECT id FROM simplex.songs WHERE id = ?", song.getId()).get()
+        String strUUID = cassandraExecutor.asyncQueryForSingleResult(String.class, "SELECT id FROM simplex.songs WHERE id = ?", song.getId())
+                .get()
                 .orElse(null);
         N.println(strUUID);
         assertEquals(song.getId().toString(), strUUID);
@@ -419,8 +423,7 @@ public class CassandraExecutorTest extends AbstractNoSQLTest {
         N.println(dbSong);
         assertEquals(song.getId(), dbSong.getId());
 
-        dbSong = cassandraExecutor.findFirst(Song.class, "SELECT * FROM simplex.songs WHERE id = ?", N.asProps("id", song.getId().toString()))
-                .orElse(null);
+        dbSong = cassandraExecutor.findFirst(Song.class, "SELECT * FROM simplex.songs WHERE id = ?", N.asProps("id", song.getId().toString())).orElse(null);
         N.println(dbSong);
         assertEquals(song.getId(), dbSong.getId());
 
@@ -436,8 +439,7 @@ public class CassandraExecutorTest extends AbstractNoSQLTest {
         N.println(dbSong);
         assertEquals(song.getId(), dbSong.getId());
 
-        dbSong = cassandraExecutor.findFirst(Song.class, "SELECT * FROM simplex.songs WHERE id = #{id}", N.asProps("id", song.getId().toString()))
-                .orElse(null);
+        dbSong = cassandraExecutor.findFirst(Song.class, "SELECT * FROM simplex.songs WHERE id = #{id}", N.asProps("id", song.getId().toString())).orElse(null);
         N.println(dbSong);
         assertEquals(song.getId(), dbSong.getId());
 
@@ -453,8 +455,7 @@ public class CassandraExecutorTest extends AbstractNoSQLTest {
         N.println(dbSong);
         assertEquals(song.getId(), dbSong.getId());
 
-        dbSong = cassandraExecutor.findFirst(Song.class, "SELECT * FROM simplex.songs WHERE id = :id", N.asProps("id", song.getId().toString()))
-                .orElse(null);
+        dbSong = cassandraExecutor.findFirst(Song.class, "SELECT * FROM simplex.songs WHERE id = :id", N.asProps("id", song.getId().toString())).orElse(null);
         N.println(dbSong);
         assertEquals(song.getId(), dbSong.getId());
 
@@ -490,21 +491,21 @@ public class CassandraExecutorTest extends AbstractNoSQLTest {
 
     @Test
     public void test_update() {
-        cassandraExecutor.execute("CREATE KEYSPACE IF NOT EXISTS simplex WITH replication " + "= {'class':'SimpleStrategy', 'replication_factor':3};");
+        cassandraExecutor.execute("CREATE KEYSPACE IF NOT EXISTS simplex WITH replication " + "= {'class':'SimpleStrategy', 'replication_factor':3}");
 
         cassandraExecutor.execute("CREATE TABLE IF NOT EXISTS simplex.songs (" + "id uuid PRIMARY KEY," + "title text," + "album text," + "artist text,"
-                + "tags set<text>," + "data blob" + ");");
+                + "tags set<text>," + "data blob" + ")");
 
         cassandraExecutor.execute("CREATE TABLE IF NOT EXISTS simplex.playlists (" + "id uuid," + "title text," + "album text, " + "artist text,"
-                + "song_id uuid," + "PRIMARY KEY (id, title, album, artist)" + ");");
+                + "song_id uuid," + "PRIMARY KEY (id, title, album, artist)" + ")");
 
         cassandraExecutor.execute("INSERT INTO simplex.songs (id, title, album, artist, tags) " + "VALUES (" + "756716f7-2e54-4715-9f00-91dcbea6cf50,"
-                + "'La Petite Tonkinoise'," + "'Bye Bye Blackbird'," + "'Joséphine Baker'," + "{'jazz', '2013'})" + ";");
+                + "'La Petite Tonkinoise'," + "'Bye Bye Blackbird'," + "'Joséphine Baker'," + "{'jazz', '2013'})");
 
         cassandraExecutor.execute("INSERT INTO simplex.playlists (id, song_id, title, album, artist) " + "VALUES (" + "2cc9ccb7-6221-4ccb-8387-f22b6a1b354d,"
-                + "756716f7-2e54-4715-9f00-91dcbea6cf50," + "'La Petite Tonkinoise'," + "'Bye Bye Blackbird'," + "'Joséphine Baker'" + ");");
+                + "756716f7-2e54-4715-9f00-91dcbea6cf50," + "'La Petite Tonkinoise'," + "'Bye Bye Blackbird'," + "'Joséphine Baker'" + ")");
 
-        ResultSet results = cassandraExecutor.execute("SELECT * FROM simplex.playlists WHERE id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d;");
+        ResultSet results = cassandraExecutor.execute("SELECT * FROM simplex.playlists WHERE id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d");
 
         System.out.println(String.format("%-30s\t%-20s\t%-20s\n%s", "title", "album", "artist",
                 "-------------------------------+-----------------------+--------------------"));
@@ -516,31 +517,39 @@ public class CassandraExecutorTest extends AbstractNoSQLTest {
 
         N.println(CassandraExecutor.extractData(results));
 
-        results = cassandraExecutor.execute("SELECT * FROM simplex.playlists WHERE id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d;");
+        results = cassandraExecutor.execute("SELECT * FROM simplex.playlists WHERE id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d");
         N.println(CassandraExecutor.extractData(results));
 
-        System.out.println();
+        cassandraExecutor.query("SELECT * FROM simplex.songs WHERE id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d").println();
 
-        String sql = E.update("simplex.songs").set("title", "album").where("id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d").sql();
-        ResultSet resultSet = cassandraExecutor.execute(sql, "new title", "new Album");
+        String sql = LCCB.update("simplex.songs").set("title", "album").where("id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d").cql();
+        N.println(sql);
+        ResultSet resultSet = cassandraExecutor.execute(sql, "new new title", "new new Album");
         N.println(resultSet);
         N.println(resultSet.one());
         N.println(resultSet.wasApplied());
         assertTrue(resultSet.wasApplied());
 
-        sql = E.deleteFrom("simplex.songs").where("id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d").sql();
-        resultSet = cassandraExecutor.execute(sql);
-        N.println(resultSet);
-        N.println(resultSet.one());
-        N.println(resultSet.wasApplied());
-        assertTrue(resultSet.wasApplied());
+        cassandraExecutor.query("SELECT * FROM simplex.songs WHERE id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d").println();
 
-        sql = E.update("simplex.songs").set("title", "album").where("id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d").sql();
-        resultSet = cassandraExecutor.execute(sql, "new title", "new Album");
+        sql = SCCB.deleteFrom("simplex.songs").where("id = ?").ifExists().cql();
+        N.println(sql);
+        resultSet = cassandraExecutor.execute(sql, "2cc9ccb7-6221-4ccb-8387-f22b6a1b354d");
         N.println(resultSet);
         N.println(resultSet.one());
         N.println(resultSet.wasApplied());
         assertTrue(resultSet.wasApplied());
+        cassandraExecutor.query("SELECT * FROM simplex.songs WHERE id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d").println();
+
+        sql = NLC.update("simplex.songs").set("album").where("id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d").ifExists().cql();
+        N.println(sql);
+        resultSet = cassandraExecutor.execute(sql, "new new new Album", "2cc9ccb7-6221-4ccb-8387-f22b6a1b354d");
+        N.println(resultSet);
+        N.println(resultSet.one());
+        N.println(resultSet.wasApplied());
+        assertFalse(resultSet.wasApplied());
+
+        cassandraExecutor.query("SELECT * FROM simplex.songs WHERE id = 2cc9ccb7-6221-4ccb-8387-f22b6a1b354d").println();
 
         System.out.println();
     }

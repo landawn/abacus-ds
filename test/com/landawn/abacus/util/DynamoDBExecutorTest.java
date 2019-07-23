@@ -16,6 +16,8 @@ import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
+import com.landawn.abacus.util.DynamoDBExecutor;
+import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.DynamoDBExecutor.Filters;
 import com.landawn.abacus.util.entity.AccountContact;
 import com.landawn.abacus.util.entity.AccountDevice;
