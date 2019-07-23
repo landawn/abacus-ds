@@ -7,7 +7,6 @@ package com.landawn.abacus.util;
 import com.landawn.abacus.parser.JSONParser;
 import com.landawn.abacus.parser.ParserFactory;
 import com.landawn.abacus.parser.XMLParser;
-import com.landawn.abacus.util.TestUtil;
 
 import junit.framework.TestCase;
 
@@ -22,6 +21,12 @@ public class AbstractNoSQLTest extends TestCase {
     static final XMLParser xmlParser = ParserFactory.createXMLParser();
 
     static Account createAccount() {
-        return TestUtil.createEntity(Account.class);
+        Account account = N.fill(Account.class);
+        account.setId(generateId());
+        return account;
+    }
+
+    static String generateId() {
+        return Hex.encodeToString(N.uuid().getBytes()).substring(0, 24);
     }
 }

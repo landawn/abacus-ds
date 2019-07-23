@@ -9,9 +9,6 @@ import java.util.Map;
 import org.junit.Test;
 
 import com.landawn.abacus.condition.ConditionFactory.CF;
-import com.landawn.abacus.util.N;
-import com.landawn.abacus.util.Profiler;
-import com.landawn.abacus.util.Try;
 import com.landawn.abacus.util.CQLBuilder.ACCB;
 import com.landawn.abacus.util.CQLBuilder.LCCB;
 import com.landawn.abacus.util.CQLBuilder.NAC;
@@ -124,7 +121,7 @@ public class CQLBuilderTest extends AbstractNoSQLTest {
     }
 
     public void testCQLBuilder_2() {
-        Account account = UnitTestUtil.createEntity(Account.class);
+        Account account = N.fill(Account.class);
         String cql = SCCB.insert(account).into("account").cql();
 
         N.println(cql);
