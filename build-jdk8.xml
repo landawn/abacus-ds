@@ -172,7 +172,7 @@
 	</target>
 
 	<!-- Some of this can probably be moved to common-build... -->
-	<target name="jar-scr" description="Build the src .jar file">
+	<target name="jar-src" description="Build the src .jar file">
 		<delete file="$${dist.dir}/${project-name}-${version}-sources.jar" />
 		<jar filesetmanifest="merge" jarfile="${dist.dir}/sources.jar" basedir="${src.dir}" />
 	</target>
