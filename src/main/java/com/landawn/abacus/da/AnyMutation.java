@@ -32,23 +32,36 @@ import org.apache.hadoop.hbase.security.visibility.CellVisibility;
 
 import com.landawn.abacus.da.HBaseExecutor;
 
+// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Mutation</code> in HBase to reduce the manual conversion between bytes and String/Object.
- * 
- * @since 1.7.13
- * 
+ *
+ * @param <MP> the generic type
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.Mutation
+ * @since 1.7.13
  */
 abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAttributes<MP> implements Comparable<Row> {
+
+    /** The mutation. */
     protected final Mutation mutation;
 
+    /**
+     * Instantiates a new any mutation.
+     *
+     * @param mutation the mutation
+     */
     protected AnyMutation(final Mutation mutation) {
         super(mutation);
 
         this.mutation = mutation;
     }
 
+    /**
+     * Cell scanner.
+     *
+     * @return the cell scanner
+     */
     public CellScanner cellScanner() {
         return mutation.cellScanner();
     }
@@ -64,14 +77,20 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
         return mutation.getFingerprint();
     }
 
-    /** Get the current durability */
+    /**
+     *  Get the current durability.
+     *
+     * @return the durability
+     */
     public Durability getDurability() {
         return mutation.getDurability();
     }
 
     /**
-     * Set the durability for this mutation
-     * @param d
+     * Set the durability for this mutation.
+     *
+     * @param d the d
+     * @return the mp
      */
     public MP setDurability(Durability d) {
         mutation.setDurability(d);
@@ -80,7 +99,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
-     * Method for retrieving the put's familyMap
+     * Method for retrieving the put's familyMap.
+     *
      * @return familyMap
      */
     public NavigableMap<byte[], List<Cell>> getFamilyCellMap() {
@@ -88,7 +108,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
-     * Method for setting the mutation's familyMap
+     * Method for setting the mutation's familyMap.
+     *
+     * @param map the map
+     * @return the mp
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@link Mutation#Mutation(byte[], long, NavigableMap)} instead
      */
@@ -100,7 +123,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
-     * Method for retrieving the timestamp
+     * Method for retrieving the timestamp.
+     *
      * @return timestamp
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@link #getTimestamp()} instead
@@ -121,6 +145,9 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
 
     /**
      * Set the timestamp of the delete.
+     *
+     * @param timestamp the timestamp
+     * @return the mp
      */
     public MP setTimestamp(long timestamp) {
         mutation.setTimestamp(timestamp);
@@ -129,6 +156,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
+     * Gets the cluster ids.
+     *
      * @return the set of clusterIds that have consumed the mutation
      */
     public List<UUID> getClusterIds() {
@@ -136,8 +165,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
-     * Marks that the clusters with the given clusterIds have consumed the mutation
+     * Marks that the clusters with the given clusterIds have consumed the mutation.
+     *
      * @param clusterIds of the clusters that have consumed the mutation
+     * @return the mp
      */
     public MP setClusterIds(List<UUID> clusterIds) {
         mutation.setClusterIds(clusterIds);
@@ -146,8 +177,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
+     * Gets the cell visibility.
+     *
      * @return CellVisibility associated with cells in this Mutation.
-     * @throws DeserializationException
+     * @throws DeserializationException the deserialization exception
      */
     public CellVisibility getCellVisibility() throws DeserializationException {
         return mutation.getCellVisibility();
@@ -155,7 +188,9 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
 
     /**
      * Sets the visibility expression associated with cells in this Mutation.
-     * @param expression
+     *
+     * @param expression the expression
+     * @return the mp
      */
     public MP setCellVisibility(CellVisibility expression) {
         mutation.setCellVisibility(expression);
@@ -164,6 +199,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
+     * Gets the acl.
+     *
      * @return The serialized ACL for this operation, or null if none
      */
     public byte[] getACL() {
@@ -171,8 +208,11 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
+     * Sets the ACL.
+     *
      * @param user User short name
      * @param perms Permissions for the user
+     * @return the mp
      */
     public MP setACL(String user, Permission perms) {
         mutation.setACL(user, perms);
@@ -181,7 +221,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
+     * Sets the ACL.
+     *
      * @param perms A map of permissions for a user or users
+     * @return the mp
      */
     public MP setACL(Map<String, Permission> perms) {
         mutation.setACL(perms);
@@ -354,7 +397,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
-     * Method for retrieving the delete's row
+     * Method for retrieving the delete's row.
+     *
      * @return row
      */
     public byte[] getRow() {
@@ -362,7 +406,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
-     * Method to check if the familyMap is empty
+     * Method to check if the familyMap is empty.
+     *
      * @return true if empty, false otherwise
      */
     public boolean isEmpty() {
@@ -378,6 +423,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
+     * Num families.
+     *
      * @return the number of different families
      */
     public int numFamilies() {
@@ -385,6 +432,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
+     * Heap size.
+     *
      * @return Calculate what Mutation adds to class heap size.
      */
     public long heapSize() {
@@ -392,6 +441,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
+     * Compare to.
+     *
+     * @param d the d
+     * @return the int
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@link Row#COMPARATOR} instead
      */

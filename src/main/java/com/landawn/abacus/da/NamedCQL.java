@@ -28,31 +28,72 @@ import com.landawn.abacus.util.Objectory;
 import com.landawn.abacus.util.SQLParser;
 import com.landawn.abacus.util.WD;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @since 0.8
- * 
+ * The Class NamedCQL.
+ *
  * @author Haiyang Li
+ * @since 0.8
  */
 public final class NamedCQL {
+
+    /** The Constant EVICT_TIME. */
     private static final int EVICT_TIME = 60 * 1000;
+
+    /** The Constant LIVE_TIME. */
     private static final int LIVE_TIME = 24 * 60 * 60 * 1000;
+
+    /** The Constant MAX_IDLE_TIME. */
     private static final int MAX_IDLE_TIME = 24 * 60 * 60 * 1000;
+
+    /** The Constant namedCQLPrefixSet. */
     private static final Set<String> namedCQLPrefixSet = N.asSet(WD.INSERT, WD.SELECT, WD.UPDATE, WD.DELETE);
+
+    /** The Constant pool. */
     private static final KeyedObjectPool<String, PoolableWrapper<NamedCQL>> pool = PoolFactory.createKeyedObjectPool(10000, EVICT_TIME);
+
+    /** The Constant PREFIX_OF_NAMED_PARAMETER. */
     private static final String PREFIX_OF_NAMED_PARAMETER = ":";
+
+    /** The Constant LEFT_OF_IBATIS_NAMED_PARAMETER. */
     private static final String LEFT_OF_IBATIS_NAMED_PARAMETER = "#{";
+
+    /** The Constant RIGHT_OF_IBATIS_NAMED_PARAMETER. */
     private static final String RIGHT_OF_IBATIS_NAMED_PARAMETER = "}";
+
+    /** The Constant PREFIX_OF_COUCHBASE_NAMED_PARAMETER. */
     private static final String PREFIX_OF_COUCHBASE_NAMED_PARAMETER = "$";
+
+    /** The named CQL. */
     private final String namedCQL;
+
+    /** The pure CQL. */
     private final String pureCQL;
+
+    /** The couchbase pure CQL. */
     private String couchbasePureCQL;
+
+    /** The named parameters. */
     private final Map<Integer, String> namedParameters;
+
+    /** The couchbase named parameters. */
     private Map<Integer, String> couchbaseNamedParameters;
+
+    /** The parameter count. */
     private final int parameterCount;
+
+    /** The couchbase parameter count. */
     private int couchbaseParameterCount;
+
+    /** The attrs. */
     private final Map<String, String> attrs;
 
+    /**
+     * Instantiates a new named CQL.
+     *
+     * @param cql the cql
+     * @param attrs the attrs
+     */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private NamedCQL(String cql, Map<String, String> attrs) {
         this.namedCQL = cql.trim();
@@ -103,6 +144,13 @@ public final class NamedCQL {
         }
     }
 
+    /**
+     * Parses the.
+     *
+     * @param cql the cql
+     * @param attrs the attrs
+     * @return the named CQL
+     */
     public static NamedCQL parse(String cql, Map<String, String> attrs) {
         NamedCQL result = null;
         PoolableWrapper<NamedCQL> w = pool.get(cql);
@@ -119,14 +167,30 @@ public final class NamedCQL {
         return result;
     }
 
+    /**
+     * Gets the named CQL.
+     *
+     * @return the named CQL
+     */
     public String getNamedCQL() {
         return namedCQL;
     }
 
+    /**
+     * Gets the pure CQL.
+     *
+     * @return the pure CQL
+     */
     public String getPureCQL() {
         return pureCQL;
     }
 
+    /**
+     * Gets the pure CQL.
+     *
+     * @param isForCouchbase the is for couchbase
+     * @return the pure CQL
+     */
     public String getPureCQL(boolean isForCouchbase) {
         if (isForCouchbase) {
             if (N.isNullOrEmpty(couchbasePureCQL)) {
@@ -139,10 +203,21 @@ public final class NamedCQL {
         }
     }
 
+    /**
+     * Gets the named parameters.
+     *
+     * @return the named parameters
+     */
     public Map<Integer, String> getNamedParameters() {
         return namedParameters;
     }
 
+    /**
+     * Gets the named parameters.
+     *
+     * @param isForCouchbase the is for couchbase
+     * @return the named parameters
+     */
     public Map<Integer, String> getNamedParameters(boolean isForCouchbase) {
         if (isForCouchbase) {
             if (N.isNullOrEmpty(couchbasePureCQL)) {
@@ -155,14 +230,30 @@ public final class NamedCQL {
         }
     }
 
+    /**
+     * Gets the attribes.
+     *
+     * @return the attribes
+     */
     public Map<String, String> getAttribes() {
         return attrs;
     }
 
+    /**
+     * Gets the parameter count.
+     *
+     * @return the parameter count
+     */
     public int getParameterCount() {
         return parameterCount;
     }
 
+    /**
+     * Gets the parameter count.
+     *
+     * @param isForCouchbase the is for couchbase
+     * @return the parameter count
+     */
     public int getParameterCount(boolean isForCouchbase) {
         if (isForCouchbase) {
             if (N.isNullOrEmpty(couchbasePureCQL)) {
@@ -175,6 +266,9 @@ public final class NamedCQL {
         }
     }
 
+    /**
+     * Parses the for couchbase.
+     */
     private void parseForCouchbase() {
         this.couchbaseNamedParameters = new HashMap<>();
 
@@ -242,6 +336,11 @@ public final class NamedCQL {
         }
     }
 
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -251,6 +350,12 @@ public final class NamedCQL {
         return result;
     }
 
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -266,6 +371,11 @@ public final class NamedCQL {
         return false;
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return "[NamedCQL] " + namedCQL + " [PureCQL] " + pureCQL + " [Attribues] " + attrs;

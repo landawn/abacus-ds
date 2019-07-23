@@ -18,14 +18,26 @@ import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.ImmutableList;
 import com.landawn.abacus.util.N;
 
+// TODO: Auto-generated Javadoc
+/**
+ * The Class ClazzUtil.
+ */
 final class ClazzUtil {
 
+    /**
+     * Instantiates a new clazz util.
+     */
     private ClazzUtil() {
         // utility class
     }
 
+    /** The Constant CLASS_MASK. */
     static final Class<?> CLASS_MASK = ClassMask.class;
+
+    /** The Constant METHOD_MASK. */
     static final Method METHOD_MASK = internalGetDeclaredMethod(ClassMask.class, "methodMask");
+
+    /** The Constant FIELD_MASK. */
     static final Field FIELD_MASK;
 
     static {
@@ -36,13 +48,29 @@ final class ClazzUtil {
         }
     }
 
+    /** The Constant idPropNamesMap. */
     private static final Map<Class<?>, List<String>> idPropNamesMap = new ConcurrentHashMap<>();
+
+    /** The Constant fakeIds. */
     private static final List<String> fakeIds = ImmutableList.of("not_defined_fake_id_in_abacus_" + N.uuid());
 
+    /**
+     * Gets the id field names.
+     *
+     * @param targetClass the target class
+     * @return the id field names
+     */
     static List<String> getIdFieldNames(final Class<?> targetClass) {
         return getIdFieldNames(targetClass, false);
     }
 
+    /**
+     * Gets the id field names.
+     *
+     * @param targetClass the target class
+     * @param fakeIdForEmpty the fake id for empty
+     * @return the id field names
+     */
     static List<String> getIdFieldNames(final Class<?> targetClass, boolean fakeIdForEmpty) {
         List<String> idPropNames = idPropNamesMap.get(targetClass);
 
@@ -97,6 +125,12 @@ final class ClazzUtil {
         return N.isNullOrEmpty(idPropNames) && fakeIdForEmpty ? fakeIds : idPropNames;
     }
 
+    /**
+     * Checks if is fake id.
+     *
+     * @param idPropNames the id prop names
+     * @return true, if is fake id
+     */
     static boolean isFakeId(List<String> idPropNames) {
         if (idPropNames != null && idPropNames.size() == 1 && fakeIds.get(0).equals(idPropNames.get(0))) {
             return true;
@@ -105,6 +139,14 @@ final class ClazzUtil {
         return false;
     }
 
+    /**
+     * Internal get declared method.
+     *
+     * @param cls the cls
+     * @param methodName the method name
+     * @param parameterTypes the parameter types
+     * @return the method
+     */
     static Method internalGetDeclaredMethod(final Class<?> cls, final String methodName, final Class<?>... parameterTypes) {
         Method method = null;
 
@@ -129,9 +171,17 @@ final class ClazzUtil {
         return method;
     }
 
+    /**
+     * The Class ClassMask.
+     */
     static final class ClassMask {
+
+        /** The Constant FIELD_MASK. */
         static final String FIELD_MASK = "FIELD_MASK";
 
+        /**
+         * Method mask.
+         */
         static final void methodMask() {
         }
     }

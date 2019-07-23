@@ -41,26 +41,48 @@ import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ContinuableFuture;
 import com.landawn.abacus.util.stream.Stream;
 
+// TODO: Auto-generated Javadoc
 /**
  * Asynchronous <code>DynamoDBExecutor</code>.
- * 
- * @since 0.8
- * 
+ *
  * @author Haiyang Li
+ * @since 0.8
  */
 public final class AsyncDynamoDBExecutor {
+
+    /** The db executor. */
     private final DynamoDBExecutor dbExecutor;
+
+    /** The async executor. */
     private final AsyncExecutor asyncExecutor;
 
+    /**
+     * Instantiates a new async dynamo DB executor.
+     *
+     * @param dbExecutor the db executor
+     * @param asyncExecutor the async executor
+     */
     AsyncDynamoDBExecutor(final DynamoDBExecutor dbExecutor, final AsyncExecutor asyncExecutor) {
         this.dbExecutor = dbExecutor;
         this.asyncExecutor = asyncExecutor;
     }
 
+    /**
+     * Sync.
+     *
+     * @return the dynamo DB executor
+     */
     public DynamoDBExecutor sync() {
         return dbExecutor;
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @return the item
+     */
     public ContinuableFuture<Map<String, Object>> getItem(final String tableName, final Map<String, AttributeValue> key) {
         return asyncExecutor.execute(new Callable<Map<String, Object>>() {
             @Override
@@ -70,6 +92,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @param consistentRead the consistent read
+     * @return the item
+     */
     public ContinuableFuture<Map<String, Object>> getItem(final String tableName, final Map<String, AttributeValue> key, final Boolean consistentRead) {
         return asyncExecutor.execute(new Callable<Map<String, Object>>() {
             @Override
@@ -79,6 +109,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param getItemRequest the get item request
+     * @return the item
+     */
     public ContinuableFuture<Map<String, Object>> getItem(final GetItemRequest getItemRequest) {
         return asyncExecutor.execute(new Callable<Map<String, Object>>() {
             @Override
@@ -88,6 +124,15 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param key the key
+     * @return the item
+     */
     public <T> ContinuableFuture<T> getItem(final Class<T> targetClass, final String tableName, final Map<String, AttributeValue> key) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -97,6 +142,16 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param key the key
+     * @param consistentRead the consistent read
+     * @return the item
+     */
     public <T> ContinuableFuture<T> getItem(final Class<T> targetClass, final String tableName, final Map<String, AttributeValue> key,
             final Boolean consistentRead) {
         return asyncExecutor.execute(new Callable<T>() {
@@ -107,6 +162,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param getItemRequest the get item request
+     * @return the item
+     */
     public <T> ContinuableFuture<T> getItem(final Class<T> targetClass, final GetItemRequest getItemRequest) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -116,6 +179,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param requestItems the request items
+     * @return the continuable future
+     */
     public ContinuableFuture<Map<String, List<Map<String, Object>>>> batchGetItem(final Map<String, KeysAndAttributes> requestItems) {
         return asyncExecutor.execute(new Callable<Map<String, List<Map<String, Object>>>>() {
             @Override
@@ -125,6 +194,13 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param requestItems the request items
+     * @param returnConsumedCapacity the return consumed capacity
+     * @return the continuable future
+     */
     public ContinuableFuture<Map<String, List<Map<String, Object>>>> batchGetItem(final Map<String, KeysAndAttributes> requestItems,
             final String returnConsumedCapacity) {
         return asyncExecutor.execute(new Callable<Map<String, List<Map<String, Object>>>>() {
@@ -135,6 +211,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param batchGetItemRequest the batch get item request
+     * @return the continuable future
+     */
     public ContinuableFuture<Map<String, List<Map<String, Object>>>> batchGetItem(final BatchGetItemRequest batchGetItemRequest) {
         return asyncExecutor.execute(new Callable<Map<String, List<Map<String, Object>>>>() {
             @Override
@@ -144,6 +226,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param requestItems the request items
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Map<String, List<T>>> batchGetItem(final Class<T> targetClass, final Map<String, KeysAndAttributes> requestItems) {
         return asyncExecutor.execute(new Callable<Map<String, List<T>>>() {
             @Override
@@ -153,6 +243,15 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param requestItems the request items
+     * @param returnConsumedCapacity the return consumed capacity
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Map<String, List<T>>> batchGetItem(final Class<T> targetClass, final Map<String, KeysAndAttributes> requestItems,
             final String returnConsumedCapacity) {
         return asyncExecutor.execute(new Callable<Map<String, List<T>>>() {
@@ -163,6 +262,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param batchGetItemRequest the batch get item request
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Map<String, List<T>>> batchGetItem(final Class<T> targetClass, final BatchGetItemRequest batchGetItemRequest) {
         return asyncExecutor.execute(new Callable<Map<String, List<T>>>() {
             @Override
@@ -172,6 +279,13 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Put item.
+     *
+     * @param tableName the table name
+     * @param item the item
+     * @return the continuable future
+     */
     public ContinuableFuture<PutItemResult> putItem(final String tableName, final Map<String, AttributeValue> item) {
         return asyncExecutor.execute(new Callable<PutItemResult>() {
             @Override
@@ -181,6 +295,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Put item.
+     *
+     * @param tableName the table name
+     * @param item the item
+     * @param returnValues the return values
+     * @return the continuable future
+     */
     public ContinuableFuture<PutItemResult> putItem(final String tableName, final Map<String, AttributeValue> item, final String returnValues) {
         return asyncExecutor.execute(new Callable<PutItemResult>() {
             @Override
@@ -190,6 +312,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Put item.
+     *
+     * @param putItemRequest the put item request
+     * @return the continuable future
+     */
     public ContinuableFuture<PutItemResult> putItem(final PutItemRequest putItemRequest) {
         return asyncExecutor.execute(new Callable<PutItemResult>() {
             @Override
@@ -200,6 +328,13 @@ public final class AsyncDynamoDBExecutor {
     }
 
     // There is no too much benefit to add method for "Object entity"
+    /**
+     * Put item.
+     *
+     * @param tableName the table name
+     * @param entity the entity
+     * @return the continuable future
+     */
     // And it may cause error because the "Object" is ambiguous to any type. 
     ContinuableFuture<PutItemResult> putItem(final String tableName, final Object entity) {
         return asyncExecutor.execute(new Callable<PutItemResult>() {
@@ -211,6 +346,14 @@ public final class AsyncDynamoDBExecutor {
     }
 
     // There is no too much benefit to add method for "Object entity"
+    /**
+     * Put item.
+     *
+     * @param tableName the table name
+     * @param entity the entity
+     * @param returnValues the return values
+     * @return the continuable future
+     */
     // And it may cause error because the "Object" is ambiguous to any type. 
     ContinuableFuture<PutItemResult> putItem(final String tableName, final Object entity, final String returnValues) {
         return asyncExecutor.execute(new Callable<PutItemResult>() {
@@ -221,6 +364,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Batch write item.
+     *
+     * @param requestItems the request items
+     * @return the continuable future
+     */
     public ContinuableFuture<BatchWriteItemResult> batchWriteItem(final Map<String, List<WriteRequest>> requestItems) {
         return asyncExecutor.execute(new Callable<BatchWriteItemResult>() {
             @Override
@@ -230,6 +379,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Batch write item.
+     *
+     * @param batchWriteItemRequest the batch write item request
+     * @return the continuable future
+     */
     public ContinuableFuture<BatchWriteItemResult> batchWriteItem(final BatchWriteItemRequest batchWriteItemRequest) {
         return asyncExecutor.execute(new Callable<BatchWriteItemResult>() {
             @Override
@@ -239,6 +394,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Update item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @param attributeUpdates the attribute updates
+     * @return the continuable future
+     */
     public ContinuableFuture<UpdateItemResult> updateItem(final String tableName, final Map<String, AttributeValue> key,
             final Map<String, AttributeValueUpdate> attributeUpdates) {
         return asyncExecutor.execute(new Callable<UpdateItemResult>() {
@@ -249,6 +412,15 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Update item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @param attributeUpdates the attribute updates
+     * @param returnValues the return values
+     * @return the continuable future
+     */
     public ContinuableFuture<UpdateItemResult> updateItem(final String tableName, final Map<String, AttributeValue> key,
             final Map<String, AttributeValueUpdate> attributeUpdates, final String returnValues) {
         return asyncExecutor.execute(new Callable<UpdateItemResult>() {
@@ -259,6 +431,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Update item.
+     *
+     * @param updateItemRequest the update item request
+     * @return the continuable future
+     */
     public ContinuableFuture<UpdateItemResult> updateItem(final UpdateItemRequest updateItemRequest) {
         return asyncExecutor.execute(new Callable<UpdateItemResult>() {
             @Override
@@ -268,6 +446,13 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Delete item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @return the continuable future
+     */
     public ContinuableFuture<DeleteItemResult> deleteItem(final String tableName, final Map<String, AttributeValue> key) {
         return asyncExecutor.execute(new Callable<DeleteItemResult>() {
             @Override
@@ -277,6 +462,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Delete item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @param returnValues the return values
+     * @return the continuable future
+     */
     public ContinuableFuture<DeleteItemResult> deleteItem(final String tableName, final Map<String, AttributeValue> key, final String returnValues) {
         return asyncExecutor.execute(new Callable<DeleteItemResult>() {
             @Override
@@ -286,6 +479,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Delete item.
+     *
+     * @param deleteItemRequest the delete item request
+     * @return the continuable future
+     */
     public ContinuableFuture<DeleteItemResult> deleteItem(final DeleteItemRequest deleteItemRequest) {
         return asyncExecutor.execute(new Callable<DeleteItemResult>() {
             @Override
@@ -295,6 +494,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * List.
+     *
+     * @param queryRequest the query request
+     * @return the continuable future
+     */
     public ContinuableFuture<List<Map<String, Object>>> list(final QueryRequest queryRequest) {
         return asyncExecutor.execute(new Callable<List<Map<String, Object>>>() {
             @Override
@@ -304,6 +509,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * List.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param queryRequest the query request
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<List<T>> list(final Class<T> targetClass, final QueryRequest queryRequest) {
         return asyncExecutor.execute(new Callable<List<T>>() {
             @Override
@@ -313,6 +526,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Query.
+     *
+     * @param queryRequest the query request
+     * @return the continuable future
+     */
     public ContinuableFuture<DataSet> query(final QueryRequest queryRequest) {
         return asyncExecutor.execute(new Callable<DataSet>() {
             @Override
@@ -322,6 +541,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Query.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param queryRequest the query request
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<DataSet> query(final Class<T> targetClass, final QueryRequest queryRequest) {
         return asyncExecutor.execute(new Callable<DataSet>() {
             @Override
@@ -331,6 +558,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Stream.
+     *
+     * @param queryRequest the query request
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<Map<String, Object>>> stream(final QueryRequest queryRequest) {
         return asyncExecutor.execute(new Callable<Stream<Map<String, Object>>>() {
             @Override
@@ -340,6 +573,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Stream.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param queryRequest the query request
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> stream(final Class<T> targetClass, final QueryRequest queryRequest) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override
@@ -349,6 +590,13 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param attributesToGet the attributes to get
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<Map<String, Object>>> scan(final String tableName, final List<String> attributesToGet) {
         return asyncExecutor.execute(new Callable<Stream<Map<String, Object>>>() {
             @Override
@@ -358,6 +606,13 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param scanFilter the scan filter
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<Map<String, Object>>> scan(final String tableName, final Map<String, Condition> scanFilter) {
         return asyncExecutor.execute(new Callable<Stream<Map<String, Object>>>() {
             @Override
@@ -367,6 +622,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param attributesToGet the attributes to get
+     * @param scanFilter the scan filter
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<Map<String, Object>>> scan(final String tableName, final List<String> attributesToGet,
             final Map<String, Condition> scanFilter) {
         return asyncExecutor.execute(new Callable<Stream<Map<String, Object>>>() {
@@ -377,6 +640,12 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param scanRequest the scan request
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<Map<String, Object>>> scan(final ScanRequest scanRequest) {
         return asyncExecutor.execute(new Callable<Stream<Map<String, Object>>>() {
             @Override
@@ -386,6 +655,15 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param attributesToGet the attributes to get
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final List<String> attributesToGet) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override
@@ -395,6 +673,15 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param scanFilter the scan filter
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final Map<String, Condition> scanFilter) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override
@@ -404,6 +691,16 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param attributesToGet the attributes to get
+     * @param scanFilter the scan filter
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final List<String> attributesToGet,
             final Map<String, Condition> scanFilter) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
@@ -414,6 +711,14 @@ public final class AsyncDynamoDBExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param scanRequest the scan request
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final ScanRequest scanRequest) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override

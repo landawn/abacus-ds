@@ -27,23 +27,33 @@ import org.apache.hadoop.hbase.io.TimeRange;
 import org.apache.hadoop.hbase.security.access.Permission;
 import org.apache.hadoop.hbase.security.visibility.Authorizations;
 
+// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Query</code> in HBase to reduce the manual conversion between bytes and String/Object.
- * 
- * @since 1.7.13
- * 
+ *
+ * @param <QP> the generic type
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.Query
+ * @since 1.7.13
  */
 abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttributes<QP> {
+
+    /** The query. */
     protected final Query query;
 
+    /**
+     * Instantiates a new any query.
+     *
+     * @param query the query
+     */
     protected AnyQuery(final Query query) {
         super(query);
         this.query = query;
     }
 
     /**
+     * Gets the filter.
+     *
      * @return Filter
      */
     public Filter getFilter() {
@@ -64,16 +74,20 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
     }
 
     /**
+     * Gets the authorizations.
+     *
      * @return The authorizations this Query is associated with.
-     * @throws DeserializationException
+     * @throws DeserializationException the deserialization exception
      */
     public Authorizations getAuthorizations() throws DeserializationException {
         return this.query.getAuthorizations();
     }
 
     /**
-     * Sets the authorizations to be used by this Query
-     * @param authorizations
+     * Sets the authorizations to be used by this Query.
+     *
+     * @param authorizations the authorizations
+     * @return the qp
      */
     public QP setAuthorizations(final Authorizations authorizations) {
         this.query.setAuthorizations(authorizations);
@@ -82,6 +96,8 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
     }
 
     /**
+     * Gets the acl.
+     *
      * @return The serialized ACL for this operation, or null if none
      */
     public byte[] getACL() {
@@ -89,8 +105,11 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
     }
 
     /**
+     * Sets the ACL.
+     *
      * @param user User short name
      * @param perms Permissions for the user
+     * @return the qp
      */
     public QP setACL(final String user, final Permission perms) {
         this.query.setACL(user, perms);
@@ -99,7 +118,10 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
     }
 
     /**
+     * Sets the ACL.
+     *
      * @param perms A map of permissions for a user or users
+     * @return the qp
      */
     public QP setACL(final Map<String, Permission> perms) {
         this.query.setACL(perms);
@@ -108,7 +130,8 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
     }
 
     /**
-     * Returns the consistency level for this operation
+     * Returns the consistency level for this operation.
+     *
      * @return the consistency level
      */
     public Consistency getConsistency() {
@@ -116,8 +139,10 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
     }
 
     /**
-     * Sets the consistency level for this operation
+     * Sets the consistency level for this operation.
+     *
      * @param consistency the consistency level
+     * @return the qp
      */
     public QP setConsistency(final Consistency consistency) {
         this.query.setConsistency(consistency);
@@ -138,7 +163,9 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
      * {@link #setConsistency(Consistency)} passing {@link Consistency#TIMELINE} to read data from
      * a specific replicaId.
      * <br><b> Expert: </b>This is an advanced API exposed. Only use it if you know what you are doing
-     * @param Id
+     *
+     * @param id the id
+     * @return the qp
      */
     public QP setReplicaId(final int id) {
         this.query.setReplicaId(id);
@@ -147,10 +174,12 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
     }
 
     /**
+     * Gets the isolation level.
+     *
      * @return The isolation level of this query.
      * If no isolation level was set for this query object,
      * then it returns READ_COMMITTED.
-     * @return The IsolationLevel for this query
+     * The IsolationLevel for this query
      */
     public IsolationLevel getIsolationLevel() {
         return this.query.getIsolationLevel();
@@ -165,7 +194,9 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
      * data from committed transactions only. If a isolation
      * level is not explicitly set on a Query, then it
      * is assumed to be READ_COMMITTED.
+     *
      * @param level IsolationLevel for this query
+     * @return the qp
      */
     public QP setIsolationLevel(final IsolationLevel level) {
         this.query.setIsolationLevel(level);
@@ -175,6 +206,8 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
 
     /**
      * Get the raw loadColumnFamiliesOnDemand setting; if it's not set, can be null.
+     *
+     * @return the load column families on demand value
      */
     public Boolean getLoadColumnFamiliesOnDemandValue() {
         return this.query.getLoadColumnFamiliesOnDemandValue();
@@ -195,6 +228,9 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
      *   { video =&gt; "my dog" } }.
      * - if there's a concurrent split and you have more than 2 column families, some rows may be
      *   missing some column families.
+     *
+     * @param value the value
+     * @return the qp
      */
     public QP setLoadColumnFamiliesOnDemand(final boolean value) {
         this.query.setLoadColumnFamiliesOnDemand(value);
@@ -204,12 +240,16 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
 
     /**
      * Get the logical value indicating whether on-demand CF loading should be allowed.
+     *
+     * @return true, if successful
      */
     public boolean doLoadColumnFamiliesOnDemand() {
         return this.query.doLoadColumnFamiliesOnDemand();
     }
 
     /**
+     * Gets the column family time range.
+     *
      * @return A map of column families to time ranges
      */
     public Map<byte[], TimeRange> getColumnFamilyTimeRange() {

@@ -13,8 +13,7 @@
  */
 
 package com.landawn.abacus.da;
-
-import java.io.IOException;
+ 
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -35,39 +34,55 @@ import org.apache.hadoop.hbase.ipc.CoprocessorRpcChannel;
 import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;
 import com.google.protobuf.Service;
-import com.landawn.abacus.da.AnyDelete;
-import com.landawn.abacus.da.AnyGet;
-import com.landawn.abacus.da.AnyPut;
-import com.landawn.abacus.da.AnyScan;
-import com.landawn.abacus.da.HBaseExecutor;
 import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ContinuableFuture;
 import com.landawn.abacus.util.stream.Stream;
 
+// TODO: Auto-generated Javadoc
 /**
  * Asynchronous <code>HBaseExecutor</code>.
- * 
- * @since 0.8
- * 
+ *
  * @author Haiyang Li
- * 
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.Table
+ * @since 0.8
  */
 public final class AsyncHBaseExecutor {
+
+    /** The hbase executor. */
     private final HBaseExecutor hbaseExecutor;
+
+    /** The async executor. */
     private final AsyncExecutor asyncExecutor;
 
+    /**
+     * Instantiates a new async H base executor.
+     *
+     * @param hbaseExecutor the hbase executor
+     * @param asyncExecutor the async executor
+     */
     AsyncHBaseExecutor(final HBaseExecutor hbaseExecutor, final AsyncExecutor asyncExecutor) {
         this.hbaseExecutor = hbaseExecutor;
         this.asyncExecutor = asyncExecutor;
     }
 
+    /**
+     * Sync.
+     *
+     * @return the h base executor
+     */
     public HBaseExecutor sync() {
         return hbaseExecutor;
     }
 
+    /**
+     * Exists.
+     *
+     * @param tableName the table name
+     * @param get the get
+     * @return the continuable future
+     */
     public ContinuableFuture<Boolean> exists(final String tableName, final Get get) {
         return asyncExecutor.execute(new Callable<Boolean>() {
             @Override
@@ -77,6 +92,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Exists.
+     *
+     * @param tableName the table name
+     * @param gets the gets
+     * @return the continuable future
+     */
     public ContinuableFuture<List<Boolean>> exists(final String tableName, final List<Get> gets) {
         return asyncExecutor.execute(new Callable<List<Boolean>>() {
             @Override
@@ -93,9 +115,9 @@ public final class AsyncHBaseExecutor {
      * This is a server-side call so it prevents any data from being transferred to
      * the client.
      *
+     * @param tableName the table name
      * @param gets the Gets
      * @return Array of boolean.  True if the specified Get matches one or more keys, false if not.
-     * @throws IOException e
      * @deprecated since 2.0 version and will be removed in 3.0 version.
      *             use {@link #exists(List)}
      */
@@ -109,6 +131,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Exists.
+     *
+     * @param tableName the table name
+     * @param anyGet the any get
+     * @return the continuable future
+     */
     public ContinuableFuture<Boolean> exists(final String tableName, final AnyGet anyGet) {
         return asyncExecutor.execute(new Callable<Boolean>() {
             @Override
@@ -118,6 +147,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Exists.
+     *
+     * @param tableName the table name
+     * @param anyGets the any gets
+     * @return the continuable future
+     */
     public ContinuableFuture<List<Boolean>> exists(final String tableName, final Collection<AnyGet> anyGets) {
         return asyncExecutor.execute(new Callable<List<Boolean>>() {
             @Override
@@ -128,11 +164,12 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * 
-     * @param tableName
-     * @param anyGets
-     * @return
-     * @throws UncheckedIOException
+     * Exists all.
+     *
+     * @param tableName the table name
+     * @param anyGets the any gets
+     * @return the continuable future
+     * @throws UncheckedIOException the unchecked IO exception
      * @deprecated  use {@link #exists(String, Collection)}
      */
     @Deprecated
@@ -145,6 +182,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Gets the.
+     *
+     * @param tableName the table name
+     * @param get the get
+     * @return the continuable future
+     */
     public ContinuableFuture<Result> get(final String tableName, final Get get) {
         return asyncExecutor.execute(new Callable<Result>() {
             @Override
@@ -154,6 +198,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Gets the.
+     *
+     * @param tableName the table name
+     * @param gets the gets
+     * @return the continuable future
+     */
     public ContinuableFuture<List<Result>> get(final String tableName, final List<Get> gets) {
         return asyncExecutor.execute(new Callable<List<Result>>() {
             @Override
@@ -163,6 +214,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Gets the.
+     *
+     * @param tableName the table name
+     * @param anyGet the any get
+     * @return the continuable future
+     */
     public ContinuableFuture<Result> get(final String tableName, final AnyGet anyGet) {
         return asyncExecutor.execute(new Callable<Result>() {
             @Override
@@ -172,6 +230,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Gets the.
+     *
+     * @param tableName the table name
+     * @param anyGets the any gets
+     * @return the continuable future
+     */
     public ContinuableFuture<List<Result>> get(final String tableName, final Collection<AnyGet> anyGets) {
         return asyncExecutor.execute(new Callable<List<Result>>() {
             @Override
@@ -181,6 +246,15 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Gets the.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param get the get
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> get(final Class<T> targetClass, final String tableName, final Get get) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -190,6 +264,15 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Gets the.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param gets the gets
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<List<T>> get(final Class<T> targetClass, final String tableName, final List<Get> gets) {
         return asyncExecutor.execute(new Callable<List<T>>() {
             @Override
@@ -199,6 +282,15 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Gets the.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param anyGet the any get
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> get(final Class<T> targetClass, final String tableName, final AnyGet anyGet) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -208,6 +300,15 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Gets the.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param anyGets the any gets
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<List<T>> get(final Class<T> targetClass, final String tableName, final Collection<AnyGet> anyGets) {
         return asyncExecutor.execute(new Callable<List<T>>() {
             @Override
@@ -217,6 +318,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param scan the scan
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<Result>> scan(final String tableName, final Scan scan) {
         return asyncExecutor.execute(new Callable<Stream<Result>>() {
             @Override
@@ -226,6 +334,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param anyScan the any scan
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<Result>> scan(final String tableName, final AnyScan anyScan) {
         return asyncExecutor.execute(new Callable<Stream<Result>>() {
             @Override
@@ -235,6 +350,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param family the family
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<Result>> scan(final String tableName, final String family) {
         return asyncExecutor.execute(new Callable<Stream<Result>>() {
             @Override
@@ -244,6 +366,14 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param family the family
+     * @param qualifier the qualifier
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<Result>> scan(final String tableName, final String family, final String qualifier) {
         return asyncExecutor.execute(new Callable<Stream<Result>>() {
             @Override
@@ -253,6 +383,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param family the family
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<Result>> scan(final String tableName, final byte[] family) {
         return asyncExecutor.execute(new Callable<Stream<Result>>() {
             @Override
@@ -262,6 +399,14 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param family the family
+     * @param qualifier the qualifier
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<Result>> scan(final String tableName, final byte[] family, final byte[] qualifier) {
         return asyncExecutor.execute(new Callable<Stream<Result>>() {
             @Override
@@ -271,6 +416,15 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param scan the scan
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final Scan scan) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override
@@ -280,6 +434,15 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param anyScan the any scan
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final AnyScan anyScan) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override
@@ -289,6 +452,15 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param family the family
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final String family) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override
@@ -298,6 +470,16 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param family the family
+     * @param qualifier the qualifier
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final String family, final String qualifier) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override
@@ -307,6 +489,15 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param family the family
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final byte[] family) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override
@@ -316,6 +507,16 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param family the family
+     * @param qualifier the qualifier
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final byte[] family, final byte[] qualifier) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override
@@ -325,6 +526,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Put.
+     *
+     * @param tableName the table name
+     * @param put the put
+     * @return the continuable future
+     */
     public ContinuableFuture<Void> put(final String tableName, final Put put) {
         return asyncExecutor.execute(new Callable<Void>() {
             @Override
@@ -336,6 +544,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Put.
+     *
+     * @param tableName the table name
+     * @param puts the puts
+     * @return the continuable future
+     */
     public ContinuableFuture<Void> put(final String tableName, final List<Put> puts) {
         return asyncExecutor.execute(new Callable<Void>() {
             @Override
@@ -347,6 +562,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Put.
+     *
+     * @param tableName the table name
+     * @param anyPut the any put
+     * @return the continuable future
+     */
     public ContinuableFuture<Void> put(final String tableName, final AnyPut anyPut) {
         return asyncExecutor.execute(new Callable<Void>() {
             @Override
@@ -358,6 +580,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Put.
+     *
+     * @param tableName the table name
+     * @param anyPuts the any puts
+     * @return the continuable future
+     */
     public ContinuableFuture<Void> put(final String tableName, final Collection<AnyPut> anyPuts) {
         return asyncExecutor.execute(new Callable<Void>() {
             @Override
@@ -369,6 +598,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Delete.
+     *
+     * @param tableName the table name
+     * @param delete the delete
+     * @return the continuable future
+     */
     public ContinuableFuture<Void> delete(final String tableName, final Delete delete) {
         return asyncExecutor.execute(new Callable<Void>() {
             @Override
@@ -380,6 +616,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Delete.
+     *
+     * @param tableName the table name
+     * @param deletes the deletes
+     * @return the continuable future
+     */
     public ContinuableFuture<Void> delete(final String tableName, final List<Delete> deletes) {
         return asyncExecutor.execute(new Callable<Void>() {
             @Override
@@ -391,6 +634,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Delete.
+     *
+     * @param tableName the table name
+     * @param anyDelete the any delete
+     * @return the continuable future
+     */
     public ContinuableFuture<Void> delete(final String tableName, final AnyDelete anyDelete) {
         return asyncExecutor.execute(new Callable<Void>() {
             @Override
@@ -402,6 +652,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Delete.
+     *
+     * @param tableName the table name
+     * @param anyDeletes the any deletes
+     * @return the continuable future
+     */
     public ContinuableFuture<Void> delete(final String tableName, final Collection<AnyDelete> anyDeletes) {
         return asyncExecutor.execute(new Callable<Void>() {
             @Override
@@ -413,6 +670,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Mutate row.
+     *
+     * @param tableName the table name
+     * @param rm the rm
+     * @return the continuable future
+     */
     public ContinuableFuture<Void> mutateRow(final String tableName, final RowMutations rm) {
         return asyncExecutor.execute(new Callable<Void>() {
             @Override
@@ -424,6 +688,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Append.
+     *
+     * @param tableName the table name
+     * @param append the append
+     * @return the continuable future
+     */
     public ContinuableFuture<Result> append(final String tableName, final Append append) {
         return asyncExecutor.execute(new Callable<Result>() {
             @Override
@@ -433,6 +704,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Increment.
+     *
+     * @param tableName the table name
+     * @param increment the increment
+     * @return the continuable future
+     */
     public ContinuableFuture<Result> increment(final String tableName, final Increment increment) {
         return asyncExecutor.execute(new Callable<Result>() {
             @Override
@@ -442,6 +720,16 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Increment column value.
+     *
+     * @param tableName the table name
+     * @param rowKey the row key
+     * @param family the family
+     * @param qualifier the qualifier
+     * @param amount the amount
+     * @return the continuable future
+     */
     public ContinuableFuture<Long> incrementColumnValue(final String tableName, final Object rowKey, final String family, final String qualifier,
             final long amount) {
         return asyncExecutor.execute(new Callable<Long>() {
@@ -452,6 +740,17 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Increment column value.
+     *
+     * @param tableName the table name
+     * @param rowKey the row key
+     * @param family the family
+     * @param qualifier the qualifier
+     * @param amount the amount
+     * @param durability the durability
+     * @return the continuable future
+     */
     public ContinuableFuture<Long> incrementColumnValue(final String tableName, final Object rowKey, final String family, final String qualifier,
             final long amount, final Durability durability) {
         return asyncExecutor.execute(new Callable<Long>() {
@@ -462,6 +761,16 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Increment column value.
+     *
+     * @param tableName the table name
+     * @param rowKey the row key
+     * @param family the family
+     * @param qualifier the qualifier
+     * @param amount the amount
+     * @return the continuable future
+     */
     public ContinuableFuture<Long> incrementColumnValue(final String tableName, final Object rowKey, final byte[] family, final byte[] qualifier,
             final long amount) {
         return asyncExecutor.execute(new Callable<Long>() {
@@ -472,6 +781,17 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Increment column value.
+     *
+     * @param tableName the table name
+     * @param rowKey the row key
+     * @param family the family
+     * @param qualifier the qualifier
+     * @param amount the amount
+     * @param durability the durability
+     * @return the continuable future
+     */
     public ContinuableFuture<Long> incrementColumnValue(final String tableName, final Object rowKey, final byte[] family, final byte[] qualifier,
             final long amount, final Durability durability) {
         return asyncExecutor.execute(new Callable<Long>() {
@@ -482,6 +802,13 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Coprocessor service.
+     *
+     * @param tableName the table name
+     * @param rowKey the row key
+     * @return the continuable future
+     */
     public ContinuableFuture<CoprocessorRpcChannel> coprocessorService(final String tableName, final Object rowKey) {
         return asyncExecutor.execute(new Callable<CoprocessorRpcChannel>() {
             @Override
@@ -491,6 +818,19 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Coprocessor service.
+     *
+     * @param <T> the generic type
+     * @param <R> the generic type
+     * @param tableName the table name
+     * @param service the service
+     * @param startRowKey the start row key
+     * @param endRowKey the end row key
+     * @param callable the callable
+     * @return the continuable future
+     * @throws Exception the exception
+     */
     public <T extends Service, R> ContinuableFuture<Map<byte[], R>> coprocessorService(final String tableName, final Class<T> service, final Object startRowKey,
             final Object endRowKey, final Batch.Call<T, R> callable) throws Exception {
         return asyncExecutor.execute(new Callable<Map<byte[], R>>() {
@@ -501,6 +841,20 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Coprocessor service.
+     *
+     * @param <T> the generic type
+     * @param <R> the generic type
+     * @param tableName the table name
+     * @param service the service
+     * @param startRowKey the start row key
+     * @param endRowKey the end row key
+     * @param callable the callable
+     * @param callback the callback
+     * @return the continuable future
+     * @throws Exception the exception
+     */
     public <T extends Service, R> ContinuableFuture<Void> coprocessorService(final String tableName, final Class<T> service, final Object startRowKey,
             final Object endRowKey, final Batch.Call<T, R> callable, final Batch.Callback<R> callback) throws Exception {
         return asyncExecutor.execute(new Callable<Void>() {
@@ -513,6 +867,19 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Batch coprocessor service.
+     *
+     * @param <R> the generic type
+     * @param tableName the table name
+     * @param methodDescriptor the method descriptor
+     * @param request the request
+     * @param startRowKey the start row key
+     * @param endRowKey the end row key
+     * @param responsePrototype the response prototype
+     * @return the continuable future
+     * @throws Exception the exception
+     */
     public <R extends Message> ContinuableFuture<Map<byte[], R>> batchCoprocessorService(final String tableName,
             final Descriptors.MethodDescriptor methodDescriptor, final Message request, final Object startRowKey, final Object endRowKey,
             final R responsePrototype) throws Exception {
@@ -524,6 +891,20 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    /**
+     * Batch coprocessor service.
+     *
+     * @param <R> the generic type
+     * @param tableName the table name
+     * @param methodDescriptor the method descriptor
+     * @param request the request
+     * @param startRowKey the start row key
+     * @param endRowKey the end row key
+     * @param responsePrototype the response prototype
+     * @param callback the callback
+     * @return the continuable future
+     * @throws Exception the exception
+     */
     public <R extends Message> ContinuableFuture<Void> batchCoprocessorService(final String tableName, final Descriptors.MethodDescriptor methodDescriptor,
             final Message request, final Object startRowKey, final Object endRowKey, final R responsePrototype, final Batch.Callback<R> callback)
             throws Exception {

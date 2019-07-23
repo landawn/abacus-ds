@@ -83,12 +83,15 @@ public interface ExtendDirtyBasicCNL {
         /**
          * Immutable column name list
          */
-        public static final List<String> _CNL = Collections.unmodifiableList(Arrays.asList(ID, GUI, EMAIL_ADDRESS, FIRST_NAME, MIDDLE_NAME, LAST_NAME, BIRTH_DATE, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
+        public static final List<String> _CNL = Collections
+                .unmodifiableList(Arrays.asList(ID, GUI, EMAIL_ADDRESS, FIRST_NAME, MIDDLE_NAME, LAST_NAME, BIRTH_DATE, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
 
         /**
          * Immutable property name list
          */
-        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("Account.id".intern(), "Account.gui".intern(), "Account.emailAddress".intern(), "Account.firstName".intern(), "Account.middleName".intern(), "Account.lastName".intern(), "Account.birthDate".intern(), "Account.status".intern(), "Account.lastUpdateTime".intern(), "Account.createTime".intern()));
+        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("Account.id".intern(), "Account.gui".intern(),
+                "Account.emailAddress".intern(), "Account.firstName".intern(), "Account.middleName".intern(), "Account.lastName".intern(),
+                "Account.birthDate".intern(), "Account.status".intern(), "Account.lastUpdateTime".intern(), "Account.createTime".intern()));
     }
 
     public static interface AccountContactCNL {
@@ -196,12 +199,17 @@ public interface ExtendDirtyBasicCNL {
         /**
          * Immutable column name list
          */
-        public static final List<String> _CNL = Collections.unmodifiableList(Arrays.asList(ID, ACCOUNT_ID, MOBILE, TELEPHONE, EMAIL, ADDRESS, ADDRESS_2, CITY, STATE, COUNTRY, ZIP_CODE, CATEGORY, DESCRIPTION, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
+        public static final List<String> _CNL = Collections.unmodifiableList(Arrays.asList(ID, ACCOUNT_ID, MOBILE, TELEPHONE, EMAIL, ADDRESS, ADDRESS_2, CITY,
+                STATE, COUNTRY, ZIP_CODE, CATEGORY, DESCRIPTION, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
 
         /**
          * Immutable property name list
          */
-        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("AccountContact.id".intern(), "AccountContact.accountId".intern(), "AccountContact.mobile".intern(), "AccountContact.telephone".intern(), "AccountContact.email".intern(), "AccountContact.address".intern(), "AccountContact.address2".intern(), "AccountContact.city".intern(), "AccountContact.state".intern(), "AccountContact.country".intern(), "AccountContact.zipCode".intern(), "AccountContact.category".intern(), "AccountContact.description".intern(), "AccountContact.status".intern(), "AccountContact.lastUpdateTime".intern(), "AccountContact.createTime".intern()));
+        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("AccountContact.id".intern(), "AccountContact.accountId".intern(),
+                "AccountContact.mobile".intern(), "AccountContact.telephone".intern(), "AccountContact.email".intern(), "AccountContact.address".intern(),
+                "AccountContact.address2".intern(), "AccountContact.city".intern(), "AccountContact.state".intern(), "AccountContact.country".intern(),
+                "AccountContact.zipCode".intern(), "AccountContact.category".intern(), "AccountContact.description".intern(), "AccountContact.status".intern(),
+                "AccountContact.lastUpdateTime".intern(), "AccountContact.createTime".intern()));
     }
 
     public static interface AccountDeviceCNL {
@@ -291,12 +299,17 @@ public interface ExtendDirtyBasicCNL {
         /**
          * Immutable column name list
          */
-        public static final List<String> _CNL = Collections.unmodifiableList(Arrays.asList(ID, ACCOUNT_ID, NAME, UDID, PLATFORM, MODEL, MANUFACTURER, PRODUCE_TIME, CATEGORY, DESCRIPTION, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
+        public static final List<String> _CNL = Collections.unmodifiableList(Arrays.asList(ID, ACCOUNT_ID, NAME, UDID, PLATFORM, MODEL, MANUFACTURER,
+                PRODUCE_TIME, CATEGORY, DESCRIPTION, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
 
         /**
          * Immutable property name list
          */
-        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("AccountDevice.id".intern(), "AccountDevice.accountId".intern(), "AccountDevice.name".intern(), "AccountDevice.UDID".intern(), "AccountDevice.platform".intern(), "AccountDevice.model".intern(), "AccountDevice.manufacturer".intern(), "AccountDevice.produceTime".intern(), "AccountDevice.category".intern(), "AccountDevice.description".intern(), "AccountDevice.status".intern(), "AccountDevice.lastUpdateTime".intern(), "AccountDevice.createTime".intern()));
+        public static final List<String> _PNL = Collections
+                .unmodifiableList(Arrays.asList("AccountDevice.id".intern(), "AccountDevice.accountId".intern(), "AccountDevice.name".intern(),
+                        "AccountDevice.UDID".intern(), "AccountDevice.platform".intern(), "AccountDevice.model".intern(), "AccountDevice.manufacturer".intern(),
+                        "AccountDevice.produceTime".intern(), "AccountDevice.category".intern(), "AccountDevice.description".intern(),
+                        "AccountDevice.status".intern(), "AccountDevice.lastUpdateTime".intern(), "AccountDevice.createTime".intern()));
     }
 
     public static interface AclGroupCNL {
@@ -355,7 +368,9 @@ public interface ExtendDirtyBasicCNL {
         /**
          * Immutable property name list
          */
-        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("AclGroup.id".intern(), "AclGroup.gui".intern(), "AclGroup.name".intern(), "AclGroup.description".intern(), "AclGroup.status".intern(), "AclGroup.lastUpdateTime".intern(), "AclGroup.createTime".intern()));
+        public static final List<String> _PNL = Collections
+                .unmodifiableList(Arrays.asList("AclGroup.id".intern(), "AclGroup.gui".intern(), "AclGroup.name".intern(), "AclGroup.description".intern(),
+                        "AclGroup.status".intern(), "AclGroup.lastUpdateTime".intern(), "AclGroup.createTime".intern()));
     }
 
     public static interface AclTargetCNL {
@@ -433,12 +448,16 @@ public interface ExtendDirtyBasicCNL {
         /**
          * Immutable column name list
          */
-        public static final List<String> _CNL = Collections.unmodifiableList(Arrays.asList(ID, GUI, NAME, CATEGORY, SUB_CATEGORY, TYPE, SUB_TYPE, DESCRIPTION, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
+        public static final List<String> _CNL = Collections
+                .unmodifiableList(Arrays.asList(ID, GUI, NAME, CATEGORY, SUB_CATEGORY, TYPE, SUB_TYPE, DESCRIPTION, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
 
         /**
          * Immutable property name list
          */
-        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("AclTarget.id".intern(), "AclTarget.gui".intern(), "AclTarget.name".intern(), "AclTarget.category".intern(), "AclTarget.subCategory".intern(), "AclTarget.type".intern(), "AclTarget.subType".intern(), "AclTarget.description".intern(), "AclTarget.status".intern(), "AclTarget.lastUpdateTime".intern(), "AclTarget.createTime".intern()));
+        public static final List<String> _PNL = Collections
+                .unmodifiableList(Arrays.asList("AclTarget.id".intern(), "AclTarget.gui".intern(), "AclTarget.name".intern(), "AclTarget.category".intern(),
+                        "AclTarget.subCategory".intern(), "AclTarget.type".intern(), "AclTarget.subType".intern(), "AclTarget.description".intern(),
+                        "AclTarget.status".intern(), "AclTarget.lastUpdateTime".intern(), "AclTarget.createTime".intern()));
     }
 
     public static interface AclUgTargetRelationshipCNL {
@@ -498,12 +517,16 @@ public interface ExtendDirtyBasicCNL {
         /**
          * Immutable column name list
          */
-        public static final List<String> _CNL = Collections.unmodifiableList(Arrays.asList(ID, UG_GUI, TARGET_GUI, PRIVILEGE, DESCRIPTION, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
+        public static final List<String> _CNL = Collections
+                .unmodifiableList(Arrays.asList(ID, UG_GUI, TARGET_GUI, PRIVILEGE, DESCRIPTION, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
 
         /**
          * Immutable property name list
          */
-        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("AclUgTargetRelationship.id".intern(), "AclUgTargetRelationship.ugGui".intern(), "AclUgTargetRelationship.targetGui".intern(), "AclUgTargetRelationship.privilege".intern(), "AclUgTargetRelationship.description".intern(), "AclUgTargetRelationship.status".intern(), "AclUgTargetRelationship.lastUpdateTime".intern(), "AclUgTargetRelationship.createTime".intern()));
+        public static final List<String> _PNL = Collections.unmodifiableList(
+                Arrays.asList("AclUgTargetRelationship.id".intern(), "AclUgTargetRelationship.ugGui".intern(), "AclUgTargetRelationship.targetGui".intern(),
+                        "AclUgTargetRelationship.privilege".intern(), "AclUgTargetRelationship.description".intern(), "AclUgTargetRelationship.status".intern(),
+                        "AclUgTargetRelationship.lastUpdateTime".intern(), "AclUgTargetRelationship.createTime".intern()));
     }
 
     public static interface AclUserCNL {
@@ -562,7 +585,9 @@ public interface ExtendDirtyBasicCNL {
         /**
          * Immutable property name list
          */
-        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("AclUser.id".intern(), "AclUser.gui".intern(), "AclUser.name".intern(), "AclUser.description".intern(), "AclUser.status".intern(), "AclUser.lastUpdateTime".intern(), "AclUser.createTime".intern()));
+        public static final List<String> _PNL = Collections
+                .unmodifiableList(Arrays.asList("AclUser.id".intern(), "AclUser.gui".intern(), "AclUser.name".intern(), "AclUser.description".intern(),
+                        "AclUser.status".intern(), "AclUser.lastUpdateTime".intern(), "AclUser.createTime".intern()));
     }
 
     public static interface AclUserGroupRelationshipCNL {
@@ -616,12 +641,16 @@ public interface ExtendDirtyBasicCNL {
         /**
          * Immutable column name list
          */
-        public static final List<String> _CNL = Collections.unmodifiableList(Arrays.asList(ID, USER_GUI, GROUP_GUI, DESCRIPTION, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
+        public static final List<String> _CNL = Collections
+                .unmodifiableList(Arrays.asList(ID, USER_GUI, GROUP_GUI, DESCRIPTION, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
 
         /**
          * Immutable property name list
          */
-        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("AclUserGroupRelationship.id".intern(), "AclUserGroupRelationship.userGUI".intern(), "AclUserGroupRelationship.groupGUI".intern(), "AclUserGroupRelationship.description".intern(), "AclUserGroupRelationship.status".intern(), "AclUserGroupRelationship.lastUpdateTime".intern(), "AclUserGroupRelationship.createTime".intern()));
+        public static final List<String> _PNL = Collections.unmodifiableList(
+                Arrays.asList("AclUserGroupRelationship.id".intern(), "AclUserGroupRelationship.userGUI".intern(), "AclUserGroupRelationship.groupGUI".intern(),
+                        "AclUserGroupRelationship.description".intern(), "AclUserGroupRelationship.status".intern(),
+                        "AclUserGroupRelationship.lastUpdateTime".intern(), "AclUserGroupRelationship.createTime".intern()));
     }
 
     public static interface DataTypeCNL {
@@ -897,12 +926,30 @@ public interface ExtendDirtyBasicCNL {
         /**
          * Immutable column name list
          */
-        public static final List<String> _CNL = Collections.unmodifiableList(Arrays.asList(BYTETYPE, CHARTYPE, BOOLEANTYPE, SHORTTYPE, INTTYPE, LONGTYPE, FLOATTYPE, DOUBLETYPE, BIG_INTEGER_TYPE, BIGDECIMALTYPE, STRINGTYPE, BYTEARRAYTYPE, CHARACTERSTREAMTYPE, BINARYSTREAMTYPE, CLOBTYPE, BLOBTYPE, DATETYPE, TIMETYPE, TIMESTAMPTYPE, LONG_DATE_TYPE, LONG_TIME_TYPE, LONG_TIMESTAMP_TYPE, ENUM_TYPE, STRINGARRAYLISTTYPE, BOOLEANLINKEDLISTTYPE, DOUBLEARRAYLISTTYPE, DATEARRAYLISTTYPE, TIMESTAMPARRAYLISTTYPE, BIGDECIMALARRAYLISTTYPE, STRINGHASHSETTYPE, BOOLEANLINKEDHASHSETTYPE, DATEHASHSETTYPE, TIMESTAMPHASHSETTYPE, BIGDECIMALHASHSETTYPE, STRINGHASHMAPTYPE, BOOLEANLINKEDHASHMAPTYPE, FLOATHASHMAPTYPE, DATEHASHMAPTYPE, TIMESTAMPHASHMAPTYPE, BIGDECIMALHASHMAPTYPE, STRINGVECTORTYPE, STRINGCONCURRENTHASHMAPTYPE, JSON_TYPE, XML_TYPE));
+        public static final List<String> _CNL = Collections.unmodifiableList(Arrays.asList(BYTETYPE, CHARTYPE, BOOLEANTYPE, SHORTTYPE, INTTYPE, LONGTYPE,
+                FLOATTYPE, DOUBLETYPE, BIG_INTEGER_TYPE, BIGDECIMALTYPE, STRINGTYPE, BYTEARRAYTYPE, CHARACTERSTREAMTYPE, BINARYSTREAMTYPE, CLOBTYPE, BLOBTYPE,
+                DATETYPE, TIMETYPE, TIMESTAMPTYPE, LONG_DATE_TYPE, LONG_TIME_TYPE, LONG_TIMESTAMP_TYPE, ENUM_TYPE, STRINGARRAYLISTTYPE, BOOLEANLINKEDLISTTYPE,
+                DOUBLEARRAYLISTTYPE, DATEARRAYLISTTYPE, TIMESTAMPARRAYLISTTYPE, BIGDECIMALARRAYLISTTYPE, STRINGHASHSETTYPE, BOOLEANLINKEDHASHSETTYPE,
+                DATEHASHSETTYPE, TIMESTAMPHASHSETTYPE, BIGDECIMALHASHSETTYPE, STRINGHASHMAPTYPE, BOOLEANLINKEDHASHMAPTYPE, FLOATHASHMAPTYPE, DATEHASHMAPTYPE,
+                TIMESTAMPHASHMAPTYPE, BIGDECIMALHASHMAPTYPE, STRINGVECTORTYPE, STRINGCONCURRENTHASHMAPTYPE, JSON_TYPE, XML_TYPE));
 
         /**
          * Immutable property name list
          */
-        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("DataType.byteType".intern(), "DataType.charType".intern(), "DataType.booleanType".intern(), "DataType.shortType".intern(), "DataType.intType".intern(), "DataType.longType".intern(), "DataType.floatType".intern(), "DataType.doubleType".intern(), "DataType.bigIntegerType".intern(), "DataType.bigDecimalType".intern(), "DataType.stringType".intern(), "DataType.byteArrayType".intern(), "DataType.characterStreamType".intern(), "DataType.binaryStreamType".intern(), "DataType.clobType".intern(), "DataType.blobType".intern(), "DataType.dateType".intern(), "DataType.timeType".intern(), "DataType.timestampType".intern(), "DataType.longDateType".intern(), "DataType.longTimeType".intern(), "DataType.longTimestampType".intern(), "DataType.enumType".intern(), "DataType.stringArrayListType".intern(), "DataType.booleanLinkedListType".intern(), "DataType.doubleListType".intern(), "DataType.dateArrayListType".intern(), "DataType.timestampArrayListType".intern(), "DataType.bigDecimalArrayListType".intern(), "DataType.stringHashSetType".intern(), "DataType.booleanLinkedHashSetType".intern(), "DataType.dateHashSetType".intern(), "DataType.timestampHashSetType".intern(), "DataType.bigDecimalHashSetType".intern(), "DataType.stringHashMapType".intern(), "DataType.booleanLinkedHashMapType".intern(), "DataType.floatHashMapType".intern(), "DataType.dateHashMapType".intern(), "DataType.timestampHashMapType".intern(), "DataType.bigDecimalHashMapType".intern(), "DataType.stringVectorType".intern(), "DataType.stringConcurrentHashMapType".intern(), "DataType.jsonType".intern(), "DataType.xmlType".intern()));
+        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("DataType.byteType".intern(), "DataType.charType".intern(),
+                "DataType.booleanType".intern(), "DataType.shortType".intern(), "DataType.intType".intern(), "DataType.longType".intern(),
+                "DataType.floatType".intern(), "DataType.doubleType".intern(), "DataType.bigIntegerType".intern(), "DataType.bigDecimalType".intern(),
+                "DataType.stringType".intern(), "DataType.byteArrayType".intern(), "DataType.characterStreamType".intern(),
+                "DataType.binaryStreamType".intern(), "DataType.clobType".intern(), "DataType.blobType".intern(), "DataType.dateType".intern(),
+                "DataType.timeType".intern(), "DataType.timestampType".intern(), "DataType.longDateType".intern(), "DataType.longTimeType".intern(),
+                "DataType.longTimestampType".intern(), "DataType.enumType".intern(), "DataType.stringArrayListType".intern(),
+                "DataType.booleanLinkedListType".intern(), "DataType.doubleListType".intern(), "DataType.dateArrayListType".intern(),
+                "DataType.timestampArrayListType".intern(), "DataType.bigDecimalArrayListType".intern(), "DataType.stringHashSetType".intern(),
+                "DataType.booleanLinkedHashSetType".intern(), "DataType.dateHashSetType".intern(), "DataType.timestampHashSetType".intern(),
+                "DataType.bigDecimalHashSetType".intern(), "DataType.stringHashMapType".intern(), "DataType.booleanLinkedHashMapType".intern(),
+                "DataType.floatHashMapType".intern(), "DataType.dateHashMapType".intern(), "DataType.timestampHashMapType".intern(),
+                "DataType.bigDecimalHashMapType".intern(), "DataType.stringVectorType".intern(), "DataType.stringConcurrentHashMapType".intern(),
+                "DataType.jsonType".intern(), "DataType.xmlType".intern()));
     }
 
     public static interface LoginCNL {
@@ -956,12 +1003,15 @@ public interface ExtendDirtyBasicCNL {
         /**
          * Immutable column name list
          */
-        public static final List<String> _CNL = Collections.unmodifiableList(Arrays.asList(ID, ACCOUNT_ID, LOGIN_ID, LOGIN_PASSWORD, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
+        public static final List<String> _CNL = Collections
+                .unmodifiableList(Arrays.asList(ID, ACCOUNT_ID, LOGIN_ID, LOGIN_PASSWORD, STATUS, LAST_UPDATE_TIME, CREATE_TIME));
 
         /**
          * Immutable property name list
          */
-        public static final List<String> _PNL = Collections.unmodifiableList(Arrays.asList("Login.id".intern(), "Login.accountId".intern(), "Login.loginId".intern(), "Login.loginPassword".intern(), "Login.status".intern(), "Login.lastUpdateTime".intern(), "Login.createTime".intern()));
+        public static final List<String> _PNL = Collections
+                .unmodifiableList(Arrays.asList("Login.id".intern(), "Login.accountId".intern(), "Login.loginId".intern(), "Login.loginPassword".intern(),
+                        "Login.status".intern(), "Login.lastUpdateTime".intern(), "Login.createTime".intern()));
     }
 
     public static final String ACCOUNT_ID = "account_id".intern();

@@ -41,32 +41,44 @@ import com.landawn.abacus.util.Splitter;
 import com.landawn.abacus.util.WD;
 import com.landawn.abacus.util.XMLUtil;
 
+// TODO: Auto-generated Javadoc
 /**
  * the cql scripts are configured in xml file and mapped to short ids referenced in program. for example: <br>
  * {@code <cqlMapper>} <br>
  * {@code <cql id="findAccountById">select * from account where id=1</cql>} <br>
  * {@code <cql id="updateAccountNameById">update account set name=? where id=?</cql>} <br>
  * {@code </cqlMapper>}
- * 
- * @since 0.8
- * 
+ *
  * @author Haiyang Li
+ * @since 0.8
  */
 public final class CQLMapper {
+
+    /** The Constant CQL_MAPPER. */
     public static final String CQL_MAPPER = "cqlMapper";
+
+    /** The Constant CQL. */
     public static final String CQL = "cql";
+
+    /** The Constant ID. */
     public static final String ID = "id";
 
+    /** The Constant TIMEOUT. */
     static final String TIMEOUT = "timeout";
+
+    /** The cql map. */
     private final Map<String, NamedCQL> cqlMap = new LinkedHashMap<>();
 
+    /**
+     * Instantiates a new CQL mapper.
+     */
     public CQLMapper() {
     }
 
     /**
-     * 
+     * Instantiates a new CQL mapper.
+     *
      * @param filePath it could be multiple file paths separated by ',' or ';'
-     * 
      */
     public CQLMapper(String filePath) {
         this();
@@ -75,8 +87,10 @@ public final class CQLMapper {
     }
 
     /**
-     * 
+     * Load from.
+     *
      * @param filePath it could be multiple file paths separated by ',' or ';'
+     * @throws UncheckedIOException the unchecked IO exception
      */
     public void loadFrom(String filePath) throws UncheckedIOException {
         String[] filePaths = Splitter.with(WD.COMMA).trim(true).splitToArray(filePath);
@@ -117,18 +131,43 @@ public final class CQLMapper {
         }
     }
 
+    /**
+     * Key set.
+     *
+     * @return the sets the
+     */
     public Set<String> keySet() {
         return cqlMap.keySet();
     }
 
+    /**
+     * Gets the.
+     *
+     * @param id the id
+     * @return the named CQL
+     */
     public NamedCQL get(String id) {
         return cqlMap.get(id);
     }
 
+    /**
+     * Adds the.
+     *
+     * @param id the id
+     * @param namedCQL the named CQL
+     * @return the named CQL
+     */
     public NamedCQL add(String id, NamedCQL namedCQL) {
         return cqlMap.put(id, namedCQL);
     }
 
+    /**
+     * Adds the.
+     *
+     * @param id the id
+     * @param cql the cql
+     * @param attrs the attrs
+     */
     public void add(String id, String cql, Map<String, String> attrs) {
         if (cqlMap.containsKey(id)) {
             throw new IllegalArgumentException(id + " already exists with cql: " + cqlMap.get(id));
@@ -137,10 +176,21 @@ public final class CQLMapper {
         cqlMap.put(id, NamedCQL.parse(cql, attrs));
     }
 
+    /**
+     * Removes the.
+     *
+     * @param id the id
+     */
     public void remove(String id) {
         cqlMap.remove(id);
     }
 
+    /**
+     * Save to.
+     *
+     * @param file the file
+     * @throws UncheckedIOException the unchecked IO exception
+     */
     public void saveTo(File file) throws UncheckedIOException {
         OutputStream os = null;
 
@@ -186,16 +236,32 @@ public final class CQLMapper {
         }
     }
 
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         return cqlMap.hashCode();
     }
 
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
     @Override
     public boolean equals(Object obj) {
         return this == obj || (obj instanceof CQLMapper && N.equals(((CQLMapper) obj).cqlMap, cqlMap));
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return cqlMap.toString();

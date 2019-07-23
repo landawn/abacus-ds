@@ -17,10 +17,9 @@ package com.landawn.abacus.da;
 /**
  * It's a simple wrapper of Solr Java client.
  * TODO 
- * 
- * @since 0.8
- * 
+ *
  * @author HaiYang Li
+ * @since 0.8
  */
 final class SolrExecutor {
 

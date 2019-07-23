@@ -70,48 +70,93 @@ import com.landawn.abacus.util.ObjIterator;
 import com.landawn.abacus.util.function.Function;
 import com.landawn.abacus.util.stream.Stream;
 
+// TODO: Auto-generated Javadoc
 /**
  * It's a simple wrapper of DynamoDB Java client.
- * 
- * @since 0.8
- * 
+ *
  * @author Haiyang Li
- * 
  * @see <a href="http://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/">com.amazonaws.services.dynamodbv2.AmazonDynamoDB</a>
+ * @since 0.8
  */
 public final class DynamoDBExecutor implements Closeable {
+
+    /** The Constant attrValueType. */
     private static final Type<AttributeValue> attrValueType = N.typeOf(AttributeValue.class);
 
+    /** The dynamo DB. */
     private final AmazonDynamoDBClient dynamoDB;
+
+    /** The mapper. */
     private final DynamoDBMapper mapper;
+
+    /** The async DB executor. */
     private final AsyncDynamoDBExecutor asyncDBExecutor;
 
+    /**
+     * Instantiates a new dynamo DB executor.
+     *
+     * @param dynamoDB the dynamo DB
+     */
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB) {
         this(dynamoDB, null);
     }
 
+    /**
+     * Instantiates a new dynamo DB executor.
+     *
+     * @param dynamoDB the dynamo DB
+     * @param config the config
+     */
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB, final DynamoDBMapperConfig config) {
         this(dynamoDB, config, new AsyncExecutor(64, 300, TimeUnit.SECONDS));
     }
 
+    /**
+     * Instantiates a new dynamo DB executor.
+     *
+     * @param dynamoDB the dynamo DB
+     * @param config the config
+     * @param asyncExecutor the async executor
+     */
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB, final DynamoDBMapperConfig config, final AsyncExecutor asyncExecutor) {
         this.dynamoDB = dynamoDB;
         this.asyncDBExecutor = new AsyncDynamoDBExecutor(this, asyncExecutor);
         this.mapper = config == null ? new DynamoDBMapper(dynamoDB) : new DynamoDBMapper(dynamoDB, config);
     }
 
+    /**
+     * Dynamo DB.
+     *
+     * @return the amazon dynamo DB client
+     */
     public AmazonDynamoDBClient dynamoDB() {
         return dynamoDB;
     }
 
+    /**
+     * Mapper.
+     *
+     * @return the dynamo DB mapper
+     */
     public DynamoDBMapper mapper() {
         return mapper;
     }
 
+    /**
+     * Mapper.
+     *
+     * @param config the config
+     * @return the dynamo DB mapper
+     */
     public DynamoDBMapper mapper(final DynamoDBMapperConfig config) {
         return new DynamoDBMapper(dynamoDB, config);
     }
 
+    /**
+     * Async.
+     *
+     * @return the async dynamo DB executor
+     */
     public AsyncDynamoDBExecutor async() {
         return asyncDBExecutor;
     }
@@ -122,9 +167,9 @@ public final class DynamoDBExecutor implements Closeable {
      * or set it to <code>ByteBuffer</code> by <code>setB((ByteBuffer) value)</code> if it's <code>ByteBuffer</code>, 
      * otherwise, set it to String by <code>setS(N.stringOf(value))</code> for other types. 
      * That's to say all the types except Number/Boolean/ByteBuffer are defined to String. 
-     * 
-     * @param value
-     * @return
+     *
+     * @param value the value
+     * @return the attribute value
      */
     public static AttributeValue attrValueOf(Object value) {
         final AttributeValue attrVal = new AttributeValue();
@@ -150,50 +195,123 @@ public final class DynamoDBExecutor implements Closeable {
 
     /**
      * Returns the <code>AttributeValueUpdate</code> with default <code>AttributeAction.PUT</code>
-     * 
-     * @param value
-     * @return
+     *
+     * @param value the value
+     * @return the attribute value update
      */
     public static AttributeValueUpdate attrValueUpdateOf(Object value) {
         return attrValueUpdateOf(value, AttributeAction.PUT);
     }
 
+    /**
+     * Attr value update of.
+     *
+     * @param value the value
+     * @param action the action
+     * @return the attribute value update
+     */
     public static AttributeValueUpdate attrValueUpdateOf(Object value, AttributeAction action) {
         return new AttributeValueUpdate(attrValueOf(value), action);
     }
 
+    /**
+     * As key.
+     *
+     * @param keyName the key name
+     * @param value the value
+     * @return the map
+     */
     public static Map<String, AttributeValue> asKey(final String keyName, final Object value) {
         return asItem(keyName, value);
     }
 
+    /**
+     * As key.
+     *
+     * @param keyName the key name
+     * @param value the value
+     * @param keyName2 the key name 2
+     * @param value2 the value 2
+     * @return the map
+     */
     public static Map<String, AttributeValue> asKey(final String keyName, final Object value, final String keyName2, final Object value2) {
         return asItem(keyName, value, keyName2, value2);
     }
 
+    /**
+     * As key.
+     *
+     * @param keyName the key name
+     * @param value the value
+     * @param keyName2 the key name 2
+     * @param value2 the value 2
+     * @param keyName3 the key name 3
+     * @param value3 the value 3
+     * @return the map
+     */
     public static Map<String, AttributeValue> asKey(final String keyName, final Object value, final String keyName2, final Object value2, final String keyName3,
             Object value3) {
         return asItem(keyName, value, keyName2, value2, keyName3, value3);
     }
 
+    /**
+     * As key.
+     *
+     * @param a the a
+     * @return the map
+     */
     // May misused with toItem
     @SafeVarargs
     public static Map<String, AttributeValue> asKey(Object... a) {
         return asItem(a);
     }
 
+    /**
+     * As item.
+     *
+     * @param keyName the key name
+     * @param value the value
+     * @return the map
+     */
     public static Map<String, AttributeValue> asItem(final String keyName, final Object value) {
         return N.asLinkedHashMap(keyName, attrValueOf(value));
     }
 
+    /**
+     * As item.
+     *
+     * @param keyName the key name
+     * @param value the value
+     * @param keyName2 the key name 2
+     * @param value2 the value 2
+     * @return the map
+     */
     public static Map<String, AttributeValue> asItem(final String keyName, final Object value, final String keyName2, final Object value2) {
         return N.asLinkedHashMap(keyName, attrValueOf(value), keyName2, attrValueOf(value2));
     }
 
+    /**
+     * As item.
+     *
+     * @param keyName the key name
+     * @param value the value
+     * @param keyName2 the key name 2
+     * @param value2 the value 2
+     * @param keyName3 the key name 3
+     * @param value3 the value 3
+     * @return the map
+     */
     public static Map<String, AttributeValue> asItem(final String keyName, final Object value, final String keyName2, final Object value2,
             final String keyName3, Object value3) {
         return N.asLinkedHashMap(keyName, attrValueOf(value), keyName2, attrValueOf(value2), keyName3, attrValueOf(value3));
     }
 
+    /**
+     * As item.
+     *
+     * @param a the a
+     * @return the map
+     */
     // May misused with toItem
     @SafeVarargs
     public static Map<String, AttributeValue> asItem(Object... a) {
@@ -211,19 +329,52 @@ public final class DynamoDBExecutor implements Closeable {
         return item;
     }
 
+    /**
+     * As update item.
+     *
+     * @param keyName the key name
+     * @param value the value
+     * @return the map
+     */
     public static Map<String, AttributeValueUpdate> asUpdateItem(final String keyName, final Object value) {
         return N.asLinkedHashMap(keyName, attrValueUpdateOf(value));
     }
 
+    /**
+     * As update item.
+     *
+     * @param keyName the key name
+     * @param value the value
+     * @param keyName2 the key name 2
+     * @param value2 the value 2
+     * @return the map
+     */
     public static Map<String, AttributeValueUpdate> asUpdateItem(final String keyName, final Object value, final String keyName2, final Object value2) {
         return N.asLinkedHashMap(keyName, attrValueUpdateOf(value), keyName2, attrValueUpdateOf(value2));
     }
 
+    /**
+     * As update item.
+     *
+     * @param keyName the key name
+     * @param value the value
+     * @param keyName2 the key name 2
+     * @param value2 the value 2
+     * @param keyName3 the key name 3
+     * @param value3 the value 3
+     * @return the map
+     */
     public static Map<String, AttributeValueUpdate> asUpdateItem(final String keyName, final Object value, final String keyName2, final Object value2,
             final String keyName3, final Object value3) {
         return N.asLinkedHashMap(keyName, attrValueUpdateOf(value), keyName2, attrValueUpdateOf(value2), keyName3, attrValueUpdateOf(value3));
     }
 
+    /**
+     * As update item.
+     *
+     * @param a the a
+     * @return the map
+     */
     // May misused with toUpdateItem
     @SafeVarargs
     public static Map<String, AttributeValueUpdate> asUpdateItem(Object... a) {
@@ -242,49 +393,57 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param queryResult
-     * @return
+     * Extract data.
+     *
+     * @param queryResult the query result
+     * @return the data set
      */
     public static DataSet extractData(final QueryResult queryResult) {
         return extractData(queryResult, 0, Integer.MAX_VALUE);
     }
 
     /**
-     * 
-     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param queryResult
-     * @param offset
-     * @param count
-     * @return
+     * Extract data.
+     *
+     * @param queryResult the query result
+     * @param offset the offset
+     * @param count the count
+     * @return the data set
      */
     public static DataSet extractData(final QueryResult queryResult, int offset, int count) {
         return extractData(queryResult.getItems(), offset, count);
     }
 
     /**
-     * 
-     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param scanResult
-     * @return
+     * Extract data.
+     *
+     * @param scanResult the scan result
+     * @return the data set
      */
     public static DataSet extractData(final ScanResult scanResult) {
         return extractData(scanResult, 0, Integer.MAX_VALUE);
     }
 
     /**
-     * 
-     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param scanResult
-     * @param offset
-     * @param count
-     * @return
+     * Extract data.
+     *
+     * @param scanResult the scan result
+     * @param offset the offset
+     * @param count the count
+     * @return the data set
      */
     public static DataSet extractData(final ScanResult scanResult, int offset, int count) {
         return extractData(scanResult.getItems(), offset, count);
     }
 
+    /**
+     * Extract data.
+     *
+     * @param items the items
+     * @param offset the offset
+     * @param count the count
+     * @return the data set
+     */
     static DataSet extractData(final List<Map<String, AttributeValue>> items, int offset, int count) {
         N.checkArgument(offset >= 0 && count >= 0, "'offset' and 'count' can't be negative: %s, %s", offset, count);
 
@@ -319,66 +478,78 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     /**
-     * 
+     * To list.
+     *
+     * @param <T> the generic type
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param queryResult
-     * @return
+     * @param queryResult the query result
+     * @return the list
      */
     public static <T> List<T> toList(final Class<T> targetClass, final QueryResult queryResult) {
         return toList(targetClass, queryResult, 0, Integer.MAX_VALUE);
     }
 
     /**
-     * 
+     * To list.
+     *
+     * @param <T> the generic type
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param queryResult
-     * @param offset
-     * @param count
-     * @return
+     * @param queryResult the query result
+     * @param offset the offset
+     * @param count the count
+     * @return the list
      */
     public static <T> List<T> toList(final Class<T> targetClass, final QueryResult queryResult, int offset, int count) {
         return toList(targetClass, queryResult.getItems(), offset, count);
     }
 
     /**
-     * 
+     * To list.
+     *
+     * @param <T> the generic type
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param scanResult
-     * @return
+     * @param scanResult the scan result
+     * @return the list
      */
     public static <T> List<T> toList(final Class<T> targetClass, final ScanResult scanResult) {
         return toList(targetClass, scanResult, 0, Integer.MAX_VALUE);
     }
 
     /**
-     * 
+     * To list.
+     *
+     * @param <T> the generic type
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param scanResult
-     * @param offset
-     * @param count
-     * @return
+     * @param scanResult the scan result
+     * @param offset the offset
+     * @param count the count
+     * @return the list
      */
     public static <T> List<T> toList(final Class<T> targetClass, final ScanResult scanResult, int offset, int count) {
         return toList(targetClass, scanResult.getItems(), offset, count);
     }
 
     /**
-     * 
+     * To list.
+     *
+     * @param <T> the generic type
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param items
-     * @return
+     * @param items the items
+     * @return the list
      */
     static <T> List<T> toList(final Class<T> targetClass, final List<Map<String, AttributeValue>> items) {
         return toList(targetClass, items, 0, Integer.MAX_VALUE);
     }
 
     /**
-     * 
+     * To list.
+     *
+     * @param <T> the generic type
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param items
-     * @param offset
-     * @param count
-     * @return
+     * @param items the items
+     * @param offset the offset
+     * @param count the count
+     * @return the list
      */
     static <T> List<T> toList(final Class<T> targetClass, final List<Map<String, AttributeValue>> items, int offset, int count) {
         if (offset < 0 || count < 0) {
@@ -398,10 +569,12 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     /**
-     * 
+     * To entities.
+     *
+     * @param <T> the generic type
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param tableItems
-     * @return
+     * @param tableItems the table items
+     * @return the map
      */
     static <T> Map<String, List<T>> toEntities(final Class<T> targetClass, final Map<String, List<Map<String, AttributeValue>>> tableItems) {
         final Map<String, List<T>> tableEntities = new LinkedHashMap<>();
@@ -416,10 +589,12 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     /**
-     * 
+     * To entity.
+     *
+     * @param <T> the generic type
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param item
-     * @return
+     * @param item the item
+     * @return the t
      */
     public static <T> T toEntity(final Class<T> targetClass, final Map<String, AttributeValue> item) {
         final Type<T> type = N.typeOf(targetClass);
@@ -427,6 +602,15 @@ public final class DynamoDBExecutor implements Closeable {
         return toValue(type, targetClass, item);
     }
 
+    /**
+     * To value.
+     *
+     * @param <T> the generic type
+     * @param type the type
+     * @param targetClass the target class
+     * @param item the item
+     * @return the t
+     */
     @SuppressWarnings("deprecation")
     private static <T> T toValue(final Type<T> type, final Class<T> targetClass, final Map<String, AttributeValue> item) {
         if (item == null) {
@@ -478,6 +662,13 @@ public final class DynamoDBExecutor implements Closeable {
         }
     }
 
+    /**
+     * To value.
+     *
+     * @param <T> the generic type
+     * @param x the x
+     * @return the t
+     */
     static <T> T toValue(AttributeValue x) {
         if (x == null || (x.getNULL() != null && x.isNULL())) {
             return null;
@@ -537,6 +728,12 @@ public final class DynamoDBExecutor implements Closeable {
         }
     }
 
+    /**
+     * Check entity class.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     */
     static <T> void checkEntityClass(final Class<T> targetClass) {
         if (!ClassUtil.isEntity(targetClass)) {
             throw new IllegalArgumentException("Unsupported type: " + ClassUtil.getCanonicalClassName(targetClass)
@@ -544,10 +741,23 @@ public final class DynamoDBExecutor implements Closeable {
         }
     }
 
+    /**
+     * To item.
+     *
+     * @param entity the entity
+     * @return the map
+     */
     public static Map<String, AttributeValue> toItem(final Object entity) {
         return toItem(entity, NamingPolicy.LOWER_CAMEL_CASE);
     }
 
+    /**
+     * To item.
+     *
+     * @param entity the entity
+     * @param namingPolicy the naming policy
+     * @return the map
+     */
     public static Map<String, AttributeValue> toItem(final Object entity, NamingPolicy namingPolicy) {
         final Map<String, AttributeValue> attrs = new LinkedHashMap<>();
         final Class<?> cls = entity.getClass();
@@ -693,10 +903,23 @@ public final class DynamoDBExecutor implements Closeable {
         return attrs;
     }
 
+    /**
+     * To item.
+     *
+     * @param entities the entities
+     * @return the list
+     */
     static List<Map<String, AttributeValue>> toItem(final Collection<?> entities) {
         return toItem(entities, NamingPolicy.LOWER_CAMEL_CASE);
     }
 
+    /**
+     * To item.
+     *
+     * @param entities the entities
+     * @param namingPolicy the naming policy
+     * @return the list
+     */
     static List<Map<String, AttributeValue>> toItem(final Collection<?> entities, NamingPolicy namingPolicy) {
         final List<Map<String, AttributeValue>> attrsList = new ArrayList<>(entities.size());
 
@@ -709,9 +932,9 @@ public final class DynamoDBExecutor implements Closeable {
 
     /**
      * Only the dirty properties will be set to the result Map if the specified entity is a dirty marker entity.
-     * 
-     * @param entity
-     * @return
+     *
+     * @param entity the entity
+     * @return the map
      */
     public static Map<String, AttributeValueUpdate> toUpdateItem(final Object entity) {
         return toUpdateItem(entity, NamingPolicy.LOWER_CAMEL_CASE);
@@ -719,10 +942,10 @@ public final class DynamoDBExecutor implements Closeable {
 
     /**
      * Only the dirty properties will be set to the result Map if the specified entity is a dirty marker entity.
-     * 
-     * @param entity
-     * @param namingPolicy
-     * @return
+     *
+     * @param entity the entity
+     * @param namingPolicy the naming policy
+     * @return the map
      */
     public static Map<String, AttributeValueUpdate> toUpdateItem(final Object entity, NamingPolicy namingPolicy) {
         final Map<String, AttributeValueUpdate> attrs = new LinkedHashMap<>();
@@ -869,10 +1092,23 @@ public final class DynamoDBExecutor implements Closeable {
         return attrs;
     }
 
+    /**
+     * To update item.
+     *
+     * @param entities the entities
+     * @return the list
+     */
     static List<Map<String, AttributeValueUpdate>> toUpdateItem(final Collection<?> entities) {
         return toUpdateItem(entities, NamingPolicy.LOWER_CAMEL_CASE);
     }
 
+    /**
+     * To update item.
+     *
+     * @param entities the entities
+     * @param namingPolicy the naming policy
+     * @return the list
+     */
     static List<Map<String, AttributeValueUpdate>> toUpdateItem(final Collection<?> entities, NamingPolicy namingPolicy) {
         final List<Map<String, AttributeValueUpdate>> attrsList = new ArrayList<>(entities.size());
 
@@ -883,124 +1119,316 @@ public final class DynamoDBExecutor implements Closeable {
         return attrsList;
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @return the item
+     */
     public Map<String, Object> getItem(final String tableName, final Map<String, AttributeValue> key) {
         return getItem(Map.class, tableName, key);
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @param consistentRead the consistent read
+     * @return the item
+     */
     public Map<String, Object> getItem(final String tableName, final Map<String, AttributeValue> key, final Boolean consistentRead) {
         return getItem(Map.class, tableName, key, consistentRead);
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param getItemRequest the get item request
+     * @return the item
+     */
     public Map<String, Object> getItem(final GetItemRequest getItemRequest) {
         return getItem(Map.class, getItemRequest);
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param key the key
+     * @return the item
+     */
     public <T> T getItem(final Class<T> targetClass, final String tableName, final Map<String, AttributeValue> key) {
         return toEntity(targetClass, dynamoDB.getItem(tableName, key).getItem());
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param key the key
+     * @param consistentRead the consistent read
+     * @return the item
+     */
     public <T> T getItem(final Class<T> targetClass, final String tableName, final Map<String, AttributeValue> key, final Boolean consistentRead) {
         return toEntity(targetClass, dynamoDB.getItem(tableName, key, consistentRead).getItem());
     }
 
+    /**
+     * Gets the item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param getItemRequest the get item request
+     * @return the item
+     */
     public <T> T getItem(final Class<T> targetClass, final GetItemRequest getItemRequest) {
         return toEntity(targetClass, dynamoDB.getItem(getItemRequest).getItem());
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param requestItems the request items
+     * @return the map
+     */
     @SuppressWarnings("rawtypes")
     public Map<String, List<Map<String, Object>>> batchGetItem(final Map<String, KeysAndAttributes> requestItems) {
         return (Map) batchGetItem(Map.class, requestItems);
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param requestItems the request items
+     * @param returnConsumedCapacity the return consumed capacity
+     * @return the map
+     */
     @SuppressWarnings("rawtypes")
     public Map<String, List<Map<String, Object>>> batchGetItem(final Map<String, KeysAndAttributes> requestItems, final String returnConsumedCapacity) {
         return (Map) batchGetItem(Map.class, requestItems, returnConsumedCapacity);
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param batchGetItemRequest the batch get item request
+     * @return the map
+     */
     @SuppressWarnings("rawtypes")
     public Map<String, List<Map<String, Object>>> batchGetItem(final BatchGetItemRequest batchGetItemRequest) {
         return (Map) batchGetItem(Map.class, batchGetItemRequest);
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param requestItems the request items
+     * @return the map
+     */
     public <T> Map<String, List<T>> batchGetItem(final Class<T> targetClass, final Map<String, KeysAndAttributes> requestItems) {
         return toEntities(targetClass, dynamoDB.batchGetItem(requestItems).getResponses());
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param requestItems the request items
+     * @param returnConsumedCapacity the return consumed capacity
+     * @return the map
+     */
     public <T> Map<String, List<T>> batchGetItem(final Class<T> targetClass, final Map<String, KeysAndAttributes> requestItems,
             final String returnConsumedCapacity) {
         return toEntities(targetClass, dynamoDB.batchGetItem(requestItems, returnConsumedCapacity).getResponses());
     }
 
+    /**
+     * Batch get item.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param batchGetItemRequest the batch get item request
+     * @return the map
+     */
     public <T> Map<String, List<T>> batchGetItem(final Class<T> targetClass, final BatchGetItemRequest batchGetItemRequest) {
         return toEntities(targetClass, dynamoDB.batchGetItem(batchGetItemRequest).getResponses());
     }
 
+    /**
+     * Put item.
+     *
+     * @param tableName the table name
+     * @param item the item
+     * @return the put item result
+     */
     public PutItemResult putItem(final String tableName, final Map<String, AttributeValue> item) {
         return dynamoDB.putItem(tableName, item);
     }
 
+    /**
+     * Put item.
+     *
+     * @param tableName the table name
+     * @param item the item
+     * @param returnValues the return values
+     * @return the put item result
+     */
     public PutItemResult putItem(final String tableName, final Map<String, AttributeValue> item, final String returnValues) {
         return dynamoDB.putItem(tableName, item, returnValues);
     }
 
+    /**
+     * Put item.
+     *
+     * @param putItemRequest the put item request
+     * @return the put item result
+     */
     public PutItemResult putItem(final PutItemRequest putItemRequest) {
         return dynamoDB.putItem(putItemRequest);
     }
 
     // There is no too much benefit to add method for "Object entity"
+    /**
+     * Put item.
+     *
+     * @param tableName the table name
+     * @param entity the entity
+     * @return the put item result
+     */
     // And it may cause error because the "Object" is ambiguous to any type. 
     PutItemResult putItem(final String tableName, final Object entity) {
         return putItem(tableName, toItem(entity));
     }
 
+    /**
+     * Put item.
+     *
+     * @param tableName the table name
+     * @param entity the entity
+     * @param returnValues the return values
+     * @return the put item result
+     */
     PutItemResult putItem(final String tableName, final Object entity, final String returnValues) {
         return putItem(tableName, toItem(entity), returnValues);
     }
 
+    /**
+     * Batch write item.
+     *
+     * @param requestItems the request items
+     * @return the batch write item result
+     */
     public BatchWriteItemResult batchWriteItem(final Map<String, List<WriteRequest>> requestItems) {
         return dynamoDB.batchWriteItem(requestItems);
     }
 
+    /**
+     * Batch write item.
+     *
+     * @param batchWriteItemRequest the batch write item request
+     * @return the batch write item result
+     */
     public BatchWriteItemResult batchWriteItem(final BatchWriteItemRequest batchWriteItemRequest) {
         return dynamoDB.batchWriteItem(batchWriteItemRequest);
     }
 
+    /**
+     * Update item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @param attributeUpdates the attribute updates
+     * @return the update item result
+     */
     public UpdateItemResult updateItem(final String tableName, final Map<String, AttributeValue> key,
             final Map<String, AttributeValueUpdate> attributeUpdates) {
         return dynamoDB.updateItem(tableName, key, attributeUpdates);
     }
 
+    /**
+     * Update item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @param attributeUpdates the attribute updates
+     * @param returnValues the return values
+     * @return the update item result
+     */
     public UpdateItemResult updateItem(final String tableName, final Map<String, AttributeValue> key, final Map<String, AttributeValueUpdate> attributeUpdates,
             final String returnValues) {
         return dynamoDB.updateItem(tableName, key, attributeUpdates, returnValues);
     }
 
+    /**
+     * Update item.
+     *
+     * @param updateItemRequest the update item request
+     * @return the update item result
+     */
     public UpdateItemResult updateItem(final UpdateItemRequest updateItemRequest) {
         return dynamoDB.updateItem(updateItemRequest);
     }
 
+    /**
+     * Delete item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @return the delete item result
+     */
     public DeleteItemResult deleteItem(final String tableName, final Map<String, AttributeValue> key) {
         return dynamoDB.deleteItem(tableName, key);
     }
 
+    /**
+     * Delete item.
+     *
+     * @param tableName the table name
+     * @param key the key
+     * @param returnValues the return values
+     * @return the delete item result
+     */
     public DeleteItemResult deleteItem(final String tableName, final Map<String, AttributeValue> key, final String returnValues) {
         return dynamoDB.deleteItem(tableName, key, returnValues);
     }
 
+    /**
+     * Delete item.
+     *
+     * @param deleteItemRequest the delete item request
+     * @return the delete item result
+     */
     public DeleteItemResult deleteItem(final DeleteItemRequest deleteItemRequest) {
         return dynamoDB.deleteItem(deleteItemRequest);
     }
 
+    /**
+     * List.
+     *
+     * @param queryRequest the query request
+     * @return the list
+     */
     @SuppressWarnings("rawtypes")
     public List<Map<String, Object>> list(final QueryRequest queryRequest) {
         return (List) list(Map.class, queryRequest);
     }
 
     /**
-     * 
+     * List.
+     *
+     * @param <T> the generic type
      * @param targetClass <code>Map</code> or entity class with getter/setter method.
-     * @param queryRequest
-     * @return
+     * @param queryRequest the query request
+     * @return the list
      */
     public <T> List<T> list(final Class<T> targetClass, final QueryRequest queryRequest) {
         final QueryResult queryResult = dynamoDB.query(queryRequest);
@@ -1068,9 +1496,10 @@ public final class DynamoDBExecutor implements Closeable {
     //    }
 
     /**
-     * 
-     * @param queryRequest
-     * @return
+     * Query.
+     *
+     * @param queryRequest the query request
+     * @return the data set
      * @see #list(QueryRequest)
      */
     public DataSet query(final QueryRequest queryRequest) {
@@ -1078,10 +1507,11 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param targetClass
-     * @param queryRequest
-     * @return
+     * Query.
+     *
+     * @param targetClass the target class
+     * @param queryRequest the query request
+     * @return the data set
      * @see #list(Class, QueryRequest)
      */
     public DataSet query(final Class<?> targetClass, final QueryRequest queryRequest) {
@@ -1157,16 +1587,24 @@ public final class DynamoDBExecutor implements Closeable {
     //        return res;
     //    }
 
+    /**
+     * Stream.
+     *
+     * @param queryRequest the query request
+     * @return the stream
+     */
     @SuppressWarnings("rawtypes")
     public Stream<Map<String, Object>> stream(final QueryRequest queryRequest) {
         return (Stream) stream(Map.class, queryRequest);
     }
 
     /**
-     * 
+     * Stream.
+     *
+     * @param <T> the generic type
      * @param targetClass <code>Map</code> or entity class with getter/setter method.
-     * @param queryRequest
-     * @return
+     * @param queryRequest the query request
+     * @return the stream
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final QueryRequest queryRequest) {
         final QueryResult queryResult = dynamoDB.query(queryRequest);
@@ -1217,35 +1655,99 @@ public final class DynamoDBExecutor implements Closeable {
         });
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param attributesToGet the attributes to get
+     * @return the stream
+     */
     public Stream<Map<String, Object>> scan(final String tableName, final List<String> attributesToGet) {
         return scan(new ScanRequest().withTableName(tableName).withAttributesToGet(attributesToGet));
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param scanFilter the scan filter
+     * @return the stream
+     */
     public Stream<Map<String, Object>> scan(final String tableName, final Map<String, Condition> scanFilter) {
         return scan(new ScanRequest().withTableName(tableName).withScanFilter(scanFilter));
     }
 
+    /**
+     * Scan.
+     *
+     * @param tableName the table name
+     * @param attributesToGet the attributes to get
+     * @param scanFilter the scan filter
+     * @return the stream
+     */
     public Stream<Map<String, Object>> scan(final String tableName, final List<String> attributesToGet, final Map<String, Condition> scanFilter) {
         return scan(new ScanRequest().withTableName(tableName).withAttributesToGet(attributesToGet).withScanFilter(scanFilter));
     }
 
+    /**
+     * Scan.
+     *
+     * @param scanRequest the scan request
+     * @return the stream
+     */
     @SuppressWarnings("rawtypes")
     public Stream<Map<String, Object>> scan(final ScanRequest scanRequest) {
         return (Stream) scan(Map.class, scanRequest);
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param attributesToGet the attributes to get
+     * @return the stream
+     */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final List<String> attributesToGet) {
         return scan(targetClass, new ScanRequest().withTableName(tableName).withAttributesToGet(attributesToGet));
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param scanFilter the scan filter
+     * @return the stream
+     */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final Map<String, Condition> scanFilter) {
         return scan(targetClass, new ScanRequest().withTableName(tableName).withScanFilter(scanFilter));
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param tableName the table name
+     * @param attributesToGet the attributes to get
+     * @param scanFilter the scan filter
+     * @return the stream
+     */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final List<String> attributesToGet, final Map<String, Condition> scanFilter) {
         return scan(targetClass, new ScanRequest().withTableName(tableName).withAttributesToGet(attributesToGet).withScanFilter(scanFilter));
     }
 
+    /**
+     * Scan.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param scanRequest the scan request
+     * @return the stream
+     */
     public <T> Stream<T> scan(final Class<T> targetClass, final ScanRequest scanRequest) {
         final ScanResult scanResult = dynamoDB.scan(scanRequest);
 
@@ -1295,73 +1797,170 @@ public final class DynamoDBExecutor implements Closeable {
         });
     }
 
+    /**
+     * Iterate.
+     *
+     * @param items the items
+     * @return the iterator
+     */
     private Iterator<Map<String, AttributeValue>> iterate(final List<Map<String, AttributeValue>> items) {
         return N.isNullOrEmpty(items) ? ObjIterator.<Map<String, AttributeValue>> empty() : items.iterator();
     }
 
+    /**
+     * Close.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Override
     public void close() throws IOException {
         dynamoDB.shutdown();
     }
 
+    /**
+     * The Class Filters.
+     */
     public static final class Filters {
+
+        /**
+         * Eq.
+         *
+         * @param attrName the attr name
+         * @param attrValue the attr value
+         * @return the map
+         */
         public static Map<String, Condition> eq(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.EQ).withAttributeValueList(attrValueOf(attrValue)));
         }
 
+        /**
+         * Ne.
+         *
+         * @param attrName the attr name
+         * @param attrValue the attr value
+         * @return the map
+         */
         public static Map<String, Condition> ne(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.NE).withAttributeValueList(attrValueOf(attrValue)));
         }
 
+        /**
+         * Gt.
+         *
+         * @param attrName the attr name
+         * @param attrValue the attr value
+         * @return the map
+         */
         public static Map<String, Condition> gt(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.GT).withAttributeValueList(attrValueOf(attrValue)));
         }
 
+        /**
+         * Ge.
+         *
+         * @param attrName the attr name
+         * @param attrValue the attr value
+         * @return the map
+         */
         public static Map<String, Condition> ge(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.GE).withAttributeValueList(attrValueOf(attrValue)));
         }
 
+        /**
+         * Lt.
+         *
+         * @param attrName the attr name
+         * @param attrValue the attr value
+         * @return the map
+         */
         public static Map<String, Condition> lt(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.LT).withAttributeValueList(attrValueOf(attrValue)));
         }
 
+        /**
+         * Le.
+         *
+         * @param attrName the attr name
+         * @param attrValue the attr value
+         * @return the map
+         */
         public static Map<String, Condition> le(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.LE).withAttributeValueList(attrValueOf(attrValue)));
         }
 
         /**
-         * Between
-         * 
-         * @param attrName
-         * @param minAttrValue
-         * @param maxAttrValue
-         * @return
+         * Between.
+         *
+         * @param attrName the attr name
+         * @param minAttrValue the min attr value
+         * @param maxAttrValue the max attr value
+         * @return the map
          */
         public static Map<String, Condition> bt(String attrName, Object minAttrValue, Object maxAttrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.BETWEEN)
                     .withAttributeValueList(attrValueOf(minAttrValue), attrValueOf(maxAttrValue)));
         }
 
+        /**
+         * Checks if is null.
+         *
+         * @param attrName the attr name
+         * @return the map
+         */
         public static Map<String, Condition> isNull(String attrName) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.NULL));
         }
 
+        /**
+         * Not null.
+         *
+         * @param attrName the attr name
+         * @return the map
+         */
         public static Map<String, Condition> notNull(String attrName) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.NOT_NULL));
         }
 
+        /**
+         * Contains.
+         *
+         * @param attrName the attr name
+         * @param attrValue the attr value
+         * @return the map
+         */
         public static Map<String, Condition> contains(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.CONTAINS).withAttributeValueList(attrValueOf(attrValue)));
         }
 
+        /**
+         * Not contains.
+         *
+         * @param attrName the attr name
+         * @param attrValue the attr value
+         * @return the map
+         */
         public static Map<String, Condition> notContains(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.NOT_CONTAINS).withAttributeValueList(attrValueOf(attrValue)));
         }
 
+        /**
+         * Begins with.
+         *
+         * @param attrName the attr name
+         * @param attrValue the attr value
+         * @return the map
+         */
         public static Map<String, Condition> beginsWith(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.BEGINS_WITH).withAttributeValueList(attrValueOf(attrValue)));
         }
 
+        /**
+         * In.
+         *
+         * @param attrName the attr name
+         * @param attrValues the attr values
+         * @return the map
+         */
         @SafeVarargs
         public static Map<String, Condition> in(String attrName, Object... attrValues) {
             final AttributeValue[] attributeValueList = new AttributeValue[attrValues.length];
@@ -1375,6 +1974,13 @@ public final class DynamoDBExecutor implements Closeable {
             return N.asMap(attrName, cond);
         }
 
+        /**
+         * In.
+         *
+         * @param attrName the attr name
+         * @param attrValues the attr values
+         * @return the map
+         */
         public static Map<String, Condition> in(String attrName, Collection<?> attrValues) {
             final AttributeValue[] attributeValueList = new AttributeValue[attrValues.size()];
 

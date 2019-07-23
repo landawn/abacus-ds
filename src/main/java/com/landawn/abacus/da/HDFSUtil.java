@@ -14,14 +14,18 @@
 
 package com.landawn.abacus.da;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @since 0.8
- * 
+ * The Class HDFSUtil.
+ *
  * @author Haiyang Li
+ * @since 0.8
  */
 public final class HDFSUtil {
 
+    /**
+     * Instantiates a new HDFS util.
+     */
     private HDFSUtil() {
         // utility class.
     }

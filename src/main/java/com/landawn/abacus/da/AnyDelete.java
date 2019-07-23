@@ -25,43 +25,80 @@ import java.util.NavigableMap;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Delete;
 
+// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Delete</code> in HBase to reduce the manual conversion between bytes and String/Object.
- * 
- * @since 0.8
- * 
+ *
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.Delete
+ * @since 0.8
  */
 public final class AnyDelete extends AnyMutation<AnyDelete> {
+
+    /** The delete. */
     private final Delete delete;
 
+    /**
+     * Instantiates a new any delete.
+     *
+     * @param rowKey the row key
+     */
     public AnyDelete(final Object rowKey) {
         super(new Delete(toRowKeyBytes(rowKey)));
         this.delete = (Delete) mutation;
     }
 
+    /**
+     * Instantiates a new any delete.
+     *
+     * @param rowKey the row key
+     * @param timestamp the timestamp
+     */
     public AnyDelete(final Object rowKey, final long timestamp) {
         super(new Delete(toRowKeyBytes(rowKey), timestamp));
         this.delete = (Delete) mutation;
     }
 
+    /**
+     * Instantiates a new any delete.
+     *
+     * @param rowKey the row key
+     * @param rowOffset the row offset
+     * @param rowLength the row length
+     */
     public AnyDelete(final Object rowKey, final int rowOffset, final int rowLength) {
         super(new Delete(toRowKeyBytes(rowKey), rowOffset, rowLength));
         this.delete = (Delete) mutation;
     }
 
+    /**
+     * Instantiates a new any delete.
+     *
+     * @param rowKey the row key
+     * @param rowOffset the row offset
+     * @param rowLength the row length
+     * @param timestamp the timestamp
+     */
     public AnyDelete(final Object rowKey, final int rowOffset, final int rowLength, final long timestamp) {
         super(new Delete(toRowKeyBytes(rowKey), rowOffset, rowLength, timestamp));
         this.delete = (Delete) mutation;
     }
 
+    /**
+     * Instantiates a new any delete.
+     *
+     * @param row the row
+     * @param timestamp the timestamp
+     * @param familyMap the family map
+     */
     public AnyDelete(final Object row, final long timestamp, final NavigableMap<byte[], List<Cell>> familyMap) {
         super(new Delete(toRowBytes(row), timestamp, familyMap));
         this.delete = (Delete) mutation;
     }
 
     /**
+     * Instantiates a new any delete.
+     *
      * @param deleteToCopy delete to copy
      */
     public AnyDelete(final Delete deleteToCopy) {
@@ -69,39 +106,89 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
         this.delete = (Delete) mutation;
     }
 
+    /**
+     * Of.
+     *
+     * @param rowKey the row key
+     * @return the any delete
+     */
     public static AnyDelete of(final Object rowKey) {
         return new AnyDelete(rowKey);
     }
 
+    /**
+     * Of.
+     *
+     * @param rowKey the row key
+     * @param timestamp the timestamp
+     * @return the any delete
+     */
     public static AnyDelete of(final Object rowKey, final long timestamp) {
         return new AnyDelete(rowKey, timestamp);
     }
 
+    /**
+     * Of.
+     *
+     * @param rowKey the row key
+     * @param rowOffset the row offset
+     * @param rowLength the row length
+     * @return the any delete
+     */
     public static AnyDelete of(final Object rowKey, final int rowOffset, final int rowLength) {
         return new AnyDelete(rowKey, rowOffset, rowLength);
     }
 
+    /**
+     * Of.
+     *
+     * @param rowKey the row key
+     * @param rowOffset the row offset
+     * @param rowLength the row length
+     * @param timestamp the timestamp
+     * @return the any delete
+     */
     public static AnyDelete of(final Object rowKey, final int rowOffset, final int rowLength, final long timestamp) {
         return new AnyDelete(rowKey, timestamp);
     }
 
+    /**
+     * Of.
+     *
+     * @param row the row
+     * @param timestamp the timestamp
+     * @param familyMap the family map
+     * @return the any delete
+     */
     public static AnyDelete of(final Object row, final long timestamp, final NavigableMap<byte[], List<Cell>> familyMap) {
         return new AnyDelete(row, timestamp, familyMap);
     }
 
+    /**
+     * Of.
+     *
+     * @param deleteToCopy the delete to copy
+     * @return the any delete
+     */
     public static AnyDelete of(final Delete deleteToCopy) {
         return new AnyDelete(deleteToCopy);
     }
 
+    /**
+     * Val.
+     *
+     * @return the delete
+     */
     public Delete val() {
         return delete;
     }
 
     /**
      * Advanced use only. Add an existing delete marker to this Delete object.
+     *
      * @param kv An existing KeyValue of type "delete".
      * @return this for invocation chaining
-     * @throws IOException
+     * @throws IOException Signals that an I/O exception has occurred.
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0. Use {@link #add(Cell)}
      *             instead
      */
@@ -113,6 +200,13 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
         return this;
     }
 
+    /**
+     * Adds the.
+     *
+     * @param kv the kv
+     * @return the any delete
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public AnyDelete add(Cell kv) throws IOException {
         delete.add(kv);
 
@@ -124,9 +218,9 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * <p>
      * Overrides previous calls to deleteColumn and deleteColumns for the
      * specified family.
-     * 
-     * @param family
-     * @return
+     *
+     * @param family the family
+     * @return the any delete
      */
     public AnyDelete addFamily(final String family) {
         delete.addFamily(toFamilyQualifierBytes(family));
@@ -140,10 +234,10 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * <p>
      * Overrides previous calls to deleteColumn and deleteColumns for the
      * specified family.
-     * 
-     * @param family
-     * @param timestamp
-     * @return
+     *
+     * @param family the family
+     * @param timestamp the timestamp
+     * @return the any delete
      */
     public AnyDelete addFamily(final String family, final long timestamp) {
         delete.addFamily(toFamilyQualifierBytes(family), timestamp);
@@ -156,9 +250,9 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * <p>
      * Overrides previous calls to deleteColumn and deleteColumns for the
      * specified family.
-     * 
-     * @param family
-     * @return
+     *
+     * @param family the family
+     * @return the any delete
      */
     public AnyDelete addFamily(final byte[] family) {
         delete.addFamily(family);
@@ -172,10 +266,10 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * <p>
      * Overrides previous calls to deleteColumn and deleteColumns for the
      * specified family.
-     * 
-     * @param family
-     * @param timestamp
-     * @return
+     *
+     * @param family the family
+     * @param timestamp the timestamp
+     * @return the any delete
      */
     public AnyDelete addFamily(final byte[] family, final long timestamp) {
         delete.addFamily(family, timestamp);
@@ -185,10 +279,10 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
 
     /**
      * Delete all columns of the specified family with a timestamp equal to the specified timestamp.
-     * 
-     * @param family
-     * @param timestamp
-     * @return
+     *
+     * @param family the family
+     * @param timestamp the timestamp
+     * @return the any delete
      */
     public AnyDelete addFamilyVersion(final String family, final long timestamp) {
         delete.addFamilyVersion(toFamilyQualifierBytes(family), timestamp);
@@ -198,10 +292,10 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
 
     /**
      * Delete all columns of the specified family with a timestamp equal to the specified timestamp.
-     * 
-     * @param family
-     * @param timestamp
-     * @return
+     *
+     * @param family the family
+     * @param timestamp the timestamp
+     * @return the any delete
      */
     public AnyDelete addFamilyVersion(final byte[] family, final long timestamp) {
         delete.addFamilyVersion(family, timestamp);
@@ -214,10 +308,10 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * This is an expensive call in that on the server-side, it first does a
      * get to find the latest versions timestamp.  Then it adds a delete using
      * the fetched cells timestamp.
-     * 
-     * @param family
-     * @param qualifier
-     * @return
+     *
+     * @param family the family
+     * @param qualifier the qualifier
+     * @return the any delete
      */
     public AnyDelete addColumn(final String family, final String qualifier) {
         delete.addColumn(toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier));
@@ -227,11 +321,11 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
 
     /**
      * Delete the specified version of the specified column.
-     * 
-     * @param family
-     * @param qualifier
-     * @param timestamp
-     * @return
+     *
+     * @param family the family
+     * @param qualifier the qualifier
+     * @param timestamp the timestamp
+     * @return the any delete
      */
     public AnyDelete addColumn(final String family, final String qualifier, final long timestamp) {
         delete.addColumn(toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), timestamp);
@@ -244,10 +338,10 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * This is an expensive call in that on the server-side, it first does a
      * get to find the latest versions timestamp.  Then it adds a delete using
      * the fetched cells timestamp.
-     * 
-     * @param family
-     * @param qualifier
-     * @return
+     *
+     * @param family the family
+     * @param qualifier the qualifier
+     * @return the any delete
      */
     public AnyDelete addColumn(final byte[] family, final byte[] qualifier) {
         delete.addColumn(family, qualifier);
@@ -257,11 +351,11 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
 
     /**
      * Delete the specified version of the specified column.
-     * 
-     * @param family
-     * @param qualifier
-     * @param timestamp
-     * @return
+     *
+     * @param family the family
+     * @param qualifier the qualifier
+     * @param timestamp the timestamp
+     * @return the any delete
      */
     public AnyDelete addColumn(final byte[] family, final byte[] qualifier, final long timestamp) {
         delete.addColumn(family, qualifier, timestamp);
@@ -271,10 +365,10 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
 
     /**
      * Delete all versions of the specified column.
-     * 
-     * @param family
-     * @param qualifier
-     * @return
+     *
+     * @param family the family
+     * @param qualifier the qualifier
+     * @return the any delete
      */
     public AnyDelete addColumns(final String family, final String qualifier) {
         delete.addColumns(toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier));
@@ -284,11 +378,11 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
 
     /**
      * Delete all versions of the specified column with a timestamp less than or equal to the specified timestamp.
-     * 
-     * @param family
-     * @param qualifier
-     * @param timestamp
-     * @return
+     *
+     * @param family the family
+     * @param qualifier the qualifier
+     * @param timestamp the timestamp
+     * @return the any delete
      */
     public AnyDelete addColumns(final String family, final String qualifier, final long timestamp) {
         delete.addColumns(toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), timestamp);
@@ -298,10 +392,10 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
 
     /**
      * Delete all versions of the specified column.
-     * 
-     * @param family
-     * @param qualifier
-     * @return
+     *
+     * @param family the family
+     * @param qualifier the qualifier
+     * @return the any delete
      */
     public AnyDelete addColumns(final byte[] family, final byte[] qualifier) {
         delete.addColumns(family, qualifier);
@@ -311,11 +405,11 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
 
     /**
      * Delete all versions of the specified column with a timestamp less than or equal to the specified timestamp.
-     * 
-     * @param family
-     * @param qualifier
-     * @param timestamp
-     * @return
+     *
+     * @param family the family
+     * @param qualifier the qualifier
+     * @param timestamp the timestamp
+     * @return the any delete
      */
     public AnyDelete addColumns(final byte[] family, final byte[] qualifier, final long timestamp) {
         delete.addColumns(family, qualifier, timestamp);
@@ -323,11 +417,22 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
         return this;
     }
 
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         return delete.hashCode();
     }
 
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -343,6 +448,11 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
         return false;
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return delete.toString();

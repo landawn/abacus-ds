@@ -19,46 +19,94 @@ import java.util.Map;
 
 import org.apache.hadoop.hbase.client.Operation;
 
+// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Operation</code> in HBase to reduce the manual conversion between bytes and String/Object.
- * 
- * @since 1.7.13
- * 
+ *
+ * @param <AP> the generic type
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.Operation
+ * @since 1.7.13
  */
 abstract class AnyOperation<AP extends AnyOperation<?>> {
+
+    /** The op. */
     protected final Operation op;
 
+    /**
+     * Instantiates a new any operation.
+     *
+     * @param op the op
+     */
     protected AnyOperation(final Operation op) {
         this.op = op;
     }
 
+    /**
+     * Gets the fingerprint.
+     *
+     * @return the fingerprint
+     */
     public Map<String, Object> getFingerprint() {
         return op.getFingerprint();
     }
 
+    /**
+     * To map.
+     *
+     * @return the map
+     */
     public Map<String, Object> toMap() {
         return op.toMap();
     }
 
+    /**
+     * To map.
+     *
+     * @param maxCols the max cols
+     * @return the map
+     */
     public Map<String, Object> toMap(final int maxCols) {
         return op.toMap(maxCols);
     }
 
+    /**
+     * To JSON.
+     *
+     * @return the string
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public String toJSON() throws IOException {
         return op.toJSON();
     }
 
+    /**
+     * To JSON.
+     *
+     * @param maxCols the max cols
+     * @return the string
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     public String toJSON(final int maxCols) throws IOException {
         return op.toJSON(maxCols);
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return op.toString();
     }
 
+    /**
+     * To string.
+     *
+     * @param maxCols the max cols
+     * @return the string
+     */
     public String toString(final int maxCols) {
         return op.toString(maxCols);
     }

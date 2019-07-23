@@ -67,7 +67,10 @@ public class Neo4jOGMTest {
 
         OrderItem orderItem = new OrderItem().setProduct(product).setQuantity(1).setAmount(26);
         OrderItem orderItem1 = new OrderItem().setProduct(product).setQuantity(2).setAmount(13);
-        Order order = new Order().setOrderItemList(N.asList(orderItem, orderItem1)).setAmount(39).setDate(DateUtil.currentJUDate()).setShippingAddress(address1);
+        Order order = new Order().setOrderItemList(N.asList(orderItem, orderItem1))
+                .setAmount(39)
+                .setDate(DateUtil.currentJUDate())
+                .setShippingAddress(address1);
 
         Customer customer = new Customer().setFirstName(N.uuid()).setLastName("xyz").setAddress(address1).setOrderList(N.asList(order));
 

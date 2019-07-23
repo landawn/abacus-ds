@@ -59,21 +59,20 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
 
+// TODO: Auto-generated Javadoc
 /**
  * It's a simple wrapper of MongoDB Java client.
  * 
  * <br>We recommend to define "id" property in java entity/bean as the object "_id" in MongoDB to keep things as simple as possible.</br>
  *  
  *
- * @since 0.8
- * 
  * @author Haiyang Li
- * 
  * @see <a href="http://api.mongodb.org/java/3.1/?com/mongodb/client/model/Filters.html">com.mongodb.client.model.Filters</a>
  * @see <a href="http://api.mongodb.org/java/3.1/?com/mongodb/client/model/Aggregates.html">com.mongodb.client.model.Aggregates</a>
  * @see <a href="http://api.mongodb.org/java/3.1/?com/mongodb/client/model/Accumulators.html">com.mongodb.client.model.Accumulators</a>
  * @see <a href="http://api.mongodb.org/java/3.1/?com/mongodb/client/model/Projections.html">com.mongodb.client.model.Projections</a>
  * @see <a href="http://api.mongodb.org/java/3.1/?com/mongodb/client/model/Sorts.html">com.mongodb.client.model.Sorts</a>
+ * @since 0.8
  */
 public final class MongoDB {
     /**
@@ -86,40 +85,85 @@ public final class MongoDB {
      */
     public static final String ID = "id";
 
+    /** The Constant jsonParser. */
     private static final JSONParser jsonParser = ParserFactory.createJSONParser();
 
+    /** The Constant codecRegistry. */
     // private static CodecRegistry codecRegistry = CodecRegistries.fromCodecs(new CalendarCodec(), new TimeCodec(), new TimestampCodec());
     private static final CodecRegistry codecRegistry = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(), new GeneralCodecRegistry());
 
+    /** The Constant classIdSetMethodPool. */
     private static final Map<Class<?>, Method> classIdSetMethodPool = new ConcurrentHashMap<>();
 
+    /** The coll executor pool. */
     private final Map<String, MongoCollectionExecutor> collExecutorPool = new ConcurrentHashMap<>();
+
+    /** The coll mapper pool. */
     private final Map<Class<?>, MongoCollectionMapper<?>> collMapperPool = new ConcurrentHashMap<>();
 
+    /** The mongo DB. */
     private final MongoDatabase mongoDB;
+
+    /** The async executor. */
     private final AsyncExecutor asyncExecutor;
 
+    /**
+     * Instantiates a new mongo DB.
+     *
+     * @param mongoDB the mongo DB
+     */
     public MongoDB(final MongoDatabase mongoDB) {
         this(mongoDB, new AsyncExecutor(64, 300, TimeUnit.SECONDS));
     }
 
+    /**
+     * Instantiates a new mongo DB.
+     *
+     * @param mongoDB the mongo DB
+     * @param asyncExecutor the async executor
+     */
     public MongoDB(final MongoDatabase mongoDB, final AsyncExecutor asyncExecutor) {
         this.mongoDB = mongoDB.withCodecRegistry(codecRegistry);
         this.asyncExecutor = asyncExecutor;
     }
 
+    /**
+     * Db.
+     *
+     * @return the mongo database
+     */
     public MongoDatabase db() {
         return mongoDB;
     }
 
+    /**
+     * Collection.
+     *
+     * @param collectionName the collection name
+     * @return the mongo collection
+     */
     public MongoCollection<Document> collection(final String collectionName) {
         return mongoDB.getCollection(collectionName);
     }
 
+    /**
+     * Collection.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param collectionName the collection name
+     * @return the mongo collection
+     */
     public <T> MongoCollection<T> collection(final Class<T> targetClass, final String collectionName) {
         return mongoDB.getCollection(collectionName, targetClass);
     }
 
+    /**
+     * Coll executor.
+     *
+     * @param collectionName the collection name
+     * @return the mongo collection executor
+     */
     public MongoCollectionExecutor collExecutor(final String collectionName) {
         MongoCollectionExecutor collExecutor = collExecutorPool.get(collectionName);
 
@@ -138,10 +182,25 @@ public final class MongoDB {
         return collExecutor;
     }
 
+    /**
+     * Coll mapper.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @return the mongo collection mapper
+     */
     public <T> MongoCollectionMapper<T> collMapper(final Class<T> targetClass) {
         return collMapper(targetClass, ClassUtil.getSimpleClassName(targetClass));
     }
 
+    /**
+     * Coll mapper.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param collectionName the collection name
+     * @return the mongo collection mapper
+     */
     @SuppressWarnings("rawtypes")
     public <T> MongoCollectionMapper<T> collMapper(final Class<T> targetClass, String collectionName) {
         N.checkArgNotNull(targetClass, "targetClass");
@@ -165,9 +224,10 @@ public final class MongoDB {
     }
 
     /**
-     * The object id ("_id") property will be read from/write to the specified property 
-     * @param cls
-     * @param idPropertyName
+     * The object id ("_id") property will be read from/write to the specified property .
+     *
+     * @param cls the cls
+     * @param idPropertyName the id property name
      */
     public static void registerIdProeprty(final Class<?> cls, final String idPropertyName) {
         if (ClassUtil.getPropGetMethod(cls, idPropertyName) == null || ClassUtil.getPropSetMethod(cls, idPropertyName) == null) {
@@ -186,26 +246,34 @@ public final class MongoDB {
         classIdSetMethodPool.put(cls, setMethod);
     }
 
+    /**
+     * Extract data.
+     *
+     * @param findIterable the find iterable
+     * @return the data set
+     */
     public static DataSet extractData(final MongoIterable<?> findIterable) {
         return extractData(Map.class, findIterable);
     }
 
     /**
-     * 
+     * Extract data.
+     *
      * @param targetClass an entity class with getter/setter method or <code>Map.class/Document.class</code>
-     * @param findIterable
-     * @return
+     * @param findIterable the find iterable
+     * @return the data set
      */
     public static DataSet extractData(final Class<?> targetClass, final MongoIterable<?> findIterable) {
         return extractData(targetClass, null, findIterable);
     }
 
     /**
-     * 
+     * Extract data.
+     *
      * @param targetClass an entity class with getter/setter method or <code>Map.class/Document.class</code>
-     * @param selectPropNames
-     * @param findIterable
-     * @return
+     * @param selectPropNames the select prop names
+     * @param findIterable the find iterable
+     * @return the data set
      */
     static DataSet extractData(final Class<?> targetClass, final Collection<String> selectPropNames, final MongoIterable<?> findIterable) {
         checkTargetClass(targetClass);
@@ -265,10 +333,12 @@ public final class MongoDB {
     }
 
     /**
-     * 
+     * To list.
+     *
+     * @param <T> the generic type
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
-     * @param findIterable
-     * @return
+     * @param findIterable the find iterable
+     * @return the list
      */
     @SuppressWarnings("rawtypes")
     public static <T> List<T> toList(final Class<T> targetClass, final MongoIterable<?> findIterable) {
@@ -323,10 +393,11 @@ public final class MongoDB {
 
     /**
      * The id in the specified <code>doc</code> will be set to the returned object if and only if the id is not null or empty and it's acceptable to the <code>targetClass</code>.
-     * 
+     *
+     * @param <T> the generic type
      * @param targetClass an entity class with getter/setter method, or <code>Map.class</code>.
-     * @param doc
-     * @return
+     * @param doc the doc
+     * @return the t
      */
     @SuppressWarnings("deprecation")
     public static <T> T toEntity(final Class<T> targetClass, final Document doc) {
@@ -379,6 +450,13 @@ public final class MongoDB {
         }
     }
 
+    /**
+     * Gets the object id set method.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @return the object id set method
+     */
     private static <T> Method getObjectIdSetMethod(final Class<T> targetClass) {
         Method idSetMethod = classIdSetMethodPool.get(targetClass);
 
@@ -421,24 +499,43 @@ public final class MongoDB {
         return idSetMethod == ClazzUtil.METHOD_MASK ? null : idSetMethod;
     }
 
+    /**
+     * To JSON.
+     *
+     * @param bson the bson
+     * @return the string
+     */
     public static String toJSON(final Bson bson) {
         return bson instanceof Map ? N.toJSON(bson) : N.toJSON(bson.toBsonDocument(Document.class, codecRegistry));
     }
 
+    /**
+     * To JSON.
+     *
+     * @param bsonObject the bson object
+     * @return the string
+     */
     public static String toJSON(final BSONObject bsonObject) {
         return bsonObject instanceof Map ? N.toJSON(bsonObject) : N.toJSON(bsonObject.toMap());
     }
 
+    /**
+     * To JSON.
+     *
+     * @param bsonObject the bson object
+     * @return the string
+     */
     public static String toJSON(final BasicDBObject bsonObject) {
         return bsonObject instanceof Map ? N.toJSON(bsonObject) : N.toJSON(bsonObject.toMap());
     }
 
     /**
      * Returns an instance of the specified target class with the property values from the specified JSON String.
-     * 
+     *
+     * @param <T> the generic type
      * @param targetClass <code>Bson.class</code>, <code>Document.class</code>, <code>BasicBSONObject.class</code>, <code>BasicDBObject.class</code>
-     * @param json
-     * @return
+     * @param json the json
+     * @return the t
      */
     public static <T> T fromJSON(final Class<T> targetClass, final String json) {
         if (targetClass.equals(Bson.class) || targetClass.equals(Document.class)) {
@@ -459,9 +556,10 @@ public final class MongoDB {
     }
 
     /**
+     * To bson.
      *
      * @param obj an array of pairs of property name and value/Map<String, Object> or an entity with getter/setter methods.
-     * @return
+     * @return the bson
      */
     public static Bson toBson(final Object obj) {
         return toDocument(obj);
@@ -470,8 +568,8 @@ public final class MongoDB {
     /**
      * Create a new document with specified parameter(s). It could an array of property name and value, or a map, or an entity.
      *
-     * @param a
-     * @return
+     * @param a the a
+     * @return the bson
      */
     @SafeVarargs
     public static Bson toBson(final Object... a) {
@@ -479,9 +577,10 @@ public final class MongoDB {
     }
 
     /**
+     * To document.
      *
      * @param obj an array of pairs of property name and value/Map<String, Object> or an entity with getter/setter methods.
-     * @return
+     * @return the document
      */
     public static Document toDocument(final Object obj) {
         return toDocument(obj, false);
@@ -490,8 +589,8 @@ public final class MongoDB {
     /**
      * Create a new document with specified parameter(s). It could an array of property name and value, or a map, or an entity.
      *
-     * @param a
-     * @return
+     * @param a the a
+     * @return the document
      */
     @SafeVarargs
     public static Document toDocument(final Object... a) {
@@ -502,6 +601,13 @@ public final class MongoDB {
         return a.length == 1 ? toDocument(a[0]) : toDocument((Object) a);
     }
 
+    /**
+     * To document.
+     *
+     * @param obj the obj
+     * @param isForUpdate the is for update
+     * @return the document
+     */
     @SuppressWarnings("deprecation")
     static Document toDocument(final Object obj, final boolean isForUpdate) {
         final Document result = new Document();
@@ -568,9 +674,10 @@ public final class MongoDB {
     }
 
     /**
+     * To BSON object.
      *
      * @param obj an array of pairs of property name and value/Map<String, Object> or an entity with getter/setter methods.
-     * @return
+     * @return the basic BSON object
      */
     public static BasicBSONObject toBSONObject(final Object obj) {
         final BasicBSONObject result = new BasicBSONObject();
@@ -599,6 +706,12 @@ public final class MongoDB {
         return result;
     }
 
+    /**
+     * To BSON object.
+     *
+     * @param a the a
+     * @return the basic BSON object
+     */
     @SafeVarargs
     public static BasicBSONObject toBSONObject(final Object... a) {
         if (N.isNullOrEmpty(a)) {
@@ -609,9 +722,10 @@ public final class MongoDB {
     }
 
     /**
+     * To DB object.
      *
      * @param obj an array of pairs of property name and value/Map<String, Object> or an entity with getter/setter methods.
-     * @return
+     * @return the basic DB object
      */
     public static BasicDBObject toDBObject(final Object obj) {
         final BasicDBObject result = new BasicDBObject();
@@ -640,6 +754,12 @@ public final class MongoDB {
         return result;
     }
 
+    /**
+     * To DB object.
+     *
+     * @param a the a
+     * @return the basic DB object
+     */
     @SafeVarargs
     public static BasicDBObject toDBObject(final Object... a) {
         if (N.isNullOrEmpty(a)) {
@@ -649,6 +769,12 @@ public final class MongoDB {
         return a.length == 1 ? toDBObject(a[0]) : toDBObject((Object) a);
     }
 
+    /**
+     * Reset object id.
+     *
+     * @param obj the obj
+     * @param doc the doc
+     */
     private static void resetObjectId(final Object obj, final Map<String, Object> doc) {
         final Class<?> cls = obj.getClass();
         final Method idSetMethod = getObjectIdSetMethod(obj.getClass());
@@ -671,6 +797,12 @@ public final class MongoDB {
         }
     }
 
+    /**
+     * Check target class.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     */
     private static <T> void checkTargetClass(final Class<T> targetClass) {
         if (!(ClassUtil.isEntity(targetClass) || Map.class.isAssignableFrom(targetClass))) {
             throw new IllegalArgumentException("The target class must be an entity class with getter/setter methods or Map.class/Document.class. But it is: "
@@ -678,9 +810,21 @@ public final class MongoDB {
         }
     }
 
+    /**
+     * The Class GeneralCodecRegistry.
+     */
     private static class GeneralCodecRegistry implements CodecRegistry {
+
+        /** The Constant pool. */
         private static final Map<Class<?>, Codec<?>> pool = new ObjectPool<Class<?>, Codec<?>>(128);
 
+        /**
+         * Gets the.
+         *
+         * @param <T> the generic type
+         * @param clazz the clazz
+         * @return the codec
+         */
         @Override
         public <T> Codec<T> get(final Class<T> clazz) {
             Codec<?> codec = pool.get(clazz);
@@ -695,16 +839,39 @@ public final class MongoDB {
         }
     }
 
+    /**
+     * The Class GeneralCodec.
+     *
+     * @param <T> the generic type
+     */
     private static class GeneralCodec<T> implements Codec<T> {
+
+        /** The Constant documentCodec. */
         private static final DocumentCodec documentCodec = new DocumentCodec(codecRegistry, new BsonTypeClassMap());
+
+        /** The cls. */
         private final Class<T> cls;
+
+        /** The is entity class. */
         private final boolean isEntityClass;
 
+        /**
+         * Instantiates a new general codec.
+         *
+         * @param cls the cls
+         */
         public GeneralCodec(final Class<T> cls) {
             this.cls = cls;
             isEntityClass = ClassUtil.isEntity(cls);
         }
 
+        /**
+         * Encode.
+         *
+         * @param writer the writer
+         * @param value the value
+         * @param encoderContext the encoder context
+         */
         @Override
         public void encode(final BsonWriter writer, final T value, final EncoderContext encoderContext) {
             if (isEntityClass) {
@@ -714,6 +881,13 @@ public final class MongoDB {
             }
         }
 
+        /**
+         * Decode.
+         *
+         * @param reader the reader
+         * @param decoderContext the decoder context
+         * @return the t
+         */
         @Override
         public T decode(final BsonReader reader, final DecoderContext decoderContext) {
             if (isEntityClass) {
@@ -723,6 +897,11 @@ public final class MongoDB {
             }
         }
 
+        /**
+         * Gets the encoder class.
+         *
+         * @return the encoder class
+         */
         @Override
         public Class<T> getEncoderClass() {
             return cls;

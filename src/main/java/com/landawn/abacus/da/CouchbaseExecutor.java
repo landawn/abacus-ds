@@ -78,20 +78,20 @@ import com.landawn.abacus.util.function.ToLongFunction;
 import com.landawn.abacus.util.function.ToShortFunction;
 import com.landawn.abacus.util.stream.Stream;
 
+// TODO: Auto-generated Javadoc
 /**
  * It's a simple wrapper of Couchbase Java client.
  * Raw/ibatis(myBatis)/Couchbase style parameterized sql are supported. The parameters can be array/list/map/entity/JsonArray/JsonObject:
  * <li> row parameterized sql with question mark: <code>SELECT * FROM account WHERE accountId = ?</li>.
  * <li> ibatis/myBatis parameterized sql with named parameter: <code>SELECT * FROM account WHERE accountId = #{accountId}</li>.
  * <li> Couchbase parameterized sql with named parameter: <code>SELECT * FROM account WHERE accountId = $accountId</code> or <code>SELECT * FROM account WHERE accountId = $1</li>.
- *
+ * 
  * <br>
  * <br>We recommend to define "id" property in java entity/bean as the object id in Couchbase to keep things as simple as possible.</br>
  * <br>
  *
- * @since 0.8
- * 
  * @author Haiyang Li
+ * @since 0.8
  */
 public final class CouchbaseExecutor implements Closeable {
     /**
@@ -104,8 +104,10 @@ public final class CouchbaseExecutor implements Closeable {
      */
     public static final String ID = "id";
 
+    /** The Constant POOLABLE_LENGTH. */
     static final int POOLABLE_LENGTH = 1024;
 
+    /** The Constant supportedTypes. */
     static final Set<Class<?>> supportedTypes = new HashSet<>();
 
     static {
@@ -118,31 +120,66 @@ public final class CouchbaseExecutor implements Closeable {
         supportedTypes.add(JsonArray.class);
     }
 
+    /** The Constant classIdSetMethodPool. */
     private static final Map<Class<?>, Method> classIdSetMethodPool = new ConcurrentHashMap<>();
 
+    /** The Constant bucketIdNamePool. */
     private static final Map<String, String> bucketIdNamePool = new ConcurrentHashMap<>();
 
+    /** The stmt pool. */
     private final KeyedObjectPool<String, PoolableWrapper<N1qlQuery>> stmtPool = PoolFactory.createKeyedObjectPool(1024, 3000);
     // private final KeyedObjectPool<String, Wrapper<N1qlQueryPlan>> preStmtPool = PoolFactory.createKeyedObjectPool(1024, 3000);
 
+    /** The cluster. */
     private final Cluster cluster;
+
+    /** The bucket. */
     private final Bucket bucket;
 
+    /** The sql mapper. */
     private final SQLMapper sqlMapper;
+
+    /** The async executor. */
     private final AsyncExecutor asyncExecutor;
 
+    /**
+     * Instantiates a new couchbase executor.
+     *
+     * @param cluster the cluster
+     */
     public CouchbaseExecutor(Cluster cluster) {
         this(cluster, cluster.openBucket());
     }
 
+    /**
+     * Instantiates a new couchbase executor.
+     *
+     * @param cluster the cluster
+     * @param bucket the bucket
+     */
     public CouchbaseExecutor(Cluster cluster, Bucket bucket) {
         this(cluster, bucket, null);
     }
 
+    /**
+     * Instantiates a new couchbase executor.
+     *
+     * @param cluster the cluster
+     * @param bucket the bucket
+     * @param sqlMapper the sql mapper
+     */
     public CouchbaseExecutor(Cluster cluster, Bucket bucket, final SQLMapper sqlMapper) {
         this(cluster, bucket, sqlMapper, new AsyncExecutor(64, 300, TimeUnit.SECONDS));
     }
 
+    /**
+     * Instantiates a new couchbase executor.
+     *
+     * @param cluster the cluster
+     * @param bucket the bucket
+     * @param sqlMapper the sql mapper
+     * @param asyncExecutor the async executor
+     */
     public CouchbaseExecutor(Cluster cluster, Bucket bucket, final SQLMapper sqlMapper, final AsyncExecutor asyncExecutor) {
         this.cluster = cluster;
         this.bucket = bucket;
@@ -150,18 +187,29 @@ public final class CouchbaseExecutor implements Closeable {
         this.asyncExecutor = asyncExecutor;
     }
 
+    /**
+     * Cluster.
+     *
+     * @return the cluster
+     */
     public Cluster cluster() {
         return cluster;
     }
 
+    /**
+     * Bucket.
+     *
+     * @return the bucket
+     */
     public Bucket bucket() {
         return bucket;
     }
 
     /**
-     * The object id ("_id") property will be read from/write to the specified property 
-     * @param cls
-     * @param idPropertyName
+     * The object id ("_id") property will be read from/write to the specified property .
+     *
+     * @param cls the cls
+     * @param idPropertyName the id property name
      */
     public static void registerIdProperty(Class<?> cls, String idPropertyName) {
         if (ClassUtil.getPropGetMethod(cls, idPropertyName) == null || ClassUtil.getPropSetMethod(cls, idPropertyName) == null) {
@@ -180,15 +228,22 @@ public final class CouchbaseExecutor implements Closeable {
         classIdSetMethodPool.put(cls, setMethod);
     }
 
+    /**
+     * Extract data.
+     *
+     * @param resultSet the result set
+     * @return the data set
+     */
     public static DataSet extractData(final N1qlQueryResult resultSet) {
         return extractData(Map.class, resultSet);
     }
 
     /**
-     * 
+     * Extract data.
+     *
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
-     * @param resultSet
-     * @return
+     * @param resultSet the result set
+     * @return the data set
      */
     public static DataSet extractData(final Class<?> targetClass, final N1qlQueryResult resultSet) {
         checkResultError(resultSet);
@@ -249,10 +304,12 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
+     * To list.
+     *
+     * @param <T> the generic type
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
-     * @param resultSet
-     * @return
+     * @param resultSet the result set
+     * @return the list
      */
     public static <T> List<T> toList(Class<T> targetClass, N1qlQueryResult resultSet) {
         checkResultError(resultSet);
@@ -299,10 +356,12 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
+     * To entity.
+     *
+     * @param <T> the generic type
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
-     * @param row
-     * @return
+     * @param row the row
+     * @return the t
      */
     public static <T> T toEntity(final Class<T> targetClass, final N1qlQueryRow row) {
         return toEntity(targetClass, row.value());
@@ -310,10 +369,11 @@ public final class CouchbaseExecutor implements Closeable {
 
     /**
      * The id in the specified <code>jsonDocument</code> will be set to the returned object if and only if the id is not null or empty and the content in <code>jsonDocument</code> doesn't contain any "id" property, and it's acceptable to the <code>targetClass</code>.
-     * 
+     *
+     * @param <T> the generic type
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
-     * @param jsonDocument
-     * @return
+     * @param jsonDocument the json document
+     * @return the t
      */
     public static <T> T toEntity(final Class<T> targetClass, final JsonDocument jsonDocument) {
         final T result = toEntity(targetClass, jsonDocument.content());
@@ -334,6 +394,13 @@ public final class CouchbaseExecutor implements Closeable {
         return result;
     }
 
+    /**
+     * Gets the object id set method.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @return the object id set method
+     */
     private static <T> Method getObjectIdSetMethod(Class<T> targetClass) {
         Method idSetMethod = classIdSetMethodPool.get(targetClass);
 
@@ -373,10 +440,12 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
+     * To entity.
+     *
+     * @param <T> the generic type
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
-     * @param jsonObject
-     * @return
+     * @param jsonObject the json object
+     * @return the t
      */
     @SuppressWarnings("deprecation")
     public static <T> T toEntity(final Class<T> targetClass, final JsonObject jsonObject) {
@@ -449,14 +518,32 @@ public final class CouchbaseExecutor implements Closeable {
 
     }
 
+    /**
+     * To JSON.
+     *
+     * @param jsonArray the json array
+     * @return the string
+     */
     public static String toJSON(JsonArray jsonArray) {
         return N.toJSON(jsonArray.toList());
     }
 
+    /**
+     * To JSON.
+     *
+     * @param jsonObject the json object
+     * @return the string
+     */
     public static String toJSON(JsonObject jsonObject) {
         return N.toJSON(jsonObject.toMap());
     }
 
+    /**
+     * To JSON.
+     *
+     * @param jsonDocument the json document
+     * @return the string
+     */
     public static String toJSON(JsonDocument jsonDocument) {
         final Map<String, Object> m = jsonDocument.content().toMap();
 
@@ -469,10 +556,11 @@ public final class CouchbaseExecutor implements Closeable {
 
     /**
      * Returns an instance of the specified target class with the property values from the specified JSON String.
-     * 
+     *
+     * @param <T> the generic type
      * @param targetClass <code>JsonArray.class</code>, <code>JsonObject.class</code> or <code>JsonDocument.class</code>
-     * @param json
-     * @return
+     * @param json the json
+     * @return the t
      */
     public static <T> T fromJSON(final Class<T> targetClass, final String json) {
         if (targetClass.equals(JsonObject.class)) {
@@ -492,9 +580,10 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
+     * To json object.
      *
      * @param obj an array of pairs of property name and value, or Map<String, Object>, or an entity with getter/setter methods.
-     * @return
+     * @return the json object
      */
     public static JsonObject toJsonObject(final Object obj) {
         Map<String, Object> m = null;
@@ -530,6 +619,12 @@ public final class CouchbaseExecutor implements Closeable {
         return result;
     }
 
+    /**
+     * To json object.
+     *
+     * @param a the a
+     * @return the json object
+     */
     @SafeVarargs
     public static JsonObject toJsonObject(final Object... a) {
         if (N.isNullOrEmpty(a)) {
@@ -539,6 +634,12 @@ public final class CouchbaseExecutor implements Closeable {
         return a.length == 1 ? toJsonObject(a[0]) : toJsonObject((Object) a);
     }
 
+    /**
+     * To json array.
+     *
+     * @param obj the obj
+     * @return the json array
+     */
     public static JsonArray toJsonArray(final Object obj) {
         final Type<Object> type = N.typeOf(obj.getClass());
         final JsonArray jsonArray = JsonArray.create();
@@ -582,6 +683,12 @@ public final class CouchbaseExecutor implements Closeable {
         return jsonArray;
     }
 
+    /**
+     * To json array.
+     *
+     * @param a the a
+     * @return the json array
+     */
     @SafeVarargs
     public static JsonArray toJsonArray(final Object... a) {
         return N.isNullOrEmpty(a) ? JsonArray.empty() : toJsonArray((Object) a);
@@ -589,9 +696,9 @@ public final class CouchbaseExecutor implements Closeable {
 
     /**
      * The id for the target document is got from the "id" property in the specified <code>obj</code>.
-     * 
+     *
      * @param obj an array of pairs of property name and value, or Map<String, Object>, or an entity with getter/setter methods.
-     * @return
+     * @return the json document
      * @throws IllegalArgumentException if the specified <code>obj</code> doesn't have any "id" property.
      */
     public static JsonDocument toJsonDocument(final Object obj) {
@@ -600,9 +707,9 @@ public final class CouchbaseExecutor implements Closeable {
 
     /**
      * The id for the target document is got from the "id" property in the specified <code>a</code>.
-     * 
+     *
      * @param a pairs of property name and value.
-     * @return
+     * @return the json document
      * @throws IllegalArgumentException if the specified <code>a</code> doesn't have any "id" property.
      */
     @SafeVarargs
@@ -610,6 +717,13 @@ public final class CouchbaseExecutor implements Closeable {
         return a.length == 1 ? toJsonDocument(a[0], toJsonObject(a[0])) : toJsonDocument(a, toJsonObject(a));
     }
 
+    /**
+     * To json document.
+     *
+     * @param obj the obj
+     * @param jsonObject the json object
+     * @return the json document
+     */
     static JsonDocument toJsonDocument(final Object obj, final JsonObject jsonObject) {
         final Class<?> cls = obj.getClass();
         final Method idSetMethod = getObjectIdSetMethod(obj.getClass());
@@ -630,6 +744,12 @@ public final class CouchbaseExecutor implements Closeable {
         return JsonDocument.create(id, jsonObject);
     }
 
+    /**
+     * Id name of.
+     *
+     * @param bucketName the bucket name
+     * @return the string
+     */
     public static String idNameOf(final String bucketName) {
         String idName = bucketIdNamePool.get(bucketName);
 
@@ -642,10 +762,10 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param id
-     * @return
-     * 
+     * Gets the.
+     *
+     * @param id the id
+     * @return the optional
      * @see com.couchbase.client.java.Bucket#get(String)
      */
     public Optional<JsonDocument> get(final String id) {
@@ -653,12 +773,12 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param id
-     * @param timeout
-     * @param timeUnit
-     * @return
-     * 
+     * Gets the.
+     *
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the optional
      * @see com.couchbase.client.java.Bucket#get(String, long, TimeUnit)
      */
     public Optional<JsonDocument> get(final String id, final long timeout, final TimeUnit timeUnit) {
@@ -666,11 +786,12 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param targetClass
-     * @param id
-     * @return
-     * 
+     * Gets the.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @return the optional
      * @see com.couchbase.client.java.Bucket#get(String, Class)
      */
     public <T> Optional<T> get(final Class<T> targetClass, final String id) {
@@ -678,13 +799,14 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param targetClass
-     * @param id
-     * @param timeout
-     * @param timeUnit
-     * @return
-     * 
+     * Gets the.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the optional
      * @see com.couchbase.client.java.Bucket#get(String, Class, long, TimeUnit)
      */
     public <T> Optional<T> get(final Class<T> targetClass, final String id, final long timeout, final TimeUnit timeUnit) {
@@ -692,10 +814,10 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param id
-     * @return
-     * 
+     * Gets the t.
+     *
+     * @param id the id
+     * @return the t
      * @see com.couchbase.client.java.Bucket#get(String)
      */
     public JsonDocument gett(final String id) {
@@ -703,12 +825,12 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param id
-     * @param timeout
-     * @param timeUnit
-     * @return
-     * 
+     * Gets the t.
+     *
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the t
      * @see com.couchbase.client.java.Bucket#get(String, long, TimeUnit)
      */
     public JsonDocument gett(final String id, final long timeout, final TimeUnit timeUnit) {
@@ -716,11 +838,12 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param targetClass
-     * @param id
-     * @return
-     * 
+     * Gets the t.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @return the t
      * @see com.couchbase.client.java.Bucket#get(String, Class)
      */
     public <T> T gett(final Class<T> targetClass, final String id) {
@@ -728,19 +851,28 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param targetClass
-     * @param id
-     * @param timeout
-     * @param timeUnit
-     * @return
-     * 
+     * Gets the t.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the t
      * @see com.couchbase.client.java.Bucket#get(String, Class, long, TimeUnit)
      */
     public <T> T gett(final Class<T> targetClass, final String id, final long timeout, final TimeUnit timeUnit) {
         return toEntityForGet(targetClass, gett(id, timeout, timeUnit));
     }
 
+    /**
+     * To entity for get.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param doc the doc
+     * @return the t
+     */
     private <T> T toEntityForGet(final Class<T> targetClass, final JsonDocument doc) {
         if ((doc == null || doc.content() == null || doc.content().size() == 0)) {
             return null;
@@ -753,6 +885,15 @@ public final class CouchbaseExecutor implements Closeable {
         return toEntity(targetClass, doc);
     }
 
+    /**
+     * Find first.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param query the query
+     * @param parameters the parameters
+     * @return the optional
+     */
     @SafeVarargs
     public final <T> Optional<T> findFirst(final Class<T> targetClass, final String query, final Object... parameters) {
         final N1qlQueryResult resultSet = execute(query, parameters);
@@ -767,11 +908,13 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
+     * List.
+     *
+     * @param <T> the generic type
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
-     * @param query
-     * @param parameters
-     * @return
+     * @param query the query
+     * @param parameters the parameters
+     * @return the list
      */
     @SafeVarargs
     public final <T> List<T> list(final Class<T> targetClass, final String query, final Object... parameters) {
@@ -783,9 +926,9 @@ public final class CouchbaseExecutor implements Closeable {
     /**
      * Always remember to set "<code>LIMIT 1</code>" in the sql statement for better performance.
      *
-     * @param query
-     * @param parameters
-     * @return
+     * @param query the query
+     * @param parameters the parameters
+     * @return true, if successful
      */
     @SafeVarargs
     public final boolean exists(final String query, final Object... parameters) {
@@ -795,10 +938,11 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param query
-     * @param parameters
-     * @return
+     * Count.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the long
      * @deprecated may be misused and it's inefficient.
      */
     @Deprecated
@@ -807,72 +951,160 @@ public final class CouchbaseExecutor implements Closeable {
         return queryForSingleResult(long.class, query, parameters).orElse(0L);
     }
 
+    /**
+     * Query for boolean.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the optional boolean
+     */
     @Beta
     @SafeVarargs
     public final OptionalBoolean queryForBoolean(final String query, final Object... parameters) {
         return queryForSingleResult(Boolean.class, query, parameters).mapToBoolean(ToBooleanFunction.UNBOX);
     }
 
+    /**
+     * Query for char.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the optional char
+     */
     @Beta
     @SafeVarargs
     public final OptionalChar queryForChar(final String query, final Object... parameters) {
         return queryForSingleResult(Character.class, query, parameters).mapToChar(ToCharFunction.UNBOX);
     }
 
+    /**
+     * Query for byte.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the optional byte
+     */
     @Beta
     @SafeVarargs
     public final OptionalByte queryForByte(final String query, final Object... parameters) {
         return queryForSingleResult(Byte.class, query, parameters).mapToByte(ToByteFunction.UNBOX);
     }
 
+    /**
+     * Query for short.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the optional short
+     */
     @Beta
     @SafeVarargs
     public final OptionalShort queryForShort(final String query, final Object... parameters) {
         return queryForSingleResult(Short.class, query, parameters).mapToShort(ToShortFunction.UNBOX);
     }
 
+    /**
+     * Query for int.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the optional int
+     */
     @Beta
     @SafeVarargs
     public final OptionalInt queryForInt(final String query, final Object... parameters) {
         return queryForSingleResult(Integer.class, query, parameters).mapToInt(ToIntFunction.UNBOX);
     }
 
+    /**
+     * Query for long.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the optional long
+     */
     @Beta
     @SafeVarargs
     public final OptionalLong queryForLong(final String query, final Object... parameters) {
         return queryForSingleResult(Long.class, query, parameters).mapToLong(ToLongFunction.UNBOX);
     }
 
+    /**
+     * Query for float.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the optional float
+     */
     @Beta
     @SafeVarargs
     public final OptionalFloat queryForFloat(final String query, final Object... parameters) {
         return queryForSingleResult(Float.class, query, parameters).mapToFloat(ToFloatFunction.UNBOX);
     }
 
+    /**
+     * Query for double.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the optional double
+     */
     @Beta
     @SafeVarargs
     public final OptionalDouble queryForDouble(final String query, final Object... parameters) {
         return queryForSingleResult(Double.class, query, parameters).mapToDouble(ToDoubleFunction.UNBOX);
     }
 
+    /**
+     * Query for string.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the nullable
+     */
     @Beta
     @SafeVarargs
     public final Nullable<String> queryForString(final String query, final Object... parameters) {
         return this.queryForSingleResult(String.class, query, parameters);
     }
 
+    /**
+     * Query for date.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the nullable
+     */
     @Beta
     @SafeVarargs
     public final Nullable<Date> queryForDate(final String query, final Object... parameters) {
         return this.queryForSingleResult(Date.class, query, parameters);
     }
 
+    /**
+     * Query for date.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param query the query
+     * @param parameters the parameters
+     * @return the nullable
+     */
     @Beta
     @SafeVarargs
     public final <T extends Date> Nullable<T> queryForDate(final Class<T> targetClass, final String query, final Object... parameters) {
         return this.queryForSingleResult(targetClass, query, parameters);
     }
 
+    /**
+     * Query for single result.
+     *
+     * @param <V> the value type
+     * @param targetClass the target class
+     * @param query the query
+     * @param parameters the parameters
+     * @return the nullable
+     */
     @SafeVarargs
     public final <V> Nullable<V> queryForSingleResult(final Class<V> targetClass, final String query, final Object... parameters) {
         final N1qlQueryResult resultSet = execute(query, parameters);
@@ -886,32 +1118,84 @@ public final class CouchbaseExecutor implements Closeable {
         }
     }
 
+    /**
+     * Query.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the data set
+     */
     @SafeVarargs
     public final DataSet query(final String query, final Object... parameters) {
         return extractData(execute(query, parameters));
     }
 
+    /**
+     * Query.
+     *
+     * @param targetClass the target class
+     * @param query the query
+     * @param parameters the parameters
+     * @return the data set
+     */
     @SafeVarargs
     public final DataSet query(final Class<?> targetClass, final String query, final Object... parameters) {
         return extractData(targetClass, execute(query, parameters));
     }
 
+    /**
+     * Query.
+     *
+     * @param query the query
+     * @return the data set
+     */
     public DataSet query(final N1qlQuery query) {
         return extractData(execute(query));
     }
 
+    /**
+     * Query.
+     *
+     * @param targetClass the target class
+     * @param query the query
+     * @return the data set
+     */
     public DataSet query(final Class<?> targetClass, final N1qlQuery query) {
         return extractData(targetClass, execute(query));
     }
 
+    /**
+     * Query.
+     *
+     * @param query the query
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the data set
+     */
     public DataSet query(final N1qlQuery query, final long timeout, final TimeUnit timeUnit) {
         return extractData(execute(query, timeout, timeUnit));
     }
 
+    /**
+     * Query.
+     *
+     * @param targetClass the target class
+     * @param query the query
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the data set
+     */
     public DataSet query(final Class<?> targetClass, final N1qlQuery query, final long timeout, final TimeUnit timeUnit) {
         return extractData(targetClass, execute(query, timeout, timeUnit));
     }
 
+    /**
+     * Stream.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the stream
+     */
     @SafeVarargs
     public final Stream<JsonObject> stream(final String query, final Object... parameters) {
         return Stream.of(execute(query, parameters).rows()).map(new Function<N1qlQueryRow, JsonObject>() {
@@ -922,6 +1206,15 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Stream.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param query the query
+     * @param parameters the parameters
+     * @return the stream
+     */
     @SafeVarargs
     public final <T> Stream<T> stream(final Class<T> targetClass, final String query, final Object... parameters) {
         return Stream.of(execute(query, parameters).rows()).map(new Function<N1qlQueryRow, T>() {
@@ -932,6 +1225,12 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Stream.
+     *
+     * @param query the query
+     * @return the stream
+     */
     public Stream<JsonObject> stream(final N1qlQuery query) {
         return Stream.of(execute(query).rows()).map(new Function<N1qlQueryRow, JsonObject>() {
             @Override
@@ -941,6 +1240,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Stream.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param query the query
+     * @return the stream
+     */
     public <T> Stream<T> stream(final Class<T> targetClass, final N1qlQuery query) {
         return Stream.of(execute(query).rows()).map(new Function<N1qlQueryRow, T>() {
             @Override
@@ -950,6 +1257,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Stream.
+     *
+     * @param query the query
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the stream
+     */
     public Stream<JsonObject> stream(final N1qlQuery query, final long timeout, final TimeUnit timeUnit) {
         return Stream.of(execute(query, timeout, timeUnit).rows()).map(new Function<N1qlQueryRow, JsonObject>() {
             @Override
@@ -959,6 +1274,16 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Stream.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param query the query
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the stream
+     */
     public <T> Stream<T> stream(final Class<T> targetClass, final N1qlQuery query, final long timeout, final TimeUnit timeUnit) {
         return Stream.of(execute(query, timeout, timeUnit).rows()).map(new Function<N1qlQueryRow, T>() {
             @Override
@@ -969,10 +1294,11 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param document
-     * @return
-     * 
+     * Insert.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @return the t
      * @see com.couchbase.client.java.Bucket#insert(Document)
      */
     public <T> T insert(final T document) {
@@ -980,12 +1306,13 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param document
-     * @param timeout
-     * @param timeUnit
-     * @return
-     * 
+     * Insert.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the t
      * @see com.couchbase.client.java.Bucket#insert(Document, long, TimeUnit)
      */
     public <T> T insert(final T document, final long timeout, final TimeUnit timeUnit) {
@@ -994,10 +1321,10 @@ public final class CouchbaseExecutor implements Closeable {
 
     /**
      * All the signed properties will be updated/inserted into data store.
-     * 
-     * @param document
-     * @return
-     * 
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @return the t
      * @see com.couchbase.client.java.Bucket#upsert(Document)
      */
     public <T> T upsert(final T document) {
@@ -1006,12 +1333,12 @@ public final class CouchbaseExecutor implements Closeable {
 
     /**
      * All the signed properties will be updated/inserted into data store.
-     * 
-     * @param document
-     * @param timeout
-     * @param timeUnit
-     * @return
-     * 
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the t
      * @see com.couchbase.client.java.Bucket#upsert(Document, long, TimeUnit)
      */
     public <T> T upsert(final T document, final long timeout, final TimeUnit timeUnit) {
@@ -1019,10 +1346,11 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param document
-     * @return
-     * 
+     * Replace.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @return the t
      * @see com.couchbase.client.java.Bucket#replace(Document)
      */
     public <T> T replace(final T document) {
@@ -1030,18 +1358,26 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param document
-     * @param timeout
-     * @param timeUnit
-     * @return
-     * 
+     * Replace.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the t
      * @see com.couchbase.client.java.Bucket#replace(Document, long, TimeUnit)
      */
     public <T> T replace(final T document, final long timeout, final TimeUnit timeUnit) {
         return (T) toEntityForUpdate(document.getClass(), bucket.replace(toDocument(document), timeout, timeUnit));
     }
 
+    /**
+     * To document.
+     *
+     * @param <T> the generic type
+     * @param obj the obj
+     * @return the document
+     */
     private <T> Document<T> toDocument(final Object obj) {
         final Class<?> cls = obj.getClass();
 
@@ -1052,6 +1388,14 @@ public final class CouchbaseExecutor implements Closeable {
         }
     }
 
+    /**
+     * To entity for update.
+     *
+     * @param <T> the generic type
+     * @param cls the cls
+     * @param document the document
+     * @return the t
+     */
     private <T> T toEntityForUpdate(Class<T> cls, final Document<?> document) {
         if (cls.isAssignableFrom(document.getClass())) {
             return (T) document;
@@ -1061,10 +1405,10 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param id
-     * @return
-     * 
+     * Removes the.
+     *
+     * @param id the id
+     * @return the json document
      * @see com.couchbase.client.java.Bucket#remove(String)
      */
     public JsonDocument remove(String id) {
@@ -1072,12 +1416,12 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param id
-     * @param timeout
-     * @param timeUnit
-     * @return
-     * 
+     * Removes the.
+     *
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the json document
      * @see com.couchbase.client.java.Bucket#remove(String, long, TimeUnit)
      */
     public JsonDocument remove(final String id, final long timeout, final TimeUnit timeUnit) {
@@ -1085,11 +1429,12 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param targetClass
-     * @param id
-     * @return
-     * 
+     * Removes the.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @return the t
      * @see com.couchbase.client.java.Bucket#remove(String, Class)
      */
     public <T> T remove(final Class<T> targetClass, final String id) {
@@ -1097,13 +1442,14 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param targetClass
-     * @param id
-     * @param timeout
-     * @param timeUnit
-     * @return
-     * 
+     * Removes the.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the t
      * @see com.couchbase.client.java.Bucket#remove(String, Class, long, TimeUnit)
      */
     public <T> T remove(final Class<T> targetClass, final String id, final long timeout, final TimeUnit timeUnit) {
@@ -1111,10 +1457,11 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param document
-     * @return
-     * 
+     * Removes the.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @return the t
      * @see com.couchbase.client.java.Bucket#remove(Document)
      */
     public <T> T remove(final T document) {
@@ -1122,26 +1469,47 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param document
-     * @param timeout
-     * @param timeUnit
-     * @return
+     * Removes the.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the t
      * @see com.couchbase.client.java.Bucket#remove(Document, long, TimeUnit)
      */
     public <T> T remove(final T document, final long timeout, final TimeUnit timeUnit) {
         return (T) toEntityForUpdate(document.getClass(), bucket.remove(toDocument(document), timeout, timeUnit));
     }
 
+    /**
+     * Execute.
+     *
+     * @param query the query
+     * @return the n 1 ql query result
+     */
     public N1qlQueryResult execute(final String query) {
         return execute(prepareN1qlQuery(query));
     }
 
+    /**
+     * Execute.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the n 1 ql query result
+     */
     @SafeVarargs
     public final N1qlQueryResult execute(final String query, final Object... parameters) {
         return execute(prepareN1qlQuery(query, parameters));
     }
 
+    /**
+     * Execute.
+     *
+     * @param query the query
+     * @return the n 1 ql query result
+     */
     public N1qlQueryResult execute(final N1qlQuery query) {
         final N1qlQueryResult resultSet = bucket.query(query);
 
@@ -1150,6 +1518,14 @@ public final class CouchbaseExecutor implements Closeable {
         return resultSet;
     }
 
+    /**
+     * Execute.
+     *
+     * @param query the query
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the n 1 ql query result
+     */
     public N1qlQueryResult execute(final N1qlQuery query, final long timeout, final TimeUnit timeUnit) {
         final N1qlQueryResult resultSet = bucket.query(query, timeout, timeUnit);
 
@@ -1158,6 +1534,12 @@ public final class CouchbaseExecutor implements Closeable {
         return resultSet;
     }
 
+    /**
+     * Async get.
+     *
+     * @param id the id
+     * @return the continuable future
+     */
     public ContinuableFuture<Optional<JsonDocument>> asyncGet(final String id) {
         return asyncExecutor.execute(new Callable<Optional<JsonDocument>>() {
             @Override
@@ -1167,6 +1549,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async get.
+     *
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public ContinuableFuture<Optional<JsonDocument>> asyncGet(final String id, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<Optional<JsonDocument>>() {
             @Override
@@ -1176,6 +1566,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async get.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Optional<T>> asyncGet(final Class<T> targetClass, final String id) {
         return asyncExecutor.execute(new Callable<Optional<T>>() {
             @Override
@@ -1185,6 +1583,16 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async get.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Optional<T>> asyncGet(final Class<T> targetClass, final String id, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<Optional<T>>() {
             @Override
@@ -1194,6 +1602,12 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async gett.
+     *
+     * @param id the id
+     * @return the continuable future
+     */
     public ContinuableFuture<JsonDocument> asyncGett(final String id) {
         return asyncExecutor.execute(new Callable<JsonDocument>() {
             @Override
@@ -1203,6 +1617,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async gett.
+     *
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public ContinuableFuture<JsonDocument> asyncGett(final String id, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<JsonDocument>() {
             @Override
@@ -1212,6 +1634,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async gett.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncGett(final Class<T> targetClass, final String id) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1221,6 +1651,16 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async gett.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncGett(final Class<T> targetClass, final String id, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1233,9 +1673,9 @@ public final class CouchbaseExecutor implements Closeable {
     /**
      * Always remember to set "<code>LIMIT 1</code>" in the sql statement for better performance.
      *
-     * @param query
-     * @param parameters
-     * @return
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
      */
     @SafeVarargs
     public final ContinuableFuture<Boolean> asyncExists(final String query, final Object... parameters) {
@@ -1248,10 +1688,11 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * 
-     * @param query
-     * @param parameters
-     * @return
+     * Async count.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
      * @deprecated may be misused and it's inefficient.
      */
     @Deprecated
@@ -1265,6 +1706,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for boolean.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<OptionalBoolean> asyncQueryForBoolean(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<OptionalBoolean>() {
@@ -1275,6 +1723,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for char.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<OptionalChar> asyncQueryForChar(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<OptionalChar>() {
@@ -1285,6 +1740,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for byte.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<OptionalByte> asyncQueryForByte(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<OptionalByte>() {
@@ -1295,6 +1757,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for short.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<OptionalShort> asyncQueryForShort(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<OptionalShort>() {
@@ -1305,6 +1774,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for int.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<OptionalInt> asyncQueryForInt(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<OptionalInt>() {
@@ -1315,6 +1791,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for long.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<OptionalLong> asyncQueryForLong(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<OptionalLong>() {
@@ -1325,6 +1808,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for float.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<OptionalFloat> asyncQueryForFloat(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<OptionalFloat>() {
@@ -1335,6 +1825,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for double.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<OptionalDouble> asyncQueryForDouble(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<OptionalDouble>() {
@@ -1345,6 +1842,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for string.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<Nullable<String>> asyncQueryForString(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<Nullable<String>>() {
@@ -1355,6 +1859,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for date.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<Nullable<Date>> asyncQueryForDate(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<Nullable<Date>>() {
@@ -1365,6 +1876,15 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for date.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final <T extends Date> ContinuableFuture<Nullable<T>> asyncQueryForDate(final Class<T> targetClass, final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<Nullable<T>>() {
@@ -1375,6 +1895,15 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query for single result.
+     *
+     * @param <V> the value type
+     * @param targetClass the target class
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final <V> ContinuableFuture<Nullable<V>> asyncQueryForSingleResult(final Class<V> targetClass, final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<Nullable<V>>() {
@@ -1385,6 +1914,15 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async find first.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final <T> ContinuableFuture<Optional<T>> asyncFindFirst(final Class<T> targetClass, final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<Optional<T>>() {
@@ -1395,6 +1933,15 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async list.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final <T> ContinuableFuture<List<T>> asyncList(final Class<T> targetClass, final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<List<T>>() {
@@ -1405,6 +1952,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<DataSet> asyncQuery(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<DataSet>() {
@@ -1415,6 +1969,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query.
+     *
+     * @param targetClass the target class
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<DataSet> asyncQuery(final Class<?> targetClass, final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<DataSet>() {
@@ -1425,6 +1987,12 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query.
+     *
+     * @param query the query
+     * @return the continuable future
+     */
     public ContinuableFuture<DataSet> asyncQuery(final N1qlQuery query) {
         return asyncExecutor.execute(new Callable<DataSet>() {
             @Override
@@ -1434,6 +2002,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query.
+     *
+     * @param targetClass the target class
+     * @param query the query
+     * @return the continuable future
+     */
     public ContinuableFuture<DataSet> asyncQuery(final Class<?> targetClass, final N1qlQuery query) {
         return asyncExecutor.execute(new Callable<DataSet>() {
             @Override
@@ -1443,6 +2018,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async query.
+     *
+     * @param query the query
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public ContinuableFuture<DataSet> asyncQuery(final N1qlQuery query, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<DataSet>() {
             @Override
@@ -1453,6 +2036,15 @@ public final class CouchbaseExecutor implements Closeable {
 
     }
 
+    /**
+     * Async query.
+     *
+     * @param targetClass the target class
+     * @param query the query
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public ContinuableFuture<DataSet> asyncQuery(final Class<?> targetClass, final N1qlQuery query, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<DataSet>() {
             @Override
@@ -1462,6 +2054,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async stream.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<Stream<JsonObject>> asyncStream(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<Stream<JsonObject>>() {
@@ -1472,6 +2071,15 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async stream.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
@@ -1482,6 +2090,12 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async stream.
+     *
+     * @param query the query
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<JsonObject>> asyncStream(final N1qlQuery query) {
         return asyncExecutor.execute(new Callable<Stream<JsonObject>>() {
             @Override
@@ -1491,6 +2105,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async stream.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param query the query
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final N1qlQuery query) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override
@@ -1500,6 +2122,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async stream.
+     *
+     * @param query the query
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public ContinuableFuture<Stream<JsonObject>> asyncStream(final N1qlQuery query, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<Stream<JsonObject>>() {
             @Override
@@ -1510,6 +2140,16 @@ public final class CouchbaseExecutor implements Closeable {
 
     }
 
+    /**
+     * Async stream.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param query the query
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final N1qlQuery query, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<Stream<T>>() {
             @Override
@@ -1519,6 +2159,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async insert.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncInsert(final T document) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1528,6 +2175,15 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async insert.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncInsert(final T document, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1537,6 +2193,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async upsert.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncUpsert(final T document) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1546,6 +2209,15 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async upsert.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncUpsert(final T document, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1555,6 +2227,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async replace.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncReplace(final T document) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1564,6 +2243,15 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async replace.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncReplace(final T document, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1573,6 +2261,12 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async remove.
+     *
+     * @param id the id
+     * @return the continuable future
+     */
     public ContinuableFuture<JsonDocument> asyncRemove(final String id) {
         return asyncExecutor.execute(new Callable<JsonDocument>() {
             @Override
@@ -1582,6 +2276,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async remove.
+     *
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public ContinuableFuture<JsonDocument> asyncRemove(final String id, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<JsonDocument>() {
             @Override
@@ -1591,6 +2293,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async remove.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncRemove(final Class<T> targetClass, final String id) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1600,6 +2310,16 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async remove.
+     *
+     * @param <T> the generic type
+     * @param targetClass the target class
+     * @param id the id
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncRemove(final Class<T> targetClass, final String id, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1609,6 +2329,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async remove.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncRemove(final T document) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1618,6 +2345,15 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async remove.
+     *
+     * @param <T> the generic type
+     * @param document the document
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public <T> ContinuableFuture<T> asyncRemove(final T document, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<T>() {
             @Override
@@ -1627,6 +2363,12 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async execute.
+     *
+     * @param query the query
+     * @return the continuable future
+     */
     public ContinuableFuture<N1qlQueryResult> asyncExecute(final String query) {
         return asyncExecutor.execute(new Callable<N1qlQueryResult>() {
             @Override
@@ -1636,6 +2378,13 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async execute.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the continuable future
+     */
     @SafeVarargs
     public final ContinuableFuture<N1qlQueryResult> asyncExecute(final String query, final Object... parameters) {
         return asyncExecutor.execute(new Callable<N1qlQueryResult>() {
@@ -1646,6 +2395,12 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async execute.
+     *
+     * @param query the query
+     * @return the continuable future
+     */
     public ContinuableFuture<N1qlQueryResult> asyncExecute(final N1qlQuery query) {
         return asyncExecutor.execute(new Callable<N1qlQueryResult>() {
             @Override
@@ -1655,6 +2410,14 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Async execute.
+     *
+     * @param query the query
+     * @param timeout the timeout
+     * @param timeUnit the time unit
+     * @return the continuable future
+     */
     public ContinuableFuture<N1qlQueryResult> asyncExecute(final N1qlQuery query, final long timeout, final TimeUnit timeUnit) {
         return asyncExecutor.execute(new Callable<N1qlQueryResult>() {
             @Override
@@ -1664,6 +2427,11 @@ public final class CouchbaseExecutor implements Closeable {
         });
     }
 
+    /**
+     * Check target class.
+     *
+     * @param targetClass the target class
+     */
     private static void checkTargetClass(final Class<?> targetClass) {
         if (!(ClassUtil.isEntity(targetClass) || Map.class.isAssignableFrom(targetClass))) {
             throw new IllegalArgumentException("The target class must be an entity class with getter/setter methods or Map.class. But it is: "
@@ -1671,12 +2439,23 @@ public final class CouchbaseExecutor implements Closeable {
         }
     }
 
+    /**
+     * Check result error.
+     *
+     * @param resultSet the result set
+     */
     private static void checkResultError(N1qlQueryResult resultSet) {
         if (N.notNullOrEmpty(resultSet.errors())) {
             throw new AbacusException("Errors in query result: " + resultSet.errors());
         }
     }
 
+    /**
+     * Prepare N 1 ql query.
+     *
+     * @param query the query
+     * @return the n 1 ql query
+     */
     private N1qlQuery prepareN1qlQuery(final String query) {
         N1qlQuery result = null;
 
@@ -1699,6 +2478,13 @@ public final class CouchbaseExecutor implements Closeable {
         return result;
     }
 
+    /**
+     * Prepare N 1 ql query.
+     *
+     * @param query the query
+     * @param parameters the parameters
+     * @return the n 1 ql query
+     */
     private N1qlQuery prepareN1qlQuery(String query, Object... parameters) {
         if (N.isNullOrEmpty(parameters)) {
             return prepareN1qlQuery(query);
@@ -1810,6 +2596,12 @@ public final class CouchbaseExecutor implements Closeable {
         }
     }
 
+    /**
+     * Gets the named SQL.
+     *
+     * @param sql the sql
+     * @return the named SQL
+     */
     private NamedSQL getNamedSQL(String sql) {
         NamedSQL namedSQL = null;
 
@@ -1824,6 +2616,11 @@ public final class CouchbaseExecutor implements Closeable {
         return namedSQL;
     }
 
+    /**
+     * Close.
+     *
+     * @throws IOException Signals that an I/O exception has occurred.
+     */
     @Override
     public void close() throws IOException {
         try {

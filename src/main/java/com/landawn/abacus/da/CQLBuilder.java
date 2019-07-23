@@ -75,6 +75,7 @@ import com.landawn.abacus.util.StringUtil;
 import com.landawn.abacus.util.Try;
 import com.landawn.abacus.util.WD;
 
+// TODO: Auto-generated Javadoc
 /**
  * It's easier to write/maintain the CQL by <code>CQLBuilder</code> and more efficient, comparing to write Cassandra CQL in plain text. 
  * <br>The <code>cql()</code> or <code>pair()</code> method must be called to release resources.
@@ -91,98 +92,222 @@ import com.landawn.abacus.util.WD;
  * <li>{@code deleteFrom(String tableName).where(...)}</li>
  * 
  * <br /> 
- * 
- * @since 0.8
- * 
+ *
  * @author Haiyang Li
+ * @since 0.8
  */
 public abstract class CQLBuilder {
+
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(CQLBuilder.class);
 
+    /** The Constant commaSplitter. */
     private static final Splitter commaSplitter = Splitter.with(WD._COMMA).trim(true);
+
+    /** The Constant spaceSplitter. */
     private static final Splitter spaceSplitter = Splitter.with(WD._COMMA).trim(true);
 
+    /** The Constant DISTINCT. */
     public static final String DISTINCT = WD.DISTINCT;
+
+    /** The Constant COUNT_ALL. */
     public static final String COUNT_ALL = "count(*)";
 
+    /** The Constant entityTablePropColumnNameMap. */
     private static final Map<Class<?>, Map<String, String>> entityTablePropColumnNameMap = new ObjectPool<>(1024);
+
+    /** The Constant defaultPropNamesPool. */
     private static final Map<Class<?>, Set<String>[]> defaultPropNamesPool = new ObjectPool<>(1024);
+
+    /** The Constant tableDeleteFrom. */
     private static final Map<String, char[]> tableDeleteFrom = new ConcurrentHashMap<>();
+
+    /** The Constant activeStringBuilderCounter. */
     private static final AtomicInteger activeStringBuilderCounter = new AtomicInteger();
 
+    /** The Constant _SPACE_USING_TIMESTAMP_SPACE. */
     static final char[] _SPACE_USING_TIMESTAMP_SPACE = " USING TIMESTAMP ".toCharArray();
+
+    /** The Constant _SPACE_USING_TTL_SPACE. */
     static final char[] _SPACE_USING_TTL_SPACE = " USING TTL ".toCharArray();
+
+    /** The Constant _SPACE_IF_SPACE. */
     static final char[] _SPACE_IF_SPACE = " IF ".toCharArray();
+
+    /** The Constant _SPACE_IF_EXISTS. */
     static final char[] _SPACE_IF_EXISTS = " IF EXISTS".toCharArray();
+
+    /** The Constant _SPACE_IF_NOT_EXISTS. */
     static final char[] _SPACE_IF_NOT_EXISTS = " IF NOT EXISTS".toCharArray();
+
+    /** The Constant _SPACE_ALLOW_FILTERING. */
     static final char[] _SPACE_ALLOW_FILTERING = " ALLOW FILTERING".toCharArray();
 
+    /** The Constant _INSERT. */
     static final char[] _INSERT = WD.INSERT.toCharArray();
+
+    /** The Constant _SPACE_INSERT_SPACE. */
     static final char[] _SPACE_INSERT_SPACE = (WD.SPACE + WD.INSERT + WD.SPACE).toCharArray();
+
+    /** The Constant _INTO. */
     static final char[] _INTO = WD.INTO.toCharArray();
+
+    /** The Constant _SPACE_INTO_SPACE. */
     static final char[] _SPACE_INTO_SPACE = (WD.SPACE + WD.INTO + WD.SPACE).toCharArray();
+
+    /** The Constant _VALUES. */
     static final char[] _VALUES = WD.VALUES.toCharArray();
+
+    /** The Constant _SPACE_VALUES_SPACE. */
     static final char[] _SPACE_VALUES_SPACE = (WD.SPACE + WD.VALUES + WD.SPACE).toCharArray();
 
+    /** The Constant _SELECT. */
     static final char[] _SELECT = WD.SELECT.toCharArray();
+
+    /** The Constant _SPACE_SELECT_SPACE. */
     static final char[] _SPACE_SELECT_SPACE = (WD.SPACE + WD.SELECT + WD.SPACE).toCharArray();
+
+    /** The Constant _FROM. */
     static final char[] _FROM = WD.FROM.toCharArray();
+
+    /** The Constant _SPACE_FROM_SPACE. */
     static final char[] _SPACE_FROM_SPACE = (WD.SPACE + WD.FROM + WD.SPACE).toCharArray();
 
+    /** The Constant _UPDATE. */
     static final char[] _UPDATE = WD.UPDATE.toCharArray();
+
+    /** The Constant _SPACE_UPDATE_SPACE. */
     static final char[] _SPACE_UPDATE_SPACE = (WD.SPACE + WD.UPDATE + WD.SPACE).toCharArray();
+
+    /** The Constant _SET. */
     static final char[] _SET = WD.SET.toCharArray();
+
+    /** The Constant _SPACE_SET_SPACE. */
     static final char[] _SPACE_SET_SPACE = (WD.SPACE + WD.SET + WD.SPACE).toCharArray();
 
+    /** The Constant _DELETE. */
     static final char[] _DELETE = WD.DELETE.toCharArray();
+
+    /** The Constant _SPACE_DELETE_SPACE. */
     static final char[] _SPACE_DELETE_SPACE = (WD.SPACE + WD.DELETE + WD.SPACE).toCharArray();
 
+    /** The Constant _USING. */
     static final char[] _USING = WD.USING.toCharArray();
+
+    /** The Constant _SPACE_USING_SPACE. */
     static final char[] _SPACE_USING_SPACE = (WD.SPACE + WD.USING + WD.SPACE).toCharArray();
 
+    /** The Constant _WHERE. */
     static final char[] _WHERE = WD.WHERE.toCharArray();
+
+    /** The Constant _SPACE_WHERE_SPACE. */
     static final char[] _SPACE_WHERE_SPACE = (WD.SPACE + WD.WHERE + WD.SPACE).toCharArray();
+
+    /** The Constant _GROUP_BY. */
     static final char[] _GROUP_BY = WD.GROUP_BY.toCharArray();
+
+    /** The Constant _SPACE_GROUP_BY_SPACE. */
     static final char[] _SPACE_GROUP_BY_SPACE = (WD.SPACE + WD.GROUP_BY + WD.SPACE).toCharArray();
+
+    /** The Constant _HAVING. */
     static final char[] _HAVING = WD.HAVING.toCharArray();
+
+    /** The Constant _SPACE_HAVING_SPACE. */
     static final char[] _SPACE_HAVING_SPACE = (WD.SPACE + WD.HAVING + WD.SPACE).toCharArray();
+
+    /** The Constant _ORDER_BY. */
     static final char[] _ORDER_BY = WD.ORDER_BY.toCharArray();
+
+    /** The Constant _SPACE_ORDER_BY_SPACE. */
     static final char[] _SPACE_ORDER_BY_SPACE = (WD.SPACE + WD.ORDER_BY + WD.SPACE).toCharArray();
+
+    /** The Constant _LIMIT. */
     static final char[] _LIMIT = (WD.SPACE + WD.LIMIT + WD.SPACE).toCharArray();
+
+    /** The Constant _SPACE_LIMIT_SPACE. */
     static final char[] _SPACE_LIMIT_SPACE = (WD.SPACE + WD.LIMIT + WD.SPACE).toCharArray();
+
+    /** The Constant _OFFSET. */
     static final char[] _OFFSET = WD.OFFSET.toCharArray();
+
+    /** The Constant _SPACE_OFFSET_SPACE. */
     static final char[] _SPACE_OFFSET_SPACE = (WD.SPACE + WD.OFFSET + WD.SPACE).toCharArray();
+
+    /** The Constant _AND. */
     static final char[] _AND = WD.AND.toCharArray();
+
+    /** The Constant _SPACE_AND_SPACE. */
     static final char[] _SPACE_AND_SPACE = (WD.SPACE + WD.AND + WD.SPACE).toCharArray();
+
+    /** The Constant _OR. */
     static final char[] _OR = WD.OR.toCharArray();
+
+    /** The Constant _SPACE_OR_SPACE. */
     static final char[] _SPACE_OR_SPACE = (WD.SPACE + WD.OR + WD.SPACE).toCharArray();
 
+    /** The Constant _AS. */
     static final char[] _AS = WD.AS.toCharArray();
+
+    /** The Constant _SPACE_AS_SPACE. */
     static final char[] _SPACE_AS_SPACE = (WD.SPACE + WD.AS + WD.SPACE).toCharArray();
 
+    /** The Constant _SPACE_EQUAL_SPACE. */
     static final char[] _SPACE_EQUAL_SPACE = (WD.SPACE + WD.EQUAL + WD.SPACE).toCharArray();
 
+    /** The Constant _SPACE_FOR_UPDATE. */
     static final char[] _SPACE_FOR_UPDATE = (WD.SPACE + WD.FOR_UPDATE).toCharArray();
 
+    /** The Constant _COMMA_SPACE. */
     static final char[] _COMMA_SPACE = WD.COMMA_SPACE.toCharArray();
 
+    /** The Constant SPACE_AS_SPACE. */
     static final String SPACE_AS_SPACE = WD.SPACE + WD.AS + WD.SPACE;
 
+    /** The naming policy. */
     private final NamingPolicy namingPolicy;
+
+    /** The cql policy. */
     private final CQLPolicy cqlPolicy;
+
+    /** The parameters. */
     private final List<Object> parameters = new ArrayList<>();
+
+    /** The sb. */
     private StringBuilder sb;
 
+    /** The op. */
     private OperationType op;
+
+    /** The entity class. */
     private Class<?> entityClass;
+
+    /** The table name. */
     private String tableName;
+
+    /** The predicates. */
     private String predicates;
+
+    /** The column names. */
     private String[] columnNames;
+
+    /** The column name list. */
     private Collection<String> columnNameList;
+
+    /** The column aliases. */
     private Map<String, String> columnAliases;
+
+    /** The props. */
     private Map<String, Object> props;
+
+    /** The props list. */
     private Collection<Map<String, Object>> propsList;
 
+    /**
+     * Instantiates a new CQL builder.
+     *
+     * @param namingPolicy the naming policy
+     * @param cqlPolicy the cql policy
+     */
     CQLBuilder(final NamingPolicy namingPolicy, final CQLPolicy cqlPolicy) {
         if (activeStringBuilderCounter.incrementAndGet() > 1024) {
             logger.error("Too many(" + activeStringBuilderCounter.get()
@@ -196,7 +321,8 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * 
+     * Register entity prop column name map.
+     *
      * @param entityClass annotated with @Table, @Column
      */
     static void registerEntityPropColumnNameMap(final Class<?> entityClass) {
@@ -250,8 +376,16 @@ public abstract class CQLBuilder {
         }
     }
 
+    /** The Constant classTableNameMap. */
     private static final Map<Class<?>, String[]> classTableNameMap = new ConcurrentHashMap<>();
 
+    /**
+     * Gets the table name.
+     *
+     * @param entityClass the entity class
+     * @param namingPolicy the naming policy
+     * @return the table name
+     */
     static String getTableName(final Class<?> entityClass, final NamingPolicy namingPolicy) {
         String[] entityTableNames = classTableNameMap.get(entityClass);
 
@@ -289,6 +423,14 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Gets the select prop names by class.
+     *
+     * @param entityClass the entity class
+     * @param includeSubEntityProperties the include sub entity properties
+     * @param excludedPropNames the excluded prop names
+     * @return the select prop names by class
+     */
     static Collection<String> getSelectPropNamesByClass(final Class<?> entityClass, final boolean includeSubEntityProperties,
             final Set<String> excludedPropNames) {
         final Collection<String>[] val = loadPropNamesByClass(entityClass);
@@ -303,6 +445,13 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Gets the insert prop names by class.
+     *
+     * @param entityClass the entity class
+     * @param excludedPropNames the excluded prop names
+     * @return the insert prop names by class
+     */
     static Collection<String> getInsertPropNamesByClass(final Class<?> entityClass, final Set<String> excludedPropNames) {
         final Collection<String>[] val = loadPropNamesByClass(entityClass);
         final Collection<String> propNames = val[2];
@@ -316,6 +465,13 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Gets the update prop names by class.
+     *
+     * @param entityClass the entity class
+     * @param excludedPropNames the excluded prop names
+     * @return the update prop names by class
+     */
     static Collection<String> getUpdatePropNamesByClass(final Class<?> entityClass, final Set<String> excludedPropNames) {
         final Collection<String>[] val = loadPropNamesByClass(entityClass);
         final Collection<String> propNames = val[3];
@@ -329,6 +485,13 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Gets the delete prop names by class.
+     *
+     * @param entityClass the entity class
+     * @param excludedPropNames the excluded prop names
+     * @return the delete prop names by class
+     */
     private static Collection<String> getDeletePropNamesByClass(final Class<?> entityClass, final Set<String> excludedPropNames) {
         if (N.isNullOrEmpty(excludedPropNames)) {
             return N.emptyList();
@@ -346,6 +509,12 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Load prop names by class.
+     *
+     * @param entityClass the entity class
+     * @return the collection[]
+     */
     static Collection<String>[] loadPropNamesByClass(final Class<?> entityClass) {
         Set<String>[] val = defaultPropNamesPool.get(entityClass);
 
@@ -412,6 +581,12 @@ public abstract class CQLBuilder {
         return val;
     }
 
+    /**
+     * Named.
+     *
+     * @param propNames the prop names
+     * @return the map
+     */
     @Beta
     static Map<String, Expression> named(final String... propNames) {
         final Map<String, Expression> m = new LinkedHashMap<>(N.initHashCapacity(propNames.length));
@@ -423,6 +598,12 @@ public abstract class CQLBuilder {
         return m;
     }
 
+    /**
+     * Named.
+     *
+     * @param propNames the prop names
+     * @return the map
+     */
     @Beta
     static Map<String, Expression> named(final Collection<String> propNames) {
         final Map<String, Expression> m = new LinkedHashMap<>(N.initHashCapacity(propNames.size()));
@@ -434,10 +615,22 @@ public abstract class CQLBuilder {
         return m;
     }
 
+    /**
+     * Repeat QM.
+     *
+     * @param n the n
+     * @return the string
+     */
     public static String repeatQM(int n) {
         return SQLBuilder.repeatQM(n);
     }
 
+    /**
+     * Into.
+     *
+     * @param tableName the table name
+     * @return the CQL builder
+     */
     public CQLBuilder into(final String tableName) {
         if (op != OperationType.ADD) {
             throw new AbacusException("Invalid operation: " + op);
@@ -582,12 +775,24 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Into.
+     *
+     * @param entityClass the entity class
+     * @return the CQL builder
+     */
     public CQLBuilder into(final Class<?> entityClass) {
         this.entityClass = entityClass;
 
         return into(getTableName(entityClass, namingPolicy));
     }
 
+    /**
+     * From.
+     *
+     * @param expr the expr
+     * @return the CQL builder
+     */
     public CQLBuilder from(String expr) {
         expr = expr.trim();
         String tableName = expr.indexOf(WD._COMMA) > 0 ? commaSplitter.split(expr).get(0) : expr;
@@ -599,6 +804,12 @@ public abstract class CQLBuilder {
         return from(tableName, expr);
     }
 
+    /**
+     * From.
+     *
+     * @param tableNames the table names
+     * @return the CQL builder
+     */
     @SafeVarargs
     public final CQLBuilder from(final String... tableNames) {
         if (tableNames.length == 1) {
@@ -614,6 +825,12 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * From.
+     *
+     * @param tableNames the table names
+     * @return the CQL builder
+     */
     public CQLBuilder from(final Collection<String> tableNames) {
         String tableName = tableNames.iterator().next().trim();
 
@@ -624,6 +841,12 @@ public abstract class CQLBuilder {
         return from(tableName, StringUtil.join(tableNames, WD.SPACE));
     }
 
+    /**
+     * From.
+     *
+     * @param tableAliases the table aliases
+     * @return the CQL builder
+     */
     public CQLBuilder from(final Map<String, String> tableAliases) {
         String tableName = tableAliases.keySet().iterator().next().trim();
 
@@ -645,6 +868,13 @@ public abstract class CQLBuilder {
         return from(tableName, expr);
     }
 
+    /**
+     * From.
+     *
+     * @param tableName the table name
+     * @param fromCause the from cause
+     * @return the CQL builder
+     */
     private CQLBuilder from(final String tableName, final String fromCause) {
         if (op != OperationType.QUERY && op != OperationType.DELETE) {
             throw new AbacusException("Invalid operation: " + op);
@@ -774,12 +1004,24 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * From.
+     *
+     * @param entityClass the entity class
+     * @return the CQL builder
+     */
     public CQLBuilder from(final Class<?> entityClass) {
         this.entityClass = entityClass;
 
         return from(getTableName(entityClass, namingPolicy));
     }
 
+    /**
+     * Where.
+     *
+     * @param expr the expr
+     * @return the CQL builder
+     */
     public CQLBuilder where(final String expr) {
         init(true);
 
@@ -791,9 +1033,10 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * 
+     * Where.
+     *
      * @param cond any literal written in <code>Expression</code> condition won't be formalized
-     * @return
+     * @return the CQL builder
      */
     public CQLBuilder where(final Condition cond) {
         init(true);
@@ -805,6 +1048,11 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Append string expr.
+     *
+     * @param expr the expr
+     */
     private void appendStringExpr(final String expr) {
         final Map<String, String> propColumnNameMap = getPropColumnNameMap();
         final List<String> words = SQLParser.parse(expr);
@@ -823,6 +1071,12 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Order by.
+     *
+     * @param expr the expr
+     * @return the CQL builder
+     */
     public CQLBuilder orderBy(final String expr) {
         sb.append(_SPACE_ORDER_BY_SPACE);
 
@@ -836,6 +1090,12 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Order by.
+     *
+     * @param columnNames the column names
+     * @return the CQL builder
+     */
     @SafeVarargs
     public final CQLBuilder orderBy(final String... columnNames) {
         sb.append(_SPACE_ORDER_BY_SPACE);
@@ -862,6 +1122,13 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Order by.
+     *
+     * @param columnName the column name
+     * @param direction the direction
+     * @return the CQL builder
+     */
     public CQLBuilder orderBy(final String columnName, final SortDirection direction) {
         orderBy(columnName);
 
@@ -871,6 +1138,12 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Order by.
+     *
+     * @param columnNames the column names
+     * @return the CQL builder
+     */
     public CQLBuilder orderBy(final Collection<String> columnNames) {
         sb.append(_SPACE_ORDER_BY_SPACE);
 
@@ -887,6 +1160,13 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Order by.
+     *
+     * @param columnNames the column names
+     * @param direction the direction
+     * @return the CQL builder
+     */
     public CQLBuilder orderBy(final Collection<String> columnNames, final SortDirection direction) {
         orderBy(columnNames);
 
@@ -896,6 +1176,12 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Order by.
+     *
+     * @param orders the orders
+     * @return the CQL builder
+     */
     public CQLBuilder orderBy(final Map<String, SortDirection> orders) {
         sb.append(_SPACE_ORDER_BY_SPACE);
 
@@ -915,6 +1201,12 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Limit.
+     *
+     * @param count the count
+     * @return the CQL builder
+     */
     public CQLBuilder limit(final int count) {
         sb.append(_SPACE_LIMIT_SPACE);
 
@@ -923,10 +1215,22 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Sets the.
+     *
+     * @param expr the expr
+     * @return the CQL builder
+     */
     public CQLBuilder set(final String expr) {
         return set(N.asArray(expr));
     }
 
+    /**
+     * Sets the.
+     *
+     * @param columnNames the column names
+     * @return the CQL builder
+     */
     @SafeVarargs
     public final CQLBuilder set(final String... columnNames) {
         init(false);
@@ -983,6 +1287,12 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Sets the.
+     *
+     * @param columnNames the column names
+     * @return the CQL builder
+     */
     public CQLBuilder set(final Collection<String> columnNames) {
         init(false);
 
@@ -1036,6 +1346,12 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Sets the.
+     *
+     * @param props the props
+     * @return the CQL builder
+     */
     public CQLBuilder set(final Map<String, Object> props) {
         init(false);
 
@@ -1105,9 +1421,9 @@ public abstract class CQLBuilder {
 
     /**
      * Only the dirty properties will be set into the result CQL if the specified entity is a dirty marker entity.
-     * 
-     * @param entity
-     * @return
+     *
+     * @param entity the entity
+     * @return the CQL builder
      */
     public CQLBuilder set(final Object entity) {
         return set(entity, null);
@@ -1115,10 +1431,10 @@ public abstract class CQLBuilder {
 
     /**
      * Only the dirty properties will be set into the result SQL if the specified entity is a dirty marker entity.
-     * 
-     * @param entity
-     * @param excludedPropNames
-     * @return
+     *
+     * @param entity the entity
+     * @param excludedPropNames the excluded prop names
+     * @return the CQL builder
      */
     @SuppressWarnings("deprecation")
     public CQLBuilder set(final Object entity, final Set<String> excludedPropNames) {
@@ -1149,16 +1465,35 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Sets the.
+     *
+     * @param entityClass the entity class
+     * @return the CQL builder
+     */
     public CQLBuilder set(Class<?> entityClass) {
         return set(entityClass, null);
     }
 
+    /**
+     * Sets the.
+     *
+     * @param entityClass the entity class
+     * @param excludedPropNames the excluded prop names
+     * @return the CQL builder
+     */
     public CQLBuilder set(Class<?> entityClass, final Set<String> excludedPropNames) {
         this.entityClass = entityClass;
 
         return set(getUpdatePropNamesByClass(entityClass, excludedPropNames));
     }
 
+    /**
+     * Using.
+     *
+     * @param options the options
+     * @return the CQL builder
+     */
     CQLBuilder using(String... options) {
         init(false);
 
@@ -1175,10 +1510,22 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Using TTL.
+     *
+     * @param timestamp the timestamp
+     * @return the CQL builder
+     */
     public CQLBuilder usingTTL(long timestamp) {
         return usingTTL(String.valueOf(timestamp));
     }
 
+    /**
+     * Using TTL.
+     *
+     * @param timestamp the timestamp
+     * @return the CQL builder
+     */
     public CQLBuilder usingTTL(String timestamp) {
         init(false);
 
@@ -1188,14 +1535,32 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Using timestamp.
+     *
+     * @param timestamp the timestamp
+     * @return the CQL builder
+     */
     public CQLBuilder usingTimestamp(Date timestamp) {
         return usingTimestamp(timestamp.getTime());
     }
 
+    /**
+     * Using timestamp.
+     *
+     * @param timestamp the timestamp
+     * @return the CQL builder
+     */
     public CQLBuilder usingTimestamp(long timestamp) {
         return usingTimestamp(String.valueOf(timestamp));
     }
 
+    /**
+     * Using timestamp.
+     *
+     * @param timestamp the timestamp
+     * @return the CQL builder
+     */
     public CQLBuilder usingTimestamp(String timestamp) {
         init(false);
 
@@ -1205,6 +1570,12 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * I F.
+     *
+     * @param expr the expr
+     * @return the CQL builder
+     */
     public CQLBuilder iF(final String expr) {
         init(true);
 
@@ -1216,9 +1587,10 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * 
+     * I F.
+     *
      * @param cond any literal written in <code>Expression</code> condition won't be formalized
-     * @return
+     * @return the CQL builder
      */
     public CQLBuilder iF(final Condition cond) {
         init(true);
@@ -1230,6 +1602,11 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * If exists.
+     *
+     * @return the CQL builder
+     */
     public CQLBuilder ifExists() {
         init(true);
 
@@ -1238,6 +1615,11 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * If not exists.
+     *
+     * @return the CQL builder
+     */
     public CQLBuilder ifNotExists() {
         init(true);
 
@@ -1246,6 +1628,11 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    /**
+     * Allow filtering.
+     *
+     * @return the CQL builder
+     */
     public CQLBuilder allowFiltering() {
         init(true);
 
@@ -1256,8 +1643,8 @@ public abstract class CQLBuilder {
 
     /**
      * This CQLBuilder will be closed after <code>cql()</code> is called.
-     * 
-     * @return
+     *
+     * @return the string
      */
     public String cql() {
         if (sb == null) {
@@ -1286,6 +1673,11 @@ public abstract class CQLBuilder {
         return cql;
     }
 
+    /**
+     * Parameters.
+     *
+     * @return the list
+     */
     public List<Object> parameters() {
         return parameters;
     }
@@ -1299,6 +1691,11 @@ public abstract class CQLBuilder {
         return new CP(cql(), parameters);
     }
 
+    /**
+     * Inits the.
+     *
+     * @param setForUpdate the set for update
+     */
     void init(boolean setForUpdate) {
         if (sb.length() > 0) {
 
@@ -1330,6 +1727,11 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Sets the parameter for CQL.
+     *
+     * @param propValue the new parameter for CQL
+     */
     private void setParameterForCQL(final Object propValue) {
         if (CF.QME.equals(propValue)) {
             sb.append(WD._QUESTION_MARK);
@@ -1340,6 +1742,11 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Sets the parameter for raw CQL.
+     *
+     * @param propValue the new parameter for raw CQL
+     */
     private void setParameterForRawCQL(final Object propValue) {
         if (CF.QME.equals(propValue)) {
             sb.append(WD._QUESTION_MARK);
@@ -1352,6 +1759,12 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Sets the parameter for named CQL.
+     *
+     * @param propName the prop name
+     * @param propValue the prop value
+     */
     private void setParameterForNamedCQL(final String propName, final Object propValue) {
         if (CF.QME.equals(propValue)) {
             sb.append(":");
@@ -1366,6 +1779,12 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Sets the parameter.
+     *
+     * @param propName the prop name
+     * @param propValue the prop value
+     */
     private void setParameter(final String propName, final Object propValue) {
         switch (cqlPolicy) {
             case CQL: {
@@ -1391,6 +1810,11 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Append insert props.
+     *
+     * @param props the props
+     */
     private void appendInsertProps(final Map<String, Object> props) {
         switch (cqlPolicy) {
             case CQL: {
@@ -1446,6 +1870,11 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Append condition.
+     *
+     * @param cond the cond
+     */
     private void appendCondition(final Condition cond) {
         if (cond instanceof Binary) {
             final Binary binary = (Binary) cond;
@@ -1587,10 +2016,23 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Formalize column name.
+     *
+     * @param propName the prop name
+     * @return the string
+     */
     private String formalizeColumnName(final String propName) {
         return formalizeColumnName(getPropColumnNameMap(), propName);
     }
 
+    /**
+     * Formalize column name.
+     *
+     * @param propColumnNameMap the prop column name map
+     * @param propName the prop name
+     * @return the string
+     */
     private String formalizeColumnName(final Map<String, String> propColumnNameMap, final String propName) {
         String columnName = propColumnNameMap == null ? null : propColumnNameMap.get(propName);
 
@@ -1613,6 +2055,11 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * Gets the prop column name map.
+     *
+     * @return the prop column name map
+     */
     private Map<String, String> getPropColumnNameMap() {
         if (entityClass == null || Map.class.isAssignableFrom(entityClass)) {
             return N.emptyMap();
@@ -1627,10 +2074,26 @@ public abstract class CQLBuilder {
         return entityTablePropColumnNameMap.get(entityClass);
     }
 
+    /**
+     * Apply.
+     *
+     * @param <T> the generic type
+     * @param <EX> the generic type
+     * @param func the func
+     * @return the t
+     * @throws EX the ex
+     */
     public <T, EX extends Exception> T apply(final Try.Function<? super CP, T, EX> func) throws EX {
         return func.apply(this.pair());
     }
 
+    /**
+     * Accept.
+     *
+     * @param <EX> the generic type
+     * @param consumer the consumer
+     * @throws EX the ex
+     */
     public <EX extends Exception> void accept(final Try.Consumer<? super CP, EX> consumer) throws EX {
         consumer.accept(this.pair());
     }
@@ -1655,11 +2118,23 @@ public abstract class CQLBuilder {
     //        return false;
     //    }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return cql();
     }
 
+    /**
+     * Parses the insert entity.
+     *
+     * @param instance the instance
+     * @param entity the entity
+     * @param excludedPropNames the excluded prop names
+     */
     private static void parseInsertEntity(final CQLBuilder instance, final Object entity, final Set<String> excludedPropNames) {
         if (entity instanceof String) {
             instance.columnNames = N.asArray((String) entity);
@@ -1682,8 +2157,17 @@ public abstract class CQLBuilder {
         }
     }
 
+    /**
+     * The Enum CQLPolicy.
+     */
     static enum CQLPolicy {
-        CQL, PARAMETERIZED_CQL, NAMED_CQL;
+
+        /** The cql. */
+        CQL,
+        /** The parameterized cql. */
+        PARAMETERIZED_CQL,
+        /** The named cql. */
+        NAMED_CQL;
     }
 
     /**
@@ -1701,18 +2185,39 @@ public abstract class CQLBuilder {
      */
     @Deprecated
     public static final class SCCB extends CQLBuilder {
+
+        /**
+         * Instantiates a new sccb.
+         */
         SCCB() {
             super(NamingPolicy.LOWER_CASE_WITH_UNDERSCORE, CQLPolicy.CQL);
         }
 
+        /**
+         * Creates the instance.
+         *
+         * @return the sccb
+         */
         static SCCB createInstance() {
             return new SCCB();
         }
 
+        /**
+         * Insert.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final String expr) {
             return insert(N.asArray(expr));
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder insert(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -1723,6 +2228,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -1732,6 +2243,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param props the props
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Map<String, Object> props) {
             final CQLBuilder instance = createInstance();
 
@@ -1741,10 +2258,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity) {
             return insert(entity, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -1756,10 +2286,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass) {
             return insert(entityClass, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -1770,18 +2313,43 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass) {
             return insertInto(entityClass, null);
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return insert(entityClass, excludedPropNames).into(entityClass);
         }
 
+        /**
+         * Select.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final String expr) {
             return select(N.asArray(expr));
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder select(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -1792,6 +2360,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -1802,10 +2376,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
+         * @param columnNames the column names
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
@@ -1817,6 +2392,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnAliases the column aliases
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
 
@@ -1827,10 +2408,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
+         * @param columnAliases the column aliases
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
@@ -1842,10 +2424,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass) {
             return select(entityClass, null);
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -1856,14 +2451,33 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass) {
             return selectFrom(entityClass, null);
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return select(entityClass, excludedPropNames).from(entityClass);
         }
 
+        /**
+         * Update.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -1873,10 +2487,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass) {
             return update(entityClass, null);
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -1888,10 +2515,22 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final String expr) {
             return delete(N.asArray(expr));
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder delete(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -1902,6 +2541,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -1911,10 +2556,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass) {
             return delete(entityClass, null);
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -1925,6 +2583,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -1934,10 +2598,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass) {
             return deleteFrom(entityClass, null);
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
         }
@@ -1958,18 +2635,39 @@ public abstract class CQLBuilder {
      */
     @Deprecated
     public static final class ACCB extends CQLBuilder {
+
+        /**
+         * Instantiates a new accb.
+         */
         ACCB() {
             super(NamingPolicy.UPPER_CASE_WITH_UNDERSCORE, CQLPolicy.CQL);
         }
 
+        /**
+         * Creates the instance.
+         *
+         * @return the accb
+         */
         static ACCB createInstance() {
             return new ACCB();
         }
 
+        /**
+         * Insert.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final String expr) {
             return insert(N.asArray(expr));
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder insert(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -1980,6 +2678,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -1989,6 +2693,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param props the props
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Map<String, Object> props) {
             final CQLBuilder instance = createInstance();
 
@@ -1998,10 +2708,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity) {
             return insert(entity, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2013,10 +2736,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass) {
             return insert(entityClass, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2027,18 +2763,43 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass) {
             return insertInto(entityClass, null);
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return insert(entityClass, excludedPropNames).into(entityClass);
         }
 
+        /**
+         * Select.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final String expr) {
             return select(N.asArray(expr));
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder select(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2049,6 +2810,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2059,10 +2826,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
+         * @param columnNames the column names
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2074,6 +2842,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnAliases the column aliases
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
 
@@ -2084,10 +2858,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
+         * @param columnAliases the column aliases
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
@@ -2099,10 +2874,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass) {
             return select(entityClass, null);
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2113,14 +2901,33 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass) {
             return selectFrom(entityClass, null);
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return select(entityClass, excludedPropNames).from(entityClass);
         }
 
+        /**
+         * Update.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -2130,10 +2937,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass) {
             return update(entityClass, null);
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2145,10 +2965,22 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final String expr) {
             return delete(N.asArray(expr));
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder delete(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2159,6 +2991,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2168,10 +3006,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass) {
             return delete(entityClass, null);
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2182,6 +3033,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -2191,10 +3048,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass) {
             return deleteFrom(entityClass, null);
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
         }
@@ -2215,18 +3085,39 @@ public abstract class CQLBuilder {
      */
     @Deprecated
     public static final class LCCB extends CQLBuilder {
+
+        /**
+         * Instantiates a new lccb.
+         */
         LCCB() {
             super(NamingPolicy.LOWER_CAMEL_CASE, CQLPolicy.CQL);
         }
 
+        /**
+         * Creates the instance.
+         *
+         * @return the lccb
+         */
         static LCCB createInstance() {
             return new LCCB();
         }
 
+        /**
+         * Insert.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final String expr) {
             return insert(N.asArray(expr));
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder insert(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2237,6 +3128,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2246,6 +3143,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param props the props
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Map<String, Object> props) {
             final CQLBuilder instance = createInstance();
 
@@ -2255,10 +3158,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity) {
             return insert(entity, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2270,10 +3186,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass) {
             return insert(entityClass, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2284,18 +3213,43 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass) {
             return insertInto(entityClass, null);
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return insert(entityClass, excludedPropNames).into(entityClass);
         }
 
+        /**
+         * Select.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final String expr) {
             return select(N.asArray(expr));
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder select(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2306,6 +3260,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2316,10 +3276,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
+         * @param columnNames the column names
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2331,6 +3292,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnAliases the column aliases
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
 
@@ -2341,10 +3308,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
+         * @param columnAliases the column aliases
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
@@ -2356,10 +3324,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass) {
             return select(entityClass, null);
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2370,14 +3351,33 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass) {
             return selectFrom(entityClass, null);
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return select(entityClass, excludedPropNames).from(entityClass);
         }
 
+        /**
+         * Update.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -2387,10 +3387,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass) {
             return update(entityClass, null);
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2402,10 +3415,22 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final String expr) {
             return delete(N.asArray(expr));
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder delete(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2416,6 +3441,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2425,10 +3456,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass) {
             return delete(entityClass, null);
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2439,6 +3483,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -2448,10 +3498,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass) {
             return deleteFrom(entityClass, null);
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
         }
@@ -2469,18 +3532,39 @@ public abstract class CQLBuilder {
      * </pre>
      */
     public static final class PSC extends CQLBuilder {
+
+        /**
+         * Instantiates a new psc.
+         */
         PSC() {
             super(NamingPolicy.LOWER_CASE_WITH_UNDERSCORE, CQLPolicy.PARAMETERIZED_CQL);
         }
 
+        /**
+         * Creates the instance.
+         *
+         * @return the psc
+         */
         static PSC createInstance() {
             return new PSC();
         }
 
+        /**
+         * Insert.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final String expr) {
             return insert(N.asArray(expr));
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder insert(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2491,6 +3575,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2500,6 +3590,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param props the props
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Map<String, Object> props) {
             final CQLBuilder instance = createInstance();
 
@@ -2509,10 +3605,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity) {
             return insert(entity, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2524,10 +3633,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass) {
             return insert(entityClass, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2538,18 +3660,43 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass) {
             return insertInto(entityClass, null);
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return insert(entityClass, excludedPropNames).into(entityClass);
         }
 
+        /**
+         * Select.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final String expr) {
             return select(N.asArray(expr));
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder select(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2560,6 +3707,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2570,10 +3723,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
+         * @param columnNames the column names
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2585,6 +3739,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnAliases the column aliases
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
 
@@ -2595,10 +3755,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
+         * @param columnAliases the column aliases
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
@@ -2610,10 +3771,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass) {
             return select(entityClass, null);
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2624,14 +3798,33 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass) {
             return selectFrom(entityClass, null);
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return select(entityClass, excludedPropNames).from(entityClass);
         }
 
+        /**
+         * Update.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -2641,10 +3834,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass) {
             return update(entityClass, null);
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2656,10 +3862,22 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final String expr) {
             return delete(N.asArray(expr));
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder delete(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2670,6 +3888,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2679,10 +3903,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass) {
             return delete(entityClass, null);
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2693,6 +3930,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -2702,10 +3945,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass) {
             return deleteFrom(entityClass, null);
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
         }
@@ -2723,18 +3979,39 @@ public abstract class CQLBuilder {
      * </pre>
      */
     public static final class PAC extends CQLBuilder {
+
+        /**
+         * Instantiates a new pac.
+         */
         PAC() {
             super(NamingPolicy.UPPER_CASE_WITH_UNDERSCORE, CQLPolicy.PARAMETERIZED_CQL);
         }
 
+        /**
+         * Creates the instance.
+         *
+         * @return the pac
+         */
         static PAC createInstance() {
             return new PAC();
         }
 
+        /**
+         * Insert.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final String expr) {
             return insert(N.asArray(expr));
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder insert(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2745,6 +4022,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2754,6 +4037,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param props the props
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Map<String, Object> props) {
             final CQLBuilder instance = createInstance();
 
@@ -2763,10 +4052,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity) {
             return insert(entity, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2778,10 +4080,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass) {
             return insert(entityClass, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2792,18 +4107,43 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass) {
             return insertInto(entityClass, null);
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return insert(entityClass, excludedPropNames).into(entityClass);
         }
 
+        /**
+         * Select.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final String expr) {
             return select(N.asArray(expr));
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder select(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2814,6 +4154,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2824,10 +4170,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
+         * @param columnNames the column names
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2839,6 +4186,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnAliases the column aliases
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
 
@@ -2849,10 +4202,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
+         * @param columnAliases the column aliases
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
@@ -2864,10 +4218,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass) {
             return select(entityClass, null);
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2878,14 +4245,33 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass) {
             return selectFrom(entityClass, null);
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return select(entityClass, excludedPropNames).from(entityClass);
         }
 
+        /**
+         * Update.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -2895,10 +4281,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass) {
             return update(entityClass, null);
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2910,10 +4309,22 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final String expr) {
             return delete(N.asArray(expr));
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder delete(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2924,6 +4335,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2933,10 +4350,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass) {
             return delete(entityClass, null);
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -2947,6 +4377,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -2956,10 +4392,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass) {
             return deleteFrom(entityClass, null);
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
         }
@@ -2977,18 +4426,39 @@ public abstract class CQLBuilder {
      * </pre>
      */
     public static final class PLC extends CQLBuilder {
+
+        /**
+         * Instantiates a new plc.
+         */
         PLC() {
             super(NamingPolicy.LOWER_CAMEL_CASE, CQLPolicy.PARAMETERIZED_CQL);
         }
 
+        /**
+         * Creates the instance.
+         *
+         * @return the plc
+         */
         static PLC createInstance() {
             return new PLC();
         }
 
+        /**
+         * Insert.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final String expr) {
             return insert(N.asArray(expr));
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder insert(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -2999,6 +4469,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3008,6 +4484,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param props the props
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Map<String, Object> props) {
             final CQLBuilder instance = createInstance();
 
@@ -3017,10 +4499,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity) {
             return insert(entity, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3032,10 +4527,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass) {
             return insert(entityClass, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3046,18 +4554,43 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass) {
             return insertInto(entityClass, null);
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return insert(entityClass, excludedPropNames).into(entityClass);
         }
 
+        /**
+         * Select.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final String expr) {
             return select(N.asArray(expr));
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder select(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3068,6 +4601,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3078,10 +4617,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
+         * @param columnNames the column names
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3093,6 +4633,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnAliases the column aliases
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
 
@@ -3103,10 +4649,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
+         * @param columnAliases the column aliases
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
@@ -3118,10 +4665,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass) {
             return select(entityClass, null);
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3132,14 +4692,33 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass) {
             return selectFrom(entityClass, null);
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return select(entityClass, excludedPropNames).from(entityClass);
         }
 
+        /**
+         * Update.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -3149,10 +4728,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass) {
             return update(entityClass, null);
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3164,10 +4756,22 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final String expr) {
             return delete(N.asArray(expr));
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder delete(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3178,6 +4782,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3187,10 +4797,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass) {
             return delete(entityClass, null);
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3201,6 +4824,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -3210,10 +4839,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass) {
             return deleteFrom(entityClass, null);
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
         }
@@ -3231,18 +4873,39 @@ public abstract class CQLBuilder {
      * </pre>
      */
     public static final class NSC extends CQLBuilder {
+
+        /**
+         * Instantiates a new nsc.
+         */
         NSC() {
             super(NamingPolicy.LOWER_CASE_WITH_UNDERSCORE, CQLPolicy.NAMED_CQL);
         }
 
+        /**
+         * Creates the instance.
+         *
+         * @return the nsc
+         */
         static NSC createInstance() {
             return new NSC();
         }
 
+        /**
+         * Insert.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final String expr) {
             return insert(N.asArray(expr));
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder insert(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3253,6 +4916,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3262,6 +4931,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param props the props
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Map<String, Object> props) {
             final CQLBuilder instance = createInstance();
 
@@ -3271,10 +4946,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity) {
             return insert(entity, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3286,10 +4974,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass) {
             return insert(entityClass, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3300,18 +5001,43 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass) {
             return insertInto(entityClass, null);
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return insert(entityClass, excludedPropNames).into(entityClass);
         }
 
+        /**
+         * Select.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final String expr) {
             return select(N.asArray(expr));
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder select(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3322,6 +5048,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3332,10 +5064,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
+         * @param columnNames the column names
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3347,6 +5080,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnAliases the column aliases
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
 
@@ -3357,10 +5096,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
+         * @param columnAliases the column aliases
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
@@ -3372,10 +5112,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass) {
             return select(entityClass, null);
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3386,14 +5139,33 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass) {
             return selectFrom(entityClass, null);
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return select(entityClass, excludedPropNames).from(entityClass);
         }
 
+        /**
+         * Update.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -3403,10 +5175,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass) {
             return update(entityClass, null);
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3418,10 +5203,22 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final String expr) {
             return delete(N.asArray(expr));
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder delete(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3432,6 +5229,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3441,10 +5244,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass) {
             return delete(entityClass, null);
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3455,6 +5271,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -3464,10 +5286,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass) {
             return deleteFrom(entityClass, null);
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
         }
@@ -3485,18 +5320,39 @@ public abstract class CQLBuilder {
      * </pre>
      */
     public static final class NAC extends CQLBuilder {
+
+        /**
+         * Instantiates a new nac.
+         */
         NAC() {
             super(NamingPolicy.UPPER_CASE_WITH_UNDERSCORE, CQLPolicy.NAMED_CQL);
         }
 
+        /**
+         * Creates the instance.
+         *
+         * @return the nac
+         */
         static NAC createInstance() {
             return new NAC();
         }
 
+        /**
+         * Insert.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final String expr) {
             return insert(N.asArray(expr));
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder insert(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3507,6 +5363,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3516,6 +5378,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param props the props
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Map<String, Object> props) {
             final CQLBuilder instance = createInstance();
 
@@ -3525,10 +5393,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity) {
             return insert(entity, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3540,10 +5421,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass) {
             return insert(entityClass, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3554,18 +5448,43 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass) {
             return insertInto(entityClass, null);
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return insert(entityClass, excludedPropNames).into(entityClass);
         }
 
+        /**
+         * Select.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final String expr) {
             return select(N.asArray(expr));
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder select(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3576,6 +5495,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3586,10 +5511,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
+         * @param columnNames the column names
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3601,6 +5527,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnAliases the column aliases
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
 
@@ -3611,10 +5543,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
+         * @param columnAliases the column aliases
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
@@ -3626,10 +5559,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass) {
             return select(entityClass, null);
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3640,14 +5586,33 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass) {
             return selectFrom(entityClass, null);
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return select(entityClass, excludedPropNames).from(entityClass);
         }
 
+        /**
+         * Update.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -3657,10 +5622,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass) {
             return update(entityClass, null);
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3672,10 +5650,22 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final String expr) {
             return delete(N.asArray(expr));
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder delete(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3686,6 +5676,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3695,10 +5691,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass) {
             return delete(entityClass, null);
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3709,6 +5718,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -3718,10 +5733,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass) {
             return deleteFrom(entityClass, null);
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
         }
@@ -3739,18 +5767,39 @@ public abstract class CQLBuilder {
      * </pre>
      */
     public static final class NLC extends CQLBuilder {
+
+        /**
+         * Instantiates a new nlc.
+         */
         NLC() {
             super(NamingPolicy.LOWER_CAMEL_CASE, CQLPolicy.NAMED_CQL);
         }
 
+        /**
+         * Creates the instance.
+         *
+         * @return the nlc
+         */
         static NLC createInstance() {
             return new NLC();
         }
 
+        /**
+         * Insert.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final String expr) {
             return insert(N.asArray(expr));
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder insert(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3761,6 +5810,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3770,6 +5825,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param props the props
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Map<String, Object> props) {
             final CQLBuilder instance = createInstance();
 
@@ -3779,10 +5840,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity) {
             return insert(entity, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entity the entity
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Object entity, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3794,10 +5868,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass) {
             return insert(entityClass, null);
         }
 
+        /**
+         * Insert.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insert(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3808,18 +5895,43 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass) {
             return insertInto(entityClass, null);
         }
 
+        /**
+         * Insert into.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder insertInto(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return insert(entityClass, excludedPropNames).into(entityClass);
         }
 
+        /**
+         * Select.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final String expr) {
             return select(N.asArray(expr));
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder select(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3830,6 +5942,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3840,10 +5958,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
+         * @param columnNames the column names
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3855,6 +5974,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param columnAliases the column aliases
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
 
@@ -3865,10 +5990,11 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * 
+         * Select.
+         *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
+         * @param columnAliases the column aliases
+         * @return the CQL builder
          */
         public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
             final CQLBuilder instance = createInstance();
@@ -3880,10 +6006,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass) {
             return select(entityClass, null);
         }
 
+        /**
+         * Select.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3894,14 +6033,33 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass) {
             return selectFrom(entityClass, null);
         }
 
+        /**
+         * Select from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return select(entityClass, excludedPropNames).from(entityClass);
         }
 
+        /**
+         * Update.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -3911,10 +6069,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass) {
             return update(entityClass, null);
         }
 
+        /**
+         * Update.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder update(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3926,10 +6097,22 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param expr the expr
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final String expr) {
             return delete(N.asArray(expr));
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         @SafeVarargs
         public static CQLBuilder delete(final String... columnNames) {
             final CQLBuilder instance = createInstance();
@@ -3940,6 +6123,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param columnNames the column names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Collection<String> columnNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3949,10 +6138,23 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass) {
             return delete(entityClass, null);
         }
 
+        /**
+         * Delete.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder delete(final Class<?> entityClass, final Set<String> excludedPropNames) {
             final CQLBuilder instance = createInstance();
 
@@ -3963,6 +6165,12 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param tableName the table name
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final String tableName) {
             final CQLBuilder instance = createInstance();
 
@@ -3972,33 +6180,75 @@ public abstract class CQLBuilder {
             return instance;
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass) {
             return deleteFrom(entityClass, null);
         }
 
+        /**
+         * Delete from.
+         *
+         * @param entityClass the entity class
+         * @param excludedPropNames the excluded prop names
+         * @return the CQL builder
+         */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
         }
     }
 
+    /**
+     * The Class CP.
+     */
     public static final class CP {
+
+        /** The cql. */
         public final String cql;
+
+        /** The parameters. */
         public final List<Object> parameters;
 
+        /**
+         * Instantiates a new cp.
+         *
+         * @param cql the cql
+         * @param parameters the parameters
+         */
         CP(final String cql, final List<Object> parameters) {
             this.cql = cql;
             this.parameters = ImmutableList.of(parameters);
         }
 
+        /**
+         * .
+         *
+         * @return the pair
+         */
         public Pair<String, List<Object>> __() {
             return Pair.of(cql, parameters);
         }
 
+        /**
+         * Hash code.
+         *
+         * @return the int
+         */
         @Override
         public int hashCode() {
             return N.hashCode(cql) * 31 + N.hashCode(parameters);
         }
 
+        /**
+         * Equals.
+         *
+         * @param obj the obj
+         * @return true, if successful
+         */
         @Override
         public boolean equals(final Object obj) {
             if (this == obj) {
@@ -4014,6 +6264,11 @@ public abstract class CQLBuilder {
             return false;
         }
 
+        /**
+         * To string.
+         *
+         * @return the string
+         */
         @Override
         public String toString() {
             return "{cql=" + cql + ", parameters=" + N.toString(parameters) + "}";
