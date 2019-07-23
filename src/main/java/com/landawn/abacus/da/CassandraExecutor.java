@@ -80,7 +80,6 @@ import com.landawn.abacus.util.ImmutableList;
 import com.landawn.abacus.util.ImmutableSet;
 import com.landawn.abacus.util.MutableInt;
 import com.landawn.abacus.util.N;
-import com.landawn.abacus.util.NamedCQL;
 import com.landawn.abacus.util.NamingPolicy;
 import com.landawn.abacus.util.Try;
 import com.landawn.abacus.util.Tuple;

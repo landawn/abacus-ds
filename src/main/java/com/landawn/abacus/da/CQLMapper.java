@@ -31,14 +31,12 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
-import com.landawn.abacus.da.CQLMapper;
 import com.landawn.abacus.exception.AbacusException;
 import com.landawn.abacus.exception.ParseException;
 import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.util.Configuration;
 import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.N;
-import com.landawn.abacus.util.NamedCQL;
 import com.landawn.abacus.util.Splitter;
 import com.landawn.abacus.util.WD;
 import com.landawn.abacus.util.XMLUtil;
