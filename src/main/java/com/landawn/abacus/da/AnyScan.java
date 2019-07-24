@@ -382,10 +382,10 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * @param timestamp version timestamp
      * @return this
      * @throws IOException Signals that an I/O exception has occurred.
-     * @see #setMaxVersions()
-     * @see #setMaxVersions(int)
+     * @see Scan#setMaxVersions()
+     * @see Scan#setMaxVersions(int)
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
-     *             Use {@link #setTimestamp(long)} instead
+     *             Use {@code setTimestamp(long)} instead
      */
     @Deprecated
     public AnyScan setTimeStamp(long timestamp) throws IOException {
@@ -421,7 +421,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * @return this
      * @throws IllegalArgumentException if startRow does not meet criteria for a row key (when length
      *           exceeds {@link HConstants#MAX_ROW_LENGTH})
-     * @deprecated use {@link #withStartRow(byte[])} instead. This method may change the inclusive of
+     * @deprecated use {@code withStartRow(byte[])} instead. This method may change the inclusive of
      *             the stop row to keep compatible with the old behavior.
      */
     @Deprecated
@@ -480,13 +480,13 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * The scan will include rows that are lexicographically less than the provided stopRow.
      * <p>
      * <b>Note:</b> When doing a filter for a rowKey <u>Prefix</u> use
-     * {@link #setRowPrefixFilter(byte[])}. The 'trailing 0' will not yield the desired result.
+     * {@code setRowPrefixFilter(byte[])}. The 'trailing 0' will not yield the desired result.
      * </p>
      * @param stopRow row to end at (exclusive)
      * @return this
      * @throws IllegalArgumentException if stopRow does not meet criteria for a row key (when length
      *           exceeds {@link HConstants#MAX_ROW_LENGTH})
-     * @deprecated use {@link #withStopRow(byte[])} instead. This method may change the inclusive of
+     * @deprecated use {@code withStopRow(byte[])} instead. This method may change the inclusive of
      *             the stop row to keep compatible with the old behavior.
      */
     @Deprecated
@@ -549,7 +549,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * @return this
      * @throws IOException Signals that an I/O exception has occurred.
      * @deprecated It is easy to misunderstand with column family's max versions, so use
-     *             {@link #readAllVersions()} instead.
+     *             {@code readAllVersions()} instead.
      */
     @Deprecated
     public AnyScan setMaxVersions(int maxVersions) throws IOException {
@@ -562,7 +562,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * Get all available versions.
      * @return this
      * @deprecated It is easy to misunderstand with column family's max versions, so use
-     *             {@link #readAllVersions()} instead.
+     *             {@code readAllVersions()} instead.
      */
     @Deprecated
     public AnyScan setMaxVersions() {
@@ -829,7 +829,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * Get whether this scan is a small scan.
      *
      * @return true if small scan
-     * @deprecated since 2.0.0. See the comment of {@link #setSmall(boolean)}
+     * @deprecated since 2.0.0. See the comment of {@code setSmall(boolean)}
      */
     @Deprecated
     public boolean isSmall() {
@@ -848,9 +848,9 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      *
      * @param small the small
      * @return the any scan
-     * @see #setLimit(int)
-     * @see #setReadType(ReadType)
-     * @deprecated since 2.0.0. Use {@link #setLimit(int)} and {@link #setReadType(ReadType)} instead.
+     * @see Scan#setLimit(int)
+     * @see Scan#setReadType(ReadType)
+     * @deprecated since 2.0.0. Use {@code setLimit(int)} and {@code setReadType(ReadType)} instead.
      *             And for the one rpc optimization, now we will also fetch data when openScanner, and
      *             if the number of rows reaches the limit then we will close the scanner
      *             automatically which means we will fall back to one rpc.
@@ -887,7 +887,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * Gets the scan metrics.
      *
      * @return Metrics on this Scan, if metrics were enabled.
-     * @see #setScanMetricsEnabled(boolean)
+     * @see Scan#setScanMetricsEnabled(boolean)
      * @deprecated Use {@link ResultScanner#getScanMetrics()} instead. And notice that, please do not
      *             use this method and {@link ResultScanner#getScanMetrics()} together, the metrics
      *             will be messed up.

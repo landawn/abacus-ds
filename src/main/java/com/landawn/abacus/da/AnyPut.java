@@ -320,7 +320,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     }
 
     /**
-     * See {@link #addColumn(byte[], byte[], byte[])}. This version expects
+     * See {@code addColumn(byte[], byte[], byte[])}. This version expects
      * that the underlying arrays won't change. It's intended
      * for usage internal HBase to and for advanced client applications.
      *
@@ -329,7 +329,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param value the value
      * @return the any put
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
-     *             Use {@link #add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
+     *             Use {@code add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
      */
     @Deprecated
     public AnyPut addImmutable(String family, String qualifier, Object value) {
@@ -339,7 +339,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     }
 
     /**
-     * See {@link #addColumn(byte[], byte[], long, byte[])}. This version expects
+     * See {@code addColumn(byte[], byte[], long, byte[])}. This version expects
      * that the underlying arrays won't change. It's intended
      * for usage internal HBase to and for advanced client applications.
      *
@@ -349,7 +349,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param value the value
      * @return the any put
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
-     *             Use {@link #add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
+     *             Use {@code add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
      */
     @Deprecated
     public AnyPut addImmutable(String family, String qualifier, long ts, Object value) {
@@ -359,7 +359,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     }
 
     /**
-     * See {@link #addColumn(byte[], byte[], byte[])}. This version expects
+     * See {@code addColumn(byte[], byte[], byte[])}. This version expects
      * that the underlying arrays won't change. It's intended
      * for usage internal HBase to and for advanced client applications.
      *
@@ -368,7 +368,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param value the value
      * @return the any put
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
-     *             Use {@link #add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
+     *             Use {@code add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
      */
     @Deprecated
     public AnyPut addImmutable(byte[] family, byte[] qualifier, byte[] value) {
@@ -378,7 +378,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     }
 
     /**
-     * See {@link #addColumn(byte[], byte[], long, byte[])}. This version expects
+     * See {@code addColumn(byte[], byte[], long, byte[])}. This version expects
      * that the underlying arrays won't change. It's intended
      * for usage internal HBase to and for advanced client applications.
      *
@@ -388,7 +388,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param value the value
      * @return the any put
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
-     *             Use {@link #add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
+     *             Use {@code add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
      */
     @Deprecated
     public AnyPut addImmutable(byte[] family, byte[] qualifier, long ts, byte[] value) {
@@ -398,7 +398,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     }
 
     /**
-     * See {@link #addColumn(byte[], byte[], long, byte[])}. This version expects
+     * See {@code addColumn(byte[], byte[], long, byte[])}. This version expects
      * that the underlying arrays won't change. It's intended
      * for usage internal HBase to and for advanced client applications.
      *
@@ -408,7 +408,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param value the value
      * @return the any put
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
-     *             Use {@link #add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
+     *             Use {@code add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
      */
     @Deprecated
     public AnyPut addImmutable(byte[] family, ByteBuffer qualifier, long ts, ByteBuffer value) {

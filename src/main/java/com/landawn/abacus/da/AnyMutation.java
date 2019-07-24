@@ -127,7 +127,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      *
      * @return timestamp
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
-     *             Use {@link #getTimestamp()} instead
+     *             Use {@code getTimestamp()} instead
      */
     @Deprecated
     public long getTimeStamp() {

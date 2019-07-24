@@ -401,11 +401,12 @@ public final class CouchbaseExecutor implements Closeable {
      * @param targetClass the target class
      * @return the object id set method
      */
+    @SuppressWarnings("deprecation")
     private static <T> Method getObjectIdSetMethod(Class<T> targetClass) {
         Method idSetMethod = classIdSetMethodPool.get(targetClass);
 
         if (idSetMethod == null) {
-            final List<String> idFieldNames = ClazzUtil.getIdFieldNames(targetClass);
+            final List<String> idFieldNames = ClassUtil.getIdFieldNames(targetClass);
             Method idPropSetMethod = null;
             Class<?> parameterType = null;
 
@@ -430,13 +431,13 @@ public final class CouchbaseExecutor implements Closeable {
             //
 
             if (idSetMethod == null) {
-                idSetMethod = ClazzUtil.METHOD_MASK;
+                idSetMethod = ClassUtil.METHOD_MASK;
             }
 
             classIdSetMethodPool.put(targetClass, idSetMethod);
         }
 
-        return idSetMethod == ClazzUtil.METHOD_MASK ? null : idSetMethod;
+        return idSetMethod == ClassUtil.METHOD_MASK ? null : idSetMethod;
     }
 
     /**

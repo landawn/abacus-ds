@@ -182,6 +182,7 @@ public final class HBaseExecutor implements Closeable {
      * @param targetClass the target class
      * @return the row key set method
      */
+    @SuppressWarnings("deprecation")
     private static <T> Method getRowKeySetMethod(final Class<T> targetClass) {
         Method rowKeySetMethod = classRowkeySetMethodPool.get(targetClass);
 
@@ -200,7 +201,7 @@ public final class HBaseExecutor implements Closeable {
         //            classRowkeySetMethodPool.put(targetClass, rowKeySetMethod);
         //        }
 
-        return rowKeySetMethod == ClazzUtil.METHOD_MASK ? null : rowKeySetMethod;
+        return rowKeySetMethod == ClassUtil.METHOD_MASK ? null : rowKeySetMethod;
     }
 
     /**
@@ -909,7 +910,7 @@ public final class HBaseExecutor implements Closeable {
      * @return Array of boolean.  True if the specified Get matches one or more keys, false if not.
      * @throws UncheckedIOException the unchecked IO exception
      * @deprecated since 2.0 version and will be removed in 3.0 version.
-     *             use {@link #exists(List)}
+     *             use {@code exists(List)}
      */
     @Deprecated
     public List<Boolean> existsAll(final String tableName, final List<Get> gets) throws UncheckedIOException {
@@ -955,7 +956,7 @@ public final class HBaseExecutor implements Closeable {
      * @param anyGets the any gets
      * @return the list
      * @throws UncheckedIOException the unchecked IO exception
-     * @deprecated  use {@link #exists(String, Collection)}
+     * @deprecated  use {@code exists(String, Collection)}
      */
     @Deprecated
     public List<Boolean> existsAll(final String tableName, final Collection<AnyGet> anyGets) throws UncheckedIOException {

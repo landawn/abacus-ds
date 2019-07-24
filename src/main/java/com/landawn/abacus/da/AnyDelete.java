@@ -189,7 +189,7 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * @param kv An existing KeyValue of type "delete".
      * @return this for invocation chaining
      * @throws IOException Signals that an I/O exception has occurred.
-     * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0. Use {@link #add(Cell)}
+     * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0. Use {@code add(Cell)}
      *             instead
      */
     @SuppressWarnings("unchecked")

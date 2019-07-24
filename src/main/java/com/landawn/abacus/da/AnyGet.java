@@ -282,7 +282,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
      * @return this for invocation chaining
      * @throws IOException Signals that an I/O exception has occurred.
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
-     *             Use {@link #setTimestamp(long)} instead
+     *             Use {@code setTimestamp(long)} instead
      */
     @Deprecated
     public AnyGet setTimeStamp(long timestamp) throws IOException {
@@ -307,7 +307,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
      * @return this for invocation chaining
      * @throws IOException if invalid number of versions
      * @deprecated It is easy to misunderstand with column family's max versions, so use
-     *             {@link #readVersions(int)} instead.
+     *             {@code readVersions(int)} instead.
      */
     @Deprecated
     public AnyGet setMaxVersions(int maxVersions) throws IOException {
@@ -320,7 +320,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
      * Get all available versions.
      * @return this for invocation chaining
      * @deprecated It is easy to misunderstand with column family's max versions, so use
-     *             {@link #readAllVersions()} instead.
+     *             {@code readAllVersions()} instead.
      */
     @Deprecated
     public AnyGet setMaxVersions() {

@@ -160,7 +160,7 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
 
     /**
      * Specify region replica id where Query will fetch data from. Use this together with
-     * {@link #setConsistency(Consistency)} passing {@link Consistency#TIMELINE} to read data from
+     * {@code setConsistency(Consistency)} passing {@link Consistency#TIMELINE} to read data from
      * a specific replicaId.
      * <br><b> Expert: </b>This is an advanced API exposed. Only use it if you know what you are doing
      *

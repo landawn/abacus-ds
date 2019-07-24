@@ -111,8 +111,8 @@ import com.landawn.abacus.util.stream.Stream;
 /**
  * It's a simple wrapper of Cassandra Java client.
  * Raw/parameterized cql are supported. The parameters can be array/list/map/entity:
- * <li> row parameterized cql with question mark: <code>SELECT * FROM account WHERE id = ?</li>
- * <li> Parameterized cql with named parameter: <code>SELECT * FROM account WHERE id = :id</li>
+ * <li> row parameterized cql with question mark: <code>SELECT * FROM account WHERE id = ?</code></li>
+ * <li> Parameterized cql with named parameter: <code>SELECT * FROM account WHERE id = :id</code></li>
  * 
  * <br />
  * <code>CQLBuilder</code> is designed to build CQL.
@@ -360,7 +360,8 @@ public final class CassandraExecutor implements Closeable {
         Tuple2<List<String>, Set<String>> tp = entityKeyNamesMap.get(entityClass);
 
         if (tp == null) {
-            List<String> idPropNames = ClazzUtil.getIdFieldNames(entityClass);
+            @SuppressWarnings("deprecation")
+            List<String> idPropNames = ClassUtil.getIdFieldNames(entityClass);
             tp = Tuple.<List<String>, Set<String>> of(ImmutableList.copyOf(idPropNames), ImmutableSet.copyOf(idPropNames));
             entityKeyNamesMap.put(entityClass, tp);
         }
@@ -378,7 +379,8 @@ public final class CassandraExecutor implements Closeable {
         Tuple2<List<String>, Set<String>> tp = entityKeyNamesMap.get(entityClass);
 
         if (tp == null) {
-            List<String> idPropNames = ClazzUtil.getIdFieldNames(entityClass);
+            @SuppressWarnings("deprecation")
+            final List<String> idPropNames = ClassUtil.getIdFieldNames(entityClass);
             tp = Tuple.<List<String>, Set<String>> of(ImmutableList.copyOf(idPropNames), ImmutableSet.copyOf(idPropNames));
             entityKeyNamesMap.put(entityClass, tp);
         }

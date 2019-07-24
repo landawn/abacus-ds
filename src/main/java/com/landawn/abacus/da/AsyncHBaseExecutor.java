@@ -119,7 +119,7 @@ public final class AsyncHBaseExecutor {
      * @param gets the Gets
      * @return Array of boolean.  True if the specified Get matches one or more keys, false if not.
      * @deprecated since 2.0 version and will be removed in 3.0 version.
-     *             use {@link #exists(List)}
+     *             use {@code exists(List)}
      */
     @Deprecated
     public ContinuableFuture<List<Boolean>> existsAll(final String tableName, final List<Get> gets) {
@@ -170,7 +170,7 @@ public final class AsyncHBaseExecutor {
      * @param anyGets the any gets
      * @return the continuable future
      * @throws UncheckedIOException the unchecked IO exception
-     * @deprecated  use {@link #exists(String, Collection)}
+     * @deprecated  use {@code exists(String, Collection)}
      */
     @Deprecated
     public ContinuableFuture<List<Boolean>> existsAll(final String tableName, final Collection<AnyGet> anyGets) {
