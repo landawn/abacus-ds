@@ -12,3 +12,17 @@ Abacus Data Access&Analysis
 [HBaseExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/HBaseExecutor_view.html), 
 [DynamoDBExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/DynamoDBExecutor_view.html) and 
 [Neo4jExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/Neo4jExecutor_view.html).
+
+
+* [Deploy Once, Run Anytime](https://github.com/landawn/abacus-ds/wiki/Deploy-Once,-Run-Anytime):
+[RemoteExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/RemoteExecutor_view.html).
+
+
+## Download/Installation & [Changes](https://github.com/landawn/abacus-da/blob/master/CHANGES.md):
+
+* [Maven](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.landawn%22)
+
+* Gradle:
+```gradle
+// JDK 1.8 or above:
+compile 'com.landawn:abacus-da:0.8.1'
