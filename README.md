@@ -1,6 +1,9 @@
 # abacus-da
 Abacus Data Access&Analysis
 
+[![Maven Central](https://img.shields.io/maven-central/v/com.landawn/abacus-da.svg)](https://maven-badges.herokuapp.com/maven-central/com.landawn/abacus-da/)
+[![Javadocs](https://www.javadoc.io/badge/com.landawn/abacus-da.svg)](https://www.javadoc.io/doc/com.landawn/abacus-da)
+
 
 * ORMs for NoSQL: 
 [MongoCollectionExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/MongoCollectionExecutor_view.html), 
