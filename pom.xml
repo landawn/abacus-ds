@@ -18,7 +18,6 @@
 		<java.version>1.8</java.version>
 		<junit.jupiter.version>5.5.1</junit.jupiter.version>
 		<junit.platform.version>1.5.1</junit.platform.version>
-		<additionalparam>-Xdoclint:none</additionalparam>
 	</properties>
 
 	<dependencies>
