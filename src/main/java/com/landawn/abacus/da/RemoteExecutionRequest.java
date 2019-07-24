@@ -18,8 +18,8 @@ import java.util.Map;
 
 import com.landawn.abacus.annotation.Internal;
 import com.landawn.abacus.annotation.Type;
-import com.landawn.abacus.util.N;
-import com.landawn.abacus.util.RemoteTask.RunMode;
+import com.landawn.abacus.da.RemoteTask.RunMode;
+import com.landawn.abacus.util.N; 
 
 /**
  * 
@@ -69,11 +69,11 @@ public class RemoteExecutionRequest {
         return this;
     }
 
-    public com.landawn.abacus.util.RemoteTask.RunMode getRunMode() {
+    public com.landawn.abacus.da.RemoteTask.RunMode getRunMode() {
         return runMode;
     }
 
-    public RemoteExecutionRequest setRunMode(com.landawn.abacus.util.RemoteTask.RunMode runMode) {
+    public RemoteExecutionRequest setRunMode(com.landawn.abacus.da.RemoteTask.RunMode runMode) {
         this.runMode = runMode;
 
         return this;

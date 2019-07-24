@@ -1,3 +1,8 @@
+### 0.8.2
+
+* Add `Matrix/Sheet`.
+
+
 ### 0.8.1
 
 * Add `RemoteExecutor`.

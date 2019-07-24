@@ -5,6 +5,14 @@ Abacus Data Access&Analysis
 [![Javadocs](https://www.javadoc.io/badge/com.landawn/abacus-da.svg)](https://www.javadoc.io/doc/com.landawn/abacus-da)
 
 
+* Matrix: 
+[AbstractMatrix](https://cdn.rawgit.com/landawn/abacus-da/master/docs/AbstractMatrix_view.html), 
+[Matrix](https://cdn.rawgit.com/landawn/abacus-da/master/docs/Matrix_view.html), 
+[IntMatrix](https://cdn.rawgit.com/landawn/abacus-da/master/docs/IntMatrix_view.html), 
+[LongMatrix](https://cdn.rawgit.com/landawn/abacus-da/master/docs/LongMatrix_view.html), 
+[DoubleMatrix](https://cdn.rawgit.com/landawn/abacus-da/master/docs/DoubleMatrix_view.html)...
+
+
 * ORMs for NoSQL: 
 [MongoCollectionExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/MongoCollectionExecutor_view.html), 
 [CassandraExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/CassandraExecutor_view.html) with [CQLBuilder](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/CQLBuilder_view.html), 

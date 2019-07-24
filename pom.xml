@@ -5,7 +5,7 @@
 
 	<groupId>com.landawn</groupId>
 	<artifactId>abacus-da</artifactId>
-	<version>0.8.1</version>
+	<version>0.8.2</version>
 	<packaging>jar</packaging>
 
 	<name>abacus-da</name>
@@ -33,6 +33,7 @@
 			<groupId>com.landawn</groupId>
 			<artifactId>abacus-util</artifactId>
 			<version>1.8.0</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -88,6 +89,13 @@
 			<groupId>com.squareup.okhttp3</groupId>
 			<artifactId>okhttp</artifactId>
 			<version>3.14.2</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.esotericsoftware</groupId>
+			<artifactId>kryo</artifactId>
+			<version>4.0.0</version>
 			<scope>provided</scope>
 		</dependency>
 
