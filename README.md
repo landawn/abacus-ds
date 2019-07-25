@@ -6,24 +6,24 @@ Abacus Data Access&Analysis
 
 
 * Matrix: 
-[AbstractMatrix](https://cdn.rawgit.com/landawn/abacus-da/master/docs/AbstractMatrix_view.html), 
-[Matrix](https://cdn.rawgit.com/landawn/abacus-da/master/docs/Matrix_view.html), 
-[IntMatrix](https://cdn.rawgit.com/landawn/abacus-da/master/docs/IntMatrix_view.html), 
-[LongMatrix](https://cdn.rawgit.com/landawn/abacus-da/master/docs/LongMatrix_view.html), 
-[DoubleMatrix](https://cdn.rawgit.com/landawn/abacus-da/master/docs/DoubleMatrix_view.html)...
+[AbstractMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/AbstractMatrix_view.html), 
+[Matrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Matrix_view.html), 
+[IntMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/IntMatrix_view.html), 
+[LongMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/LongMatrix_view.html), 
+[DoubleMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/DoubleMatrix_view.html)...
 
 
 * ORMs for NoSQL: 
-[MongoCollectionExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/MongoCollectionExecutor_view.html), 
-[CassandraExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/CassandraExecutor_view.html) with [CQLBuilder](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/CQLBuilder_view.html), 
-[CouchbaseExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/CouchbaseExecutor_view.html), 
-[HBaseExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/HBaseExecutor_view.html), 
-[DynamoDBExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/DynamoDBExecutor_view.html) and 
-[Neo4jExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/Neo4jExecutor_view.html).
+[MongoCollectionExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/MongoCollectionExecutor_view.html), 
+[CassandraExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/CassandraExecutor_view.html) with [CQLBuilder](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/CQLBuilder_view.html), 
+[CouchbaseExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/CouchbaseExecutor_view.html), 
+[HBaseExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/HBaseExecutor_view.html), 
+[DynamoDBExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/DynamoDBExecutor_view.html) and 
+[Neo4jExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Neo4jExecutor_view.html).
 
 
-* [Deploy Once, Run Anytime](https://github.com/landawn/abacus-ds/wiki/Deploy-Once,-Run-Anytime):
-[RemoteExecutor](https://cdn.rawgit.com/landawn/abacus-ds/master/docs/RemoteExecutor_view.html).
+* [Deploy Once, Run Anytime](https://github.com/landawn/abacus-da/wiki/Deploy-Once,-Run-Anytime):
+[RemoteExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/RemoteExecutor_view.html).
 
 
 ## Download/Installation & [Changes](https://github.com/landawn/abacus-da/blob/master/CHANGES.md):
@@ -33,4 +33,4 @@ Abacus Data Access&Analysis
 * Gradle:
 ```gradle
 // JDK 1.8 or above:
-compile 'com.landawn:abacus-da:0.8.1'
+compile 'com.landawn:abacus-da:0.8.2'

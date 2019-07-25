@@ -173,6 +173,3 @@
 
    END OF TERMS AND CONDITIONS
    
-   APPENDIX:
-      AbacusUtil will be a open source code project eventually. We just don't have
-      the plan ready yet.
