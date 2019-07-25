@@ -32,28 +32,53 @@ import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @since 0.8
- * 
+ * The Class FloatMatrix.
+ *
  * @author Haiyang Li
+ * @since 0.8
  */
 public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatStream, Stream<FloatStream>, FloatMatrix> {
+    
+    /** The Constant EMPTY_FLOAT_MATRIX. */
     static final FloatMatrix EMPTY_FLOAT_MATRIX = new FloatMatrix(new float[0][0]);
 
+    /**
+     * Instantiates a new float matrix.
+     *
+     * @param a the a
+     */
     public FloatMatrix(final float[][] a) {
         super(a == null ? new float[0][0] : a);
     }
 
+    /**
+     * Empty.
+     *
+     * @return the float matrix
+     */
     public static FloatMatrix empty() {
         return EMPTY_FLOAT_MATRIX;
     }
 
+    /**
+     * Of.
+     *
+     * @param a the a
+     * @return the float matrix
+     */
     @SafeVarargs
     public static FloatMatrix of(final float[]... a) {
         return N.isNullOrEmpty(a) ? EMPTY_FLOAT_MATRIX : new FloatMatrix(a);
     }
 
+    /**
+     * From.
+     *
+     * @param a the a
+     * @return the float matrix
+     */
     @SafeVarargs
     public static FloatMatrix from(final int[]... a) {
         if (N.isNullOrEmpty(a)) {
@@ -71,22 +96,54 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Random.
+     *
+     * @param len the len
+     * @return the float matrix
+     */
     public static FloatMatrix random(final int len) {
         return new FloatMatrix(new float[][] { FloatList.random(len).array() });
     }
 
+    /**
+     * Repeat.
+     *
+     * @param val the val
+     * @param len the len
+     * @return the float matrix
+     */
     public static FloatMatrix repeat(final float val, final int len) {
         return new FloatMatrix(new float[][] { Array.repeat(val, len) });
     }
 
+    /**
+     * Diagonal LU 2 RD.
+     *
+     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
+     * @return the float matrix
+     */
     public static FloatMatrix diagonalLU2RD(final float[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
     }
 
+    /**
+     * Diagonal RU 2 LD.
+     *
+     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
+     * @return the float matrix
+     */
     public static FloatMatrix diagonalRU2LD(final float[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
+    /**
+     * Diagonal.
+     *
+     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
+     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
+     * @return the float matrix
+     */
     public static FloatMatrix diagonal(final float[] leftUp2RighDownDiagonal, float[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
                 N.isNullOrEmpty(leftUp2RighDownDiagonal) || N.isNullOrEmpty(rightUp2LeftDownDiagonal)
@@ -124,44 +181,98 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Gets the.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the float
+     */
     public float get(final int i, final int j) {
         return a[i][j];
     }
 
+    /**
+     * Gets the.
+     *
+     * @param point the point
+     * @return the float
+     */
     public float get(final IntPair point) {
         return a[point._1][point._2];
     }
 
+    /**
+     * Sets the.
+     *
+     * @param i the i
+     * @param j the j
+     * @param val the val
+     */
     public void set(final int i, final int j, final float val) {
         a[i][j] = val;
     }
 
+    /**
+     * Sets the.
+     *
+     * @param point the point
+     * @param val the val
+     */
     public void set(final IntPair point, final float val) {
         a[point._1][point._2] = val;
     }
 
+    /**
+     * Up of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional float
+     */
     public OptionalFloat upOf(final int i, final int j) {
         return i == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[i - 1][j]);
     }
 
+    /**
+     * Down of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional float
+     */
     public OptionalFloat downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[i + 1][j]);
     }
 
+    /**
+     * Left of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional float
+     */
     public OptionalFloat leftOf(final int i, final int j) {
         return j == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j - 1]);
     }
 
+    /**
+     * Right of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional float
+     */
     public OptionalFloat rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j + 1]);
     }
 
     /**
      * Returns the four adjacencies with order: up, right, down, left. <code>null</code> is set if the adjacency doesn't exist.
-     * 
-     * @param i
-     * @param j
-     * @return
+     *
+     * @param i the i
+     * @param j the j
+     * @return the stream
      */
     public Stream<IntPair> adjacent4Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -174,10 +285,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. <code>null</code> is set if the adjacency doesn't exist.
-     * 
-     * @param i
-     * @param j
-     * @return
+     *
+     * @param i the i
+     * @param j the j
+     * @return the stream
      */
     public Stream<IntPair> adjacent8Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -193,12 +304,24 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return Stream.of(leftUp, up, rightUp, right, rightDown, down, leftDown, left);
     }
 
+    /**
+     * Row.
+     *
+     * @param rowIndex the row index
+     * @return the float[]
+     */
     public float[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
 
         return a[rowIndex];
     }
 
+    /**
+     * Column.
+     *
+     * @param columnIndex the column index
+     * @return the float[]
+     */
     public float[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
@@ -211,12 +334,24 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return c;
     }
 
+    /**
+     * Sets the row.
+     *
+     * @param rowIndex the row index
+     * @param row the row
+     */
     public void setRow(int rowIndex, float[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
 
+    /**
+     * Sets the column.
+     *
+     * @param columnIndex the column index
+     * @param column the column
+     */
     public void setColumn(int columnIndex, float[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
@@ -225,18 +360,39 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Update row.
+     *
+     * @param <E> the element type
+     * @param rowIndex the row index
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateRow(int rowIndex, Try.FloatUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsFloat(a[rowIndex][i]);
         }
     }
 
+    /**
+     * Update column.
+     *
+     * @param <E> the element type
+     * @param columnIndex the column index
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateColumn(int columnIndex, Try.FloatUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsFloat(a[i][columnIndex]);
         }
     }
 
+    /**
+     * Gets the lu2rd.
+     *
+     * @return the lu2rd
+     */
     public float[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -249,6 +405,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return res;
     }
 
+    /**
+     * Sets the lu2rd.
+     *
+     * @param diagonal the new lu2rd
+     */
     public void setLU2RD(final float[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
@@ -258,6 +419,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Update LU 2 RD.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateLU2RD(final Try.FloatUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -266,6 +434,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Gets the ru2ld.
+     *
+     * @return the ru2ld
+     */
     public float[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -278,6 +451,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return res;
     }
 
+    /**
+     * Sets the ru2ld.
+     *
+     * @param diagonal the new ru2ld
+     */
     public void setRU2LD(final float[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
@@ -287,6 +465,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Update RU 2 LD.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateRU2LD(final Try.FloatUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -295,6 +480,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Update all.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateAll(final Try.FloatUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
@@ -334,9 +526,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Update all elements based on points
-     * 
-     * @param func
+     * Update all elements based on points.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
      */
     public <E extends Exception> void updateAll(final Try.IntBiFunction<Float, E> func) throws E {
         if (isParallelable()) {
@@ -376,6 +570,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Replace if.
+     *
+     * @param <E> the element type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws E the e
+     */
     public <E extends Exception> void replaceIf(final Try.FloatPredicate<E> predicate, final float newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
@@ -416,9 +618,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
-     * 
-     * @param predicate
-     * @param newValue
+     *
+     * @param <E> the element type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final float newValue) throws E {
         if (isParallelable()) {
@@ -458,6 +662,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Map.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @return the float matrix
+     * @throws E the e
+     */
     public <E extends Exception> FloatMatrix map(final Try.FloatUnaryOperator<E> func) throws E {
         final float[][] c = new float[rows][cols];
 
@@ -500,6 +712,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return FloatMatrix.of(c);
     }
 
+    /**
+     * Map to obj.
+     *
+     * @param <T> the generic type
+     * @param <E> the element type
+     * @param cls the cls
+     * @param func the func
+     * @return the matrix
+     * @throws E the e
+     */
     public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.FloatFunction<? extends T, E> func) throws E {
         final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
 
@@ -546,16 +768,33 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return Matrix.of(c);
     }
 
+    /**
+     * Fill.
+     *
+     * @param val the val
+     */
     public void fill(final float val) {
         for (int i = 0; i < rows; i++) {
             N.fill(a[i], val);
         }
     }
 
+    /**
+     * Fill.
+     *
+     * @param b the b
+     */
     public void fill(final float[][] b) {
         fill(0, 0, b);
     }
 
+    /**
+     * Fill.
+     *
+     * @param fromRowIndex the from row index
+     * @param fromColumnIndex the from column index
+     * @param b the b
+     */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final float[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
         N.checkFromToIndex(fromColumnIndex, cols, cols);
@@ -565,6 +804,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Copy.
+     *
+     * @return the float matrix
+     */
     @Override
     public FloatMatrix copy() {
         final float[][] c = new float[rows][];
@@ -576,6 +820,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Copy.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @return the float matrix
+     */
     @Override
     public FloatMatrix copy(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -589,6 +840,15 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Copy.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @return the float matrix
+     */
     @Override
     public FloatMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -603,10 +863,25 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Extend.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @return the float matrix
+     */
     public FloatMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, 0);
     }
 
+    /**
+     * Extend.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @param defaultValueForNewCell the default value for new cell
+     * @return the float matrix
+     */
     public FloatMatrix extend(final int newRows, final int newCols, final float defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
@@ -633,10 +908,29 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Extend.
+     *
+     * @param toUp the to up
+     * @param toDown the to down
+     * @param toLeft the to left
+     * @param toRight the to right
+     * @return the float matrix
+     */
     public FloatMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, 0);
     }
 
+    /**
+     * Extend.
+     *
+     * @param toUp the to up
+     * @param toDown the to down
+     * @param toLeft the to left
+     * @param toRight the to right
+     * @param defaultValueForNewCell the default value for new cell
+     * @return the float matrix
+     */
     public FloatMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final float defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
         N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
@@ -675,12 +969,18 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Reverse H.
+     */
     public void reverseH() {
         for (int i = 0; i < rows; i++) {
             N.reverse(a[i]);
         }
     }
 
+    /**
+     * Reverse V.
+     */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             float tmp = 0;
@@ -693,8 +993,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * 
-     * @return
+     * Flip H.
+     *
+     * @return the float matrix
      * @see IntMatrix#flipH()
      */
     public FloatMatrix flipH() {
@@ -704,8 +1005,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * 
-     * @return
+     * Flip V.
+     *
+     * @return the float matrix
      * @see IntMatrix#flipV()
      */
     public FloatMatrix flipV() {
@@ -714,6 +1016,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return res;
     }
 
+    /**
+     * Rotate 90.
+     *
+     * @return the float matrix
+     */
     @Override
     public FloatMatrix rotate90() {
         final float[][] c = new float[cols][rows];
@@ -735,6 +1042,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Rotate 180.
+     *
+     * @return the float matrix
+     */
     @Override
     public FloatMatrix rotate180() {
         final float[][] c = new float[rows][];
@@ -747,6 +1059,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Rotate 270.
+     *
+     * @return the float matrix
+     */
     @Override
     public FloatMatrix rotate270() {
         final float[][] c = new float[cols][rows];
@@ -768,6 +1085,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Transpose.
+     *
+     * @return the float matrix
+     */
     @Override
     public FloatMatrix transpose() {
         final float[][] c = new float[cols][rows];
@@ -789,6 +1111,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Reshape.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @return the float matrix
+     */
     @Override
     public FloatMatrix reshape(final int newRows, final int newCols) {
         final float[][] c = new float[newRows][newCols];
@@ -818,9 +1147,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
-     * 
-     * @param rowRepeats
-     * @param colRepeats
+     *
+     * @param rowRepeats the row repeats
+     * @param colRepeats the col repeats
      * @return a new matrix
      * @see IntMatrix#repelem(int, int)
      */
@@ -847,9 +1176,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
 
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
-     * 
-     * @param rowRepeats
-     * @param colRepeats
+     *
+     * @param rowRepeats the row repeats
+     * @param colRepeats the col repeats
      * @return a new matrix
      * @see IntMatrix#repmat(int, int)
      */
@@ -874,6 +1203,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Flatten.
+     *
+     * @return the float list
+     */
     @Override
     public FloatList flatten() {
         final float[] c = new float[rows * cols];
@@ -885,15 +1219,23 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return FloatList.of(c);
     }
 
+    /**
+     * Flat op.
+     *
+     * @param <E> the element type
+     * @param op the op
+     * @throws E the e
+     */
     @Override
     public <E extends Exception> void flatOp(Consumer<float[], E> op) throws E {
         f.flatOp(a, op);
     }
 
     /**
-     * 
-     * @param b
-     * @return
+     * Vstack.
+     *
+     * @param b the b
+     * @return the float matrix
      * @see IntMatrix#vstack(IntMatrix)
      */
     public FloatMatrix vstack(final FloatMatrix b) {
@@ -914,9 +1256,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * 
-     * @param b
-     * @return
+     * Hstack.
+     *
+     * @param b the b
+     * @return the float matrix
      * @see IntMatrix#hstack(IntMatrix)
      */
     public FloatMatrix hstack(final FloatMatrix b) {
@@ -932,6 +1275,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return FloatMatrix.of(c);
     }
 
+    /**
+     * Adds the.
+     *
+     * @param b the b
+     * @return the float matrix
+     */
     public FloatMatrix add(final FloatMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
@@ -976,6 +1325,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Subtract.
+     *
+     * @param b the b
+     * @return the float matrix
+     */
     public FloatMatrix subtract(final FloatMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
@@ -1020,6 +1375,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Multiply.
+     *
+     * @param b the b
+     * @return the float matrix
+     */
     public FloatMatrix multiply(final FloatMatrix b) {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
 
@@ -1161,6 +1522,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(c);
     }
 
+    /**
+     * Boxed.
+     *
+     * @return the matrix
+     */
     public Matrix<Float> boxed() {
         final Float[][] c = new Float[rows][cols];
 
@@ -1181,10 +1547,24 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new Matrix<>(c);
     }
 
+    /**
+     * To double matrix.
+     *
+     * @return the double matrix
+     */
     public DoubleMatrix toDoubleMatrix() {
         return DoubleMatrix.from(a);
     }
 
+    /**
+     * Zip with.
+     *
+     * @param <E> the element type
+     * @param matrixB the matrix B
+     * @param zipFunction the zip function
+     * @return the float matrix
+     * @throws E the e
+     */
     public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final Try.FloatBiFunction<Float, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
@@ -1230,6 +1610,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return new FloatMatrix(result);
     }
 
+    /**
+     * Zip with.
+     *
+     * @param <E> the element type
+     * @param matrixB the matrix B
+     * @param matrixC the matrix C
+     * @param zipFunction the zip function
+     * @return the float matrix
+     * @throws E the e
+     */
     public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final FloatMatrix matrixC, final Try.FloatTriFunction<Float, E> zipFunction)
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
@@ -1278,7 +1668,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * 
+     * Stream LU 2 RD.
+     *
      * @return a stream composed by elements on the diagonal line from left up to right down.
      */
     @Override
@@ -1322,7 +1713,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * 
+     * Stream RU 2 LD.
+     *
      * @return a stream composed by elements on the diagonal line from right up to left down.
      */
     @Override
@@ -1366,7 +1758,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * 
+     * Stream H.
+     *
      * @return a stream based on the order of row.
      */
     @Override
@@ -1374,15 +1767,22 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return streamH(0, rows);
     }
 
+    /**
+     * Stream H.
+     *
+     * @param rowIndex the row index
+     * @return the float stream
+     */
     @Override
     public FloatStream streamH(final int rowIndex) {
         return streamH(rowIndex, rowIndex + 1);
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream H.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a stream based on the order of row.
      */
     @Override
@@ -1456,7 +1856,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * 
+     * Stream V.
+     *
      * @return a stream based on the order of column.
      */
     @Override
@@ -1465,15 +1866,22 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return streamV(0, cols);
     }
 
+    /**
+     * Stream V.
+     *
+     * @param columnIndex the column index
+     * @return the float stream
+     */
     @Override
     public FloatStream streamV(final int columnIndex) {
         return streamV(columnIndex, columnIndex + 1);
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream V.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a stream based on the order of column.
      */
     @Override
@@ -1548,7 +1956,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * 
+     * Stream R.
+     *
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1557,9 +1966,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream R.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1603,7 +2013,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * 
+     * Stream C.
+     *
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1613,9 +2024,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream C.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1689,15 +2101,39 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         });
     }
 
+    /**
+     * Length.
+     *
+     * @param a the a
+     * @return the int
+     */
     @Override
     protected int length(float[] a) {
         return a == null ? 0 : a.length;
     }
 
+    /**
+     * For each.
+     *
+     * @param <E> the element type
+     * @param action the action
+     * @throws E the e
+     */
     public <E extends Exception> void forEach(final Try.FloatConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
+    /**
+     * For each.
+     *
+     * @param <E> the element type
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @param action the action
+     * @throws E the e
+     */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Try.FloatConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -1710,16 +2146,30 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         }
     }
 
+    /**
+     * Println.
+     */
     @Override
     public void println() {
         f.println(a);
     }
 
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
     }
 
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -1735,6 +2185,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         return false;
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return N.deepToString(a);

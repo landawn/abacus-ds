@@ -32,28 +32,53 @@ import com.landawn.abacus.util.stream.LongStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @since 0.8
- * 
+ * The Class LongMatrix.
+ *
  * @author Haiyang Li
+ * @since 0.8
  */
 public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStream, Stream<LongStream>, LongMatrix> {
+    
+    /** The Constant EMPTY_LONG_MATRIX. */
     static final LongMatrix EMPTY_LONG_MATRIX = new LongMatrix(new long[0][0]);
 
+    /**
+     * Instantiates a new long matrix.
+     *
+     * @param a the a
+     */
     public LongMatrix(final long[][] a) {
         super(a == null ? new long[0][0] : a);
     }
 
+    /**
+     * Empty.
+     *
+     * @return the long matrix
+     */
     public static LongMatrix empty() {
         return EMPTY_LONG_MATRIX;
     }
 
+    /**
+     * Of.
+     *
+     * @param a the a
+     * @return the long matrix
+     */
     @SafeVarargs
     public static LongMatrix of(final long[]... a) {
         return N.isNullOrEmpty(a) ? EMPTY_LONG_MATRIX : new LongMatrix(a);
     }
 
+    /**
+     * From.
+     *
+     * @param a the a
+     * @return the long matrix
+     */
     @SafeVarargs
     public static LongMatrix from(final int[]... a) {
         if (N.isNullOrEmpty(a)) {
@@ -71,38 +96,100 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Random.
+     *
+     * @param len the len
+     * @return the long matrix
+     */
     public static LongMatrix random(final int len) {
         return new LongMatrix(new long[][] { LongList.random(len).array() });
     }
 
+    /**
+     * Repeat.
+     *
+     * @param val the val
+     * @param len the len
+     * @return the long matrix
+     */
     public static LongMatrix repeat(final long val, final int len) {
         return new LongMatrix(new long[][] { Array.repeat(val, len) });
     }
 
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @return the long matrix
+     */
     public static LongMatrix range(long startInclusive, final long endExclusive) {
         return new LongMatrix(new long[][] { Array.range(startInclusive, endExclusive) });
     }
 
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @param by the by
+     * @return the long matrix
+     */
     public static LongMatrix range(long startInclusive, final long endExclusive, final long by) {
         return new LongMatrix(new long[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @return the long matrix
+     */
     public static LongMatrix rangeClosed(long startInclusive, final long endInclusive) {
         return new LongMatrix(new long[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @param by the by
+     * @return the long matrix
+     */
     public static LongMatrix rangeClosed(long startInclusive, final long endInclusive, final long by) {
         return new LongMatrix(new long[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
+    /**
+     * Diagonal LU 2 RD.
+     *
+     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
+     * @return the long matrix
+     */
     public static LongMatrix diagonalLU2RD(final long[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
     }
 
+    /**
+     * Diagonal RU 2 LD.
+     *
+     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
+     * @return the long matrix
+     */
     public static LongMatrix diagonalRU2LD(final long[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
+    /**
+     * Diagonal.
+     *
+     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
+     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
+     * @return the long matrix
+     */
     public static LongMatrix diagonal(final long[] leftUp2RighDownDiagonal, long[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
                 N.isNullOrEmpty(leftUp2RighDownDiagonal) || N.isNullOrEmpty(rightUp2LeftDownDiagonal)
@@ -140,44 +227,98 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Gets the.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the long
+     */
     public long get(final int i, final int j) {
         return a[i][j];
     }
 
+    /**
+     * Gets the.
+     *
+     * @param point the point
+     * @return the long
+     */
     public long get(final IntPair point) {
         return a[point._1][point._2];
     }
 
+    /**
+     * Sets the.
+     *
+     * @param i the i
+     * @param j the j
+     * @param val the val
+     */
     public void set(final int i, final int j, final long val) {
         a[i][j] = val;
     }
 
+    /**
+     * Sets the.
+     *
+     * @param point the point
+     * @param val the val
+     */
     public void set(final IntPair point, final long val) {
         a[point._1][point._2] = val;
     }
 
+    /**
+     * Up of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional long
+     */
     public OptionalLong upOf(final int i, final int j) {
         return i == 0 ? OptionalLong.empty() : OptionalLong.of(a[i - 1][j]);
     }
 
+    /**
+     * Down of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional long
+     */
     public OptionalLong downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalLong.empty() : OptionalLong.of(a[i + 1][j]);
     }
 
+    /**
+     * Left of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional long
+     */
     public OptionalLong leftOf(final int i, final int j) {
         return j == 0 ? OptionalLong.empty() : OptionalLong.of(a[i][j - 1]);
     }
 
+    /**
+     * Right of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional long
+     */
     public OptionalLong rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalLong.empty() : OptionalLong.of(a[i][j + 1]);
     }
 
     /**
      * Returns the four adjacencies with order: up, right, down, left. <code>null</code> is set if the adjacency doesn't exist.
-     * 
-     * @param i
-     * @param j
-     * @return
+     *
+     * @param i the i
+     * @param j the j
+     * @return the stream
      */
     public Stream<IntPair> adjacent4Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -190,10 +331,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. <code>null</code> is set if the adjacency doesn't exist.
-     * 
-     * @param i
-     * @param j
-     * @return
+     *
+     * @param i the i
+     * @param j the j
+     * @return the stream
      */
     public Stream<IntPair> adjacent8Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -209,12 +350,24 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return Stream.of(leftUp, up, rightUp, right, rightDown, down, leftDown, left);
     }
 
+    /**
+     * Row.
+     *
+     * @param rowIndex the row index
+     * @return the long[]
+     */
     public long[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
 
         return a[rowIndex];
     }
 
+    /**
+     * Column.
+     *
+     * @param columnIndex the column index
+     * @return the long[]
+     */
     public long[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
@@ -227,12 +380,24 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return c;
     }
 
+    /**
+     * Sets the row.
+     *
+     * @param rowIndex the row index
+     * @param row the row
+     */
     public void setRow(int rowIndex, long[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
 
+    /**
+     * Sets the column.
+     *
+     * @param columnIndex the column index
+     * @param column the column
+     */
     public void setColumn(int columnIndex, long[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
@@ -241,18 +406,39 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Update row.
+     *
+     * @param <E> the element type
+     * @param rowIndex the row index
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateRow(int rowIndex, Try.LongUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsLong(a[rowIndex][i]);
         }
     }
 
+    /**
+     * Update column.
+     *
+     * @param <E> the element type
+     * @param columnIndex the column index
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateColumn(int columnIndex, Try.LongUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsLong(a[i][columnIndex]);
         }
     }
 
+    /**
+     * Gets the lu2rd.
+     *
+     * @return the lu2rd
+     */
     public long[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -265,6 +451,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return res;
     }
 
+    /**
+     * Sets the lu2rd.
+     *
+     * @param diagonal the new lu2rd
+     */
     public void setLU2RD(final long[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
@@ -274,6 +465,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Update LU 2 RD.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateLU2RD(final Try.LongUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -282,6 +480,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Gets the ru2ld.
+     *
+     * @return the ru2ld
+     */
     public long[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -294,6 +497,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return res;
     }
 
+    /**
+     * Sets the ru2ld.
+     *
+     * @param diagonal the new ru2ld
+     */
     public void setRU2LD(final long[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
@@ -303,6 +511,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Update RU 2 LD.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateRU2LD(final Try.LongUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -311,6 +526,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Update all.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateAll(final Try.LongUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
@@ -350,9 +572,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Update all elements based on points
-     * 
-     * @param func
+     * Update all elements based on points.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
      */
     public <E extends Exception> void updateAll(final Try.IntBiFunction<Long, E> func) throws E {
         if (isParallelable()) {
@@ -392,6 +616,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Replace if.
+     *
+     * @param <E> the element type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws E the e
+     */
     public <E extends Exception> void replaceIf(final Try.LongPredicate<E> predicate, final long newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
@@ -432,9 +664,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
-     * 
-     * @param predicate
-     * @param newValue
+     *
+     * @param <E> the element type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final long newValue) throws E {
         if (isParallelable()) {
@@ -474,6 +708,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Map.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @return the long matrix
+     * @throws E the e
+     */
     public <E extends Exception> LongMatrix map(final Try.LongUnaryOperator<E> func) throws E {
         final long[][] c = new long[rows][cols];
 
@@ -516,6 +758,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return LongMatrix.of(c);
     }
 
+    /**
+     * Map to obj.
+     *
+     * @param <T> the generic type
+     * @param <E> the element type
+     * @param cls the cls
+     * @param func the func
+     * @return the matrix
+     * @throws E the e
+     */
     public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.LongFunction<? extends T, E> func) throws E {
         final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
 
@@ -562,16 +814,33 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return Matrix.of(c);
     }
 
+    /**
+     * Fill.
+     *
+     * @param val the val
+     */
     public void fill(final long val) {
         for (int i = 0; i < rows; i++) {
             N.fill(a[i], val);
         }
     }
 
+    /**
+     * Fill.
+     *
+     * @param b the b
+     */
     public void fill(final long[][] b) {
         fill(0, 0, b);
     }
 
+    /**
+     * Fill.
+     *
+     * @param fromRowIndex the from row index
+     * @param fromColumnIndex the from column index
+     * @param b the b
+     */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final long[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
         N.checkFromToIndex(fromColumnIndex, cols, cols);
@@ -581,6 +850,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Copy.
+     *
+     * @return the long matrix
+     */
     @Override
     public LongMatrix copy() {
         final long[][] c = new long[rows][];
@@ -592,6 +866,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Copy.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @return the long matrix
+     */
     @Override
     public LongMatrix copy(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -605,6 +886,15 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Copy.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @return the long matrix
+     */
     @Override
     public LongMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -619,10 +909,25 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Extend.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @return the long matrix
+     */
     public LongMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, 0);
     }
 
+    /**
+     * Extend.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @param defaultValueForNewCell the default value for new cell
+     * @return the long matrix
+     */
     public LongMatrix extend(final int newRows, final int newCols, final long defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
@@ -649,10 +954,29 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Extend.
+     *
+     * @param toUp the to up
+     * @param toDown the to down
+     * @param toLeft the to left
+     * @param toRight the to right
+     * @return the long matrix
+     */
     public LongMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, 0);
     }
 
+    /**
+     * Extend.
+     *
+     * @param toUp the to up
+     * @param toDown the to down
+     * @param toLeft the to left
+     * @param toRight the to right
+     * @param defaultValueForNewCell the default value for new cell
+     * @return the long matrix
+     */
     public LongMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final long defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
         N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
@@ -691,12 +1015,18 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Reverse H.
+     */
     public void reverseH() {
         for (int i = 0; i < rows; i++) {
             N.reverse(a[i]);
         }
     }
 
+    /**
+     * Reverse V.
+     */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             long tmp = 0;
@@ -709,8 +1039,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * 
-     * @return
+     * Flip H.
+     *
+     * @return the long matrix
      * @see IntMatrix#flipH()
      */
     public LongMatrix flipH() {
@@ -720,8 +1051,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * 
-     * @return
+     * Flip V.
+     *
+     * @return the long matrix
      * @see IntMatrix#flipV()
      */
     public LongMatrix flipV() {
@@ -730,6 +1062,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return res;
     }
 
+    /**
+     * Rotate 90.
+     *
+     * @return the long matrix
+     */
     @Override
     public LongMatrix rotate90() {
         final long[][] c = new long[cols][rows];
@@ -751,6 +1088,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Rotate 180.
+     *
+     * @return the long matrix
+     */
     @Override
     public LongMatrix rotate180() {
         final long[][] c = new long[rows][];
@@ -763,6 +1105,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Rotate 270.
+     *
+     * @return the long matrix
+     */
     @Override
     public LongMatrix rotate270() {
         final long[][] c = new long[cols][rows];
@@ -784,6 +1131,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Transpose.
+     *
+     * @return the long matrix
+     */
     @Override
     public LongMatrix transpose() {
         final long[][] c = new long[cols][rows];
@@ -805,6 +1157,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Reshape.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @return the long matrix
+     */
     @Override
     public LongMatrix reshape(final int newRows, final int newCols) {
         final long[][] c = new long[newRows][newCols];
@@ -834,9 +1193,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
-     * 
-     * @param rowRepeats
-     * @param colRepeats
+     *
+     * @param rowRepeats the row repeats
+     * @param colRepeats the col repeats
      * @return a new matrix
      * @see IntMatrix#repelem(int, int)
      */
@@ -863,9 +1222,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
 
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
-     * 
-     * @param rowRepeats
-     * @param colRepeats
+     *
+     * @param rowRepeats the row repeats
+     * @param colRepeats the col repeats
      * @return a new matrix
      * @see IntMatrix#repmat(int, int)
      */
@@ -890,6 +1249,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Flatten.
+     *
+     * @return the long list
+     */
     @Override
     public LongList flatten() {
         final long[] c = new long[rows * cols];
@@ -901,15 +1265,23 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return LongList.of(c);
     }
 
+    /**
+     * Flat op.
+     *
+     * @param <E> the element type
+     * @param op the op
+     * @throws E the e
+     */
     @Override
     public <E extends Exception> void flatOp(Consumer<long[], E> op) throws E {
         f.flatOp(a, op);
     }
 
     /**
-     * 
-     * @param b
-     * @return
+     * Vstack.
+     *
+     * @param b the b
+     * @return the long matrix
      * @see IntMatrix#vstack(IntMatrix)
      */
     public LongMatrix vstack(final LongMatrix b) {
@@ -930,9 +1302,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * 
-     * @param b
-     * @return
+     * Hstack.
+     *
+     * @param b the b
+     * @return the long matrix
      * @see IntMatrix#hstack(IntMatrix)
      */
     public LongMatrix hstack(final LongMatrix b) {
@@ -948,6 +1321,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return LongMatrix.of(c);
     }
 
+    /**
+     * Adds the.
+     *
+     * @param b the b
+     * @return the long matrix
+     */
     public LongMatrix add(final LongMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
@@ -992,6 +1371,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Subtract.
+     *
+     * @param b the b
+     * @return the long matrix
+     */
     public LongMatrix subtract(final LongMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
@@ -1036,6 +1421,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Multiply.
+     *
+     * @param b the b
+     * @return the long matrix
+     */
     public LongMatrix multiply(final LongMatrix b) {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
 
@@ -1177,6 +1568,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * Boxed.
+     *
+     * @return the matrix
+     */
     public Matrix<Long> boxed() {
         final Long[][] c = new Long[rows][cols];
 
@@ -1197,6 +1593,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new Matrix<>(c);
     }
 
+    /**
+     * To float matrix.
+     *
+     * @return the float matrix
+     */
     public FloatMatrix toFloatMatrix() {
         final float[][] c = new float[rows][cols];
 
@@ -1217,10 +1618,24 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new FloatMatrix(c);
     }
 
+    /**
+     * To double matrix.
+     *
+     * @return the double matrix
+     */
     public DoubleMatrix toDoubleMatrix() {
         return DoubleMatrix.from(a);
     }
 
+    /**
+     * Zip with.
+     *
+     * @param <E> the element type
+     * @param matrixB the matrix B
+     * @param zipFunction the zip function
+     * @return the long matrix
+     * @throws E the e
+     */
     public <E extends Exception> LongMatrix zipWith(final LongMatrix matrixB, final Try.LongBiFunction<Long, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
@@ -1266,6 +1681,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return new LongMatrix(result);
     }
 
+    /**
+     * Zip with.
+     *
+     * @param <E> the element type
+     * @param matrixB the matrix B
+     * @param matrixC the matrix C
+     * @param zipFunction the zip function
+     * @return the long matrix
+     * @throws E the e
+     */
     public <E extends Exception> LongMatrix zipWith(final LongMatrix matrixB, final LongMatrix matrixC, final Try.LongTriFunction<Long, E> zipFunction)
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
@@ -1314,7 +1739,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * 
+     * Stream LU 2 RD.
+     *
      * @return a stream composed by elements on the diagonal line from left up to right down.
      */
     @Override
@@ -1358,7 +1784,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * 
+     * Stream RU 2 LD.
+     *
      * @return a stream composed by elements on the diagonal line from right up to left down.
      */
     @Override
@@ -1402,7 +1829,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * 
+     * Stream H.
+     *
      * @return a stream based on the order of row.
      */
     @Override
@@ -1410,15 +1838,22 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return streamH(0, rows);
     }
 
+    /**
+     * Stream H.
+     *
+     * @param rowIndex the row index
+     * @return the long stream
+     */
     @Override
     public LongStream streamH(final int rowIndex) {
         return streamH(rowIndex, rowIndex + 1);
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream H.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a stream based on the order of row.
      */
     @Override
@@ -1492,7 +1927,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * 
+     * Stream V.
+     *
      * @return a stream based on the order of column.
      */
     @Override
@@ -1501,15 +1937,22 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return streamV(0, cols);
     }
 
+    /**
+     * Stream V.
+     *
+     * @param columnIndex the column index
+     * @return the long stream
+     */
     @Override
     public LongStream streamV(final int columnIndex) {
         return streamV(columnIndex, columnIndex + 1);
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream V.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a stream based on the order of column.
      */
     @Override
@@ -1584,7 +2027,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * 
+     * Stream R.
+     *
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1593,9 +2037,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream R.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1639,7 +2084,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * 
+     * Stream C.
+     *
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1649,9 +2095,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream C.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1725,15 +2172,39 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         });
     }
 
+    /**
+     * Length.
+     *
+     * @param a the a
+     * @return the int
+     */
     @Override
     protected int length(long[] a) {
         return a == null ? 0 : a.length;
     }
 
+    /**
+     * For each.
+     *
+     * @param <E> the element type
+     * @param action the action
+     * @throws E the e
+     */
     public <E extends Exception> void forEach(final Try.LongConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
+    /**
+     * For each.
+     *
+     * @param <E> the element type
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @param action the action
+     * @throws E the e
+     */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Try.LongConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -1746,16 +2217,30 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
     }
 
+    /**
+     * Println.
+     */
     @Override
     public void println() {
         f.println(a);
     }
 
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
     }
 
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -1771,6 +2256,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         return false;
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return N.deepToString(a);

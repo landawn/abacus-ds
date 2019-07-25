@@ -14,6 +14,7 @@
 
 package com.landawn.abacus.da;
 
+// TODO: Auto-generated Javadoc
 /**
  * Anonymous classes are supported except the ones created by lambda. For example:
  * <pre> 
@@ -27,24 +28,27 @@ package com.landawn.abacus.da;
  *    remoteExecutor.execute(remoteTask, param);
  * </pre>
  *
- * @param <T>
- * @param <R>
+ * @param <T> the generic type
+ * @param <R> the generic type
  */
 public interface RemoteTask<T, R> {
 
     /**
      * The function to be executed on remote servers. 
-     * 
+     *
      * @param t The parameter must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
      *        For example: primitive types/string (array)/date/collection/map/entity.
      * @return value of the type which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
      *        For example: primitive types/string (array)/date/collection/map/entity.
-     * @throws Exception
+     * @throws Exception the exception
      */
     public R run(T t) throws Exception;
 
+    /**
+     * The Enum OperationType.
+     */
     // TODO
     public static enum OperationType {
         /**
@@ -65,8 +69,15 @@ public interface RemoteTask<T, R> {
         REMOVE;
     }
 
+    /**
+     * The Enum RunMode.
+     */
     // TODO
     public static enum RunMode {
-        INCLUSIVE, EXCLUSIVE;
+        
+        /** The inclusive. */
+        INCLUSIVE, 
+ /** The exclusive. */
+ EXCLUSIVE;
     }
 }

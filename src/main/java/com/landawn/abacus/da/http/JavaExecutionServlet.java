@@ -45,9 +45,10 @@ import com.landawn.abacus.parser.XMLParser;
 import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.N;  
 
+// TODO: Auto-generated Javadoc
 /**
  * Deploy <code>JavaExecutionServlet</code> under Tomcat.
- *
+ * 
  * <pre>
  *  {@code
  *     <servlet>
@@ -56,7 +57,7 @@ import com.landawn.abacus.util.N;
  *         <servlet-name>javaExecution</servlet-name>
  *         <servlet-class>com.landawn.abacus.http.JavaExecutionServlet</servlet-class>
  *     </servlet>
- *
+ * 
  *     <servlet-mapping>
  *         <servlet-name>javaExecution</servlet-name>
  *         <url-pattern>/javaExecution/*</url-pattern>
@@ -64,20 +65,28 @@ import com.landawn.abacus.util.N;
  * }
  * </pre>
  *
- * @since 0.8
- * 
  * @author Haiyang Li
+ * @since 0.8
  */
 @SuppressWarnings("deprecation")
 public class JavaExecutionServlet extends AbstractHttpServlet {
+    
+    /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 778742360481398056L;
 
+    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(JavaExecutionServlet.class);
 
+    /** The Constant jsonParser. */
     static final JSONParser jsonParser = ParserFactory.createJSONParser();
+    
+    /** The Constant xmlParser. */
     static final XMLParser xmlParser = ParserFactory.isXMLAvailable() ? ParserFactory.createXMLParser() : null;
+    
+    /** The Constant kryoParser. */
     static final KryoParser kryoParser = ParserFactory.isKryoAvailable() ? ParserFactory.createKryoParser() : null;
 
+    /** The Constant defineClassMethod. */
     private static final Method defineClassMethod;
 
     static {
@@ -85,22 +94,42 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
         defineClassMethod.setAccessible(true);
     }
 
+    /** The Constant rootClassLoader. */
     private static final ClassLoader rootClassLoader = JavaExecutionServlet.class.getClassLoader();
 
     static {
         logger.warn(IOUtil.JAVA_VERSION);
     }
 
+    /**
+     * Inits the.
+     *
+     * @throws ServletException the servlet exception
+     */
     @Override
     public void init() throws ServletException {
         super.init();
     }
 
+    /**
+     * Do post.
+     *
+     * @param request the request
+     * @param response the response
+     * @throws ServletException the servlet exception
+     */
     @Override
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException {
         execute(request, response);
     }
 
+    /**
+     * Execute.
+     *
+     * @param request the request
+     * @param response the response
+     * @throws UncheckedIOException the unchecked IO exception
+     */
     protected void execute(final HttpServletRequest request, final HttpServletResponse response) throws UncheckedIOException {
         final ContentFormat contentFormat = getContentFormat(request);
         final long startTime = System.currentTimeMillis();
@@ -190,14 +219,37 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
         }
     }
 
+    /**
+     * Define class.
+     *
+     * @param <T> the generic type
+     * @param classLoader the class loader
+     * @param className the class name
+     * @param bytes the bytes
+     * @return the class
+     */
     private static <T> Class<T> defineClass(ClassLoader classLoader, String className, byte[] bytes) {
         return invoke(classLoader, defineClassMethod, className, bytes, 0, bytes.length);
     }
 
+    /**
+     * Gets the class name.
+     *
+     * @param cls the cls
+     * @return the class name
+     */
     private static String getClassName(final Class<?> cls) {
         return cls.getName();
     }
 
+    /**
+     * Gets the declared method.
+     *
+     * @param cls the cls
+     * @param methodName the method name
+     * @param parameterTypes the parameter types
+     * @return the declared method
+     */
     private static Method getDeclaredMethod(final Class<?> cls, final String methodName, final Class<?>... parameterTypes) {
         Method method = null;
 
@@ -222,6 +274,13 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
         return method;
     }
 
+    /**
+     * New instance.
+     *
+     * @param <T> the generic type
+     * @param cls the cls
+     * @return the t
+     */
     private static <T> T newInstance(final Class<T> cls) {
         try {
             if (Modifier.isStatic(cls.getModifiers()) == false && (cls.isAnonymousClass() || cls.isMemberClass())) {
@@ -256,6 +315,15 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
         }
     }
 
+    /**
+     * Invoke.
+     *
+     * @param <T> the generic type
+     * @param instance the instance
+     * @param method the method
+     * @param args the args
+     * @return the t
+     */
     @SuppressWarnings("unchecked")
     private static <T> T invoke(final Object instance, final Method method, final Object... args) {
         try {
@@ -269,6 +337,14 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
         }
     }
 
+    /**
+     * Invoke.
+     *
+     * @param <T> the generic type
+     * @param c the c
+     * @param args the args
+     * @return the t
+     */
     @SuppressWarnings("unchecked")
     private static <T> T invoke(final Constructor<T> c, final Object... args) {
         try {
@@ -282,7 +358,16 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
         }
     }
 
+    /**
+     * The Class DynamicClassLoader.
+     */
     static class DynamicClassLoader extends ClassLoader {
+        
+        /**
+         * Instantiates a new dynamic class loader.
+         *
+         * @param parent the parent
+         */
         public DynamicClassLoader(ClassLoader parent) {
             super(parent);
         }

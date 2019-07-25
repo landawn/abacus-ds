@@ -73,6 +73,7 @@ import com.landawn.abacus.util.stream.Stream;
  * It's a simple wrapper of HBase Java client.
  *
  * @author Haiyang Li
+ * @see HBaseColumn
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">org.apache.hadoop.hbase.client.Table</a>
  * @since 0.8
  */

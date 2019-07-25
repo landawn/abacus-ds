@@ -22,19 +22,31 @@ import com.landawn.abacus.parser.JSONSerializationConfig.JSC;
 import com.landawn.abacus.parser.ParserFactory;
 import com.landawn.abacus.parser.XMLParser;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @since 1.2
- * 
+ * The Class Utils.
+ *
  * @author Haiyang Li
+ * @since 1.2
  */
 final class Utils {
+    
+    /** The Constant jsonParser. */
     // lazy initialization to avoid: NoClassDefFoundError: Could not initialize class com.landawn.abacus.parser.JSONParserImpl
     static final JSONParser jsonParser = ParserFactory.createJSONParser();
+    
+    /** The Constant xmlParser. */
     static final XMLParser xmlParser = ParserFactory.isXMLAvailable() ? ParserFactory.createXMLParser() : null;
+    
+    /** The Constant jsc. */
     static final JSONSerializationConfig jsc = JSC.create();
+    
+    /** The Constant jdc. */
     static final JSONDeserializationConfig jdc = JDC.create();
 
+    /**
+     * Instantiates a new utils.
+     */
     private Utils() {
         // singleton.
     }

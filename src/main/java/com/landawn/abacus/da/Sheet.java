@@ -49,38 +49,72 @@ import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
+// TODO: Auto-generated Javadoc
 /**
  * <li>
  * {@code R} = Row, {@code C} = Column, {@code H} = Horizontal, {@code V} = Vertical.
  * </li>
  *
- * @since 0.8
- *
  * @author Haiyang Li
+ * @param <R> the generic type
+ * @param <C> the generic type
+ * @param <E> the element type
+ * @since 0.8
  */
 public final class Sheet<R, C, E> implements Cloneable {
 
+    /** The Constant ELEMENT_SEPARATOR_CHAR_ARRAY. */
     static final char[] ELEMENT_SEPARATOR_CHAR_ARRAY = Type.ELEMENT_SEPARATOR_CHAR_ARRAY;
 
+    /** The Constant kryoParser. */
     static final KryoParser kryoParser = ParserFactory.isKryoAvailable() ? ParserFactory.createKryoParser() : null;
 
+    /** The row key set. */
     private final Set<R> _rowKeySet;
+    
+    /** The column key set. */
     private final Set<C> _columnKeySet;
+    
+    /** The row key index map. */
     private BiMap<R, Integer> _rowKeyIndexMap;
+    
+    /** The column key index map. */
     private BiMap<C, Integer> _columnKeyIndexMap;
+    
+    /** The column list. */
     private List<List<E>> _columnList;
+    
+    /** The initialized. */
     private boolean _initialized = false;
+    
+    /** The is frozen. */
     private boolean _isFrozen = false;
 
+    /**
+     * Instantiates a new sheet.
+     */
     public Sheet() {
         this(N.emptyList(), N.emptyList());
     }
 
+    /**
+     * Instantiates a new sheet.
+     *
+     * @param rowKeySet the row key set
+     * @param columnKeySet the column key set
+     */
     public Sheet(Collection<R> rowKeySet, Collection<C> columnKeySet) {
         this._rowKeySet = N.newLinkedHashSet(rowKeySet);
         this._columnKeySet = N.newLinkedHashSet(columnKeySet);
     }
 
+    /**
+     * Instantiates a new sheet.
+     *
+     * @param rowKeySet the row key set
+     * @param columnKeySet the column key set
+     * @param rows the rows
+     */
     public Sheet(Collection<R> rowKeySet, Collection<C> columnKeySet, Object[][] rows) {
         this(rowKeySet, columnKeySet);
 
@@ -112,10 +146,32 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Rows.
+     *
+     * @param <R> the generic type
+     * @param <C> the generic type
+     * @param <E> the element type
+     * @param rowKeySet the row key set
+     * @param columnKeySet the column key set
+     * @param rows the rows
+     * @return the sheet
+     */
     public static <R, C, E> Sheet<R, C, E> rows(Collection<R> rowKeySet, Collection<C> columnKeySet, Object[][] rows) {
         return new Sheet<>(rowKeySet, columnKeySet, rows);
     }
 
+    /**
+     * Rows.
+     *
+     * @param <R> the generic type
+     * @param <C> the generic type
+     * @param <E> the element type
+     * @param rowKeySet the row key set
+     * @param columnKeySet the column key set
+     * @param rows the rows
+     * @return the sheet
+     */
     public static <R, C, E> Sheet<R, C, E> rows(Collection<R> rowKeySet, Collection<C> columnKeySet, Collection<? extends Collection<? extends E>> rows) {
         final Sheet<R, C, E> instance = new Sheet<>(rowKeySet, columnKeySet);
 
@@ -152,6 +208,17 @@ public final class Sheet<R, C, E> implements Cloneable {
 
     }
 
+    /**
+     * Columns.
+     *
+     * @param <R> the generic type
+     * @param <C> the generic type
+     * @param <E> the element type
+     * @param rowKeySet the row key set
+     * @param columnKeySet the column key set
+     * @param columns the columns
+     * @return the sheet
+     */
     public static <R, C, E> Sheet<R, C, E> columns(Collection<R> rowKeySet, Collection<C> columnKeySet, Object[][] columns) {
         final Sheet<R, C, E> instance = new Sheet<>(rowKeySet, columnKeySet);
 
@@ -179,6 +246,17 @@ public final class Sheet<R, C, E> implements Cloneable {
         return instance;
     }
 
+    /**
+     * Columns.
+     *
+     * @param <R> the generic type
+     * @param <C> the generic type
+     * @param <E> the element type
+     * @param rowKeySet the row key set
+     * @param columnKeySet the column key set
+     * @param columns the columns
+     * @return the sheet
+     */
     public static <R, C, E> Sheet<R, C, E> columns(Collection<R> rowKeySet, Collection<C> columnKeySet, Collection<? extends Collection<? extends E>> columns) {
         final Sheet<R, C, E> instance = new Sheet<>(rowKeySet, columnKeySet);
 
@@ -206,14 +284,31 @@ public final class Sheet<R, C, E> implements Cloneable {
         return instance;
     }
 
+    /**
+     * Row key set.
+     *
+     * @return the sets the
+     */
     public Set<R> rowKeySet() {
         return _rowKeySet;
     }
 
+    /**
+     * Column key set.
+     *
+     * @return the sets the
+     */
     public Set<C> columnKeySet() {
         return _columnKeySet;
     }
 
+    /**
+     * Gets the.
+     *
+     * @param rowKey the row key
+     * @param columnKey the column key
+     * @return the e
+     */
     public E get(Object rowKey, Object columnKey) {
         if (_initialized) {
             final int rowIndex = getRowIndex(rowKey);
@@ -229,10 +324,11 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
+     * Gets the.
      *
-     * @param rowIndex
-     * @param columnIndex
-     * @return
+     * @param rowIndex the row index
+     * @param columnIndex the column index
+     * @return the e
      */
     public E get(int rowIndex, int columnIndex) {
         if (_initialized) {
@@ -245,17 +341,24 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Gets the.
+     *
+     * @param point the point
+     * @return the e
+     */
     public E get(IntPair point) {
         return get(point._1, point._2);
     }
 
     /**
-     * 
-     * @param rowKey
-     * @param columnKey
-     * @param value
-     * @return
-     * @throws IllegalArgumentException
+     * Put.
+     *
+     * @param rowKey the row key
+     * @param columnKey the column key
+     * @param value the value
+     * @return the e
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public E put(R rowKey, C columnKey, E value) throws IllegalArgumentException {
         checkFrozen();
@@ -276,6 +379,14 @@ public final class Sheet<R, C, E> implements Cloneable {
         return put(rowIndex, columnIndex, value);
     }
 
+    /**
+     * Put.
+     *
+     * @param rowIndex the row index
+     * @param columnIndex the column index
+     * @param value the value
+     * @return the e
+     */
     public E put(int rowIndex, int columnIndex, E value) {
         checkFrozen();
 
@@ -287,14 +398,22 @@ public final class Sheet<R, C, E> implements Cloneable {
         return (E) previousValue;
     }
 
+    /**
+     * Put.
+     *
+     * @param point the point
+     * @param value the value
+     * @return the e
+     */
     public E put(IntPair point, E value) {
         return put(point._1, point._2, value);
     }
 
     /**
-     * 
-     * @param source
-     * @throws IllegalArgumentException
+     * Put all.
+     *
+     * @param source the source
+     * @throws IllegalArgumentException the illegal argument exception
      */
     public void putAll(Sheet<? extends R, ? extends C, ? extends E> source) throws IllegalArgumentException {
         checkFrozen();
@@ -318,6 +437,13 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Removes the.
+     *
+     * @param rowKey the row key
+     * @param columnKey the column key
+     * @return the e
+     */
     public E remove(Object rowKey, Object columnKey) {
         checkFrozen();
 
@@ -334,6 +460,13 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Removes the.
+     *
+     * @param rowIndex the row index
+     * @param columnIndex the column index
+     * @return the e
+     */
     public E remove(int rowIndex, int columnIndex) {
         checkFrozen();
 
@@ -347,14 +480,33 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Removes the.
+     *
+     * @param point the point
+     * @return the e
+     */
     public E remove(IntPair point) {
         return remove(point._1, point._2);
     }
 
+    /**
+     * Contains.
+     *
+     * @param rowKey the row key
+     * @param columnKey the column key
+     * @return true, if successful
+     */
     public boolean contains(Object rowKey, Object columnKey) {
         return get(rowKey, columnKey) != null;
     }
 
+    /**
+     * Contains value.
+     *
+     * @param value the value
+     * @return true, if successful
+     */
     public boolean containsValue(Object value) {
         //        if (value == null) {
         //            for (R r : rowKeySet()) {
@@ -389,6 +541,12 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Gets the row.
+     *
+     * @param rowKey the row key
+     * @return the row
+     */
     public List<E> getRow(Object rowKey) {
         final int columnLength = columnLength();
         final List<E> row = new ArrayList<>(columnLength);
@@ -408,6 +566,12 @@ public final class Sheet<R, C, E> implements Cloneable {
         return ImmutableList.of(row);
     }
 
+    /**
+     * Sets the row.
+     *
+     * @param rowKey the row key
+     * @param row the row
+     */
     public void setRow(R rowKey, Collection<? extends E> row) {
         final int columnLength = columnLength();
 
@@ -432,6 +596,12 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Adds the row.
+     *
+     * @param rowKey the row key
+     * @param row the row
+     */
     public void addRow(R rowKey, Collection<? extends E> row) {
         checkFrozen();
 
@@ -464,6 +634,13 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Adds the row.
+     *
+     * @param rowIndex the row index
+     * @param rowKey the row key
+     * @param row the row
+     */
     public void addRow(final int rowIndex, final R rowKey, final Collection<? extends E> row) {
         checkFrozen();
 
@@ -516,6 +693,14 @@ public final class Sheet<R, C, E> implements Cloneable {
 
     }
 
+    /**
+     * Update row.
+     *
+     * @param <X> the generic type
+     * @param rowKey the row key
+     * @param func the func
+     * @throws X the x
+     */
     public <X extends Exception> void updateRow(R rowKey, Try.Function<? super E, E, X> func) throws X {
         checkFrozen();
 
@@ -530,6 +715,11 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Removes the row.
+     *
+     * @param rowKey the row key
+     */
     public void removeRow(Object rowKey) {
         checkFrozen();
 
@@ -560,9 +750,9 @@ public final class Sheet<R, C, E> implements Cloneable {
 
     /**
      * Move the specified row to the new position.
-     * 
-     * @param rowKey
-     * @param newRowIndex
+     *
+     * @param rowKey the row key
+     * @param newRowIndex the new row index
      */
     public void moveRow(Object rowKey, int newRowIndex) {
         checkFrozen();
@@ -588,9 +778,9 @@ public final class Sheet<R, C, E> implements Cloneable {
 
     /**
      * Swap the positions of the two specified rows.
-     * 
-     * @param rowKeyA
-     * @param rowKeyB
+     *
+     * @param rowKeyA the row key A
+     * @param rowKeyB the row key B
      */
     public void swapRows(Object rowKeyA, Object rowKeyB) {
         checkFrozen();
@@ -621,6 +811,12 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Rename row.
+     *
+     * @param rowKey the row key
+     * @param newRowKey the new row key
+     */
     public void renameRow(R rowKey, R newRowKey) {
         checkFrozen();
         checkRowKey(rowKey);
@@ -641,10 +837,22 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Contains row.
+     *
+     * @param rowKey the row key
+     * @return true, if successful
+     */
     public boolean containsRow(Object rowKey) {
         return _rowKeySet.contains(rowKey);
     }
 
+    /**
+     * Row.
+     *
+     * @param rowKey the row key
+     * @return the map
+     */
     public Map<C, E> row(Object rowKey) {
         final int columnLength = columnLength();
         Map<C, E> rowMap = new LinkedHashMap<>(N.initHashCapacity(columnLength));
@@ -667,6 +875,11 @@ public final class Sheet<R, C, E> implements Cloneable {
         return rowMap;
     }
 
+    /**
+     * Row map.
+     *
+     * @return the map
+     */
     public Map<R, Map<C, E>> rowMap() {
         final Map<R, Map<C, E>> result = new LinkedHashMap<>(N.initHashCapacity(this.rowKeySet().size()));
 
@@ -677,6 +890,12 @@ public final class Sheet<R, C, E> implements Cloneable {
         return result;
     }
 
+    /**
+     * Gets the column.
+     *
+     * @param columnKey the column key
+     * @return the column
+     */
     public List<E> getColumn(Object columnKey) {
         final int rowLength = rowLength();
         List<E> column = null;
@@ -692,6 +911,12 @@ public final class Sheet<R, C, E> implements Cloneable {
         return ImmutableList.of(column);
     }
 
+    /**
+     * Sets the column.
+     *
+     * @param columnKey the column key
+     * @param column the column
+     */
     public void setColumn(C columnKey, Collection<? extends E> column) {
         checkFrozen();
 
@@ -712,6 +937,12 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Adds the column.
+     *
+     * @param columnKey the column key
+     * @param column the column
+     */
     public void addColumn(C columnKey, Collection<? extends E> column) {
         checkFrozen();
 
@@ -740,6 +971,13 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Adds the column.
+     *
+     * @param columnIndex the column index
+     * @param columnKey the column key
+     * @param column the column
+     */
     public void addColumn(int columnIndex, C columnKey, Collection<? extends E> column) {
         checkFrozen();
 
@@ -787,6 +1025,14 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Update column.
+     *
+     * @param <X> the generic type
+     * @param columnKey the column key
+     * @param func the func
+     * @throws X the x
+     */
     public <X extends Exception> void updateColumn(C columnKey, Try.Function<? super E, E, X> func) throws X {
         checkFrozen();
 
@@ -802,6 +1048,11 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Removes the column.
+     *
+     * @param columnKey the column key
+     */
     public void removeColumn(Object columnKey) {
         checkFrozen();
 
@@ -829,9 +1080,9 @@ public final class Sheet<R, C, E> implements Cloneable {
 
     /**
      * Move the specified column to the new position.
-     * 
-     * @param columnKey
-     * @param newColumnIndex
+     *
+     * @param columnKey the column key
+     * @param newColumnIndex the new column index
      */
     public void moveColumn(Object columnKey, int newColumnIndex) {
         checkFrozen();
@@ -855,9 +1106,9 @@ public final class Sheet<R, C, E> implements Cloneable {
 
     /**
      * Swap the positions of the two specified columns.
-     * 
-     * @param columnKeyA
-     * @param columnKeyB
+     *
+     * @param columnKeyA the column key A
+     * @param columnKeyB the column key B
      */
     public void swapColumns(Object columnKeyA, Object columnKeyB) {
         checkFrozen();
@@ -885,6 +1136,12 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Rename column.
+     *
+     * @param columnKey the column key
+     * @param newColumnKey the new column key
+     */
     public void renameColumn(C columnKey, C newColumnKey) {
         checkFrozen();
 
@@ -906,10 +1163,22 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Contains column.
+     *
+     * @param columnKey the column key
+     * @return true, if successful
+     */
     public boolean containsColumn(Object columnKey) {
         return _columnKeySet.contains(columnKey);
     }
 
+    /**
+     * Column.
+     *
+     * @param columnKey the column key
+     * @return the map
+     */
     public Map<R, E> column(Object columnKey) {
         final int rowLength = rowLength();
         final Map<R, E> columnMap = new LinkedHashMap<>(N.initHashCapacity(rowLength));
@@ -933,6 +1202,11 @@ public final class Sheet<R, C, E> implements Cloneable {
         return columnMap;
     }
 
+    /**
+     * Column map.
+     *
+     * @return the map
+     */
     public Map<C, Map<R, E>> columnMap() {
         final Map<C, Map<R, E>> result = new LinkedHashMap<>(N.initHashCapacity(this.columnKeySet().size()));
 
@@ -946,7 +1220,7 @@ public final class Sheet<R, C, E> implements Cloneable {
     /**
      * Returns the size of row key set.
      *
-     * @return
+     * @return the int
      */
     public int rowLength() {
         return _rowKeySet.size();
@@ -955,12 +1229,19 @@ public final class Sheet<R, C, E> implements Cloneable {
     /**
      * Returns the size of column key set.
      *
-     * @return
+     * @return the int
      */
     public int columnLength() {
         return _columnKeySet.size();
     }
 
+    /**
+     * Update all.
+     *
+     * @param <X> the generic type
+     * @param func the func
+     * @throws X the x
+     */
     public <X extends Exception> void updateAll(Try.Function<? super E, E, X> func) throws X {
         checkFrozen();
 
@@ -978,9 +1259,11 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * Update all elements based on points
-     * 
-     * @param func
+     * Update all elements based on points.
+     *
+     * @param <X> the generic type
+     * @param func the func
+     * @throws X the x
      */
     public <X extends Exception> void updateAll(Try.IntBiFunction<E, X> func) throws X {
         checkFrozen();
@@ -1002,9 +1285,11 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * Update all elements based on points
-     * 
-     * @param func
+     * Update all elements based on points.
+     *
+     * @param <X> the generic type
+     * @param func the func
+     * @throws X the x
      */
     public <X extends Exception> void updateAll(Try.TriFunction<R, C, E, E, X> func) throws X {
         checkFrozen();
@@ -1029,9 +1314,12 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
-     * @param predicate
-     * @param newValue
+     * Replace if.
+     *
+     * @param <X> the generic type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws X the x
      */
     public <X extends Exception> void replaceIf(final Try.Predicate<? super E, X> predicate, final E newValue) throws X {
         checkFrozen();
@@ -1053,9 +1341,11 @@ public final class Sheet<R, C, E> implements Cloneable {
 
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
-     * 
-     * @param predicate
-     * @param newValue
+     *
+     * @param <X> the generic type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws X the x
      */
     public <X extends Exception> void replaceIf(final Try.IntBiPredicate<X> predicate, final E newValue) throws X {
         checkFrozen();
@@ -1080,9 +1370,11 @@ public final class Sheet<R, C, E> implements Cloneable {
 
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
-     * 
-     * @param predicate
-     * @param newValue
+     *
+     * @param <X> the generic type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws X the x
      */
     public <X extends Exception> void replaceIf(final Try.TriPredicate<R, C, E, X> predicate, final E newValue) throws X {
         checkFrozen();
@@ -1113,6 +1405,11 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Copy.
+     *
+     * @return the sheet
+     */
     public Sheet<R, C, E> copy() {
         final Sheet<R, C, E> copy = new Sheet<>(this._rowKeySet, this._columnKeySet);
 
@@ -1131,6 +1428,13 @@ public final class Sheet<R, C, E> implements Cloneable {
         return copy;
     }
 
+    /**
+     * Copy.
+     *
+     * @param rowKeySet the row key set
+     * @param columnKeySet the column key set
+     * @return the sheet
+     */
     public Sheet<R, C, E> copy(Collection<R> rowKeySet, Collection<C> columnKeySet) {
         if (this._rowKeySet.containsAll(rowKeySet) == false) {
             throw new IllegalArgumentException(
@@ -1175,8 +1479,8 @@ public final class Sheet<R, C, E> implements Cloneable {
 
     /**
      * Deeply copy each element in this <code>Sheet</code> by Serialization/Deserialization.
-     * 
-     * @return
+     *
+     * @return the sheet
      */
     @Override
     public Sheet<R, C, E> clone() {
@@ -1185,8 +1489,9 @@ public final class Sheet<R, C, E> implements Cloneable {
 
     /**
      * Deeply copy each element in this <code>Sheet</code> by Serialization/Deserialization.
-     * 
-     * @return
+     *
+     * @param freeze the freeze
+     * @return the sheet
      */
     public Sheet<R, C, E> clone(boolean freeze) {
         if (kryoParser == null) {
@@ -1200,6 +1505,17 @@ public final class Sheet<R, C, E> implements Cloneable {
         return copy;
     }
 
+    /**
+     * Merge.
+     *
+     * @param <E2> the generic type
+     * @param <E3> the generic type
+     * @param <X> the generic type
+     * @param b the b
+     * @param mergeFunction the merge function
+     * @return the sheet
+     * @throws X the x
+     */
     public <E2, E3, X extends Exception> Sheet<R, C, E3> merge(Sheet<? extends R, ? extends C, ? extends E2> b,
             Try.BiFunction<? super E, ? super E2, E3, X> mergeFunction) throws X {
         final Set<R> newRowKeySet = N.newLinkedHashSet(this.rowKeySet());
@@ -1238,6 +1554,11 @@ public final class Sheet<R, C, E> implements Cloneable {
         return result;
     }
 
+    /**
+     * Transpose.
+     *
+     * @return the sheet
+     */
     public Sheet<C, R, E> transpose() {
         final Sheet<C, R, E> copy = new Sheet<>(this._columnKeySet, this._rowKeySet);
 
@@ -1265,14 +1586,25 @@ public final class Sheet<R, C, E> implements Cloneable {
         return copy;
     }
 
+    /**
+     * Freeze.
+     */
     public void freeze() {
         _isFrozen = true;
     }
 
+    /**
+     * Frozen.
+     *
+     * @return true, if successful
+     */
     public boolean frozen() {
         return _isFrozen;
     }
 
+    /**
+     * Clear.
+     */
     public void clear() {
         checkFrozen();
 
@@ -1283,6 +1615,9 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Trim to size.
+     */
     public void trimToSize() {
         if (_initialized && _columnList.size() > 0) {
             for (List<E> column : _columnList) {
@@ -1293,6 +1628,13 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * For each H.
+     *
+     * @param <X> the generic type
+     * @param action the action
+     * @throws X the x
+     */
     public <X extends Exception> void forEachH(Try.TriConsumer<R, C, E, X> action) throws X {
         for (R rowKey : _rowKeySet) {
             for (C columnKey : _columnKeySet) {
@@ -1305,6 +1647,13 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * For each V.
+     *
+     * @param <X> the generic type
+     * @param action the action
+     * @throws X the x
+     */
     public <X extends Exception> void forEachV(Try.TriConsumer<R, C, E, X> action) throws X {
         for (C columnKey : _columnKeySet) {
             for (R rowKey : _rowKeySet) {
@@ -1318,21 +1667,29 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * Cells H.
+     *
      * @return a stream of Cells based on the order of row.
      */
     public Stream<Sheet.Cell<R, C, E>> cellsH() {
         return cellsH(0, rowLength());
     }
 
+    /**
+     * Cells H.
+     *
+     * @param rowIndex the row index
+     * @return the stream
+     */
     public Stream<Sheet.Cell<R, C, E>> cellsH(final int rowIndex) {
         return cellsH(rowIndex, rowIndex + 1);
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Cells H.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a stream of Cells based on the order of row.
      */
     public Stream<Sheet.Cell<R, C, E>> cellsH(final int fromRowIndex, final int toRowIndex) {
@@ -1383,7 +1740,8 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * Cells V.
+     *
      * @return a stream of Cells based on the order of column.
      */
     public Stream<Sheet.Cell<R, C, E>> cellsV() {
@@ -1391,18 +1749,20 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
-     * @param columnIndex
-     * @return
+     * Cells V.
+     *
+     * @param columnIndex the column index
+     * @return the stream
      */
     public Stream<Sheet.Cell<R, C, E>> cellsV(final int columnIndex) {
         return cellsV(columnIndex, columnIndex + 1);
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Cells V.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a stream of Cells based on the order of column.
      */
 
@@ -1454,7 +1814,8 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * Cells R.
+     *
      * @return a stream based on the order of row.
      */
     public Stream<Stream<Cell<R, C, E>>> cellsR() {
@@ -1462,9 +1823,10 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Cells R.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a stream based on the order of row.
      */
     public Stream<Stream<Cell<R, C, E>>> cellsR(final int fromRowIndex, final int toRowIndex) {
@@ -1541,7 +1903,8 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * Cells C.
+     *
      * @return a stream based on the order of column.
      */
     public Stream<Stream<Cell<R, C, E>>> cellsC() {
@@ -1549,9 +1912,10 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Cells C.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a stream based on the order of column.
      */
     public Stream<Stream<Cell<R, C, E>>> cellsC(final int fromColumnIndex, final int toColumnIndex) {
@@ -1615,14 +1979,32 @@ public final class Sheet<R, C, E> implements Cloneable {
         });
     }
 
+    /**
+     * Points H.
+     *
+     * @return the stream
+     */
     public Stream<IntPair> pointsH() {
         return pointsH(0, rowLength());
     }
 
+    /**
+     * Points H.
+     *
+     * @param rowIndex the row index
+     * @return the stream
+     */
     public Stream<IntPair> pointsH(int rowIndex) {
         return pointsH(rowIndex, rowIndex + 1);
     }
 
+    /**
+     * Points H.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @return the stream
+     */
     public Stream<IntPair> pointsH(int fromRowIndex, int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowLength());
 
@@ -1641,14 +2023,32 @@ public final class Sheet<R, C, E> implements Cloneable {
         });
     }
 
+    /**
+     * Points V.
+     *
+     * @return the stream
+     */
     public Stream<IntPair> pointsV() {
         return pointsV(0, columnLength());
     }
 
+    /**
+     * Points V.
+     *
+     * @param columnIndex the column index
+     * @return the stream
+     */
     public Stream<IntPair> pointsV(int columnIndex) {
         return pointsV(columnIndex, columnIndex + 1);
     }
 
+    /**
+     * Points V.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @return the stream
+     */
     public Stream<IntPair> pointsV(int fromColumnIndex, int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnLength());
 
@@ -1667,10 +2067,22 @@ public final class Sheet<R, C, E> implements Cloneable {
         });
     }
 
+    /**
+     * Points R.
+     *
+     * @return the stream
+     */
     public Stream<Stream<IntPair>> pointsR() {
         return pointsR(0, rowLength());
     }
 
+    /**
+     * Points R.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @return the stream
+     */
     public Stream<Stream<IntPair>> pointsR(int fromRowIndex, int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rowLength());
 
@@ -1689,10 +2101,22 @@ public final class Sheet<R, C, E> implements Cloneable {
         });
     }
 
+    /**
+     * Points C.
+     *
+     * @return the stream
+     */
     public Stream<Stream<IntPair>> pointsC() {
         return pointsR(0, columnLength());
     }
 
+    /**
+     * Points C.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @return the stream
+     */
     public Stream<Stream<IntPair>> pointsC(int fromColumnIndex, int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, columnLength());
 
@@ -1712,7 +2136,8 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * Stream H.
+     *
      * @return a stream based on the order of row.
      */
     public Stream<E> streamH() {
@@ -1720,18 +2145,20 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
-     * @param rowIndex
-     * @return
+     * Stream H.
+     *
+     * @param rowIndex the row index
+     * @return the stream
      */
     public Stream<E> streamH(final int rowIndex) {
         return streamH(rowIndex, rowIndex + 1);
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream H.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a stream based on the order of row.
      */
     public Stream<E> streamH(final int fromRowIndex, final int toRowIndex) {
@@ -1780,7 +2207,8 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * Stream V.
+     *
      * @return a stream based on the order of column.
      */
     public Stream<E> streamV() {
@@ -1788,18 +2216,20 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
-     * @param columnIndex
-     * @return
+     * Stream V.
+     *
+     * @param columnIndex the column index
+     * @return the stream
      */
     public Stream<E> streamV(final int columnIndex) {
         return streamV(columnIndex, columnIndex + 1);
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream V.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a stream based on the order of column.
      */
     public Stream<E> streamV(final int fromColumnIndex, final int toColumnIndex) {
@@ -1848,7 +2278,8 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * Stream R.
+     *
      * @return a stream based on the order of row.
      */
     public Stream<Stream<E>> streamR() {
@@ -1856,9 +2287,10 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream R.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a stream based on the order of row.
      */
     public Stream<Stream<E>> streamR(final int fromRowIndex, final int toRowIndex) {
@@ -1936,7 +2368,8 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * Stream C.
+     *
      * @return a stream based on the order of column.
      */
     public Stream<Stream<E>> streamC() {
@@ -1944,9 +2377,10 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream C.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a stream based on the order of column.
      */
     public Stream<Stream<E>> streamC(final int fromColumnIndex, final int toColumnIndex) {
@@ -1994,7 +2428,8 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * To data set H.
+     *
      * @return a DataSet based on row.
      */
     public DataSet toDataSetH() {
@@ -2024,7 +2459,8 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * To data set V.
+     *
      * @return a DataSet based on column.
      */
     public DataSet toDataSetV() {
@@ -2060,8 +2496,9 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
-     * @param cls
+     * To matrix H.
+     *
+     * @param cls the cls
      * @return a Matrix based on row.
      */
     public Matrix<E> toMatrixH(Class<E> cls) {
@@ -2089,8 +2526,9 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
-     * @param cls
+     * To matrix V.
+     *
+     * @param cls the cls
      * @return a Matrix based on column.
      */
     public Matrix<E> toMatrixV(Class<E> cls) {
@@ -2118,7 +2556,8 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * To array H.
+     *
      * @return a 2D array based on row.
      */
     public Object[][] toArrayH() {
@@ -2140,7 +2579,10 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * To array H.
+     *
+     * @param <T> the generic type
+     * @param cls the cls
      * @return a 2D array based on row.
      */
     public <T> T[][] toArrayH(Class<T> cls) {
@@ -2166,7 +2608,8 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * To array V.
+     *
      * @return a 2D array based on column.
      */
     public Object[][] toArrayV() {
@@ -2188,7 +2631,10 @@ public final class Sheet<R, C, E> implements Cloneable {
     }
 
     /**
-     * 
+     * To array V.
+     *
+     * @param <T> the generic type
+     * @param cls the cls
      * @return a 2D array based on column.
      */
     public <T> T[][] toArrayV(Class<T> cls) {
@@ -2213,39 +2659,71 @@ public final class Sheet<R, C, E> implements Cloneable {
         return copy;
     }
 
+    /**
+     * Apply.
+     *
+     * @param <T> the generic type
+     * @param <X> the generic type
+     * @param func the func
+     * @return the t
+     * @throws X the x
+     */
     public <T, X extends Exception> T apply(Try.Function<? super Sheet<R, C, E>, T, X> func) throws X {
         return func.apply(this);
     }
 
+    /**
+     * Accept.
+     *
+     * @param <X> the generic type
+     * @param action the action
+     * @throws X the x
+     */
     public <X extends Exception> void accept(Try.Consumer<? super Sheet<R, C, E>, X> action) throws X {
         action.accept(this);
     }
 
+    /**
+     * Println.
+     *
+     * @throws UncheckedIOException the unchecked IO exception
+     */
     public void println() throws UncheckedIOException {
         println(this._rowKeySet, this._columnKeySet);
     }
 
+    /**
+     * Println.
+     *
+     * @param rowKeySet the row key set
+     * @param columnKeySet the column key set
+     * @throws UncheckedIOException the unchecked IO exception
+     */
     public void println(final Collection<R> rowKeySet, final Collection<C> columnKeySet) throws UncheckedIOException {
         println(new OutputStreamWriter(System.out), rowKeySet, columnKeySet);
     }
 
     /**
-     * 
-     * @param outputWriter
+     * Println.
+     *
+     * @param <W> the generic type
+     * @param outputWriter the output writer
      * @return the specified {@code outputWriter}
-     * @throws UncheckedIOException
+     * @throws UncheckedIOException the unchecked IO exception
      */
     public <W extends Writer> W println(final W outputWriter) throws UncheckedIOException {
         return println(outputWriter, this._rowKeySet, this._columnKeySet);
     }
 
     /**
-     * 
-     * @param outputWriter
-     * @param rowKeySet
-     * @param columnKeySet
+     * Println.
+     *
+     * @param <W> the generic type
+     * @param outputWriter the output writer
+     * @param rowKeySet the row key set
+     * @param columnKeySet the column key set
      * @return the specified {@code outputWriter}
-     * @throws UncheckedIOException
+     * @throws UncheckedIOException the unchecked IO exception
      */
     public <W extends Writer> W println(final W outputWriter, final Collection<R> rowKeySet, final Collection<C> columnKeySet) throws UncheckedIOException {
         if (N.notNullOrEmpty(rowKeySet) && this._rowKeySet.containsAll(rowKeySet) == false) {
@@ -2434,6 +2912,11 @@ public final class Sheet<R, C, E> implements Cloneable {
         return outputWriter;
     }
 
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -2444,6 +2927,12 @@ public final class Sheet<R, C, E> implements Cloneable {
         return result;
     }
 
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -2459,6 +2948,11 @@ public final class Sheet<R, C, E> implements Cloneable {
         return false;
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         final StringBuilder sb = Objectory.createStringBuilder();
@@ -2500,6 +2994,9 @@ public final class Sheet<R, C, E> implements Cloneable {
         return str;
     }
 
+    /**
+     * Inits the.
+     */
     private void init() {
         if (!_initialized) {
             initIndexMap();
@@ -2518,6 +3015,9 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Inits the index map.
+     */
     private void initIndexMap() {
         if (_rowKeyIndexMap == null || _columnKeyIndexMap == null) {
             final int rowLength = rowLength();
@@ -2536,24 +3036,44 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Check row key.
+     *
+     * @param rowKey the row key
+     */
     private void checkRowKey(Object rowKey) {
         if (!_rowKeySet.contains(rowKey)) {
             throw new IllegalArgumentException("No row found by key: " + rowKey);
         }
     }
 
+    /**
+     * Check column key.
+     *
+     * @param columnKey the column key
+     */
     private void checkColumnKey(Object columnKey) {
         if (!_columnKeySet.contains(columnKey)) {
             throw new IllegalArgumentException("No column found by key: " + columnKey);
         }
     }
 
+    /**
+     * Check row index.
+     *
+     * @param rowIndex the row index
+     */
     private void checkRowIndex(int rowIndex) {
         if (rowIndex < 0 || rowIndex >= rowLength()) {
             throw new IndexOutOfBoundsException("Row index: " + rowIndex + " can't be negative or equals to or bigger than the row size: " + rowLength());
         }
     }
 
+    /**
+     * Check column index.
+     *
+     * @param columnIndex the column index
+     */
     private void checkColumnIndex(int columnIndex) {
         if (columnIndex < 0 || columnIndex >= columnLength()) {
             throw new IndexOutOfBoundsException(
@@ -2561,6 +3081,12 @@ public final class Sheet<R, C, E> implements Cloneable {
         }
     }
 
+    /**
+     * Gets the row index.
+     *
+     * @param rowKey the row key
+     * @return the row index
+     */
     private int getRowIndex(Object rowKey) {
         if (_rowKeyIndexMap == null) {
             this.initIndexMap();
@@ -2575,6 +3101,12 @@ public final class Sheet<R, C, E> implements Cloneable {
         return index;
     }
 
+    /**
+     * Gets the column index.
+     *
+     * @param columnKey the column key
+     * @return the column index
+     */
     private int getColumnIndex(Object columnKey) {
         if (_columnKeyIndexMap == null) {
             this.initIndexMap();
@@ -2589,38 +3121,81 @@ public final class Sheet<R, C, E> implements Cloneable {
         return index;
     }
 
+    /**
+     * Check frozen.
+     */
     private void checkFrozen() {
         if (_isFrozen) {
             throw new IllegalStateException("This DataSet is frozen, can't modify it.");
         }
     }
 
+    /**
+     * The Class CellImpl.
+     *
+     * @param <R> the generic type
+     * @param <C> the generic type
+     * @param <E> the element type
+     */
     static class CellImpl<R, C, E> implements Sheet.Cell<R, C, E> {
+        
+        /** The row key. */
         private final R rowKey;
+        
+        /** The column key. */
         private final C columnKey;
+        
+        /** The value. */
         private final E value;
 
+        /**
+         * Instantiates a new cell impl.
+         *
+         * @param rowKey the row key
+         * @param columnKey the column key
+         * @param value the value
+         */
         public CellImpl(R rowKey, C columnKey, E value) {
             this.rowKey = rowKey;
             this.columnKey = columnKey;
             this.value = value;
         }
 
+        /**
+         * Row key.
+         *
+         * @return the r
+         */
         @Override
         public R rowKey() {
             return rowKey;
         }
 
+        /**
+         * Column key.
+         *
+         * @return the c
+         */
         @Override
         public C columnKey() {
             return columnKey;
         }
 
+        /**
+         * Value.
+         *
+         * @return the e
+         */
         @Override
         public E value() {
             return value;
         }
 
+        /**
+         * Hash code.
+         *
+         * @return the int
+         */
         @Override
         public int hashCode() {
             int result = N.hashCode(rowKey);
@@ -2629,6 +3204,12 @@ public final class Sheet<R, C, E> implements Cloneable {
             return result;
         }
 
+        /**
+         * Equals.
+         *
+         * @param obj the obj
+         * @return true, if successful
+         */
         @Override
         public boolean equals(Object obj) {
             if (this == obj) {
@@ -2644,17 +3225,45 @@ public final class Sheet<R, C, E> implements Cloneable {
             return false;
         }
 
+        /**
+         * To string.
+         *
+         * @return the string
+         */
         @Override
         public String toString() {
             return StringUtil.concat("[", N.toString(rowKey), ", ", N.toString(columnKey), "]=", N.toString(value));
         }
     }
 
+    /**
+     * The Interface Cell.
+     *
+     * @param <R> the generic type
+     * @param <C> the generic type
+     * @param <E> the element type
+     */
     public static interface Cell<R, C, E> {
+        
+        /**
+         * Row key.
+         *
+         * @return the r
+         */
         R rowKey();
 
+        /**
+         * Column key.
+         *
+         * @return the c
+         */
         C columnKey();
 
+        /**
+         * Value.
+         *
+         * @return the e
+         */
         E value();
     }
 }

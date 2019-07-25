@@ -31,28 +31,53 @@ import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @since 0.8
- * 
+ * The Class IntMatrix.
+ *
  * @author Haiyang Li
+ * @since 0.8
  */
 public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, Stream<IntStream>, IntMatrix> {
+    
+    /** The Constant EMPTY_INT_MATRIX. */
     static final IntMatrix EMPTY_INT_MATRIX = new IntMatrix(new int[0][0]);
 
+    /**
+     * Instantiates a new int matrix.
+     *
+     * @param a the a
+     */
     public IntMatrix(final int[][] a) {
         super(a == null ? new int[0][0] : a);
     }
 
+    /**
+     * Empty.
+     *
+     * @return the int matrix
+     */
     public static IntMatrix empty() {
         return EMPTY_INT_MATRIX;
     }
 
+    /**
+     * Of.
+     *
+     * @param a the a
+     * @return the int matrix
+     */
     @SafeVarargs
     public static IntMatrix of(final int[]... a) {
         return N.isNullOrEmpty(a) ? EMPTY_INT_MATRIX : new IntMatrix(a);
     }
 
+    /**
+     * From.
+     *
+     * @param a the a
+     * @return the int matrix
+     */
     @SafeVarargs
     public static IntMatrix from(final char[]... a) {
         if (N.isNullOrEmpty(a)) {
@@ -70,6 +95,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * From.
+     *
+     * @param a the a
+     * @return the int matrix
+     */
     @SafeVarargs
     public static IntMatrix from(final byte[]... a) {
         if (N.isNullOrEmpty(a)) {
@@ -87,6 +118,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * From.
+     *
+     * @param a the a
+     * @return the int matrix
+     */
     @SafeVarargs
     public static IntMatrix from(final short[]... a) {
         if (N.isNullOrEmpty(a)) {
@@ -104,38 +141,100 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Random.
+     *
+     * @param len the len
+     * @return the int matrix
+     */
     public static IntMatrix random(final int len) {
         return new IntMatrix(new int[][] { IntList.random(len).array() });
     }
 
+    /**
+     * Repeat.
+     *
+     * @param val the val
+     * @param len the len
+     * @return the int matrix
+     */
     public static IntMatrix repeat(final int val, final int len) {
         return new IntMatrix(new int[][] { Array.repeat(val, len) });
     }
 
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @return the int matrix
+     */
     public static IntMatrix range(int startInclusive, final int endExclusive) {
         return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive) });
     }
 
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @param by the by
+     * @return the int matrix
+     */
     public static IntMatrix range(int startInclusive, final int endExclusive, final int by) {
         return new IntMatrix(new int[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @return the int matrix
+     */
     public static IntMatrix rangeClosed(int startInclusive, final int endInclusive) {
         return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @param by the by
+     * @return the int matrix
+     */
     public static IntMatrix rangeClosed(int startInclusive, final int endInclusive, final int by) {
         return new IntMatrix(new int[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
+    /**
+     * Diagonal LU 2 RD.
+     *
+     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
+     * @return the int matrix
+     */
     public static IntMatrix diagonalLU2RD(final int[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
     }
 
+    /**
+     * Diagonal RU 2 LD.
+     *
+     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
+     * @return the int matrix
+     */
     public static IntMatrix diagonalRU2LD(final int[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
+    /**
+     * Diagonal.
+     *
+     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
+     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
+     * @return the int matrix
+     */
     public static IntMatrix diagonal(final int[] leftUp2RighDownDiagonal, int[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
                 N.isNullOrEmpty(leftUp2RighDownDiagonal) || N.isNullOrEmpty(rightUp2LeftDownDiagonal)
@@ -173,44 +272,98 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Gets the.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the int
+     */
     public int get(final int i, final int j) {
         return a[i][j];
     }
 
+    /**
+     * Gets the.
+     *
+     * @param point the point
+     * @return the int
+     */
     public int get(final IntPair point) {
         return a[point._1][point._2];
     }
 
+    /**
+     * Sets the.
+     *
+     * @param i the i
+     * @param j the j
+     * @param val the val
+     */
     public void set(final int i, final int j, final int val) {
         a[i][j] = val;
     }
 
+    /**
+     * Sets the.
+     *
+     * @param point the point
+     * @param val the val
+     */
     public void set(final IntPair point, final int val) {
         a[point._1][point._2] = val;
     }
 
+    /**
+     * Up of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional int
+     */
     public OptionalInt upOf(final int i, final int j) {
         return i == 0 ? OptionalInt.empty() : OptionalInt.of(a[i - 1][j]);
     }
 
+    /**
+     * Down of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional int
+     */
     public OptionalInt downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalInt.empty() : OptionalInt.of(a[i + 1][j]);
     }
 
+    /**
+     * Left of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional int
+     */
     public OptionalInt leftOf(final int i, final int j) {
         return j == 0 ? OptionalInt.empty() : OptionalInt.of(a[i][j - 1]);
     }
 
+    /**
+     * Right of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional int
+     */
     public OptionalInt rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalInt.empty() : OptionalInt.of(a[i][j + 1]);
     }
 
     /**
      * Returns the four adjacencies with order: up, right, down, left. <code>null</code> is set if the adjacency doesn't exist.
-     * 
-     * @param i
-     * @param j
-     * @return
+     *
+     * @param i the i
+     * @param j the j
+     * @return the stream
      */
     public Stream<IntPair> adjacent4Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -223,10 +376,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. <code>null</code> is set if the adjacency doesn't exist.
-     * 
-     * @param i
-     * @param j
-     * @return
+     *
+     * @param i the i
+     * @param j the j
+     * @return the stream
      */
     public Stream<IntPair> adjacent8Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -242,12 +395,24 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return Stream.of(leftUp, up, rightUp, right, rightDown, down, leftDown, left);
     }
 
+    /**
+     * Row.
+     *
+     * @param rowIndex the row index
+     * @return the int[]
+     */
     public int[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
 
         return a[rowIndex];
     }
 
+    /**
+     * Column.
+     *
+     * @param columnIndex the column index
+     * @return the int[]
+     */
     public int[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
@@ -260,12 +425,24 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return c;
     }
 
+    /**
+     * Sets the row.
+     *
+     * @param rowIndex the row index
+     * @param row the row
+     */
     public void setRow(int rowIndex, int[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
 
+    /**
+     * Sets the column.
+     *
+     * @param columnIndex the column index
+     * @param column the column
+     */
     public void setColumn(int columnIndex, int[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
@@ -274,18 +451,39 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Update row.
+     *
+     * @param <E> the element type
+     * @param rowIndex the row index
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateRow(int rowIndex, Try.IntUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsInt(a[rowIndex][i]);
         }
     }
 
+    /**
+     * Update column.
+     *
+     * @param <E> the element type
+     * @param columnIndex the column index
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateColumn(int columnIndex, Try.IntUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsInt(a[i][columnIndex]);
         }
     }
 
+    /**
+     * Gets the lu2rd.
+     *
+     * @return the lu2rd
+     */
     public int[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -298,6 +496,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return res;
     }
 
+    /**
+     * Sets the lu2rd.
+     *
+     * @param diagonal the new lu2rd
+     */
     public void setLU2RD(final int[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
@@ -307,6 +510,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Update LU 2 RD.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateLU2RD(final Try.IntUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -315,6 +525,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Gets the ru2ld.
+     *
+     * @return the ru2ld
+     */
     public int[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -327,6 +542,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return res;
     }
 
+    /**
+     * Sets the ru2ld.
+     *
+     * @param diagonal the new ru2ld
+     */
     public void setRU2LD(final int[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
@@ -336,6 +556,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Update RU 2 LD.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateRU2LD(final Try.IntUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -344,6 +571,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Update all.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateAll(final Try.IntUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
@@ -383,9 +617,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Update all elements based on points
-     * 
-     * @param func
+     * Update all elements based on points.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
      */
     public <E extends Exception> void updateAll(final Try.IntBiFunction<Integer, E> func) throws E {
         if (isParallelable()) {
@@ -425,6 +661,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Replace if.
+     *
+     * @param <E> the element type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws E the e
+     */
     public <E extends Exception> void replaceIf(final Try.IntPredicate<E> predicate, final int newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
@@ -465,9 +709,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
-     * 
-     * @param predicate
-     * @param newValue
+     *
+     * @param <E> the element type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final int newValue) throws E {
         if (isParallelable()) {
@@ -507,6 +753,14 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Map.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @return the int matrix
+     * @throws E the e
+     */
     public <E extends Exception> IntMatrix map(final Try.IntUnaryOperator<E> func) throws E {
         final int[][] c = new int[rows][cols];
 
@@ -549,6 +803,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return IntMatrix.of(c);
     }
 
+    /**
+     * Map to obj.
+     *
+     * @param <T> the generic type
+     * @param <E> the element type
+     * @param cls the cls
+     * @param func the func
+     * @return the matrix
+     * @throws E the e
+     */
     public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.IntFunction<? extends T, E> func) throws E {
         final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
 
@@ -595,16 +859,33 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return Matrix.of(c);
     }
 
+    /**
+     * Fill.
+     *
+     * @param val the val
+     */
     public void fill(final int val) {
         for (int i = 0; i < rows; i++) {
             N.fill(a[i], val);
         }
     }
 
+    /**
+     * Fill.
+     *
+     * @param b the b
+     */
     public void fill(final int[][] b) {
         fill(0, 0, b);
     }
 
+    /**
+     * Fill.
+     *
+     * @param fromRowIndex the from row index
+     * @param fromColumnIndex the from column index
+     * @param b the b
+     */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final int[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
         N.checkFromToIndex(fromColumnIndex, cols, cols);
@@ -614,6 +895,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Copy.
+     *
+     * @return the int matrix
+     */
     @Override
     public IntMatrix copy() {
         final int[][] c = new int[rows][];
@@ -625,6 +911,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Copy.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @return the int matrix
+     */
     @Override
     public IntMatrix copy(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -638,6 +931,15 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Copy.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @return the int matrix
+     */
     @Override
     public IntMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -652,10 +954,25 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Extend.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @return the int matrix
+     */
     public IntMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, 0);
     }
 
+    /**
+     * Extend.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @param defaultValueForNewCell the default value for new cell
+     * @return the int matrix
+     */
     public IntMatrix extend(final int newRows, final int newCols, final int defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
@@ -682,10 +999,29 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Extend.
+     *
+     * @param toUp the to up
+     * @param toDown the to down
+     * @param toLeft the to left
+     * @param toRight the to right
+     * @return the int matrix
+     */
     public IntMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, 0);
     }
 
+    /**
+     * Extend.
+     *
+     * @param toUp the to up
+     * @param toDown the to down
+     * @param toLeft the to left
+     * @param toRight the to right
+     * @param defaultValueForNewCell the default value for new cell
+     * @return the int matrix
+     */
     public IntMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final int defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
         N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
@@ -724,12 +1060,18 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Reverse H.
+     */
     public void reverseH() {
         for (int i = 0; i < rows; i++) {
             N.reverse(a[i]);
         }
     }
 
+    /**
+     * Reverse V.
+     */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             int tmp = 0;
@@ -742,8 +1084,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * 
-     * @return
+     * Flip H.
+     *
+     * @return the int matrix
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
     public IntMatrix flipH() {
@@ -753,8 +1096,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * 
-     * @return
+     * Flip V.
+     *
+     * @return the int matrix
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
      */
     public IntMatrix flipV() {
@@ -763,6 +1107,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return res;
     }
 
+    /**
+     * Rotate 90.
+     *
+     * @return the int matrix
+     */
     @Override
     public IntMatrix rotate90() {
         final int[][] c = new int[cols][rows];
@@ -784,6 +1133,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Rotate 180.
+     *
+     * @return the int matrix
+     */
     @Override
     public IntMatrix rotate180() {
         final int[][] c = new int[rows][];
@@ -796,6 +1150,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Rotate 270.
+     *
+     * @return the int matrix
+     */
     @Override
     public IntMatrix rotate270() {
         final int[][] c = new int[cols][rows];
@@ -817,6 +1176,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Transpose.
+     *
+     * @return the int matrix
+     */
     @Override
     public IntMatrix transpose() {
         final int[][] c = new int[cols][rows];
@@ -838,6 +1202,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Reshape.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @return the int matrix
+     */
     @Override
     public IntMatrix reshape(final int newRows, final int newCols) {
         final int[][] c = new int[newRows][newCols];
@@ -867,9 +1238,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
-     * 
-     * @param rowRepeats
-     * @param colRepeats
+     *
+     * @param rowRepeats the row repeats
+     * @param colRepeats the col repeats
      * @return a new matrix
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">https://www.mathworks.com/help/matlab/ref/repelem.html</a>
      */
@@ -896,9 +1267,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
 
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
-     * 
-     * @param rowRepeats
-     * @param colRepeats
+     *
+     * @param rowRepeats the row repeats
+     * @param colRepeats the col repeats
      * @return a new matrix
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">https://www.mathworks.com/help/matlab/ref/repmat.html</a>
      */
@@ -923,6 +1294,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Flatten.
+     *
+     * @return the int list
+     */
     @Override
     public IntList flatten() {
         final int[] c = new int[rows * cols];
@@ -934,6 +1310,13 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return IntList.of(c);
     }
 
+    /**
+     * Flat op.
+     *
+     * @param <E> the element type
+     * @param op the op
+     * @throws E the e
+     */
     @Override
     public <E extends Exception> void flatOp(Consumer<int[], E> op) throws E {
         f.flatOp(a, op);
@@ -954,9 +1337,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * 
      * </code>
      * </pre>
-     * 
-     * @param b
-     * @return
+     *
+     * @param b the b
+     * @return the int matrix
      */
     public IntMatrix vstack(final IntMatrix b) {
         N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
@@ -988,9 +1371,9 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
      * 
      * </code>
      * </pre>
-     * 
-     * @param b
-     * @return
+     *
+     * @param b the b
+     * @return the int matrix
      */
     public IntMatrix hstack(final IntMatrix b) {
         N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
@@ -1005,6 +1388,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return IntMatrix.of(c);
     }
 
+    /**
+     * Adds the.
+     *
+     * @param b the b
+     * @return the int matrix
+     */
     public IntMatrix add(final IntMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
@@ -1049,6 +1438,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Subtract.
+     *
+     * @param b the b
+     * @return the int matrix
+     */
     public IntMatrix subtract(final IntMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
@@ -1093,6 +1488,12 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Multiply.
+     *
+     * @param b the b
+     * @return the int matrix
+     */
     public IntMatrix multiply(final IntMatrix b) {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
 
@@ -1234,6 +1635,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(c);
     }
 
+    /**
+     * Boxed.
+     *
+     * @return the matrix
+     */
     public Matrix<Integer> boxed() {
         final Integer[][] c = new Integer[rows][cols];
 
@@ -1254,18 +1660,42 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new Matrix<>(c);
     }
 
+    /**
+     * To long matrix.
+     *
+     * @return the long matrix
+     */
     public LongMatrix toLongMatrix() {
         return LongMatrix.from(a);
     }
 
+    /**
+     * To float matrix.
+     *
+     * @return the float matrix
+     */
     public FloatMatrix toFloatMatrix() {
         return FloatMatrix.from(a);
     }
 
+    /**
+     * To double matrix.
+     *
+     * @return the double matrix
+     */
     public DoubleMatrix toDoubleMatrix() {
         return DoubleMatrix.from(a);
     }
 
+    /**
+     * Zip with.
+     *
+     * @param <E> the element type
+     * @param matrixB the matrix B
+     * @param zipFunction the zip function
+     * @return the int matrix
+     * @throws E the e
+     */
     public <E extends Exception> IntMatrix zipWith(final IntMatrix matrixB, final Try.IntBiFunction<Integer, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
@@ -1311,6 +1741,16 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return new IntMatrix(result);
     }
 
+    /**
+     * Zip with.
+     *
+     * @param <E> the element type
+     * @param matrixB the matrix B
+     * @param matrixC the matrix C
+     * @param zipFunction the zip function
+     * @return the int matrix
+     * @throws E the e
+     */
     public <E extends Exception> IntMatrix zipWith(final IntMatrix matrixB, final IntMatrix matrixC, final Try.IntTriFunction<Integer, E> zipFunction)
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
@@ -1359,7 +1799,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * 
+     * Stream LU 2 RD.
+     *
      * @return a stream composed by elements on the diagonal line from left up to right down.
      */
     @Override
@@ -1403,7 +1844,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * 
+     * Stream RU 2 LD.
+     *
      * @return a stream composed by elements on the diagonal line from right up to left down.
      */
     @Override
@@ -1447,7 +1889,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * 
+     * Stream H.
+     *
      * @return a stream based on the order of row.
      */
     @Override
@@ -1455,15 +1898,22 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return streamH(0, rows);
     }
 
+    /**
+     * Stream H.
+     *
+     * @param rowIndex the row index
+     * @return the int stream
+     */
     @Override
     public IntStream streamH(final int rowIndex) {
         return streamH(rowIndex, rowIndex + 1);
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream H.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a stream based on the order of row.
      */
     @Override
@@ -1537,7 +1987,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * 
+     * Stream V.
+     *
      * @return a stream based on the order of column.
      */
     @Override
@@ -1546,15 +1997,22 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return streamV(0, cols);
     }
 
+    /**
+     * Stream V.
+     *
+     * @param columnIndex the column index
+     * @return the int stream
+     */
     @Override
     public IntStream streamV(final int columnIndex) {
         return streamV(columnIndex, columnIndex + 1);
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream V.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a stream based on the order of column.
      */
     @Override
@@ -1629,7 +2087,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * 
+     * Stream R.
+     *
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1638,9 +2097,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream R.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1684,7 +2144,8 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * 
+     * Stream C.
+     *
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1694,9 +2155,10 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream C.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1770,15 +2232,39 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         });
     }
 
+    /**
+     * Length.
+     *
+     * @param a the a
+     * @return the int
+     */
     @Override
     protected int length(int[] a) {
         return a == null ? 0 : a.length;
     }
 
+    /**
+     * For each.
+     *
+     * @param <E> the element type
+     * @param action the action
+     * @throws E the e
+     */
     public <E extends Exception> void forEach(final Try.IntConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
+    /**
+     * For each.
+     *
+     * @param <E> the element type
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @param action the action
+     * @throws E the e
+     */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Try.IntConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -1791,16 +2277,30 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         }
     }
 
+    /**
+     * Println.
+     */
     @Override
     public void println() {
         f.println(a);
     }
 
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
     }
 
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -1816,6 +2316,11 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
         return false;
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return N.deepToString(a);

@@ -32,60 +32,141 @@ import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @since 0.8
- * 
+ * The Class ByteMatrix.
+ *
  * @author Haiyang Li
+ * @since 0.8
  */
 public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStream, Stream<ByteStream>, ByteMatrix> {
+    
+    /** The Constant EMPTY_BYTE_MATRIX. */
     static final ByteMatrix EMPTY_BYTE_MATRIX = new ByteMatrix(new byte[0][0]);
 
+    /**
+     * Instantiates a new byte matrix.
+     *
+     * @param a the a
+     */
     public ByteMatrix(final byte[][] a) {
         super(a == null ? new byte[0][0] : a);
     }
 
+    /**
+     * Empty.
+     *
+     * @return the byte matrix
+     */
     public static ByteMatrix empty() {
         return EMPTY_BYTE_MATRIX;
     }
 
+    /**
+     * Of.
+     *
+     * @param a the a
+     * @return the byte matrix
+     */
     @SafeVarargs
     public static ByteMatrix of(final byte[]... a) {
         return N.isNullOrEmpty(a) ? EMPTY_BYTE_MATRIX : new ByteMatrix(a);
     }
 
+    /**
+     * Random.
+     *
+     * @param len the len
+     * @return the byte matrix
+     */
     public static ByteMatrix random(final int len) {
         return new ByteMatrix(new byte[][] { ByteList.random(len).array() });
     }
 
+    /**
+     * Repeat.
+     *
+     * @param val the val
+     * @param len the len
+     * @return the byte matrix
+     */
     public static ByteMatrix repeat(final byte val, final int len) {
         return new ByteMatrix(new byte[][] { Array.repeat(val, len) });
     }
 
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @return the byte matrix
+     */
     public static ByteMatrix range(byte startInclusive, final byte endExclusive) {
         return new ByteMatrix(new byte[][] { Array.range(startInclusive, endExclusive) });
     }
 
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @param by the by
+     * @return the byte matrix
+     */
     public static ByteMatrix range(byte startInclusive, final byte endExclusive, final byte by) {
         return new ByteMatrix(new byte[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @return the byte matrix
+     */
     public static ByteMatrix rangeClosed(byte startInclusive, final byte endInclusive) {
         return new ByteMatrix(new byte[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @param by the by
+     * @return the byte matrix
+     */
     public static ByteMatrix rangeClosed(byte startInclusive, final byte endInclusive, final byte by) {
         return new ByteMatrix(new byte[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
+    /**
+     * Diagonal LU 2 RD.
+     *
+     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
+     * @return the byte matrix
+     */
     public static ByteMatrix diagonalLU2RD(final byte[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
     }
 
+    /**
+     * Diagonal RU 2 LD.
+     *
+     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
+     * @return the byte matrix
+     */
     public static ByteMatrix diagonalRU2LD(final byte[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
+    /**
+     * Diagonal.
+     *
+     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
+     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
+     * @return the byte matrix
+     */
     public static ByteMatrix diagonal(final byte[] leftUp2RighDownDiagonal, byte[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
                 N.isNullOrEmpty(leftUp2RighDownDiagonal) || N.isNullOrEmpty(rightUp2LeftDownDiagonal)
@@ -123,44 +204,98 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Gets the.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the byte
+     */
     public byte get(final int i, final int j) {
         return a[i][j];
     }
 
+    /**
+     * Gets the.
+     *
+     * @param point the point
+     * @return the byte
+     */
     public byte get(final IntPair point) {
         return a[point._1][point._2];
     }
 
+    /**
+     * Sets the.
+     *
+     * @param i the i
+     * @param j the j
+     * @param val the val
+     */
     public void set(final int i, final int j, final byte val) {
         a[i][j] = val;
     }
 
+    /**
+     * Sets the.
+     *
+     * @param point the point
+     * @param val the val
+     */
     public void set(final IntPair point, final byte val) {
         a[point._1][point._2] = val;
     }
 
+    /**
+     * Up of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional byte
+     */
     public OptionalByte upOf(final int i, final int j) {
         return i == 0 ? OptionalByte.empty() : OptionalByte.of(a[i - 1][j]);
     }
 
+    /**
+     * Down of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional byte
+     */
     public OptionalByte downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalByte.empty() : OptionalByte.of(a[i + 1][j]);
     }
 
+    /**
+     * Left of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional byte
+     */
     public OptionalByte leftOf(final int i, final int j) {
         return j == 0 ? OptionalByte.empty() : OptionalByte.of(a[i][j - 1]);
     }
 
+    /**
+     * Right of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional byte
+     */
     public OptionalByte rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalByte.empty() : OptionalByte.of(a[i][j + 1]);
     }
 
     /**
      * Returns the four adjacencies with order: up, right, down, left. <code>null</code> is set if the adjacency doesn't exist.
-     * 
-     * @param i
-     * @param j
-     * @return
+     *
+     * @param i the i
+     * @param j the j
+     * @return the stream
      */
     public Stream<IntPair> adjacent4Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -173,10 +308,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. <code>null</code> is set if the adjacency doesn't exist.
-     * 
-     * @param i
-     * @param j
-     * @return
+     *
+     * @param i the i
+     * @param j the j
+     * @return the stream
      */
     public Stream<IntPair> adjacent8Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -192,12 +327,24 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return Stream.of(leftUp, up, rightUp, right, rightDown, down, leftDown, left);
     }
 
+    /**
+     * Row.
+     *
+     * @param rowIndex the row index
+     * @return the byte[]
+     */
     public byte[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
 
         return a[rowIndex];
     }
 
+    /**
+     * Column.
+     *
+     * @param columnIndex the column index
+     * @return the byte[]
+     */
     public byte[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
@@ -210,12 +357,24 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return c;
     }
 
+    /**
+     * Sets the row.
+     *
+     * @param rowIndex the row index
+     * @param row the row
+     */
     public void setRow(int rowIndex, byte[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
 
+    /**
+     * Sets the column.
+     *
+     * @param columnIndex the column index
+     * @param column the column
+     */
     public void setColumn(int columnIndex, byte[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
@@ -224,18 +383,39 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Update row.
+     *
+     * @param <E> the element type
+     * @param rowIndex the row index
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateRow(int rowIndex, Try.ByteUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsByte(a[rowIndex][i]);
         }
     }
 
+    /**
+     * Update column.
+     *
+     * @param <E> the element type
+     * @param columnIndex the column index
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateColumn(int columnIndex, Try.ByteUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsByte(a[i][columnIndex]);
         }
     }
 
+    /**
+     * Gets the lu2rd.
+     *
+     * @return the lu2rd
+     */
     public byte[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -248,6 +428,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return res;
     }
 
+    /**
+     * Sets the lu2rd.
+     *
+     * @param diagonal the new lu2rd
+     */
     public void setLU2RD(final byte[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
@@ -257,6 +442,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Update LU 2 RD.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateLU2RD(final Try.ByteUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -265,6 +457,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Gets the ru2ld.
+     *
+     * @return the ru2ld
+     */
     public byte[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -277,6 +474,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return res;
     }
 
+    /**
+     * Sets the ru2ld.
+     *
+     * @param diagonal the new ru2ld
+     */
     public void setRU2LD(final byte[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
@@ -286,6 +488,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Update RU 2 LD.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateRU2LD(final Try.ByteUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -294,6 +503,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Update all.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateAll(final Try.ByteUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
@@ -334,9 +550,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Update all elements based on points
-     * 
-     * @param func
+     * Update all elements based on points.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
      */
     public <E extends Exception> void updateAll(final Try.IntBiFunction<Byte, E> func) throws E {
         if (isParallelable()) {
@@ -377,6 +595,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Replace if.
+     *
+     * @param <E> the element type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws E the e
+     */
     public <E extends Exception> void replaceIf(final Try.BytePredicate<E> predicate, final byte newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
@@ -418,9 +644,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
-     * 
-     * @param predicate
-     * @param newValue
+     *
+     * @param <E> the element type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final byte newValue) throws E {
         if (isParallelable()) {
@@ -461,6 +689,14 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Map.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @return the byte matrix
+     * @throws E the e
+     */
     public <E extends Exception> ByteMatrix map(final Try.ByteUnaryOperator<E> func) throws E {
         final byte[][] c = new byte[rows][cols];
 
@@ -504,6 +740,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return ByteMatrix.of(c);
     }
 
+    /**
+     * Map to obj.
+     *
+     * @param <T> the generic type
+     * @param <E> the element type
+     * @param cls the cls
+     * @param func the func
+     * @return the matrix
+     * @throws E the e
+     */
     public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.ByteFunction<? extends T, E> func) throws E {
         final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
 
@@ -551,16 +797,33 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return Matrix.of(c);
     }
 
+    /**
+     * Fill.
+     *
+     * @param val the val
+     */
     public void fill(final byte val) {
         for (int i = 0; i < rows; i++) {
             N.fill(a[i], val);
         }
     }
 
+    /**
+     * Fill.
+     *
+     * @param b the b
+     */
     public void fill(final byte[][] b) {
         fill(0, 0, b);
     }
 
+    /**
+     * Fill.
+     *
+     * @param fromRowIndex the from row index
+     * @param fromColumnIndex the from column index
+     * @param b the b
+     */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final byte[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
         N.checkFromToIndex(fromColumnIndex, cols, cols);
@@ -570,6 +833,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Copy.
+     *
+     * @return the byte matrix
+     */
     @Override
     public ByteMatrix copy() {
         final byte[][] c = new byte[rows][];
@@ -581,6 +849,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
+    /**
+     * Copy.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @return the byte matrix
+     */
     @Override
     public ByteMatrix copy(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -594,6 +869,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
+    /**
+     * Copy.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @return the byte matrix
+     */
     @Override
     public ByteMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -608,10 +892,25 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
+    /**
+     * Extend.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @return the byte matrix
+     */
     public ByteMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, BYTE_0);
     }
 
+    /**
+     * Extend.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @param defaultValueForNewCell the default value for new cell
+     * @return the byte matrix
+     */
     public ByteMatrix extend(final int newRows, final int newCols, final byte defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
@@ -638,10 +937,29 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Extend.
+     *
+     * @param toUp the to up
+     * @param toDown the to down
+     * @param toLeft the to left
+     * @param toRight the to right
+     * @return the byte matrix
+     */
     public ByteMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, BYTE_0);
     }
 
+    /**
+     * Extend.
+     *
+     * @param toUp the to up
+     * @param toDown the to down
+     * @param toLeft the to left
+     * @param toRight the to right
+     * @param defaultValueForNewCell the default value for new cell
+     * @return the byte matrix
+     */
     public ByteMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final byte defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
         N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
@@ -680,12 +998,18 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Reverse H.
+     */
     public void reverseH() {
         for (int i = 0; i < rows; i++) {
             N.reverse(a[i]);
         }
     }
 
+    /**
+     * Reverse V.
+     */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             byte tmp = 0;
@@ -698,8 +1022,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
-     * @return
+     * Flip H.
+     *
+     * @return the byte matrix
      * @see IntMatrix#flipH()
      */
     public ByteMatrix flipH() {
@@ -709,8 +1034,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
-     * @return
+     * Flip V.
+     *
+     * @return the byte matrix
      * @see IntMatrix#flipV()
      */
     public ByteMatrix flipV() {
@@ -719,6 +1045,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return res;
     }
 
+    /**
+     * Rotate 90.
+     *
+     * @return the byte matrix
+     */
     @Override
     public ByteMatrix rotate90() {
         final byte[][] c = new byte[cols][rows];
@@ -740,6 +1071,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
+    /**
+     * Rotate 180.
+     *
+     * @return the byte matrix
+     */
     @Override
     public ByteMatrix rotate180() {
         final byte[][] c = new byte[rows][];
@@ -752,6 +1088,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
+    /**
+     * Rotate 270.
+     *
+     * @return the byte matrix
+     */
     @Override
     public ByteMatrix rotate270() {
         final byte[][] c = new byte[cols][rows];
@@ -773,6 +1114,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
+    /**
+     * Transpose.
+     *
+     * @return the byte matrix
+     */
     @Override
     public ByteMatrix transpose() {
         final byte[][] c = new byte[cols][rows];
@@ -794,6 +1140,13 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
+    /**
+     * Reshape.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @return the byte matrix
+     */
     @Override
     public ByteMatrix reshape(final int newRows, final int newCols) {
         final byte[][] c = new byte[newRows][newCols];
@@ -823,9 +1176,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
-     * 
-     * @param rowRepeats
-     * @param colRepeats
+     *
+     * @param rowRepeats the row repeats
+     * @param colRepeats the col repeats
      * @return a new matrix
      * @see IntMatrix#repelem(int, int)
      */
@@ -852,9 +1205,9 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
-     * 
-     * @param rowRepeats
-     * @param colRepeats
+     *
+     * @param rowRepeats the row repeats
+     * @param colRepeats the col repeats
      * @return a new matrix
      * @see IntMatrix#repmat(int, int)
      */
@@ -879,6 +1232,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
+    /**
+     * Flatten.
+     *
+     * @return the byte list
+     */
     @Override
     public ByteList flatten() {
         final byte[] c = new byte[rows * cols];
@@ -890,15 +1248,23 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return ByteList.of(c);
     }
 
+    /**
+     * Flat op.
+     *
+     * @param <E> the element type
+     * @param op the op
+     * @throws E the e
+     */
     @Override
     public <E extends Exception> void flatOp(Consumer<byte[], E> op) throws E {
         f.flatOp(a, op);
     }
 
     /**
-     * 
-     * @param b
-     * @return
+     * Vstack.
+     *
+     * @param b the b
+     * @return the byte matrix
      * @see IntMatrix#vstack(IntMatrix)
      */
     public ByteMatrix vstack(final ByteMatrix b) {
@@ -919,9 +1285,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
-     * @param b
-     * @return
+     * Hstack.
+     *
+     * @param b the b
+     * @return the byte matrix
      * @see IntMatrix#hstack(IntMatrix)
      */
     public ByteMatrix hstack(final ByteMatrix b) {
@@ -937,6 +1304,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return ByteMatrix.of(c);
     }
 
+    /**
+     * Adds the.
+     *
+     * @param b the b
+     * @return the byte matrix
+     */
     public ByteMatrix add(final ByteMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
@@ -982,6 +1355,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
+    /**
+     * Subtract.
+     *
+     * @param b the b
+     * @return the byte matrix
+     */
     public ByteMatrix subtract(final ByteMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
@@ -1027,6 +1406,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
+    /**
+     * Multiply.
+     *
+     * @param b the b
+     * @return the byte matrix
+     */
     public ByteMatrix multiply(final ByteMatrix b) {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
 
@@ -1172,6 +1557,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(c);
     }
 
+    /**
+     * Boxed.
+     *
+     * @return the matrix
+     */
     public Matrix<Byte> boxed() {
         final Byte[][] c = new Byte[rows][cols];
 
@@ -1192,10 +1582,20 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new Matrix<>(c);
     }
 
+    /**
+     * To int matrix.
+     *
+     * @return the int matrix
+     */
     public IntMatrix toIntMatrix() {
         return IntMatrix.from(a);
     }
 
+    /**
+     * To long matrix.
+     *
+     * @return the long matrix
+     */
     public LongMatrix toLongMatrix() {
         final long[][] c = new long[rows][cols];
 
@@ -1216,6 +1616,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new LongMatrix(c);
     }
 
+    /**
+     * To float matrix.
+     *
+     * @return the float matrix
+     */
     public FloatMatrix toFloatMatrix() {
         final float[][] c = new float[rows][cols];
 
@@ -1236,6 +1641,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new FloatMatrix(c);
     }
 
+    /**
+     * To double matrix.
+     *
+     * @return the double matrix
+     */
     public DoubleMatrix toDoubleMatrix() {
         final double[][] c = new double[rows][cols];
 
@@ -1256,6 +1666,15 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new DoubleMatrix(c);
     }
 
+    /**
+     * Zip with.
+     *
+     * @param <E> the element type
+     * @param matrixB the matrix B
+     * @param zipFunction the zip function
+     * @return the byte matrix
+     * @throws E the e
+     */
     public <E extends Exception> ByteMatrix zipWith(final ByteMatrix matrixB, final Try.ByteBiFunction<Byte, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
@@ -1302,6 +1721,16 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return new ByteMatrix(result);
     }
 
+    /**
+     * Zip with.
+     *
+     * @param <E> the element type
+     * @param matrixB the matrix B
+     * @param matrixC the matrix C
+     * @param zipFunction the zip function
+     * @return the byte matrix
+     * @throws E the e
+     */
     public <E extends Exception> ByteMatrix zipWith(final ByteMatrix matrixB, final ByteMatrix matrixC, final Try.ByteTriFunction<Byte, E> zipFunction)
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
@@ -1351,7 +1780,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
+     * Stream LU 2 RD.
+     *
      * @return a stream composed by elements on the diagonal line from left up to right down.
      */
     @Override
@@ -1395,7 +1825,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
+     * Stream RU 2 LD.
+     *
      * @return a stream composed by elements on the diagonal line from right up to left down.
      */
     @Override
@@ -1439,7 +1870,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
+     * Stream H.
+     *
      * @return a stream based on the order of row.
      */
     @Override
@@ -1447,15 +1879,22 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return streamH(0, rows);
     }
 
+    /**
+     * Stream H.
+     *
+     * @param rowIndex the row index
+     * @return the byte stream
+     */
     @Override
     public ByteStream streamH(final int rowIndex) {
         return streamH(rowIndex, rowIndex + 1);
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream H.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a stream based on the order of row.
      */
     @Override
@@ -1529,7 +1968,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
+     * Stream V.
+     *
      * @return a stream based on the order of column.
      */
     @Override
@@ -1538,15 +1978,22 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return streamV(0, cols);
     }
 
+    /**
+     * Stream V.
+     *
+     * @param columnIndex the column index
+     * @return the byte stream
+     */
     @Override
     public ByteStream streamV(final int columnIndex) {
         return streamV(columnIndex, columnIndex + 1);
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream V.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a stream based on the order of column.
      */
     @Override
@@ -1620,7 +2067,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
+     * Stream R.
+     *
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1629,9 +2077,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream R.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1675,7 +2124,8 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
+     * Stream C.
+     *
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1685,9 +2135,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream C.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1761,15 +2212,39 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         });
     }
 
+    /**
+     * Length.
+     *
+     * @param a the a
+     * @return the int
+     */
     @Override
     protected int length(byte[] a) {
         return a == null ? 0 : a.length;
     }
 
+    /**
+     * For each.
+     *
+     * @param <E> the element type
+     * @param action the action
+     * @throws E the e
+     */
     public <E extends Exception> void forEach(final Try.ByteConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
+    /**
+     * For each.
+     *
+     * @param <E> the element type
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @param action the action
+     * @throws E the e
+     */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Try.ByteConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -1782,16 +2257,30 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         }
     }
 
+    /**
+     * Println.
+     */
     @Override
     public void println() {
         f.println(a);
     }
 
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
     }
 
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -1807,6 +2296,11 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
         return false;
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return N.deepToString(a);

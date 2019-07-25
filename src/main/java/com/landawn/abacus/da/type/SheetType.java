@@ -30,24 +30,47 @@ import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.WD;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Class SheetType.
  *
- * @since 0.8
- * 
  * @author Haiyang Li
+ * @param <R> the generic type
+ * @param <C> the generic type
+ * @param <E> the element type
+ * @since 0.8
  */
 public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
 
+    /** The Constant ROW_KEY_SET. */
     private static final String ROW_KEY_SET = "rowKeySet";
+    
+    /** The Constant COLUMN_KEY_SET. */
     private static final String COLUMN_KEY_SET = "columnKeySet";
+    
+    /** The Constant ROW_LIST. */
     private static final String ROW_LIST = "rowList";
 
+    /** The declaring name. */
     private final String declaringName;
+    
+    /** The type class. */
     private final Class<Sheet<R, C, E>> typeClass;
+    
+    /** The parameter types. */
     private final Type<?>[] parameterTypes;
 
+    /** The jdc. */
     private final JSONDeserializationConfig jdc;
 
+    /**
+     * Instantiates a new sheet type.
+     *
+     * @param typeClass the type class
+     * @param rowKeyTypeName the row key type name
+     * @param columnKeyTypeName the column key type name
+     * @param elementTypeName the element type name
+     */
     @SuppressWarnings("unchecked")
     public SheetType(Class<Sheet<R, C, E>> typeClass, String rowKeyTypeName, String columnKeyTypeName, String elementTypeName) {
         super(getTypeName(typeClass, rowKeyTypeName, columnKeyTypeName, elementTypeName, false));
@@ -63,31 +86,62 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
         this.jdc = JDC.create().setPropType(ROW_KEY_SET, rowKeyListType).setPropType(COLUMN_KEY_SET, columnKeyListType).setPropType(ROW_LIST, rowListType);
     }
 
+    /**
+     * Declaring name.
+     *
+     * @return the string
+     */
     @Override
     public String declaringName() {
         return declaringName;
     }
 
+    /**
+     * Clazz.
+     *
+     * @return the class
+     */
     @Override
     public Class<Sheet<R, C, E>> clazz() {
         return typeClass;
     }
 
+    /**
+     * Gets the parameter types.
+     *
+     * @return the parameter types
+     */
     @Override
     public Type<?>[] getParameterTypes() {
         return parameterTypes;
     }
 
+    /**
+     * Checks if is generic type.
+     *
+     * @return true, if is generic type
+     */
     @Override
     public boolean isGenericType() {
         return true;
     }
 
+    /**
+     * Checks if is serializable.
+     *
+     * @return true, if is serializable
+     */
     @Override
     public boolean isSerializable() {
         return true;
     }
 
+    /**
+     * String of.
+     *
+     * @param x the x
+     * @return the string
+     */
     @Override
     public String stringOf(Sheet<R, C, E> x) {
         if (x == null) {
@@ -108,6 +162,12 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
         return Utils.jsonParser.serialize(m, Utils.jsc);
     }
 
+    /**
+     * Value of.
+     *
+     * @param str the str
+     * @return the sheet
+     */
     @Override
     public Sheet<R, C, E> valueOf(String str) {
         if (N.isNullOrEmpty(str)) {
@@ -135,6 +195,16 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
         return sheet;
     }
 
+    /**
+     * Gets the type name.
+     *
+     * @param typeClass the type class
+     * @param rowKeyTypeName the row key type name
+     * @param columnKeyTypeName the column key type name
+     * @param elementTypeName the element type name
+     * @param isDeclaringName the is declaring name
+     * @return the type name
+     */
     protected static String getTypeName(Class<?> typeClass, String rowKeyTypeName, String columnKeyTypeName, String elementTypeName, boolean isDeclaringName) {
         if (isDeclaringName) {
             return ClassUtil.getSimpleClassName(typeClass) + WD.LESS_THAN + TypeFactory.getType(rowKeyTypeName).declaringName() + WD.COMMA_SPACE

@@ -32,60 +32,141 @@ import com.landawn.abacus.util.stream.ShortIteratorEx;
 import com.landawn.abacus.util.stream.ShortStream;
 import com.landawn.abacus.util.stream.Stream;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @since 0.8
- * 
+ * The Class ShortMatrix.
+ *
  * @author Haiyang Li
+ * @since 0.8
  */
 public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortStream, Stream<ShortStream>, ShortMatrix> {
+    
+    /** The Constant EMPTY_SHORT_MATRIX. */
     static final ShortMatrix EMPTY_SHORT_MATRIX = new ShortMatrix(new short[0][0]);
 
+    /**
+     * Instantiates a new short matrix.
+     *
+     * @param a the a
+     */
     public ShortMatrix(final short[][] a) {
         super(a == null ? new short[0][0] : a);
     }
 
+    /**
+     * Empty.
+     *
+     * @return the short matrix
+     */
     public static ShortMatrix empty() {
         return EMPTY_SHORT_MATRIX;
     }
 
+    /**
+     * Of.
+     *
+     * @param a the a
+     * @return the short matrix
+     */
     @SafeVarargs
     public static ShortMatrix of(final short[]... a) {
         return N.isNullOrEmpty(a) ? EMPTY_SHORT_MATRIX : new ShortMatrix(a);
     }
 
+    /**
+     * Random.
+     *
+     * @param len the len
+     * @return the short matrix
+     */
     public static ShortMatrix random(final int len) {
         return new ShortMatrix(new short[][] { ShortList.random(len).array() });
     }
 
+    /**
+     * Repeat.
+     *
+     * @param val the val
+     * @param len the len
+     * @return the short matrix
+     */
     public static ShortMatrix repeat(final short val, final int len) {
         return new ShortMatrix(new short[][] { Array.repeat(val, len) });
     }
 
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @return the short matrix
+     */
     public static ShortMatrix range(short startInclusive, final short endExclusive) {
         return new ShortMatrix(new short[][] { Array.range(startInclusive, endExclusive) });
     }
 
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @param by the by
+     * @return the short matrix
+     */
     public static ShortMatrix range(short startInclusive, final short endExclusive, final short by) {
         return new ShortMatrix(new short[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @return the short matrix
+     */
     public static ShortMatrix rangeClosed(short startInclusive, final short endInclusive) {
         return new ShortMatrix(new short[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @param by the by
+     * @return the short matrix
+     */
     public static ShortMatrix rangeClosed(short startInclusive, final short endInclusive, final short by) {
         return new ShortMatrix(new short[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
+    /**
+     * Diagonal LU 2 RD.
+     *
+     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
+     * @return the short matrix
+     */
     public static ShortMatrix diagonalLU2RD(final short[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
     }
 
+    /**
+     * Diagonal RU 2 LD.
+     *
+     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
+     * @return the short matrix
+     */
     public static ShortMatrix diagonalRU2LD(final short[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
+    /**
+     * Diagonal.
+     *
+     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
+     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
+     * @return the short matrix
+     */
     public static ShortMatrix diagonal(final short[] leftUp2RighDownDiagonal, short[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
                 N.isNullOrEmpty(leftUp2RighDownDiagonal) || N.isNullOrEmpty(rightUp2LeftDownDiagonal)
@@ -123,44 +204,98 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Gets the.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the short
+     */
     public short get(final int i, final int j) {
         return a[i][j];
     }
 
+    /**
+     * Gets the.
+     *
+     * @param point the point
+     * @return the short
+     */
     public short get(final IntPair point) {
         return a[point._1][point._2];
     }
 
+    /**
+     * Sets the.
+     *
+     * @param i the i
+     * @param j the j
+     * @param val the val
+     */
     public void set(final int i, final int j, final short val) {
         a[i][j] = val;
     }
 
+    /**
+     * Sets the.
+     *
+     * @param point the point
+     * @param val the val
+     */
     public void set(final IntPair point, final short val) {
         a[point._1][point._2] = val;
     }
 
+    /**
+     * Up of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional short
+     */
     public OptionalShort upOf(final int i, final int j) {
         return i == 0 ? OptionalShort.empty() : OptionalShort.of(a[i - 1][j]);
     }
 
+    /**
+     * Down of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional short
+     */
     public OptionalShort downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalShort.empty() : OptionalShort.of(a[i + 1][j]);
     }
 
+    /**
+     * Left of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional short
+     */
     public OptionalShort leftOf(final int i, final int j) {
         return j == 0 ? OptionalShort.empty() : OptionalShort.of(a[i][j - 1]);
     }
 
+    /**
+     * Right of.
+     *
+     * @param i the i
+     * @param j the j
+     * @return the optional short
+     */
     public OptionalShort rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalShort.empty() : OptionalShort.of(a[i][j + 1]);
     }
 
     /**
      * Returns the four adjacencies with order: up, right, down, left. <code>null</code> is set if the adjacency doesn't exist.
-     * 
-     * @param i
-     * @param j
-     * @return
+     *
+     * @param i the i
+     * @param j the j
+     * @return the stream
      */
     public Stream<IntPair> adjacent4Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -173,10 +308,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. <code>null</code> is set if the adjacency doesn't exist.
-     * 
-     * @param i
-     * @param j
-     * @return
+     *
+     * @param i the i
+     * @param j the j
+     * @return the stream
      */
     public Stream<IntPair> adjacent8Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -192,12 +327,24 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return Stream.of(leftUp, up, rightUp, right, rightDown, down, leftDown, left);
     }
 
+    /**
+     * Row.
+     *
+     * @param rowIndex the row index
+     * @return the short[]
+     */
     public short[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
 
         return a[rowIndex];
     }
 
+    /**
+     * Column.
+     *
+     * @param columnIndex the column index
+     * @return the short[]
+     */
     public short[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
@@ -210,12 +357,24 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return c;
     }
 
+    /**
+     * Sets the row.
+     *
+     * @param rowIndex the row index
+     * @param row the row
+     */
     public void setRow(int rowIndex, short[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
     }
 
+    /**
+     * Sets the column.
+     *
+     * @param columnIndex the column index
+     * @param column the column
+     */
     public void setColumn(int columnIndex, short[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
@@ -224,18 +383,39 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Update row.
+     *
+     * @param <E> the element type
+     * @param rowIndex the row index
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateRow(int rowIndex, Try.ShortUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsShort(a[rowIndex][i]);
         }
     }
 
+    /**
+     * Update column.
+     *
+     * @param <E> the element type
+     * @param columnIndex the column index
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateColumn(int columnIndex, Try.ShortUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsShort(a[i][columnIndex]);
         }
     }
 
+    /**
+     * Gets the lu2rd.
+     *
+     * @return the lu2rd
+     */
     public short[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -248,6 +428,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return res;
     }
 
+    /**
+     * Sets the lu2rd.
+     *
+     * @param diagonal the new lu2rd
+     */
     public void setLU2RD(final short[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
@@ -257,6 +442,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Update LU 2 RD.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateLU2RD(final Try.ShortUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -265,6 +457,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Gets the ru2ld.
+     *
+     * @return the ru2ld
+     */
     public short[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -277,6 +474,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return res;
     }
 
+    /**
+     * Sets the ru2ld.
+     *
+     * @param diagonal the new ru2ld
+     */
     public void setRU2LD(final short[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
@@ -286,6 +488,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Update RU 2 LD.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateRU2LD(final Try.ShortUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
@@ -294,6 +503,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Update all.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
+     */
     public <E extends Exception> void updateAll(final Try.ShortUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
@@ -334,9 +550,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * Update all elements based on points
-     * 
-     * @param func
+     * Update all elements based on points.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @throws E the e
      */
     public <E extends Exception> void updateAll(final Try.IntBiFunction<Short, E> func) throws E {
         if (isParallelable()) {
@@ -376,6 +594,14 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Replace if.
+     *
+     * @param <E> the element type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws E the e
+     */
     public <E extends Exception> void replaceIf(final Try.ShortPredicate<E> predicate, final short newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
@@ -416,9 +642,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
-     * 
-     * @param predicate
-     * @param newValue
+     *
+     * @param <E> the element type
+     * @param predicate the predicate
+     * @param newValue the new value
+     * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final short newValue) throws E {
         if (isParallelable()) {
@@ -458,6 +686,14 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Map.
+     *
+     * @param <E> the element type
+     * @param func the func
+     * @return the short matrix
+     * @throws E the e
+     */
     public <E extends Exception> ShortMatrix map(final Try.ShortUnaryOperator<E> func) throws E {
         final short[][] c = new short[rows][cols];
 
@@ -501,6 +737,16 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return ShortMatrix.of(c);
     }
 
+    /**
+     * Map to obj.
+     *
+     * @param <T> the generic type
+     * @param <E> the element type
+     * @param cls the cls
+     * @param func the func
+     * @return the matrix
+     * @throws E the e
+     */
     public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.ShortFunction<? extends T, E> func) throws E {
         final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
 
@@ -548,16 +794,33 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return Matrix.of(c);
     }
 
+    /**
+     * Fill.
+     *
+     * @param val the val
+     */
     public void fill(final short val) {
         for (int i = 0; i < rows; i++) {
             N.fill(a[i], val);
         }
     }
 
+    /**
+     * Fill.
+     *
+     * @param b the b
+     */
     public void fill(final short[][] b) {
         fill(0, 0, b);
     }
 
+    /**
+     * Fill.
+     *
+     * @param fromRowIndex the from row index
+     * @param fromColumnIndex the from column index
+     * @param b the b
+     */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final short[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
         N.checkFromToIndex(fromColumnIndex, cols, cols);
@@ -567,6 +830,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Copy.
+     *
+     * @return the short matrix
+     */
     @Override
     public ShortMatrix copy() {
         final short[][] c = new short[rows][];
@@ -578,6 +846,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
+    /**
+     * Copy.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @return the short matrix
+     */
     @Override
     public ShortMatrix copy(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -591,6 +866,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
+    /**
+     * Copy.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @return the short matrix
+     */
     @Override
     public ShortMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -605,10 +889,25 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
+    /**
+     * Extend.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @return the short matrix
+     */
     public ShortMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, SHORT_0);
     }
 
+    /**
+     * Extend.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @param defaultValueForNewCell the default value for new cell
+     * @return the short matrix
+     */
     public ShortMatrix extend(final int newRows, final int newCols, final short defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
@@ -635,10 +934,29 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Extend.
+     *
+     * @param toUp the to up
+     * @param toDown the to down
+     * @param toLeft the to left
+     * @param toRight the to right
+     * @return the short matrix
+     */
     public ShortMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, SHORT_0);
     }
 
+    /**
+     * Extend.
+     *
+     * @param toUp the to up
+     * @param toDown the to down
+     * @param toLeft the to left
+     * @param toRight the to right
+     * @param defaultValueForNewCell the default value for new cell
+     * @return the short matrix
+     */
     public ShortMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final short defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
         N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
@@ -677,12 +995,18 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Reverse H.
+     */
     public void reverseH() {
         for (int i = 0; i < rows; i++) {
             N.reverse(a[i]);
         }
     }
 
+    /**
+     * Reverse V.
+     */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
             short tmp = 0;
@@ -695,8 +1019,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * 
-     * @return
+     * Flip H.
+     *
+     * @return the short matrix
      * @see IntMatrix#flipH()
      */
     public ShortMatrix flipH() {
@@ -706,8 +1031,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * 
-     * @return
+     * Flip V.
+     *
+     * @return the short matrix
      * @see IntMatrix#flipV()
      */
     public ShortMatrix flipV() {
@@ -716,6 +1042,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return res;
     }
 
+    /**
+     * Rotate 90.
+     *
+     * @return the short matrix
+     */
     @Override
     public ShortMatrix rotate90() {
         final short[][] c = new short[cols][rows];
@@ -737,6 +1068,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
+    /**
+     * Rotate 180.
+     *
+     * @return the short matrix
+     */
     @Override
     public ShortMatrix rotate180() {
         final short[][] c = new short[rows][];
@@ -749,6 +1085,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
+    /**
+     * Rotate 270.
+     *
+     * @return the short matrix
+     */
     @Override
     public ShortMatrix rotate270() {
         final short[][] c = new short[cols][rows];
@@ -770,6 +1111,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
+    /**
+     * Transpose.
+     *
+     * @return the short matrix
+     */
     @Override
     public ShortMatrix transpose() {
         final short[][] c = new short[cols][rows];
@@ -791,6 +1137,13 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
+    /**
+     * Reshape.
+     *
+     * @param newRows the new rows
+     * @param newCols the new cols
+     * @return the short matrix
+     */
     @Override
     public ShortMatrix reshape(final int newRows, final int newCols) {
         final short[][] c = new short[newRows][newCols];
@@ -820,9 +1173,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
-     * 
-     * @param rowRepeats
-     * @param colRepeats
+     *
+     * @param rowRepeats the row repeats
+     * @param colRepeats the col repeats
      * @return a new matrix
      * @see IntMatrix#repelem(int, int)
      */
@@ -849,9 +1202,9 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
-     * 
-     * @param rowRepeats
-     * @param colRepeats
+     *
+     * @param rowRepeats the row repeats
+     * @param colRepeats the col repeats
      * @return a new matrix
      * @see IntMatrix#repmat(int, int)
      */
@@ -876,6 +1229,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
+    /**
+     * Flatten.
+     *
+     * @return the short list
+     */
     @Override
     public ShortList flatten() {
         final short[] c = new short[rows * cols];
@@ -887,15 +1245,23 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return ShortList.of(c);
     }
 
+    /**
+     * Flat op.
+     *
+     * @param <E> the element type
+     * @param op the op
+     * @throws E the e
+     */
     @Override
     public <E extends Exception> void flatOp(Consumer<short[], E> op) throws E {
         f.flatOp(a, op);
     }
 
     /**
-     * 
-     * @param b
-     * @return
+     * Vstack.
+     *
+     * @param b the b
+     * @return the short matrix
      * @see IntMatrix#vstack(IntMatrix)
      */
     public ShortMatrix vstack(final ShortMatrix b) {
@@ -916,9 +1282,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * 
-     * @param b
-     * @return
+     * Hstack.
+     *
+     * @param b the b
+     * @return the short matrix
      * @see IntMatrix#hstack(IntMatrix)
      */
     public ShortMatrix hstack(final ShortMatrix b) {
@@ -934,6 +1301,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return ShortMatrix.of(c);
     }
 
+    /**
+     * Adds the.
+     *
+     * @param b the b
+     * @return the short matrix
+     */
     public ShortMatrix add(final ShortMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
@@ -979,6 +1352,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
+    /**
+     * Subtract.
+     *
+     * @param b the b
+     * @return the short matrix
+     */
     public ShortMatrix subtract(final ShortMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
@@ -1024,6 +1403,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
+    /**
+     * Multiply.
+     *
+     * @param b the b
+     * @return the short matrix
+     */
     public ShortMatrix multiply(final ShortMatrix b) {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
 
@@ -1169,6 +1554,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(c);
     }
 
+    /**
+     * Boxed.
+     *
+     * @return the matrix
+     */
     public Matrix<Short> boxed() {
         final Short[][] c = new Short[rows][cols];
 
@@ -1189,10 +1579,20 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new Matrix<>(c);
     }
 
+    /**
+     * To int matrix.
+     *
+     * @return the int matrix
+     */
     public IntMatrix toIntMatrix() {
         return IntMatrix.from(a);
     }
 
+    /**
+     * To long matrix.
+     *
+     * @return the long matrix
+     */
     public LongMatrix toLongMatrix() {
         final long[][] c = new long[rows][cols];
 
@@ -1213,6 +1613,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new LongMatrix(c);
     }
 
+    /**
+     * To float matrix.
+     *
+     * @return the float matrix
+     */
     public FloatMatrix toFloatMatrix() {
         final float[][] c = new float[rows][cols];
 
@@ -1233,6 +1638,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new FloatMatrix(c);
     }
 
+    /**
+     * To double matrix.
+     *
+     * @return the double matrix
+     */
     public DoubleMatrix toDoubleMatrix() {
         final double[][] c = new double[rows][cols];
 
@@ -1253,6 +1663,15 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new DoubleMatrix(c);
     }
 
+    /**
+     * Zip with.
+     *
+     * @param <E> the element type
+     * @param matrixB the matrix B
+     * @param zipFunction the zip function
+     * @return the short matrix
+     * @throws E the e
+     */
     public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final Try.ShortBiFunction<Short, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
@@ -1299,6 +1718,16 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return new ShortMatrix(result);
     }
 
+    /**
+     * Zip with.
+     *
+     * @param <E> the element type
+     * @param matrixB the matrix B
+     * @param matrixC the matrix C
+     * @param zipFunction the zip function
+     * @return the short matrix
+     * @throws E the e
+     */
     public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final ShortMatrix matrixC, final Try.ShortTriFunction<Short, E> zipFunction)
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
@@ -1348,7 +1777,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * 
+     * Stream LU 2 RD.
+     *
      * @return a stream composed by elements on the diagonal line from left up to right down.
      */
     @Override
@@ -1392,7 +1822,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * 
+     * Stream RU 2 LD.
+     *
      * @return a stream composed by elements on the diagonal line from right up to left down.
      */
     @Override
@@ -1436,7 +1867,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * 
+     * Stream H.
+     *
      * @return a stream based on the order of row.
      */
     @Override
@@ -1444,15 +1876,22 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return streamH(0, rows);
     }
 
+    /**
+     * Stream H.
+     *
+     * @param rowIndex the row index
+     * @return the short stream
+     */
     @Override
     public ShortStream streamH(final int rowIndex) {
         return streamH(rowIndex, rowIndex + 1);
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream H.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a stream based on the order of row.
      */
     @Override
@@ -1526,7 +1965,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * 
+     * Stream V.
+     *
      * @return a stream based on the order of column.
      */
     @Override
@@ -1535,15 +1975,22 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return streamV(0, cols);
     }
 
+    /**
+     * Stream V.
+     *
+     * @param columnIndex the column index
+     * @return the short stream
+     */
     @Override
     public ShortStream streamV(final int columnIndex) {
         return streamV(columnIndex, columnIndex + 1);
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream V.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a stream based on the order of column.
      */
     @Override
@@ -1618,7 +2065,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * 
+     * Stream R.
+     *
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1627,9 +2075,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * 
-     * @param fromRowIndex
-     * @param toRowIndex
+     * Stream R.
+     *
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1673,7 +2122,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * 
+     * Stream C.
+     *
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1683,9 +2133,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
     }
 
     /**
-     * 
-     * @param fromColumnIndex
-     * @param toColumnIndex
+     * Stream C.
+     *
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1759,15 +2210,39 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         });
     }
 
+    /**
+     * Length.
+     *
+     * @param a the a
+     * @return the int
+     */
     @Override
     protected int length(short[] a) {
         return a == null ? 0 : a.length;
     }
 
+    /**
+     * For each.
+     *
+     * @param <E> the element type
+     * @param action the action
+     * @throws E the e
+     */
     public <E extends Exception> void forEach(final Try.ShortConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
+    /**
+     * For each.
+     *
+     * @param <E> the element type
+     * @param fromRowIndex the from row index
+     * @param toRowIndex the to row index
+     * @param fromColumnIndex the from column index
+     * @param toColumnIndex the to column index
+     * @param action the action
+     * @throws E the e
+     */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
             final Try.ShortConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -1780,16 +2255,30 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         }
     }
 
+    /**
+     * Println.
+     */
     @Override
     public void println() {
         f.println(a);
     }
 
+    /**
+     * Hash code.
+     *
+     * @return the int
+     */
     @Override
     public int hashCode() {
         return N.deepHashCode(a);
     }
 
+    /**
+     * Equals.
+     *
+     * @param obj the obj
+     * @return true, if successful
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -1805,6 +2294,11 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
         return false;
     }
 
+    /**
+     * To string.
+     *
+     * @return the string
+     */
     @Override
     public String toString() {
         return N.deepToString(a);
