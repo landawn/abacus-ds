@@ -50,7 +50,7 @@ import com.landawn.abacus.util.function.Predicate;
 // TODO: Auto-generated Javadoc
 /**
  * Execute the code/method on remote severs, without deploying changes to the target servers first.
- * It's required to deploy <code>com.landawn.abacus.http.JavaExecutionServlet</code> under Tomcat or other servlet containers on target servers first.
+ * It's required to deploy <code>com.landawn.abacus.da.http.JavaExecutionServlet</code> under Tomcat or other servlet containers on target servers first.
  * Here is the sample for web.xml to deploy the servlet under Tomcat:
  * 
  * <pre>
@@ -59,7 +59,7 @@ import com.landawn.abacus.util.function.Predicate;
  *         <description>Hello javaExecution</description>
  *         <display-name>javaExecution</display-name>
  *         <servlet-name>javaExecution</servlet-name>
- *         <servlet-class>com.landawn.abacus.http.JavaExecutionServlet</servlet-class>
+ *         <servlet-class>com.landawn.abacus.da.http.JavaExecutionServlet</servlet-class>
  *     </servlet>
  * 
  *     <servlet-mapping>

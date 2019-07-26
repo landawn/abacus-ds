@@ -49,7 +49,7 @@
 			The best/straight forward way is to write the program/code in local IDE and run them on the target servers, without keep deploying every time when the code/logic is changed.
 			Here are the steps:</p>
 			
-			<li><b>Step 1: Deploy com.landawn.abacus.http.JavaExecutionServlet under <a href="http://tomcat.apache.org/">Tomcat</a> on target remote servers with below configuration: web.xml. JDK 7 or above (JDK 8 for Lambda/stream) is required.</b>
+			<li><b>Step 1: Deploy com.landawn.abacus.da.http.JavaExecutionServlet under <a href="http://tomcat.apache.org/">Tomcat</a> on target remote servers with below configuration: web.xml. JDK 7 or above (JDK 8 for Lambda/stream) is required.</b>
 			(One of the easy way to prepare the application xxx*.war file is: 
 			1) Unzip the abacus.war in HelloAbacusUtil.zip; 
 			2) Put the common libraries and configuration files which are required to run the tasks in the folders: ./WEB-INF/lib/ and ./WEB-INF/config/; 
@@ -68,7 +68,7 @@
 	
 	 <span style="color: #008000; font-weight: bold">&lt;servlet&gt;</span>
 	     <span style="color: #008000; font-weight: bold">&lt;servlet-name&gt;</span>javaExecution<span style="color: #008000; font-weight: bold">&lt;/servlet-name&gt;</span>
-	     <span style="color: #008000; font-weight: bold">&lt;servlet-class&gt;</span>com.landawn.abacus.http.JavaExecutionServlet<span style="color: #008000; font-weight: bold">&lt;/servlet-class&gt;</span>
+	     <span style="color: #008000; font-weight: bold">&lt;servlet-class&gt;</span>com.landawn.abacus.da.http.JavaExecutionServlet<span style="color: #008000; font-weight: bold">&lt;/servlet-class&gt;</span>
 	 <span style="color: #008000; font-weight: bold">&lt;/servlet&gt;</span>
 	 
 	 

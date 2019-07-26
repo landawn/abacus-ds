@@ -55,7 +55,7 @@ import com.landawn.abacus.util.N;
  *         <description>Hello javaExecution</description>
  *         <display-name>javaExecution</display-name>
  *         <servlet-name>javaExecution</servlet-name>
- *         <servlet-class>com.landawn.abacus.http.JavaExecutionServlet</servlet-class>
+ *         <servlet-class>com.landawn.abacus.da.http.JavaExecutionServlet</servlet-class>
  *     </servlet>
  * 
  *     <servlet-mapping>
