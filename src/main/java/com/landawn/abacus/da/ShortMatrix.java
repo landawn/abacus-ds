@@ -40,7 +40,7 @@ import com.landawn.abacus.util.stream.Stream;
  * @since 0.8
  */
 public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortStream, Stream<ShortStream>, ShortMatrix> {
-    
+
     /** The Constant EMPTY_SHORT_MATRIX. */
     static final ShortMatrix EMPTY_SHORT_MATRIX = new ShortMatrix(new short[0][0]);
 

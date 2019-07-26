@@ -40,7 +40,7 @@ import com.landawn.abacus.util.stream.Stream;
  * @since 0.8
  */
 public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStream, Stream<CharStream>, CharMatrix> {
-    
+
     /** The Constant EMPTY_CHAR_MATRIX. */
     static final CharMatrix EMPTY_CHAR_MATRIX = new CharMatrix(new char[0][0]);
 

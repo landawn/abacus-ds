@@ -40,7 +40,7 @@ import com.landawn.abacus.util.stream.Stream;
  * @since 0.8
  */
 public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStream, Stream<ByteStream>, ByteMatrix> {
-    
+
     /** The Constant EMPTY_BYTE_MATRIX. */
     static final ByteMatrix EMPTY_BYTE_MATRIX = new ByteMatrix(new byte[0][0]);
 

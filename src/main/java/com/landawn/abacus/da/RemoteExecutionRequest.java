@@ -19,7 +19,7 @@ import java.util.Map;
 import com.landawn.abacus.annotation.Internal;
 import com.landawn.abacus.annotation.Type;
 import com.landawn.abacus.da.RemoteTask.RunMode;
-import com.landawn.abacus.util.N; 
+import com.landawn.abacus.util.N;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -31,14 +31,14 @@ import com.landawn.abacus.util.N;
 @Internal
 @Deprecated
 public class RemoteExecutionRequest {
-    
+
     /** The request host. */
     private String requestHost;
-    
+
     /** The request id. */
     // TODO
     private String requestId;
-    
+
     /** The run mode. */
     // TODO
     private RunMode runMode;
@@ -52,10 +52,10 @@ public class RemoteExecutionRequest {
 
     /** The class name. */
     private String className;
-    
+
     /** The parameter. */
     private Object parameter;
-    
+
     /** The class bytes map. */
     private Map<String, byte[]> classBytesMap;
 

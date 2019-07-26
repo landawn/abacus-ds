@@ -71,22 +71,22 @@ public final class Sheet<R, C, E> implements Cloneable {
 
     /** The row key set. */
     private final Set<R> _rowKeySet;
-    
+
     /** The column key set. */
     private final Set<C> _columnKeySet;
-    
+
     /** The row key index map. */
     private BiMap<R, Integer> _rowKeyIndexMap;
-    
+
     /** The column key index map. */
     private BiMap<C, Integer> _columnKeyIndexMap;
-    
+
     /** The column list. */
     private List<List<E>> _columnList;
-    
+
     /** The initialized. */
     private boolean _initialized = false;
-    
+
     /** The is frozen. */
     private boolean _isFrozen = false;
 
@@ -3138,13 +3138,13 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param <E> the element type
      */
     static class CellImpl<R, C, E> implements Sheet.Cell<R, C, E> {
-        
+
         /** The row key. */
         private final R rowKey;
-        
+
         /** The column key. */
         private final C columnKey;
-        
+
         /** The value. */
         private final E value;
 
@@ -3244,7 +3244,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param <E> the element type
      */
     public static interface Cell<R, C, E> {
-        
+
         /**
          * Row key.
          *

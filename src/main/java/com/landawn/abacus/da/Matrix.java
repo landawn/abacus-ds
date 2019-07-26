@@ -39,10 +39,10 @@ import com.landawn.abacus.util.stream.Stream;
  * @since 0.8
  */
 public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Stream<Stream<T>>, Matrix<T>> {
-    
+
     /** The array type. */
     private final Class<T[]> arrayType;
-    
+
     /** The component type. */
     private final Class<T> componentType;
 

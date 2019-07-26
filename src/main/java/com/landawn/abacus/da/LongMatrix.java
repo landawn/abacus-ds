@@ -40,7 +40,7 @@ import com.landawn.abacus.util.stream.Stream;
  * @since 0.8
  */
 public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStream, Stream<LongStream>, LongMatrix> {
-    
+
     /** The Constant EMPTY_LONG_MATRIX. */
     static final LongMatrix EMPTY_LONG_MATRIX = new LongMatrix(new long[0][0]);
 

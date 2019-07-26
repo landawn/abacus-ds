@@ -43,7 +43,7 @@ import com.landawn.abacus.parser.KryoParser;
 import com.landawn.abacus.parser.ParserFactory;
 import com.landawn.abacus.parser.XMLParser;
 import com.landawn.abacus.util.IOUtil;
-import com.landawn.abacus.util.N;  
+import com.landawn.abacus.util.N;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -70,7 +70,7 @@ import com.landawn.abacus.util.N;
  */
 @SuppressWarnings("deprecation")
 public class JavaExecutionServlet extends AbstractHttpServlet {
-    
+
     /** The Constant serialVersionUID. */
     private static final long serialVersionUID = 778742360481398056L;
 
@@ -79,10 +79,10 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
 
     /** The Constant jsonParser. */
     static final JSONParser jsonParser = ParserFactory.createJSONParser();
-    
+
     /** The Constant xmlParser. */
     static final XMLParser xmlParser = ParserFactory.isXMLAvailable() ? ParserFactory.createXMLParser() : null;
-    
+
     /** The Constant kryoParser. */
     static final KryoParser kryoParser = ParserFactory.isKryoAvailable() ? ParserFactory.createKryoParser() : null;
 
@@ -362,7 +362,7 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
      * The Class DynamicClassLoader.
      */
     static class DynamicClassLoader extends ClassLoader {
-        
+
         /**
          * Instantiates a new dynamic class loader.
          *

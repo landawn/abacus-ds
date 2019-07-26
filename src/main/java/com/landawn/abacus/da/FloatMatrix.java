@@ -40,7 +40,7 @@ import com.landawn.abacus.util.stream.Stream;
  * @since 0.8
  */
 public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatStream, Stream<FloatStream>, FloatMatrix> {
-    
+
     /** The Constant EMPTY_FLOAT_MATRIX. */
     static final FloatMatrix EMPTY_FLOAT_MATRIX = new FloatMatrix(new float[0][0]);
 

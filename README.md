@@ -8,6 +8,7 @@ Abacus Data Access&Analysis
 * Matrix: 
 [AbstractMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/AbstractMatrix_view.html), 
 [Matrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Matrix_view.html), 
+[ByteMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/ByteMatrix_view.html), 
 [IntMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/IntMatrix_view.html), 
 [LongMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/LongMatrix_view.html), 
 [DoubleMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/DoubleMatrix_view.html)...

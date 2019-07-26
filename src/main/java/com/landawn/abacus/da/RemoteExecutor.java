@@ -204,17 +204,15 @@ public final class RemoteExecutor {
      * @return the object
      */
     public static Object removeProperty(Object key) {
-        synchronized (pool) {
-            return pool.remove(key);
-        }
+        return pool.remove(key);
     }
 
     /** The http clients. */
     private final List<HttpClient> httpClients;
-    
+
     /** The async executor. */
     private final AsyncExecutor asyncExecutor;
-    
+
     /** The class namefilter. */
     private final Predicate<? super String> classNamefilter;
 

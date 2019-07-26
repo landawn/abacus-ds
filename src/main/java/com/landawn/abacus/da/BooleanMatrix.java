@@ -37,7 +37,7 @@ import com.landawn.abacus.util.stream.Stream;
  * @since 0.8
  */
 public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, Stream<Boolean>, Stream<Stream<Boolean>>, BooleanMatrix> {
-    
+
     /** The Constant EMPTY_BOOLEAN_MATRIX. */
     static final BooleanMatrix EMPTY_BOOLEAN_MATRIX = new BooleanMatrix(new boolean[0][0]);
 

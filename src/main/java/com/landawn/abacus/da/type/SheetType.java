@@ -44,19 +44,19 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
 
     /** The Constant ROW_KEY_SET. */
     private static final String ROW_KEY_SET = "rowKeySet";
-    
+
     /** The Constant COLUMN_KEY_SET. */
     private static final String COLUMN_KEY_SET = "columnKeySet";
-    
+
     /** The Constant ROW_LIST. */
     private static final String ROW_LIST = "rowList";
 
     /** The declaring name. */
     private final String declaringName;
-    
+
     /** The type class. */
     private final Class<Sheet<R, C, E>> typeClass;
-    
+
     /** The parameter types. */
     private final Type<?>[] parameterTypes;
 

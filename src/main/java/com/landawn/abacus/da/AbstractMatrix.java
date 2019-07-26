@@ -40,16 +40,16 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
 
     /** The Constant CHAR_0. */
     static final char CHAR_0 = (char) 0;
-    
+
     /** The Constant BYTE_0. */
     static final byte BYTE_0 = (byte) 0;
-    
+
     /** The Constant BYTE_1. */
     static final byte BYTE_1 = (byte) 1;
-    
+
     /** The Constant SHORT_0. */
     static final short SHORT_0 = (short) 0;
-    
+
     /** The Constant isParallelStreamSupported. */
     static final boolean isParallelStreamSupported;
     static {

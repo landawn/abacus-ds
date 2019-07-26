@@ -39,7 +39,7 @@ import com.landawn.abacus.util.stream.Stream;
  * @since 0.8
  */
 public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, Stream<IntStream>, IntMatrix> {
-    
+
     /** The Constant EMPTY_INT_MATRIX. */
     static final IntMatrix EMPTY_INT_MATRIX = new IntMatrix(new int[0][0]);
 

@@ -74,10 +74,10 @@ public interface RemoteTask<T, R> {
      */
     // TODO
     public static enum RunMode {
-        
+
         /** The inclusive. */
-        INCLUSIVE, 
- /** The exclusive. */
- EXCLUSIVE;
+        INCLUSIVE,
+        /** The exclusive. */
+        EXCLUSIVE;
     }
 }
