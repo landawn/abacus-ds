@@ -23,7 +23,7 @@ Abacus Data Access&Analysis
 [Neo4jExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Neo4jExecutor_view.html).
 
 
-* [Deploy Once, Run Anytime](https://github.com/landawn/abacus-da/wiki/Deploy-Once,-Run-Anytime):
+* [Run Anywhere&Anytime without deployment first](https://github.com/landawn/abacus-da/wiki/Deploy-Once,-Run-Anytime):
 [RemoteExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/RemoteExecutor_view.html).
 
 
@@ -37,4 +37,4 @@ Abacus Data Access&Analysis
 * Gradle:
 ```gradle
 // JDK 1.8 or above:
-compile 'com.landawn:abacus-da:0.8.2'
+compile 'com.landawn:abacus-da:0.8.3'

@@ -1,3 +1,8 @@
+### 0.8.3
+
+* Update docs.
+
+
 ### 0.8.2
 
 * Add `Matrix/Sheet`.
