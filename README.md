@@ -23,7 +23,7 @@ Abacus Data Access&Analysis
 [Neo4jExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Neo4jExecutor_view.html).
 
 
-* [Run Anywhere&Anytime without deployment first](https://github.com/landawn/abacus-da/wiki/Deploy-Once,-Run-Anytime):
+* [Run on remote servers without deploying first](https://github.com/landawn/abacus-da/wiki/Deploy-Once,-Run-Anytime):
 [RemoteExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/RemoteExecutor_view.html).
 
 
