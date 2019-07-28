@@ -12,72 +12,144 @@
  * the License.
  */
 
-package com.landawn.abacus.da;
+package com.landawn.abacus.da.util;
 
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.util.Array;
-import com.landawn.abacus.util.BooleanList;
+import com.landawn.abacus.util.DoubleList;
 import com.landawn.abacus.util.IntPair;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.Try;
 import com.landawn.abacus.util.Try.Consumer;
 import com.landawn.abacus.util.f;
-import com.landawn.abacus.util.u.OptionalBoolean;
+import com.landawn.abacus.util.u.OptionalDouble;
+import com.landawn.abacus.util.function.IntConsumer;
+import com.landawn.abacus.util.stream.DoubleIteratorEx;
+import com.landawn.abacus.util.stream.DoubleStream;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class BooleanMatrix.
+ * The Class DoubleMatrix.
  *
  * @author Haiyang Li
  * @since 0.8
  */
-public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, Stream<Boolean>, Stream<Stream<Boolean>>, BooleanMatrix> {
+public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, DoubleStream, Stream<DoubleStream>, DoubleMatrix> {
 
-    /** The Constant EMPTY_BOOLEAN_MATRIX. */
-    static final BooleanMatrix EMPTY_BOOLEAN_MATRIX = new BooleanMatrix(new boolean[0][0]);
+    /** The Constant EMPTY_DOUBLE_MATRIX. */
+    static final DoubleMatrix EMPTY_DOUBLE_MATRIX = new DoubleMatrix(new double[0][0]);
 
     /**
-     * Instantiates a new boolean matrix.
+     * Instantiates a new double matrix.
      *
      * @param a the a
      */
-    public BooleanMatrix(final boolean[][] a) {
-        super(a == null ? new boolean[0][0] : a);
+    public DoubleMatrix(final double[][] a) {
+        super(a == null ? new double[0][0] : a);
     }
 
     /**
      * Empty.
      *
-     * @return the boolean matrix
+     * @return the double matrix
      */
-    public static BooleanMatrix empty() {
-        return EMPTY_BOOLEAN_MATRIX;
+    public static DoubleMatrix empty() {
+        return EMPTY_DOUBLE_MATRIX;
     }
 
     /**
      * Of.
      *
      * @param a the a
-     * @return the boolean matrix
+     * @return the double matrix
      */
     @SafeVarargs
-    public static BooleanMatrix of(final boolean[]... a) {
-        return N.isNullOrEmpty(a) ? EMPTY_BOOLEAN_MATRIX : new BooleanMatrix(a);
+    public static DoubleMatrix of(final double[]... a) {
+        return N.isNullOrEmpty(a) ? EMPTY_DOUBLE_MATRIX : new DoubleMatrix(a);
+    }
+
+    /**
+     * From.
+     *
+     * @param a the a
+     * @return the double matrix
+     */
+    @SafeVarargs
+    public static DoubleMatrix from(final int[]... a) {
+        if (N.isNullOrEmpty(a)) {
+            return EMPTY_DOUBLE_MATRIX;
+        }
+
+        final double[][] c = new double[a.length][a[0].length];
+
+        for (int i = 0, len = a.length; i < len; i++) {
+            for (int j = 0, col = a[0].length; j < col; j++) {
+                c[i][j] = a[i][j];
+            }
+        }
+
+        return new DoubleMatrix(c);
+    }
+
+    /**
+     * From.
+     *
+     * @param a the a
+     * @return the double matrix
+     */
+    @SafeVarargs
+    public static DoubleMatrix from(final long[]... a) {
+        if (N.isNullOrEmpty(a)) {
+            return EMPTY_DOUBLE_MATRIX;
+        }
+
+        final double[][] c = new double[a.length][a[0].length];
+
+        for (int i = 0, len = a.length; i < len; i++) {
+            for (int j = 0, col = a[0].length; j < col; j++) {
+                c[i][j] = a[i][j];
+            }
+        }
+
+        return new DoubleMatrix(c);
+    }
+
+    /**
+     * From.
+     *
+     * @param a the a
+     * @return the double matrix
+     */
+    @SafeVarargs
+    public static DoubleMatrix from(final float[]... a) {
+        if (N.isNullOrEmpty(a)) {
+            return EMPTY_DOUBLE_MATRIX;
+        }
+
+        final double[][] c = new double[a.length][a[0].length];
+
+        for (int i = 0, len = a.length; i < len; i++) {
+            for (int j = 0, col = a[0].length; j < col; j++) {
+                c[i][j] = a[i][j];
+            }
+        }
+
+        return new DoubleMatrix(c);
     }
 
     /**
      * Random.
      *
      * @param len the len
-     * @return the boolean matrix
+     * @return the double matrix
      */
-    public static BooleanMatrix random(final int len) {
-        return new BooleanMatrix(new boolean[][] { BooleanList.random(len).array() });
+    public static DoubleMatrix random(final int len) {
+        return new DoubleMatrix(new double[][] { DoubleList.random(len).array() });
     }
 
     /**
@@ -85,19 +157,19 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param val the val
      * @param len the len
-     * @return the boolean matrix
+     * @return the double matrix
      */
-    public static BooleanMatrix repeat(final boolean val, final int len) {
-        return new BooleanMatrix(new boolean[][] { Array.repeat(val, len) });
+    public static DoubleMatrix repeat(final double val, final int len) {
+        return new DoubleMatrix(new double[][] { Array.repeat(val, len) });
     }
 
     /**
      * Diagonal LU 2 RD.
      *
      * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
-     * @return the boolean matrix
+     * @return the double matrix
      */
-    public static BooleanMatrix diagonalLU2RD(final boolean[] leftUp2RighDownDiagonal) {
+    public static DoubleMatrix diagonalLU2RD(final double[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
     }
 
@@ -105,9 +177,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Diagonal RU 2 LD.
      *
      * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the boolean matrix
+     * @return the double matrix
      */
-    public static BooleanMatrix diagonalRU2LD(final boolean[] rightUp2LeftDownDiagonal) {
+    public static DoubleMatrix diagonalRU2LD(final double[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
@@ -116,9 +188,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
      * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the boolean matrix
+     * @return the double matrix
      */
-    public static BooleanMatrix diagonal(final boolean[] leftUp2RighDownDiagonal, boolean[] rightUp2LeftDownDiagonal) {
+    public static DoubleMatrix diagonal(final double[] leftUp2RighDownDiagonal, double[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
                 N.isNullOrEmpty(leftUp2RighDownDiagonal) || N.isNullOrEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -129,17 +201,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                 return empty();
             } else {
                 final int len = rightUp2LeftDownDiagonal.length;
-                final boolean[][] c = new boolean[len][len];
+                final double[][] c = new double[len][len];
 
                 for (int i = 0, j = len - 1; i < len; i++, j--) {
                     c[i][j] = rightUp2LeftDownDiagonal[i];
                 }
 
-                return new BooleanMatrix(c);
+                return new DoubleMatrix(c);
             }
         } else {
             final int len = leftUp2RighDownDiagonal.length;
-            final boolean[][] c = new boolean[len][len];
+            final double[][] c = new double[len][len];
 
             for (int i = 0; i < len; i++) {
                 c[i][i] = leftUp2RighDownDiagonal[i];
@@ -151,7 +223,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                 }
             }
 
-            return new BooleanMatrix(c);
+            return new DoubleMatrix(c);
         }
     }
 
@@ -160,9 +232,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param i the i
      * @param j the j
-     * @return true, if successful
+     * @return the double
      */
-    public boolean get(final int i, final int j) {
+    public double get(final int i, final int j) {
         return a[i][j];
     }
 
@@ -170,9 +242,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Gets the.
      *
      * @param point the point
-     * @return true, if successful
+     * @return the double
      */
-    public boolean get(final IntPair point) {
+    public double get(final IntPair point) {
         return a[point._1][point._2];
     }
 
@@ -183,7 +255,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param j the j
      * @param val the val
      */
-    public void set(final int i, final int j, final boolean val) {
+    public void set(final int i, final int j, final double val) {
         a[i][j] = val;
     }
 
@@ -193,7 +265,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param point the point
      * @param val the val
      */
-    public void set(final IntPair point, final boolean val) {
+    public void set(final IntPair point, final double val) {
         a[point._1][point._2] = val;
     }
 
@@ -202,10 +274,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param i the i
      * @param j the j
-     * @return the optional boolean
+     * @return the optional double
      */
-    public OptionalBoolean upOf(final int i, final int j) {
-        return i == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i - 1][j]);
+    public OptionalDouble upOf(final int i, final int j) {
+        return i == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i - 1][j]);
     }
 
     /**
@@ -213,10 +285,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param i the i
      * @param j the j
-     * @return the optional boolean
+     * @return the optional double
      */
-    public OptionalBoolean downOf(final int i, final int j) {
-        return i == rows - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i + 1][j]);
+    public OptionalDouble downOf(final int i, final int j) {
+        return i == rows - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i + 1][j]);
     }
 
     /**
@@ -224,10 +296,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param i the i
      * @param j the j
-     * @return the optional boolean
+     * @return the optional double
      */
-    public OptionalBoolean leftOf(final int i, final int j) {
-        return j == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j - 1]);
+    public OptionalDouble leftOf(final int i, final int j) {
+        return j == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j - 1]);
     }
 
     /**
@@ -235,10 +307,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param i the i
      * @param j the j
-     * @return the optional boolean
+     * @return the optional double
      */
-    public OptionalBoolean rightOf(final int i, final int j) {
-        return j == cols - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j + 1]);
+    public OptionalDouble rightOf(final int i, final int j) {
+        return j == cols - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j + 1]);
     }
 
     /**
@@ -282,9 +354,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Row.
      *
      * @param rowIndex the row index
-     * @return the boolean[]
+     * @return the double[]
      */
-    public boolean[] row(final int rowIndex) {
+    public double[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
 
         return a[rowIndex];
@@ -294,12 +366,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Column.
      *
      * @param columnIndex the column index
-     * @return the boolean[]
+     * @return the double[]
      */
-    public boolean[] column(final int columnIndex) {
+    public double[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
-        final boolean[] c = new boolean[rows];
+        final double[] c = new double[rows];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[i][columnIndex];
@@ -314,7 +386,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param rowIndex the row index
      * @param row the row
      */
-    public void setRow(int rowIndex, boolean[] row) {
+    public void setRow(int rowIndex, double[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -326,7 +398,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param columnIndex the column index
      * @param column the column
      */
-    public void setColumn(int columnIndex, boolean[] column) {
+    public void setColumn(int columnIndex, double[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -342,9 +414,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Try.BooleanUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(int rowIndex, Try.DoubleUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
-            a[rowIndex][i] = func.applyAsBoolean(a[rowIndex][i]);
+            a[rowIndex][i] = func.applyAsDouble(a[rowIndex][i]);
         }
     }
 
@@ -356,9 +428,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Try.BooleanUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(int columnIndex, Try.DoubleUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
-            a[i][columnIndex] = func.applyAsBoolean(a[i][columnIndex]);
+            a[i][columnIndex] = func.applyAsDouble(a[i][columnIndex]);
         }
     }
 
@@ -367,10 +439,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @return the lu2rd
      */
-    public boolean[] getLU2RD() {
+    public double[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
-        final boolean[] res = new boolean[rows];
+        final double[] res = new double[rows];
 
         for (int i = 0; i < rows; i++) {
             res[i] = a[i][i];
@@ -384,7 +456,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param diagonal the new lu2rd
      */
-    public void setLU2RD(final boolean[] diagonal) {
+    public void setLU2RD(final double[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -400,11 +472,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateLU2RD(final Try.BooleanUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Try.DoubleUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = func.applyAsBoolean(a[i][i]);
+            a[i][i] = func.applyAsDouble(a[i][i]);
         }
     }
 
@@ -413,10 +485,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @return the ru2ld
      */
-    public boolean[] getRU2LD() {
+    public double[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
-        final boolean[] res = new boolean[rows];
+        final double[] res = new double[rows];
 
         for (int i = 0; i < rows; i++) {
             res[i] = a[i][cols - i - 1];
@@ -430,7 +502,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param diagonal the new ru2ld
      */
-    public void setRU2LD(final boolean[] diagonal) {
+    public void setRU2LD(final double[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -446,11 +518,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateRU2LD(final Try.BooleanUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Try.DoubleUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
-            a[i][cols - i - 1] = func.applyAsBoolean(a[i][cols - i - 1]);
+            a[i][cols - i - 1] = func.applyAsDouble(a[i][cols - i - 1]);
         }
     }
 
@@ -461,24 +533,23 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.BooleanUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateAll(final Try.DoubleUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            a[i][j] = func.applyAsBoolean(a[i][j]);
+                            a[i][j] = func.applyAsDouble(a[i][j]);
                         }
                     }
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
-
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            a[i][j] = func.applyAsBoolean(a[i][j]);
+                            a[i][j] = func.applyAsDouble(a[i][j]);
                         }
                     }
                 });
@@ -487,13 +558,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        a[i][j] = func.applyAsBoolean(a[i][j]);
+                        a[i][j] = func.applyAsDouble(a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        a[i][j] = func.applyAsBoolean(a[i][j]);
+                        a[i][j] = func.applyAsDouble(a[i][j]);
                     }
                 }
             }
@@ -507,7 +578,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.IntBiFunction<Boolean, E> func) throws E {
+    public <E extends Exception> void updateAll(final Try.IntBiFunction<Double, E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -553,7 +624,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param newValue the new value
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.BooleanPredicate<E> predicate, final boolean newValue) throws E {
+    public <E extends Exception> void replaceIf(final Try.DoublePredicate<E> predicate, final double newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -599,7 +670,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param newValue the new value
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final boolean newValue) throws E {
+    public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final double newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -642,11 +713,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param <E> the element type
      * @param func the func
-     * @return the boolean matrix
+     * @return the double matrix
      * @throws E the e
      */
-    public <E extends Exception> BooleanMatrix map(final Try.BooleanUnaryOperator<E> func) throws E {
-        final boolean[][] c = new boolean[rows][cols];
+    public <E extends Exception> DoubleMatrix map(final Try.DoubleUnaryOperator<E> func) throws E {
+        final double[][] c = new double[rows][cols];
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -654,7 +725,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsBoolean(a[i][j]);
+                            c[i][j] = func.applyAsDouble(a[i][j]);
                         }
                     }
                 });
@@ -663,7 +734,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsBoolean(a[i][j]);
+                            c[i][j] = func.applyAsDouble(a[i][j]);
                         }
                     }
                 });
@@ -672,19 +743,19 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsBoolean(a[i][j]);
+                        c[i][j] = func.applyAsDouble(a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsBoolean(a[i][j]);
+                        c[i][j] = func.applyAsDouble(a[i][j]);
                     }
                 }
             }
         }
 
-        return BooleanMatrix.of(c);
+        return DoubleMatrix.of(c);
     }
 
     /**
@@ -697,7 +768,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return the matrix
      * @throws E the e
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.BooleanFunction<? extends T, E> func) throws E {
+    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.DoubleFunction<? extends T, E> func) throws E {
         final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
 
         for (int i = 0; i < rows; i++) {
@@ -748,7 +819,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param val the val
      */
-    public void fill(final boolean val) {
+    public void fill(final double val) {
         for (int i = 0; i < rows; i++) {
             N.fill(a[i], val);
         }
@@ -759,7 +830,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param b the b
      */
-    public void fill(final boolean[][] b) {
+    public void fill(final double[][] b) {
         fill(0, 0, b);
     }
 
@@ -770,7 +841,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param fromColumnIndex the from column index
      * @param b the b
      */
-    public void fill(final int fromRowIndex, final int fromColumnIndex, final boolean[][] b) {
+    public void fill(final int fromRowIndex, final int fromColumnIndex, final double[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
         N.checkFromToIndex(fromColumnIndex, cols, cols);
 
@@ -782,17 +853,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Copy.
      *
-     * @return the boolean matrix
+     * @return the double matrix
      */
     @Override
-    public BooleanMatrix copy() {
-        final boolean[][] c = new boolean[rows][];
+    public DoubleMatrix copy() {
+        final double[][] c = new double[rows][];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[i].clone();
         }
 
-        return new BooleanMatrix(c);
+        return new DoubleMatrix(c);
     }
 
     /**
@@ -800,19 +871,19 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param fromRowIndex the from row index
      * @param toRowIndex the to row index
-     * @return the boolean matrix
+     * @return the double matrix
      */
     @Override
-    public BooleanMatrix copy(final int fromRowIndex, final int toRowIndex) {
+    public DoubleMatrix copy(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
-        final boolean[][] c = new boolean[toRowIndex - fromRowIndex][];
+        final double[][] c = new double[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
             c[i - fromRowIndex] = a[i].clone();
         }
 
-        return new BooleanMatrix(c);
+        return new DoubleMatrix(c);
     }
 
     /**
@@ -822,20 +893,20 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param toRowIndex the to row index
      * @param fromColumnIndex the from column index
      * @param toColumnIndex the to column index
-     * @return the boolean matrix
+     * @return the double matrix
      */
     @Override
-    public BooleanMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
+    public DoubleMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
-        final boolean[][] c = new boolean[toRowIndex - fromRowIndex][];
+        final double[][] c = new double[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
             c[i - fromRowIndex] = N.copyOfRange(a[i], fromColumnIndex, toColumnIndex);
         }
 
-        return new BooleanMatrix(c);
+        return new DoubleMatrix(c);
     }
 
     /**
@@ -843,10 +914,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param newRows the new rows
      * @param newCols the new cols
-     * @return the boolean matrix
+     * @return the double matrix
      */
-    public BooleanMatrix extend(final int newRows, final int newCols) {
-        return extend(newRows, newCols, false);
+    public DoubleMatrix extend(final int newRows, final int newCols) {
+        return extend(newRows, newCols, 0);
     }
 
     /**
@@ -855,20 +926,20 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param newRows the new rows
      * @param newCols the new cols
      * @param defaultValueForNewCell the default value for new cell
-     * @return the boolean matrix
+     * @return the double matrix
      */
-    public BooleanMatrix extend(final int newRows, final int newCols, final boolean defaultValueForNewCell) {
+    public DoubleMatrix extend(final int newRows, final int newCols, final double defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
         } else {
-            final boolean fillDefaultValue = defaultValueForNewCell != false;
-            final boolean[][] b = new boolean[newRows][];
+            final boolean fillDefaultValue = defaultValueForNewCell != 0;
+            final double[][] b = new double[newRows][];
 
             for (int i = 0; i < newRows; i++) {
-                b[i] = i < rows ? N.copyOf(a[i], newCols) : new boolean[newCols];
+                b[i] = i < rows ? N.copyOf(a[i], newCols) : new double[newCols];
 
                 if (fillDefaultValue) {
                     if (i >= rows) {
@@ -879,7 +950,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                 }
             }
 
-            return new BooleanMatrix(b);
+            return new DoubleMatrix(b);
         }
     }
 
@@ -890,10 +961,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param toDown the to down
      * @param toLeft the to left
      * @param toRight the to right
-     * @return the boolean matrix
+     * @return the double matrix
      */
-    public BooleanMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
-        return extend(toUp, toDown, toLeft, toRight, false);
+    public DoubleMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
+        return extend(toUp, toDown, toLeft, toRight, 0);
     }
 
     /**
@@ -904,9 +975,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param toLeft the to left
      * @param toRight the to right
      * @param defaultValueForNewCell the default value for new cell
-     * @return the boolean matrix
+     * @return the double matrix
      */
-    public BooleanMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final boolean defaultValueForNewCell) {
+    public DoubleMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final double defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
         N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
         N.checkArgument(toLeft >= 0, "The 'toLeft' can't be negative %s", toLeft);
@@ -917,8 +988,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
         } else {
             final int newRows = toUp + rows + toDown;
             final int newCols = toLeft + cols + toRight;
-            final boolean fillDefaultValue = defaultValueForNewCell != false;
-            final boolean[][] b = new boolean[newRows][newCols];
+            final boolean fillDefaultValue = defaultValueForNewCell != 0;
+            final double[][] b = new double[newRows][newCols];
 
             for (int i = 0; i < newRows; i++) {
                 if (i >= toUp && i < toUp + rows) {
@@ -940,7 +1011,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                 }
             }
 
-            return new BooleanMatrix(b);
+            return new DoubleMatrix(b);
         }
     }
 
@@ -958,7 +1029,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
-            boolean tmp = false;
+            double tmp = 0;
             for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
@@ -970,11 +1041,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Flip H.
      *
-     * @return the boolean matrix
+     * @return the double matrix
      * @see IntMatrix#flipH()
      */
-    public BooleanMatrix flipH() {
-        final BooleanMatrix res = this.copy();
+    public DoubleMatrix flipH() {
+        final DoubleMatrix res = this.copy();
         res.reverseH();
         return res;
     }
@@ -982,11 +1053,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Flip V.
      *
-     * @return the boolean matrix
+     * @return the double matrix
      * @see IntMatrix#flipV()
      */
-    public BooleanMatrix flipV() {
-        final BooleanMatrix res = this.copy();
+    public DoubleMatrix flipV() {
+        final DoubleMatrix res = this.copy();
         res.reverseV();
         return res;
     }
@@ -994,11 +1065,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Rotate 90.
      *
-     * @return the boolean matrix
+     * @return the double matrix
      */
     @Override
-    public BooleanMatrix rotate90() {
-        final boolean[][] c = new boolean[cols][rows];
+    public DoubleMatrix rotate90() {
+        final double[][] c = new double[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1014,34 +1085,34 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
         }
 
-        return new BooleanMatrix(c);
+        return new DoubleMatrix(c);
     }
 
     /**
      * Rotate 180.
      *
-     * @return the boolean matrix
+     * @return the double matrix
      */
     @Override
-    public BooleanMatrix rotate180() {
-        final boolean[][] c = new boolean[rows][];
+    public DoubleMatrix rotate180() {
+        final double[][] c = new double[rows][];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[rows - i - 1].clone();
             N.reverse(c[i]);
         }
 
-        return new BooleanMatrix(c);
+        return new DoubleMatrix(c);
     }
 
     /**
      * Rotate 270.
      *
-     * @return the boolean matrix
+     * @return the double matrix
      */
     @Override
-    public BooleanMatrix rotate270() {
-        final boolean[][] c = new boolean[cols][rows];
+    public DoubleMatrix rotate270() {
+        final double[][] c = new double[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1057,17 +1128,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
         }
 
-        return new BooleanMatrix(c);
+        return new DoubleMatrix(c);
     }
 
     /**
      * Transpose.
      *
-     * @return the boolean matrix
+     * @return the double matrix
      */
     @Override
-    public BooleanMatrix transpose() {
-        final boolean[][] c = new boolean[cols][rows];
+    public DoubleMatrix transpose() {
+        final double[][] c = new double[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1083,7 +1154,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
         }
 
-        return new BooleanMatrix(c);
+        return new DoubleMatrix(c);
     }
 
     /**
@@ -1091,18 +1162,18 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @param newRows the new rows
      * @param newCols the new cols
-     * @return the boolean matrix
+     * @return the double matrix
      */
     @Override
-    public BooleanMatrix reshape(final int newRows, final int newCols) {
-        final boolean[][] c = new boolean[newRows][newCols];
+    public DoubleMatrix reshape(final int newRows, final int newCols) {
+        final double[][] c = new double[newRows][newCols];
 
         if (newRows == 0 || newCols == 0 || N.isNullOrEmpty(a)) {
-            return new BooleanMatrix(c);
+            return new DoubleMatrix(c);
         }
 
         if (a.length == 1) {
-            final boolean[] a0 = a[0];
+            final double[] a0 = a[0];
 
             for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
                 N.copy(a0, i * newCols, c[i], 0, (int) N.min(newCols, count - i * newCols));
@@ -1117,7 +1188,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
         }
 
-        return new BooleanMatrix(c);
+        return new DoubleMatrix(c);
     }
 
     /**
@@ -1129,13 +1200,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @see IntMatrix#repelem(int, int)
      */
     @Override
-    public BooleanMatrix repelem(final int rowRepeats, final int colRepeats) {
+    public DoubleMatrix repelem(final int rowRepeats, final int colRepeats) {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
-        final boolean[][] c = new boolean[rows * rowRepeats][cols * colRepeats];
+        final double[][] c = new double[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
-            final boolean[] fr = c[i * rowRepeats];
+            final double[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < cols; j++) {
                 N.copy(Array.repeat(a[i][j], colRepeats), 0, fr, j * colRepeats, colRepeats);
@@ -1146,7 +1217,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
         }
 
-        return new BooleanMatrix(c);
+        return new DoubleMatrix(c);
     }
 
     /**
@@ -1158,10 +1229,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @see IntMatrix#repmat(int, int)
      */
     @Override
-    public BooleanMatrix repmat(final int rowRepeats, final int colRepeats) {
+    public DoubleMatrix repmat(final int rowRepeats, final int colRepeats) {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
-        final boolean[][] c = new boolean[rows * rowRepeats][cols * colRepeats];
+        final double[][] c = new double[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < colRepeats; j++) {
@@ -1175,23 +1246,23 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
         }
 
-        return new BooleanMatrix(c);
+        return new DoubleMatrix(c);
     }
 
     /**
      * Flatten.
      *
-     * @return the boolean list
+     * @return the double list
      */
     @Override
-    public BooleanList flatten() {
-        final boolean[] c = new boolean[rows * cols];
+    public DoubleList flatten() {
+        final double[] c = new double[rows * cols];
 
         for (int i = 0; i < rows; i++) {
             N.copy(a[i], 0, c, i * cols, cols);
         }
 
-        return BooleanList.of(c);
+        return DoubleList.of(c);
     }
 
     /**
@@ -1202,7 +1273,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     @Override
-    public <E extends Exception> void flatOp(Consumer<boolean[], E> op) throws E {
+    public <E extends Exception> void flatOp(Consumer<double[], E> op) throws E {
         f.flatOp(a, op);
     }
 
@@ -1210,13 +1281,13 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Vstack.
      *
      * @param b the b
-     * @return the boolean matrix
+     * @return the double matrix
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public BooleanMatrix vstack(final BooleanMatrix b) {
+    public DoubleMatrix vstack(final DoubleMatrix b) {
         N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
 
-        final boolean[][] c = new boolean[this.rows + b.rows][];
+        final double[][] c = new double[this.rows + b.rows][];
         int j = 0;
 
         for (int i = 0; i < rows; i++) {
@@ -1227,27 +1298,274 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             c[j++] = b.a[i].clone();
         }
 
-        return BooleanMatrix.of(c);
+        return DoubleMatrix.of(c);
     }
 
     /**
      * Hstack.
      *
      * @param b the b
-     * @return the boolean matrix
+     * @return the double matrix
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public BooleanMatrix hstack(final BooleanMatrix b) {
+    public DoubleMatrix hstack(final DoubleMatrix b) {
         N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
 
-        final boolean[][] c = new boolean[rows][cols + b.cols];
+        final double[][] c = new double[rows][cols + b.cols];
 
         for (int i = 0; i < rows; i++) {
             N.copy(a[i], 0, c[i], 0, cols);
             N.copy(b.a[i], 0, c[i], cols, b.cols);
         }
 
-        return BooleanMatrix.of(c);
+        return DoubleMatrix.of(c);
+    }
+
+    /**
+     * Adds the.
+     *
+     * @param b the b
+     * @return the double matrix
+     */
+    public DoubleMatrix add(final DoubleMatrix b) {
+        N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
+
+        final double[][] c = new double[rows][cols];
+
+        if (isParallelable()) {
+            if (rows <= cols) {
+                IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
+                    @Override
+                    public void accept(final int i) {
+                        for (int j = 0; j < cols; j++) {
+                            c[i][j] = a[i][j] + b.a[i][j];
+                        }
+                    }
+                });
+            } else {
+                IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
+                    @Override
+                    public void accept(final int j) {
+                        for (int i = 0; i < rows; i++) {
+                            c[i][j] = a[i][j] + b.a[i][j];
+                        }
+                    }
+                });
+            }
+        } else {
+            if (rows <= cols) {
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        c[i][j] = a[i][j] + b.a[i][j];
+                    }
+                }
+            } else {
+                for (int j = 0; j < cols; j++) {
+                    for (int i = 0; i < rows; i++) {
+                        c[i][j] = a[i][j] + b.a[i][j];
+                    }
+                }
+            }
+        }
+
+        return new DoubleMatrix(c);
+    }
+
+    /**
+     * Subtract.
+     *
+     * @param b the b
+     * @return the double matrix
+     */
+    public DoubleMatrix subtract(final DoubleMatrix b) {
+        N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
+
+        final double[][] c = new double[rows][cols];
+
+        if (isParallelable()) {
+            if (rows <= cols) {
+                IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
+                    @Override
+                    public void accept(final int i) {
+                        for (int j = 0; j < cols; j++) {
+                            c[i][j] = a[i][j] - b.a[i][j];
+                        }
+                    }
+                });
+            } else {
+                IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
+                    @Override
+                    public void accept(final int j) {
+                        for (int i = 0; i < rows; i++) {
+                            c[i][j] = a[i][j] - b.a[i][j];
+                        }
+                    }
+                });
+            }
+        } else {
+            if (rows <= cols) {
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        c[i][j] = a[i][j] - b.a[i][j];
+                    }
+                }
+            } else {
+                for (int j = 0; j < cols; j++) {
+                    for (int i = 0; i < rows; i++) {
+                        c[i][j] = a[i][j] - b.a[i][j];
+                    }
+                }
+            }
+        }
+
+        return new DoubleMatrix(c);
+    }
+
+    /**
+     * Multiply.
+     *
+     * @param b the b
+     * @return the double matrix
+     */
+    public DoubleMatrix multiply(final DoubleMatrix b) {
+        N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
+
+        final double[][] c = new double[rows][b.cols];
+        final double[][] a2 = b.a;
+
+        if (isParallelable(b.cols)) {
+            if (N.min(rows, cols, b.cols) == rows) {
+                if (N.min(cols, b.cols) == cols) {
+                    IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int i) {
+                            for (int k = 0; k < cols; k++) {
+                                for (int j = 0; j < b.cols; j++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int i) {
+                            for (int j = 0; j < b.cols; j++) {
+                                for (int k = 0; k < cols; k++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                }
+            } else if (N.min(rows, cols, b.cols) == cols) {
+                if (N.min(rows, b.cols) == rows) {
+                    IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int k) {
+                            for (int i = 0; i < rows; i++) {
+                                for (int j = 0; j < b.cols; j++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int k) {
+                            for (int j = 0; j < b.cols; j++) {
+                                for (int i = 0; i < rows; i++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                }
+            } else {
+                if (N.min(rows, cols) == rows) {
+                    IntStream.range(0, b.cols).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int j) {
+                            for (int i = 0; i < rows; i++) {
+                                for (int k = 0; k < cols; k++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    IntStream.range(0, b.cols).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int j) {
+                            for (int k = 0; k < cols; k++) {
+                                for (int i = 0; i < rows; i++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        } else {
+            if (N.min(rows, cols, b.cols) == rows) {
+                if (N.min(cols, b.cols) == cols) {
+                    for (int i = 0; i < rows; i++) {
+                        for (int k = 0; k < cols; k++) {
+                            for (int j = 0; j < b.cols; j++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < rows; i++) {
+                        for (int j = 0; j < b.cols; j++) {
+                            for (int k = 0; k < cols; k++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                }
+            } else if (N.min(rows, cols, b.cols) == cols) {
+                if (N.min(rows, b.cols) == rows) {
+                    for (int k = 0; k < cols; k++) {
+                        for (int i = 0; i < rows; i++) {
+                            for (int j = 0; j < b.cols; j++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                } else {
+                    for (int k = 0; k < cols; k++) {
+                        for (int j = 0; j < b.cols; j++) {
+                            for (int i = 0; i < rows; i++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (N.min(rows, cols) == rows) {
+                    for (int j = 0; j < b.cols; j++) {
+                        for (int i = 0; i < rows; i++) {
+                            for (int k = 0; k < cols; k++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                } else {
+                    for (int j = 0; j < b.cols; j++) {
+                        for (int k = 0; k < cols; k++) {
+                            for (int i = 0; i < rows; i++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return new DoubleMatrix(c);
     }
 
     /**
@@ -1255,8 +1573,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      *
      * @return the matrix
      */
-    public Matrix<Boolean> boxed() {
-        final Boolean[][] c = new Boolean[rows][cols];
+    public Matrix<Double> boxed() {
+        final Double[][] c = new Double[rows][cols];
 
         if (rows <= cols) {
             for (int i = 0; i < rows; i++) {
@@ -1281,14 +1599,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param <E> the element type
      * @param matrixB the matrix B
      * @param zipFunction the zip function
-     * @return the boolean matrix
+     * @return the double matrix
      * @throws E the e
      */
-    public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final Try.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+    public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final Try.DoubleBiFunction<Double, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
-        final boolean[][] result = new boolean[rows][cols];
-        final boolean[][] b = matrixB.a;
+        final double[][] result = new double[rows][cols];
+        final double[][] b = matrixB.a;
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1302,7 +1620,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
-
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -1327,7 +1644,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
         }
 
-        return new BooleanMatrix(result);
+        return new DoubleMatrix(result);
     }
 
     /**
@@ -1337,16 +1654,16 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param matrixB the matrix B
      * @param matrixC the matrix C
      * @param zipFunction the zip function
-     * @return the boolean matrix
+     * @return the double matrix
      * @throws E the e
      */
-    public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final BooleanMatrix matrixC,
-            final Try.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+    public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final DoubleMatrix matrixC,
+            final Try.DoubleTriFunction<Double, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
 
-        final boolean[][] result = new boolean[rows][cols];
-        final boolean[][] b = matrixB.a;
-        final boolean[][] c = matrixC.a;
+        final double[][] result = new double[rows][cols];
+        final double[][] b = matrixB.a;
+        final double[][] c = matrixC.a;
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1360,7 +1677,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
-
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -1385,7 +1701,17 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
         }
 
-        return new BooleanMatrix(result);
+        return new DoubleMatrix(result);
+    }
+
+    /**
+     * Stream H.
+     *
+     * @return a stream based on the order of row.
+     */
+    @Override
+    public DoubleStream streamH() {
+        return streamH(0, rows);
     }
 
     /**
@@ -1394,14 +1720,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a stream composed by elements on the diagonal line from left up to right down.
      */
     @Override
-    public Stream<Boolean> streamLU2RD() {
+    public DoubleStream streamLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         if (isEmpty()) {
-            return Stream.empty();
+            return DoubleStream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Boolean>() {
+        return DoubleStream.of(new DoubleIteratorEx() {
             private final int toIndex = rows;
             private int cursor = 0;
 
@@ -1411,7 +1737,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
 
             @Override
-            public Boolean next() {
+            public double nextDouble() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
@@ -1439,14 +1765,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a stream composed by elements on the diagonal line from right up to left down.
      */
     @Override
-    public Stream<Boolean> streamRU2LD() {
+    public DoubleStream streamRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         if (isEmpty()) {
-            return Stream.empty();
+            return DoubleStream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Boolean>() {
+        return DoubleStream.of(new DoubleIteratorEx() {
             private final int toIndex = rows;
             private int cursor = 0;
 
@@ -1456,7 +1782,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
 
             @Override
-            public Boolean next() {
+            public double nextDouble() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
@@ -1481,21 +1807,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Stream H.
      *
-     * @return a stream based on the order of row.
-     */
-    @Override
-    public Stream<Boolean> streamH() {
-        return streamH(0, rows);
-    }
-
-    /**
-     * Stream H.
-     *
      * @param rowIndex the row index
-     * @return the stream
+     * @return the double stream
      */
     @Override
-    public Stream<Boolean> streamH(final int rowIndex) {
+    public DoubleStream streamH(final int rowIndex) {
         return streamH(rowIndex, rowIndex + 1);
     }
 
@@ -1507,14 +1823,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a stream based on the order of row.
      */
     @Override
-    public Stream<Boolean> streamH(final int fromRowIndex, final int toRowIndex) {
+    public DoubleStream streamH(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
-            return Stream.empty();
+            return DoubleStream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Boolean>() {
+        return DoubleStream.of(new DoubleIteratorEx() {
             private int i = fromRowIndex;
             private int j = 0;
 
@@ -1524,12 +1840,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
 
             @Override
-            public Boolean next() {
+            public double nextDouble() {
                 if (i >= toRowIndex) {
                     throw new NoSuchElementException();
                 }
 
-                final boolean result = a[i][j++];
+                final double result = a[i][j++];
 
                 if (j >= cols) {
                     i++;
@@ -1558,15 +1874,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
 
             @Override
-            public <A> A[] toArray(A[] c) {
+            public double[] toArray() {
                 final int len = (int) count();
-
-                if (c.length < len) {
-                    c = N.copyOf(c, len);
-                }
+                final double[] c = new double[len];
 
                 for (int k = 0; k < len; k++) {
-                    c[k] = (A) (Boolean) a[i][j++];
+                    c[k] = a[i][j++];
 
                     if (j >= cols) {
                         i++;
@@ -1586,7 +1899,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     @Beta
-    public Stream<Boolean> streamV() {
+    public DoubleStream streamV() {
         return streamV(0, cols);
     }
 
@@ -1594,10 +1907,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Stream V.
      *
      * @param columnIndex the column index
-     * @return the stream
+     * @return the double stream
      */
     @Override
-    public Stream<Boolean> streamV(final int columnIndex) {
+    public DoubleStream streamV(final int columnIndex) {
         return streamV(columnIndex, columnIndex + 1);
     }
 
@@ -1610,14 +1923,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     @Beta
-    public Stream<Boolean> streamV(final int fromColumnIndex, final int toColumnIndex) {
+    public DoubleStream streamV(final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
-            return Stream.empty();
+            return DoubleStream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Boolean>() {
+        return DoubleStream.of(new DoubleIteratorEx() {
             private int i = 0;
             private int j = fromColumnIndex;
 
@@ -1627,12 +1940,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
 
             @Override
-            public Boolean next() {
+            public double nextDouble() {
                 if (j >= toColumnIndex) {
                     throw new NoSuchElementException();
                 }
 
-                final boolean result = a[i++][j];
+                final double result = a[i++][j];
 
                 if (i >= rows) {
                     i = 0;
@@ -1646,12 +1959,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             public void skip(long n) {
                 N.checkArgNotNegative(n, "n");
 
-                if (n >= (toColumnIndex - j) * BooleanMatrix.this.rows * 1L - i) {
+                if (n >= (toColumnIndex - j) * DoubleMatrix.this.rows * 1L - i) {
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    i += (n + i) % BooleanMatrix.this.rows;
-                    j += (n + i) / BooleanMatrix.this.rows;
+                    i += (n + i) % DoubleMatrix.this.rows;
+                    j += (n + i) / DoubleMatrix.this.rows;
                 }
             }
 
@@ -1661,15 +1974,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
 
             @Override
-            public <A> A[] toArray(A[] c) {
+            public double[] toArray() {
                 final int len = (int) count();
-
-                if (c.length < len) {
-                    c = N.copyOf(c, len);
-                }
+                final double[] c = new double[len];
 
                 for (int k = 0; k < len; k++) {
-                    c[k] = (A) (Boolean) a[i++][j];
+                    c[k] = a[i++][j];
 
                     if (i >= rows) {
                         i = 0;
@@ -1688,7 +1998,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a row stream based on the order of row.
      */
     @Override
-    public Stream<Stream<Boolean>> streamR() {
+    public Stream<DoubleStream> streamR() {
         return streamR(0, rows);
     }
 
@@ -1700,14 +2010,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return a row stream based on the order of row.
      */
     @Override
-    public Stream<Stream<Boolean>> streamR(final int fromRowIndex, final int toRowIndex) {
+    public Stream<DoubleStream> streamR(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Stream<Boolean>>() {
+        return Stream.of(new ObjIteratorEx<DoubleStream>() {
             private final int toIndex = toRowIndex;
             private int cursor = fromRowIndex;
 
@@ -1717,12 +2027,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
 
             @Override
-            public Stream<Boolean> next() {
+            public DoubleStream next() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
 
-                return Stream.of(a[cursor++]);
+                return DoubleStream.of(a[cursor++]);
             }
 
             @Override
@@ -1746,7 +2056,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     @Beta
-    public Stream<Stream<Boolean>> streamC() {
+    public Stream<DoubleStream> streamC() {
         return streamC(0, cols);
     }
 
@@ -1759,14 +2069,14 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      */
     @Override
     @Beta
-    public Stream<Stream<Boolean>> streamC(final int fromColumnIndex, final int toColumnIndex) {
+    public Stream<DoubleStream> streamC(final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Stream<Boolean>>() {
+        return Stream.of(new ObjIteratorEx<DoubleStream>() {
             private final int toIndex = toColumnIndex;
             private volatile int cursor = fromColumnIndex;
 
@@ -1776,12 +2086,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             }
 
             @Override
-            public Stream<Boolean> next() {
+            public DoubleStream next() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
 
-                return Stream.of(new ObjIteratorEx<Boolean>() {
+                return DoubleStream.of(new DoubleIteratorEx() {
                     private final int columnIndex = cursor++;
                     private final int toIndex2 = rows;
                     private int cursor2 = 0;
@@ -1792,7 +2102,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
                     }
 
                     @Override
-                    public Boolean next() {
+                    public double nextDouble() {
                         if (cursor2 >= toIndex2) {
                             throw new NoSuchElementException();
                         }
@@ -1835,7 +2145,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @return the int
      */
     @Override
-    protected int length(boolean[] a) {
+    protected int length(double[] a) {
         return a == null ? 0 : a.length;
     }
 
@@ -1846,7 +2156,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @param action the action
      * @throws E the e
      */
-    public <E extends Exception> void forEach(final Try.BooleanConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Try.DoubleConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
@@ -1862,7 +2172,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Try.BooleanConsumer<E> action) throws E {
+            final Try.DoubleConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -1903,8 +2213,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
             return true;
         }
 
-        if (obj instanceof BooleanMatrix) {
-            final BooleanMatrix another = (BooleanMatrix) obj;
+        if (obj instanceof DoubleMatrix) {
+            final DoubleMatrix another = (DoubleMatrix) obj;
 
             return N.deepEquals(this.a, another.a);
         }

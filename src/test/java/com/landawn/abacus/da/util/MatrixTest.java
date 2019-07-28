@@ -2,10 +2,16 @@
  * Copyright (c) 2015, Haiyang Li. All rights reserved.
  */
 
-package com.landawn.abacus.da;
+package com.landawn.abacus.da.util;
 
 import org.junit.Test;
 
+import com.landawn.abacus.da.util.BooleanMatrix;
+import com.landawn.abacus.da.util.ByteMatrix;
+import com.landawn.abacus.da.util.CharMatrix;
+import com.landawn.abacus.da.util.DoubleMatrix;
+import com.landawn.abacus.da.util.IntMatrix;
+import com.landawn.abacus.da.util.Matrix;
 import com.landawn.abacus.util.Array;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.Profiler;

@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.landawn.abacus.da;
+package com.landawn.abacus.da.util;
 
 import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.IntPair;

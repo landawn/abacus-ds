@@ -12,98 +12,75 @@
  * the License.
  */
 
-package com.landawn.abacus.da;
+package com.landawn.abacus.da.util;
 
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.util.Array;
+import com.landawn.abacus.util.ByteList;
 import com.landawn.abacus.util.IntPair;
-import com.landawn.abacus.util.LongList;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.Try;
 import com.landawn.abacus.util.Try.Consumer;
 import com.landawn.abacus.util.f;
-import com.landawn.abacus.util.u.OptionalLong;
+import com.landawn.abacus.util.u.OptionalByte;
 import com.landawn.abacus.util.function.IntConsumer;
+import com.landawn.abacus.util.stream.ByteIteratorEx;
+import com.landawn.abacus.util.stream.ByteStream;
 import com.landawn.abacus.util.stream.IntStream;
-import com.landawn.abacus.util.stream.LongIteratorEx;
-import com.landawn.abacus.util.stream.LongStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class LongMatrix.
+ * The Class ByteMatrix.
  *
  * @author Haiyang Li
  * @since 0.8
  */
-public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStream, Stream<LongStream>, LongMatrix> {
+public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStream, Stream<ByteStream>, ByteMatrix> {
 
-    /** The Constant EMPTY_LONG_MATRIX. */
-    static final LongMatrix EMPTY_LONG_MATRIX = new LongMatrix(new long[0][0]);
+    /** The Constant EMPTY_BYTE_MATRIX. */
+    static final ByteMatrix EMPTY_BYTE_MATRIX = new ByteMatrix(new byte[0][0]);
 
     /**
-     * Instantiates a new long matrix.
+     * Instantiates a new byte matrix.
      *
      * @param a the a
      */
-    public LongMatrix(final long[][] a) {
-        super(a == null ? new long[0][0] : a);
+    public ByteMatrix(final byte[][] a) {
+        super(a == null ? new byte[0][0] : a);
     }
 
     /**
      * Empty.
      *
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public static LongMatrix empty() {
-        return EMPTY_LONG_MATRIX;
+    public static ByteMatrix empty() {
+        return EMPTY_BYTE_MATRIX;
     }
 
     /**
      * Of.
      *
      * @param a the a
-     * @return the long matrix
+     * @return the byte matrix
      */
     @SafeVarargs
-    public static LongMatrix of(final long[]... a) {
-        return N.isNullOrEmpty(a) ? EMPTY_LONG_MATRIX : new LongMatrix(a);
-    }
-
-    /**
-     * From.
-     *
-     * @param a the a
-     * @return the long matrix
-     */
-    @SafeVarargs
-    public static LongMatrix from(final int[]... a) {
-        if (N.isNullOrEmpty(a)) {
-            return EMPTY_LONG_MATRIX;
-        }
-
-        final long[][] c = new long[a.length][a[0].length];
-
-        for (int i = 0, len = a.length; i < len; i++) {
-            for (int j = 0, col = a[0].length; j < col; j++) {
-                c[i][j] = a[i][j];
-            }
-        }
-
-        return new LongMatrix(c);
+    public static ByteMatrix of(final byte[]... a) {
+        return N.isNullOrEmpty(a) ? EMPTY_BYTE_MATRIX : new ByteMatrix(a);
     }
 
     /**
      * Random.
      *
      * @param len the len
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public static LongMatrix random(final int len) {
-        return new LongMatrix(new long[][] { LongList.random(len).array() });
+    public static ByteMatrix random(final int len) {
+        return new ByteMatrix(new byte[][] { ByteList.random(len).array() });
     }
 
     /**
@@ -111,10 +88,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param val the val
      * @param len the len
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public static LongMatrix repeat(final long val, final int len) {
-        return new LongMatrix(new long[][] { Array.repeat(val, len) });
+    public static ByteMatrix repeat(final byte val, final int len) {
+        return new ByteMatrix(new byte[][] { Array.repeat(val, len) });
     }
 
     /**
@@ -122,10 +99,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param startInclusive the start inclusive
      * @param endExclusive the end exclusive
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public static LongMatrix range(long startInclusive, final long endExclusive) {
-        return new LongMatrix(new long[][] { Array.range(startInclusive, endExclusive) });
+    public static ByteMatrix range(byte startInclusive, final byte endExclusive) {
+        return new ByteMatrix(new byte[][] { Array.range(startInclusive, endExclusive) });
     }
 
     /**
@@ -134,10 +111,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param startInclusive the start inclusive
      * @param endExclusive the end exclusive
      * @param by the by
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public static LongMatrix range(long startInclusive, final long endExclusive, final long by) {
-        return new LongMatrix(new long[][] { Array.range(startInclusive, endExclusive, by) });
+    public static ByteMatrix range(byte startInclusive, final byte endExclusive, final byte by) {
+        return new ByteMatrix(new byte[][] { Array.range(startInclusive, endExclusive, by) });
     }
 
     /**
@@ -145,10 +122,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param startInclusive the start inclusive
      * @param endInclusive the end inclusive
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public static LongMatrix rangeClosed(long startInclusive, final long endInclusive) {
-        return new LongMatrix(new long[][] { Array.rangeClosed(startInclusive, endInclusive) });
+    public static ByteMatrix rangeClosed(byte startInclusive, final byte endInclusive) {
+        return new ByteMatrix(new byte[][] { Array.rangeClosed(startInclusive, endInclusive) });
     }
 
     /**
@@ -157,19 +134,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param startInclusive the start inclusive
      * @param endInclusive the end inclusive
      * @param by the by
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public static LongMatrix rangeClosed(long startInclusive, final long endInclusive, final long by) {
-        return new LongMatrix(new long[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
+    public static ByteMatrix rangeClosed(byte startInclusive, final byte endInclusive, final byte by) {
+        return new ByteMatrix(new byte[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
     /**
      * Diagonal LU 2 RD.
      *
      * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public static LongMatrix diagonalLU2RD(final long[] leftUp2RighDownDiagonal) {
+    public static ByteMatrix diagonalLU2RD(final byte[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
     }
 
@@ -177,9 +154,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Diagonal RU 2 LD.
      *
      * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public static LongMatrix diagonalRU2LD(final long[] rightUp2LeftDownDiagonal) {
+    public static ByteMatrix diagonalRU2LD(final byte[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
@@ -188,9 +165,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
      * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public static LongMatrix diagonal(final long[] leftUp2RighDownDiagonal, long[] rightUp2LeftDownDiagonal) {
+    public static ByteMatrix diagonal(final byte[] leftUp2RighDownDiagonal, byte[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
                 N.isNullOrEmpty(leftUp2RighDownDiagonal) || N.isNullOrEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -201,17 +178,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                 return empty();
             } else {
                 final int len = rightUp2LeftDownDiagonal.length;
-                final long[][] c = new long[len][len];
+                final byte[][] c = new byte[len][len];
 
                 for (int i = 0, j = len - 1; i < len; i++, j--) {
                     c[i][j] = rightUp2LeftDownDiagonal[i];
                 }
 
-                return new LongMatrix(c);
+                return new ByteMatrix(c);
             }
         } else {
             final int len = leftUp2RighDownDiagonal.length;
-            final long[][] c = new long[len][len];
+            final byte[][] c = new byte[len][len];
 
             for (int i = 0; i < len; i++) {
                 c[i][i] = leftUp2RighDownDiagonal[i];
@@ -223,7 +200,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                 }
             }
 
-            return new LongMatrix(c);
+            return new ByteMatrix(c);
         }
     }
 
@@ -232,9 +209,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param i the i
      * @param j the j
-     * @return the long
+     * @return the byte
      */
-    public long get(final int i, final int j) {
+    public byte get(final int i, final int j) {
         return a[i][j];
     }
 
@@ -242,9 +219,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Gets the.
      *
      * @param point the point
-     * @return the long
+     * @return the byte
      */
-    public long get(final IntPair point) {
+    public byte get(final IntPair point) {
         return a[point._1][point._2];
     }
 
@@ -255,7 +232,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param j the j
      * @param val the val
      */
-    public void set(final int i, final int j, final long val) {
+    public void set(final int i, final int j, final byte val) {
         a[i][j] = val;
     }
 
@@ -265,7 +242,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param point the point
      * @param val the val
      */
-    public void set(final IntPair point, final long val) {
+    public void set(final IntPair point, final byte val) {
         a[point._1][point._2] = val;
     }
 
@@ -274,10 +251,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param i the i
      * @param j the j
-     * @return the optional long
+     * @return the optional byte
      */
-    public OptionalLong upOf(final int i, final int j) {
-        return i == 0 ? OptionalLong.empty() : OptionalLong.of(a[i - 1][j]);
+    public OptionalByte upOf(final int i, final int j) {
+        return i == 0 ? OptionalByte.empty() : OptionalByte.of(a[i - 1][j]);
     }
 
     /**
@@ -285,10 +262,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param i the i
      * @param j the j
-     * @return the optional long
+     * @return the optional byte
      */
-    public OptionalLong downOf(final int i, final int j) {
-        return i == rows - 1 ? OptionalLong.empty() : OptionalLong.of(a[i + 1][j]);
+    public OptionalByte downOf(final int i, final int j) {
+        return i == rows - 1 ? OptionalByte.empty() : OptionalByte.of(a[i + 1][j]);
     }
 
     /**
@@ -296,10 +273,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param i the i
      * @param j the j
-     * @return the optional long
+     * @return the optional byte
      */
-    public OptionalLong leftOf(final int i, final int j) {
-        return j == 0 ? OptionalLong.empty() : OptionalLong.of(a[i][j - 1]);
+    public OptionalByte leftOf(final int i, final int j) {
+        return j == 0 ? OptionalByte.empty() : OptionalByte.of(a[i][j - 1]);
     }
 
     /**
@@ -307,10 +284,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param i the i
      * @param j the j
-     * @return the optional long
+     * @return the optional byte
      */
-    public OptionalLong rightOf(final int i, final int j) {
-        return j == cols - 1 ? OptionalLong.empty() : OptionalLong.of(a[i][j + 1]);
+    public OptionalByte rightOf(final int i, final int j) {
+        return j == cols - 1 ? OptionalByte.empty() : OptionalByte.of(a[i][j + 1]);
     }
 
     /**
@@ -354,9 +331,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Row.
      *
      * @param rowIndex the row index
-     * @return the long[]
+     * @return the byte[]
      */
-    public long[] row(final int rowIndex) {
+    public byte[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
 
         return a[rowIndex];
@@ -366,12 +343,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Column.
      *
      * @param columnIndex the column index
-     * @return the long[]
+     * @return the byte[]
      */
-    public long[] column(final int columnIndex) {
+    public byte[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
-        final long[] c = new long[rows];
+        final byte[] c = new byte[rows];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[i][columnIndex];
@@ -386,7 +363,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param rowIndex the row index
      * @param row the row
      */
-    public void setRow(int rowIndex, long[] row) {
+    public void setRow(int rowIndex, byte[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -398,7 +375,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param columnIndex the column index
      * @param column the column
      */
-    public void setColumn(int columnIndex, long[] column) {
+    public void setColumn(int columnIndex, byte[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -414,9 +391,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Try.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(int rowIndex, Try.ByteUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
-            a[rowIndex][i] = func.applyAsLong(a[rowIndex][i]);
+            a[rowIndex][i] = func.applyAsByte(a[rowIndex][i]);
         }
     }
 
@@ -428,9 +405,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Try.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(int columnIndex, Try.ByteUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
-            a[i][columnIndex] = func.applyAsLong(a[i][columnIndex]);
+            a[i][columnIndex] = func.applyAsByte(a[i][columnIndex]);
         }
     }
 
@@ -439,10 +416,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @return the lu2rd
      */
-    public long[] getLU2RD() {
+    public byte[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
-        final long[] res = new long[rows];
+        final byte[] res = new byte[rows];
 
         for (int i = 0; i < rows; i++) {
             res[i] = a[i][i];
@@ -456,7 +433,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param diagonal the new lu2rd
      */
-    public void setLU2RD(final long[] diagonal) {
+    public void setLU2RD(final byte[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -472,11 +449,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateLU2RD(final Try.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Try.ByteUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = func.applyAsLong(a[i][i]);
+            a[i][i] = func.applyAsByte(a[i][i]);
         }
     }
 
@@ -485,10 +462,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @return the ru2ld
      */
-    public long[] getRU2LD() {
+    public byte[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
-        final long[] res = new long[rows];
+        final byte[] res = new byte[rows];
 
         for (int i = 0; i < rows; i++) {
             res[i] = a[i][cols - i - 1];
@@ -502,7 +479,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param diagonal the new ru2ld
      */
-    public void setRU2LD(final long[] diagonal) {
+    public void setRU2LD(final byte[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -518,11 +495,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateRU2LD(final Try.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Try.ByteUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
-            a[i][cols - i - 1] = func.applyAsLong(a[i][cols - i - 1]);
+            a[i][cols - i - 1] = func.applyAsByte(a[i][cols - i - 1]);
         }
     }
 
@@ -533,23 +510,24 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.LongUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateAll(final Try.ByteUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            a[i][j] = func.applyAsLong(a[i][j]);
+                            a[i][j] = func.applyAsByte(a[i][j]);
                         }
                     }
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            a[i][j] = func.applyAsLong(a[i][j]);
+                            a[i][j] = func.applyAsByte(a[i][j]);
                         }
                     }
                 });
@@ -558,13 +536,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        a[i][j] = func.applyAsLong(a[i][j]);
+                        a[i][j] = func.applyAsByte(a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        a[i][j] = func.applyAsLong(a[i][j]);
+                        a[i][j] = func.applyAsByte(a[i][j]);
                     }
                 }
             }
@@ -578,7 +556,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.IntBiFunction<Long, E> func) throws E {
+    public <E extends Exception> void updateAll(final Try.IntBiFunction<Byte, E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -591,6 +569,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -624,7 +603,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param newValue the new value
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.LongPredicate<E> predicate, final long newValue) throws E {
+    public <E extends Exception> void replaceIf(final Try.BytePredicate<E> predicate, final byte newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -637,6 +616,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -670,7 +650,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param newValue the new value
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final long newValue) throws E {
+    public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final byte newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -683,6 +663,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -713,11 +694,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param <E> the element type
      * @param func the func
-     * @return the long matrix
+     * @return the byte matrix
      * @throws E the e
      */
-    public <E extends Exception> LongMatrix map(final Try.LongUnaryOperator<E> func) throws E {
-        final long[][] c = new long[rows][cols];
+    public <E extends Exception> ByteMatrix map(final Try.ByteUnaryOperator<E> func) throws E {
+        final byte[][] c = new byte[rows][cols];
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -725,16 +706,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsLong(a[i][j]);
+                            c[i][j] = func.applyAsByte(a[i][j]);
                         }
                     }
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsLong(a[i][j]);
+                            c[i][j] = func.applyAsByte(a[i][j]);
                         }
                     }
                 });
@@ -743,19 +725,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsLong(a[i][j]);
+                        c[i][j] = func.applyAsByte(a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsLong(a[i][j]);
+                        c[i][j] = func.applyAsByte(a[i][j]);
                     }
                 }
             }
         }
 
-        return LongMatrix.of(c);
+        return ByteMatrix.of(c);
     }
 
     /**
@@ -768,7 +750,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return the matrix
      * @throws E the e
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.LongFunction<? extends T, E> func) throws E {
+    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.ByteFunction<? extends T, E> func) throws E {
         final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
 
         for (int i = 0; i < rows; i++) {
@@ -787,6 +769,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -819,7 +802,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param val the val
      */
-    public void fill(final long val) {
+    public void fill(final byte val) {
         for (int i = 0; i < rows; i++) {
             N.fill(a[i], val);
         }
@@ -830,7 +813,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param b the b
      */
-    public void fill(final long[][] b) {
+    public void fill(final byte[][] b) {
         fill(0, 0, b);
     }
 
@@ -841,7 +824,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param fromColumnIndex the from column index
      * @param b the b
      */
-    public void fill(final int fromRowIndex, final int fromColumnIndex, final long[][] b) {
+    public void fill(final int fromRowIndex, final int fromColumnIndex, final byte[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
         N.checkFromToIndex(fromColumnIndex, cols, cols);
 
@@ -853,17 +836,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Copy.
      *
-     * @return the long matrix
+     * @return the byte matrix
      */
     @Override
-    public LongMatrix copy() {
-        final long[][] c = new long[rows][];
+    public ByteMatrix copy() {
+        final byte[][] c = new byte[rows][];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[i].clone();
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
@@ -871,19 +854,19 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param fromRowIndex the from row index
      * @param toRowIndex the to row index
-     * @return the long matrix
+     * @return the byte matrix
      */
     @Override
-    public LongMatrix copy(final int fromRowIndex, final int toRowIndex) {
+    public ByteMatrix copy(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
-        final long[][] c = new long[toRowIndex - fromRowIndex][];
+        final byte[][] c = new byte[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
             c[i - fromRowIndex] = a[i].clone();
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
@@ -893,20 +876,20 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param toRowIndex the to row index
      * @param fromColumnIndex the from column index
      * @param toColumnIndex the to column index
-     * @return the long matrix
+     * @return the byte matrix
      */
     @Override
-    public LongMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
+    public ByteMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
-        final long[][] c = new long[toRowIndex - fromRowIndex][];
+        final byte[][] c = new byte[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
             c[i - fromRowIndex] = N.copyOfRange(a[i], fromColumnIndex, toColumnIndex);
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
@@ -914,10 +897,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param newRows the new rows
      * @param newCols the new cols
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public LongMatrix extend(final int newRows, final int newCols) {
-        return extend(newRows, newCols, 0);
+    public ByteMatrix extend(final int newRows, final int newCols) {
+        return extend(newRows, newCols, BYTE_0);
     }
 
     /**
@@ -926,20 +909,20 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param newRows the new rows
      * @param newCols the new cols
      * @param defaultValueForNewCell the default value for new cell
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public LongMatrix extend(final int newRows, final int newCols, final long defaultValueForNewCell) {
+    public ByteMatrix extend(final int newRows, final int newCols, final byte defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
         } else {
-            final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final long[][] b = new long[newRows][];
+            final boolean fillDefaultValue = defaultValueForNewCell != BYTE_0;
+            final byte[][] b = new byte[newRows][];
 
             for (int i = 0; i < newRows; i++) {
-                b[i] = i < rows ? N.copyOf(a[i], newCols) : new long[newCols];
+                b[i] = i < rows ? N.copyOf(a[i], newCols) : new byte[newCols];
 
                 if (fillDefaultValue) {
                     if (i >= rows) {
@@ -950,7 +933,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                 }
             }
 
-            return new LongMatrix(b);
+            return new ByteMatrix(b);
         }
     }
 
@@ -961,10 +944,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param toDown the to down
      * @param toLeft the to left
      * @param toRight the to right
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public LongMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
-        return extend(toUp, toDown, toLeft, toRight, 0);
+    public ByteMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
+        return extend(toUp, toDown, toLeft, toRight, BYTE_0);
     }
 
     /**
@@ -975,9 +958,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param toLeft the to left
      * @param toRight the to right
      * @param defaultValueForNewCell the default value for new cell
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public LongMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final long defaultValueForNewCell) {
+    public ByteMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final byte defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
         N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
         N.checkArgument(toLeft >= 0, "The 'toLeft' can't be negative %s", toLeft);
@@ -988,8 +971,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         } else {
             final int newRows = toUp + rows + toDown;
             final int newCols = toLeft + cols + toRight;
-            final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final long[][] b = new long[newRows][newCols];
+            final boolean fillDefaultValue = defaultValueForNewCell != BYTE_0;
+            final byte[][] b = new byte[newRows][newCols];
 
             for (int i = 0; i < newRows; i++) {
                 if (i >= toUp && i < toUp + rows) {
@@ -1011,7 +994,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                 }
             }
 
-            return new LongMatrix(b);
+            return new ByteMatrix(b);
         }
     }
 
@@ -1029,7 +1012,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
-            long tmp = 0;
+            byte tmp = 0;
             for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
@@ -1041,11 +1024,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Flip H.
      *
-     * @return the long matrix
+     * @return the byte matrix
      * @see IntMatrix#flipH()
      */
-    public LongMatrix flipH() {
-        final LongMatrix res = this.copy();
+    public ByteMatrix flipH() {
+        final ByteMatrix res = this.copy();
         res.reverseH();
         return res;
     }
@@ -1053,11 +1036,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Flip V.
      *
-     * @return the long matrix
+     * @return the byte matrix
      * @see IntMatrix#flipV()
      */
-    public LongMatrix flipV() {
-        final LongMatrix res = this.copy();
+    public ByteMatrix flipV() {
+        final ByteMatrix res = this.copy();
         res.reverseV();
         return res;
     }
@@ -1065,11 +1048,11 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Rotate 90.
      *
-     * @return the long matrix
+     * @return the byte matrix
      */
     @Override
-    public LongMatrix rotate90() {
-        final long[][] c = new long[cols][rows];
+    public ByteMatrix rotate90() {
+        final byte[][] c = new byte[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1085,34 +1068,34 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
      * Rotate 180.
      *
-     * @return the long matrix
+     * @return the byte matrix
      */
     @Override
-    public LongMatrix rotate180() {
-        final long[][] c = new long[rows][];
+    public ByteMatrix rotate180() {
+        final byte[][] c = new byte[rows][];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[rows - i - 1].clone();
             N.reverse(c[i]);
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
      * Rotate 270.
      *
-     * @return the long matrix
+     * @return the byte matrix
      */
     @Override
-    public LongMatrix rotate270() {
-        final long[][] c = new long[cols][rows];
+    public ByteMatrix rotate270() {
+        final byte[][] c = new byte[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1128,17 +1111,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
      * Transpose.
      *
-     * @return the long matrix
+     * @return the byte matrix
      */
     @Override
-    public LongMatrix transpose() {
-        final long[][] c = new long[cols][rows];
+    public ByteMatrix transpose() {
+        final byte[][] c = new byte[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1154,7 +1137,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
@@ -1162,18 +1145,18 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @param newRows the new rows
      * @param newCols the new cols
-     * @return the long matrix
+     * @return the byte matrix
      */
     @Override
-    public LongMatrix reshape(final int newRows, final int newCols) {
-        final long[][] c = new long[newRows][newCols];
+    public ByteMatrix reshape(final int newRows, final int newCols) {
+        final byte[][] c = new byte[newRows][newCols];
 
         if (newRows == 0 || newCols == 0 || N.isNullOrEmpty(a)) {
-            return new LongMatrix(c);
+            return new ByteMatrix(c);
         }
 
         if (a.length == 1) {
-            final long[] a0 = a[0];
+            final byte[] a0 = a[0];
 
             for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
                 N.copy(a0, i * newCols, c[i], 0, (int) N.min(newCols, count - i * newCols));
@@ -1188,7 +1171,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
@@ -1200,13 +1183,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @see IntMatrix#repelem(int, int)
      */
     @Override
-    public LongMatrix repelem(final int rowRepeats, final int colRepeats) {
+    public ByteMatrix repelem(final int rowRepeats, final int colRepeats) {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
-        final long[][] c = new long[rows * rowRepeats][cols * colRepeats];
+        final byte[][] c = new byte[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
-            final long[] fr = c[i * rowRepeats];
+            final byte[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < cols; j++) {
                 N.copy(Array.repeat(a[i][j], colRepeats), 0, fr, j * colRepeats, colRepeats);
@@ -1217,7 +1200,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
@@ -1229,10 +1212,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @see IntMatrix#repmat(int, int)
      */
     @Override
-    public LongMatrix repmat(final int rowRepeats, final int colRepeats) {
+    public ByteMatrix repmat(final int rowRepeats, final int colRepeats) {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
-        final long[][] c = new long[rows * rowRepeats][cols * colRepeats];
+        final byte[][] c = new byte[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < colRepeats; j++) {
@@ -1246,23 +1229,23 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
      * Flatten.
      *
-     * @return the long list
+     * @return the byte list
      */
     @Override
-    public LongList flatten() {
-        final long[] c = new long[rows * cols];
+    public ByteList flatten() {
+        final byte[] c = new byte[rows * cols];
 
         for (int i = 0; i < rows; i++) {
             N.copy(a[i], 0, c, i * cols, cols);
         }
 
-        return LongList.of(c);
+        return ByteList.of(c);
     }
 
     /**
@@ -1273,7 +1256,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws E the e
      */
     @Override
-    public <E extends Exception> void flatOp(Consumer<long[], E> op) throws E {
+    public <E extends Exception> void flatOp(Consumer<byte[], E> op) throws E {
         f.flatOp(a, op);
     }
 
@@ -1281,13 +1264,13 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Vstack.
      *
      * @param b the b
-     * @return the long matrix
+     * @return the byte matrix
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public LongMatrix vstack(final LongMatrix b) {
+    public ByteMatrix vstack(final ByteMatrix b) {
         N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
 
-        final long[][] c = new long[this.rows + b.rows][];
+        final byte[][] c = new byte[this.rows + b.rows][];
         int j = 0;
 
         for (int i = 0; i < rows; i++) {
@@ -1298,39 +1281,39 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             c[j++] = b.a[i].clone();
         }
 
-        return LongMatrix.of(c);
+        return ByteMatrix.of(c);
     }
 
     /**
      * Hstack.
      *
      * @param b the b
-     * @return the long matrix
+     * @return the byte matrix
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public LongMatrix hstack(final LongMatrix b) {
+    public ByteMatrix hstack(final ByteMatrix b) {
         N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
 
-        final long[][] c = new long[rows][cols + b.cols];
+        final byte[][] c = new byte[rows][cols + b.cols];
 
         for (int i = 0; i < rows; i++) {
             N.copy(a[i], 0, c[i], 0, cols);
             N.copy(b.a[i], 0, c[i], cols, b.cols);
         }
 
-        return LongMatrix.of(c);
+        return ByteMatrix.of(c);
     }
 
     /**
      * Adds the.
      *
      * @param b the b
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public LongMatrix add(final LongMatrix b) {
+    public ByteMatrix add(final ByteMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
-        final long[][] c = new long[rows][cols];
+        final byte[][] c = new byte[rows][cols];
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1338,16 +1321,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     @Override
                     public void accept(final int i) {
                         for (int j = 0; j < cols; j++) {
-                            c[i][j] = a[i][j] + b.a[i][j];
+                            c[i][j] = (byte) (a[i][j] + b.a[i][j]);
                         }
                     }
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
+
                     @Override
                     public void accept(final int j) {
                         for (int i = 0; i < rows; i++) {
-                            c[i][j] = a[i][j] + b.a[i][j];
+                            c[i][j] = (byte) (a[i][j] + b.a[i][j]);
                         }
                     }
                 });
@@ -1356,31 +1340,31 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        c[i][j] = a[i][j] + b.a[i][j];
+                        c[i][j] = (byte) (a[i][j] + b.a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        c[i][j] = a[i][j] + b.a[i][j];
+                        c[i][j] = (byte) (a[i][j] + b.a[i][j]);
                     }
                 }
             }
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
      * Subtract.
      *
      * @param b the b
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public LongMatrix subtract(final LongMatrix b) {
+    public ByteMatrix subtract(final ByteMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
-        final long[][] c = new long[rows][cols];
+        final byte[][] c = new byte[rows][cols];
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1388,16 +1372,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     @Override
                     public void accept(final int i) {
                         for (int j = 0; j < cols; j++) {
-                            c[i][j] = a[i][j] - b.a[i][j];
+                            c[i][j] = (byte) (a[i][j] - b.a[i][j]);
                         }
                     }
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
+
                     @Override
                     public void accept(final int j) {
                         for (int i = 0; i < rows; i++) {
-                            c[i][j] = a[i][j] - b.a[i][j];
+                            c[i][j] = (byte) (a[i][j] - b.a[i][j]);
                         }
                     }
                 });
@@ -1406,32 +1391,32 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        c[i][j] = a[i][j] - b.a[i][j];
+                        c[i][j] = (byte) (a[i][j] - b.a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        c[i][j] = a[i][j] - b.a[i][j];
+                        c[i][j] = (byte) (a[i][j] - b.a[i][j]);
                     }
                 }
             }
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
      * Multiply.
      *
      * @param b the b
-     * @return the long matrix
+     * @return the byte matrix
      */
-    public LongMatrix multiply(final LongMatrix b) {
+    public ByteMatrix multiply(final ByteMatrix b) {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
 
-        final long[][] c = new long[rows][b.cols];
-        final long[][] a2 = b.a;
+        final byte[][] c = new byte[rows][b.cols];
+        final byte[][] a2 = b.a;
 
         if (isParallelable(b.cols)) {
             if (N.min(rows, cols, b.cols) == rows) {
@@ -1448,6 +1433,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     });
                 } else {
                     IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
+
                         @Override
                         public void accept(final int i) {
                             for (int j = 0; j < b.cols; j++) {
@@ -1485,6 +1471,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             } else {
                 if (N.min(rows, cols) == rows) {
                     IntStream.range(0, b.cols).parallel().forEach(new IntConsumer() {
+
                         @Override
                         public void accept(final int j) {
                             for (int i = 0; i < rows; i++) {
@@ -1510,7 +1497,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         } else {
             if (N.min(rows, cols, b.cols) == rows) {
                 if (N.min(cols, b.cols) == cols) {
-                    for (int i = 0; i < rows; i++) {
+                    for (
+
+                            int i = 0; i < rows; i++) {
                         for (int k = 0; k < cols; k++) {
                             for (int j = 0; j < b.cols; j++) {
                                 c[i][j] += a[i][k] * a2[k][j];
@@ -1565,7 +1554,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
         }
 
-        return new LongMatrix(c);
+        return new ByteMatrix(c);
     }
 
     /**
@@ -1573,8 +1562,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      *
      * @return the matrix
      */
-    public Matrix<Long> boxed() {
-        final Long[][] c = new Long[rows][cols];
+    public Matrix<Byte> boxed() {
+        final Byte[][] c = new Byte[rows][cols];
 
         if (rows <= cols) {
             for (int i = 0; i < rows; i++) {
@@ -1591,6 +1580,40 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
         }
 
         return new Matrix<>(c);
+    }
+
+    /**
+     * To int matrix.
+     *
+     * @return the int matrix
+     */
+    public IntMatrix toIntMatrix() {
+        return IntMatrix.from(a);
+    }
+
+    /**
+     * To long matrix.
+     *
+     * @return the long matrix
+     */
+    public LongMatrix toLongMatrix() {
+        final long[][] c = new long[rows][cols];
+
+        if (rows <= cols) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        } else {
+            for (int j = 0; j < cols; j++) {
+                for (int i = 0; i < rows; i++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        }
+
+        return new LongMatrix(c);
     }
 
     /**
@@ -1624,7 +1647,23 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return the double matrix
      */
     public DoubleMatrix toDoubleMatrix() {
-        return DoubleMatrix.from(a);
+        final double[][] c = new double[rows][cols];
+
+        if (rows <= cols) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        } else {
+            for (int j = 0; j < cols; j++) {
+                for (int i = 0; i < rows; i++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        }
+
+        return new DoubleMatrix(c);
     }
 
     /**
@@ -1633,14 +1672,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param <E> the element type
      * @param matrixB the matrix B
      * @param zipFunction the zip function
-     * @return the long matrix
+     * @return the byte matrix
      * @throws E the e
      */
-    public <E extends Exception> LongMatrix zipWith(final LongMatrix matrixB, final Try.LongBiFunction<Long, E> zipFunction) throws E {
+    public <E extends Exception> ByteMatrix zipWith(final ByteMatrix matrixB, final Try.ByteBiFunction<Byte, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
-        final long[][] result = new long[rows][cols];
-        final long[][] b = matrixB.a;
+        final byte[][] result = new byte[rows][cols];
+        final byte[][] b = matrixB.a;
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1654,6 +1693,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -1678,7 +1718,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
         }
 
-        return new LongMatrix(result);
+        return new ByteMatrix(result);
     }
 
     /**
@@ -1688,16 +1728,16 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param matrixB the matrix B
      * @param matrixC the matrix C
      * @param zipFunction the zip function
-     * @return the long matrix
+     * @return the byte matrix
      * @throws E the e
      */
-    public <E extends Exception> LongMatrix zipWith(final LongMatrix matrixB, final LongMatrix matrixC, final Try.LongTriFunction<Long, E> zipFunction)
+    public <E extends Exception> ByteMatrix zipWith(final ByteMatrix matrixB, final ByteMatrix matrixC, final Try.ByteTriFunction<Byte, E> zipFunction)
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
 
-        final long[][] result = new long[rows][cols];
-        final long[][] b = matrixB.a;
-        final long[][] c = matrixC.a;
+        final byte[][] result = new byte[rows][cols];
+        final byte[][] b = matrixB.a;
+        final byte[][] c = matrixC.a;
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1711,6 +1751,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -1735,7 +1776,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
         }
 
-        return new LongMatrix(result);
+        return new ByteMatrix(result);
     }
 
     /**
@@ -1744,14 +1785,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a stream composed by elements on the diagonal line from left up to right down.
      */
     @Override
-    public LongStream streamLU2RD() {
+    public ByteStream streamLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         if (isEmpty()) {
-            return LongStream.empty();
+            return ByteStream.empty();
         }
 
-        return LongStream.of(new LongIteratorEx() {
+        return ByteStream.of(new ByteIteratorEx() {
             private final int toIndex = rows;
             private int cursor = 0;
 
@@ -1761,7 +1802,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public long nextLong() {
+            public byte nextByte() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
@@ -1789,14 +1830,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a stream composed by elements on the diagonal line from right up to left down.
      */
     @Override
-    public LongStream streamRU2LD() {
+    public ByteStream streamRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         if (isEmpty()) {
-            return LongStream.empty();
+            return ByteStream.empty();
         }
 
-        return LongStream.of(new LongIteratorEx() {
+        return ByteStream.of(new ByteIteratorEx() {
             private final int toIndex = rows;
             private int cursor = 0;
 
@@ -1806,7 +1847,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public long nextLong() {
+            public byte nextByte() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
@@ -1834,7 +1875,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a stream based on the order of row.
      */
     @Override
-    public LongStream streamH() {
+    public ByteStream streamH() {
         return streamH(0, rows);
     }
 
@@ -1842,10 +1883,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Stream H.
      *
      * @param rowIndex the row index
-     * @return the long stream
+     * @return the byte stream
      */
     @Override
-    public LongStream streamH(final int rowIndex) {
+    public ByteStream streamH(final int rowIndex) {
         return streamH(rowIndex, rowIndex + 1);
     }
 
@@ -1857,14 +1898,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a stream based on the order of row.
      */
     @Override
-    public LongStream streamH(final int fromRowIndex, final int toRowIndex) {
+    public ByteStream streamH(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
-            return LongStream.empty();
+            return ByteStream.empty();
         }
 
-        return LongStream.of(new LongIteratorEx() {
+        return ByteStream.of(new ByteIteratorEx() {
             private int i = fromRowIndex;
             private int j = 0;
 
@@ -1874,12 +1915,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public long nextLong() {
+            public byte nextByte() {
                 if (i >= toRowIndex) {
                     throw new NoSuchElementException();
                 }
 
-                final long result = a[i][j++];
+                final byte result = a[i][j++];
 
                 if (j >= cols) {
                     i++;
@@ -1908,9 +1949,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public long[] toArray() {
+            public byte[] toArray() {
                 final int len = (int) count();
-                final long[] c = new long[len];
+                final byte[] c = new byte[len];
 
                 for (int k = 0; k < len; k++) {
                     c[k] = a[i][j++];
@@ -1933,7 +1974,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     @Beta
-    public LongStream streamV() {
+    public ByteStream streamV() {
         return streamV(0, cols);
     }
 
@@ -1941,10 +1982,10 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Stream V.
      *
      * @param columnIndex the column index
-     * @return the long stream
+     * @return the byte stream
      */
     @Override
-    public LongStream streamV(final int columnIndex) {
+    public ByteStream streamV(final int columnIndex) {
         return streamV(columnIndex, columnIndex + 1);
     }
 
@@ -1957,14 +1998,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     @Beta
-    public LongStream streamV(final int fromColumnIndex, final int toColumnIndex) {
+    public ByteStream streamV(final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
-            return LongStream.empty();
+            return ByteStream.empty();
         }
 
-        return LongStream.of(new LongIteratorEx() {
+        return ByteStream.of(new ByteIteratorEx() {
             private int i = 0;
             private int j = fromColumnIndex;
 
@@ -1974,18 +2015,17 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public long nextLong() {
+            public byte nextByte() {
                 if (j >= toColumnIndex) {
                     throw new NoSuchElementException();
                 }
 
-                final long result = a[i++][j];
+                final byte result = a[i++][j];
 
                 if (i >= rows) {
                     i = 0;
                     j++;
                 }
-
                 return result;
             }
 
@@ -1993,12 +2033,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             public void skip(long n) {
                 N.checkArgNotNegative(n, "n");
 
-                if (n >= (toColumnIndex - j) * LongMatrix.this.rows * 1L - i) {
+                if (n >= (toColumnIndex - j) * ByteMatrix.this.rows * 1L - i) {
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    i += (n + i) % LongMatrix.this.rows;
-                    j += (n + i) / LongMatrix.this.rows;
+                    i += (n + i) % ByteMatrix.this.rows;
+                    j += (n + i) / ByteMatrix.this.rows;
                 }
             }
 
@@ -2008,9 +2048,9 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public long[] toArray() {
+            public byte[] toArray() {
                 final int len = (int) count();
-                final long[] c = new long[len];
+                final byte[] c = new byte[len];
 
                 for (int k = 0; k < len; k++) {
                     c[k] = a[i++][j];
@@ -2032,7 +2072,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a row stream based on the order of row.
      */
     @Override
-    public Stream<LongStream> streamR() {
+    public Stream<ByteStream> streamR() {
         return streamR(0, rows);
     }
 
@@ -2044,14 +2084,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return a row stream based on the order of row.
      */
     @Override
-    public Stream<LongStream> streamR(final int fromRowIndex, final int toRowIndex) {
+    public Stream<ByteStream> streamR(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<LongStream>() {
+        return Stream.of(new ObjIteratorEx<ByteStream>() {
             private final int toIndex = toRowIndex;
             private int cursor = fromRowIndex;
 
@@ -2061,12 +2101,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public LongStream next() {
+            public ByteStream next() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
 
-                return LongStream.of(a[cursor++]);
+                return ByteStream.of(a[cursor++]);
             }
 
             @Override
@@ -2090,7 +2130,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     @Beta
-    public Stream<LongStream> streamC() {
+    public Stream<ByteStream> streamC() {
         return streamC(0, cols);
     }
 
@@ -2103,14 +2143,14 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      */
     @Override
     @Beta
-    public Stream<LongStream> streamC(final int fromColumnIndex, final int toColumnIndex) {
+    public Stream<ByteStream> streamC(final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<LongStream>() {
+        return Stream.of(new ObjIteratorEx<ByteStream>() {
             private final int toIndex = toColumnIndex;
             private volatile int cursor = fromColumnIndex;
 
@@ -2120,12 +2160,12 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             }
 
             @Override
-            public LongStream next() {
+            public ByteStream next() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
 
-                return LongStream.of(new LongIteratorEx() {
+                return ByteStream.of(new ByteIteratorEx() {
                     private final int columnIndex = cursor++;
                     private final int toIndex2 = rows;
                     private int cursor2 = 0;
@@ -2136,7 +2176,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
                     }
 
                     @Override
-                    public long nextLong() {
+                    public byte nextByte() {
                         if (cursor2 >= toIndex2) {
                             throw new NoSuchElementException();
                         }
@@ -2179,7 +2219,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @return the int
      */
     @Override
-    protected int length(long[] a) {
+    protected int length(byte[] a) {
         return a == null ? 0 : a.length;
     }
 
@@ -2190,7 +2230,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @param action the action
      * @throws E the e
      */
-    public <E extends Exception> void forEach(final Try.LongConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Try.ByteConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
@@ -2206,7 +2246,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Try.LongConsumer<E> action) throws E {
+            final Try.ByteConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -2247,8 +2287,8 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
             return true;
         }
 
-        if (obj instanceof LongMatrix) {
-            final LongMatrix another = (LongMatrix) obj;
+        if (obj instanceof ByteMatrix) {
+            final ByteMatrix another = (ByteMatrix) obj;
 
             return N.deepEquals(this.a, another.a);
         }

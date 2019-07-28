@@ -12,98 +12,75 @@
  * the License.
  */
 
-package com.landawn.abacus.da;
+package com.landawn.abacus.da.util;
 
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.util.Array;
-import com.landawn.abacus.util.FloatList;
+import com.landawn.abacus.util.CharList;
 import com.landawn.abacus.util.IntPair;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.Try;
 import com.landawn.abacus.util.Try.Consumer;
 import com.landawn.abacus.util.f;
-import com.landawn.abacus.util.u.OptionalFloat;
+import com.landawn.abacus.util.u.OptionalChar;
 import com.landawn.abacus.util.function.IntConsumer;
-import com.landawn.abacus.util.stream.FloatIteratorEx;
-import com.landawn.abacus.util.stream.FloatStream;
+import com.landawn.abacus.util.stream.CharIteratorEx;
+import com.landawn.abacus.util.stream.CharStream;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class FloatMatrix.
+ * The Class CharMatrix.
  *
  * @author Haiyang Li
  * @since 0.8
  */
-public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatStream, Stream<FloatStream>, FloatMatrix> {
+public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStream, Stream<CharStream>, CharMatrix> {
 
-    /** The Constant EMPTY_FLOAT_MATRIX. */
-    static final FloatMatrix EMPTY_FLOAT_MATRIX = new FloatMatrix(new float[0][0]);
+    /** The Constant EMPTY_CHAR_MATRIX. */
+    static final CharMatrix EMPTY_CHAR_MATRIX = new CharMatrix(new char[0][0]);
 
     /**
-     * Instantiates a new float matrix.
+     * Instantiates a new char matrix.
      *
      * @param a the a
      */
-    public FloatMatrix(final float[][] a) {
-        super(a == null ? new float[0][0] : a);
+    public CharMatrix(final char[][] a) {
+        super(a == null ? new char[0][0] : a);
     }
 
     /**
      * Empty.
      *
-     * @return the float matrix
+     * @return the char matrix
      */
-    public static FloatMatrix empty() {
-        return EMPTY_FLOAT_MATRIX;
+    public static CharMatrix empty() {
+        return EMPTY_CHAR_MATRIX;
     }
 
     /**
      * Of.
      *
      * @param a the a
-     * @return the float matrix
+     * @return the char matrix
      */
     @SafeVarargs
-    public static FloatMatrix of(final float[]... a) {
-        return N.isNullOrEmpty(a) ? EMPTY_FLOAT_MATRIX : new FloatMatrix(a);
-    }
-
-    /**
-     * From.
-     *
-     * @param a the a
-     * @return the float matrix
-     */
-    @SafeVarargs
-    public static FloatMatrix from(final int[]... a) {
-        if (N.isNullOrEmpty(a)) {
-            return EMPTY_FLOAT_MATRIX;
-        }
-
-        final float[][] c = new float[a.length][a[0].length];
-
-        for (int i = 0, len = a.length; i < len; i++) {
-            for (int j = 0, col = a[0].length; j < col; j++) {
-                c[i][j] = a[i][j];
-            }
-        }
-
-        return new FloatMatrix(c);
+    public static CharMatrix of(final char[]... a) {
+        return N.isNullOrEmpty(a) ? EMPTY_CHAR_MATRIX : new CharMatrix(a);
     }
 
     /**
      * Random.
      *
      * @param len the len
-     * @return the float matrix
+     * @return the char matrix
      */
-    public static FloatMatrix random(final int len) {
-        return new FloatMatrix(new float[][] { FloatList.random(len).array() });
+    public static CharMatrix random(final int len) {
+        return new CharMatrix(new char[][] { CharList.random(len).array() });
     }
 
     /**
@@ -111,19 +88,65 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param val the val
      * @param len the len
-     * @return the float matrix
+     * @return the char matrix
      */
-    public static FloatMatrix repeat(final float val, final int len) {
-        return new FloatMatrix(new float[][] { Array.repeat(val, len) });
+    public static CharMatrix repeat(final char val, final int len) {
+        return new CharMatrix(new char[][] { Array.repeat(val, len) });
+    }
+
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @return the char matrix
+     */
+    public static CharMatrix range(char startInclusive, final char endExclusive) {
+        return new CharMatrix(new char[][] { Array.range(startInclusive, endExclusive) });
+    }
+
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @param by the by
+     * @return the char matrix
+     */
+    public static CharMatrix range(char startInclusive, final char endExclusive, final int by) {
+        return new CharMatrix(new char[][] { Array.range(startInclusive, endExclusive, by) });
+    }
+
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @return the char matrix
+     */
+    public static CharMatrix rangeClosed(char startInclusive, final char endInclusive) {
+        return new CharMatrix(new char[][] { Array.rangeClosed(startInclusive, endInclusive) });
+    }
+
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @param by the by
+     * @return the char matrix
+     */
+    public static CharMatrix rangeClosed(char startInclusive, final char endInclusive, final int by) {
+        return new CharMatrix(new char[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
     /**
      * Diagonal LU 2 RD.
      *
      * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
-     * @return the float matrix
+     * @return the char matrix
      */
-    public static FloatMatrix diagonalLU2RD(final float[] leftUp2RighDownDiagonal) {
+    public static CharMatrix diagonalLU2RD(final char[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
     }
 
@@ -131,9 +154,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Diagonal RU 2 LD.
      *
      * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the float matrix
+     * @return the char matrix
      */
-    public static FloatMatrix diagonalRU2LD(final float[] rightUp2LeftDownDiagonal) {
+    public static CharMatrix diagonalRU2LD(final char[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
@@ -142,9 +165,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
      * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the float matrix
+     * @return the char matrix
      */
-    public static FloatMatrix diagonal(final float[] leftUp2RighDownDiagonal, float[] rightUp2LeftDownDiagonal) {
+    public static CharMatrix diagonal(final char[] leftUp2RighDownDiagonal, char[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
                 N.isNullOrEmpty(leftUp2RighDownDiagonal) || N.isNullOrEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
@@ -155,17 +178,17 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                 return empty();
             } else {
                 final int len = rightUp2LeftDownDiagonal.length;
-                final float[][] c = new float[len][len];
+                final char[][] c = new char[len][len];
 
                 for (int i = 0, j = len - 1; i < len; i++, j--) {
                     c[i][j] = rightUp2LeftDownDiagonal[i];
                 }
 
-                return new FloatMatrix(c);
+                return new CharMatrix(c);
             }
         } else {
             final int len = leftUp2RighDownDiagonal.length;
-            final float[][] c = new float[len][len];
+            final char[][] c = new char[len][len];
 
             for (int i = 0; i < len; i++) {
                 c[i][i] = leftUp2RighDownDiagonal[i];
@@ -177,7 +200,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                 }
             }
 
-            return new FloatMatrix(c);
+            return new CharMatrix(c);
         }
     }
 
@@ -186,9 +209,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param i the i
      * @param j the j
-     * @return the float
+     * @return the char
      */
-    public float get(final int i, final int j) {
+    public char get(final int i, final int j) {
         return a[i][j];
     }
 
@@ -196,9 +219,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Gets the.
      *
      * @param point the point
-     * @return the float
+     * @return the char
      */
-    public float get(final IntPair point) {
+    public char get(final IntPair point) {
         return a[point._1][point._2];
     }
 
@@ -209,7 +232,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param j the j
      * @param val the val
      */
-    public void set(final int i, final int j, final float val) {
+    public void set(final int i, final int j, final char val) {
         a[i][j] = val;
     }
 
@@ -219,7 +242,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param point the point
      * @param val the val
      */
-    public void set(final IntPair point, final float val) {
+    public void set(final IntPair point, final char val) {
         a[point._1][point._2] = val;
     }
 
@@ -228,10 +251,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param i the i
      * @param j the j
-     * @return the optional float
+     * @return the optional char
      */
-    public OptionalFloat upOf(final int i, final int j) {
-        return i == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[i - 1][j]);
+    public OptionalChar upOf(final int i, final int j) {
+        return i == 0 ? OptionalChar.empty() : OptionalChar.of(a[i - 1][j]);
     }
 
     /**
@@ -239,10 +262,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param i the i
      * @param j the j
-     * @return the optional float
+     * @return the optional char
      */
-    public OptionalFloat downOf(final int i, final int j) {
-        return i == rows - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[i + 1][j]);
+    public OptionalChar downOf(final int i, final int j) {
+        return i == rows - 1 ? OptionalChar.empty() : OptionalChar.of(a[i + 1][j]);
     }
 
     /**
@@ -250,10 +273,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param i the i
      * @param j the j
-     * @return the optional float
+     * @return the optional char
      */
-    public OptionalFloat leftOf(final int i, final int j) {
-        return j == 0 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j - 1]);
+    public OptionalChar leftOf(final int i, final int j) {
+        return j == 0 ? OptionalChar.empty() : OptionalChar.of(a[i][j - 1]);
     }
 
     /**
@@ -261,10 +284,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param i the i
      * @param j the j
-     * @return the optional float
+     * @return the optional char
      */
-    public OptionalFloat rightOf(final int i, final int j) {
-        return j == cols - 1 ? OptionalFloat.empty() : OptionalFloat.of(a[i][j + 1]);
+    public OptionalChar rightOf(final int i, final int j) {
+        return j == cols - 1 ? OptionalChar.empty() : OptionalChar.of(a[i][j + 1]);
     }
 
     /**
@@ -308,9 +331,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Row.
      *
      * @param rowIndex the row index
-     * @return the float[]
+     * @return the char[]
      */
-    public float[] row(final int rowIndex) {
+    public char[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
 
         return a[rowIndex];
@@ -320,12 +343,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Column.
      *
      * @param columnIndex the column index
-     * @return the float[]
+     * @return the char[]
      */
-    public float[] column(final int columnIndex) {
+    public char[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
-        final float[] c = new float[rows];
+        final char[] c = new char[rows];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[i][columnIndex];
@@ -340,7 +363,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param rowIndex the row index
      * @param row the row
      */
-    public void setRow(int rowIndex, float[] row) {
+    public void setRow(int rowIndex, char[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -352,7 +375,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param columnIndex the column index
      * @param column the column
      */
-    public void setColumn(int columnIndex, float[] column) {
+    public void setColumn(int columnIndex, char[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -368,9 +391,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Try.FloatUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(int rowIndex, Try.CharUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
-            a[rowIndex][i] = func.applyAsFloat(a[rowIndex][i]);
+            a[rowIndex][i] = func.applyAsChar(a[rowIndex][i]);
         }
     }
 
@@ -382,9 +405,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Try.FloatUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(int columnIndex, Try.CharUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
-            a[i][columnIndex] = func.applyAsFloat(a[i][columnIndex]);
+            a[i][columnIndex] = func.applyAsChar(a[i][columnIndex]);
         }
     }
 
@@ -393,10 +416,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @return the lu2rd
      */
-    public float[] getLU2RD() {
+    public char[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
-        final float[] res = new float[rows];
+        final char[] res = new char[rows];
 
         for (int i = 0; i < rows; i++) {
             res[i] = a[i][i];
@@ -410,7 +433,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param diagonal the new lu2rd
      */
-    public void setLU2RD(final float[] diagonal) {
+    public void setLU2RD(final char[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -426,11 +449,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateLU2RD(final Try.FloatUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Try.CharUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = func.applyAsFloat(a[i][i]);
+            a[i][i] = func.applyAsChar(a[i][i]);
         }
     }
 
@@ -439,10 +462,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @return the ru2ld
      */
-    public float[] getRU2LD() {
+    public char[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
-        final float[] res = new float[rows];
+        final char[] res = new char[rows];
 
         for (int i = 0; i < rows; i++) {
             res[i] = a[i][cols - i - 1];
@@ -456,7 +479,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param diagonal the new ru2ld
      */
-    public void setRU2LD(final float[] diagonal) {
+    public void setRU2LD(final char[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -472,11 +495,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateRU2LD(final Try.FloatUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Try.CharUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
-            a[i][cols - i - 1] = func.applyAsFloat(a[i][cols - i - 1]);
+            a[i][cols - i - 1] = func.applyAsChar(a[i][cols - i - 1]);
         }
     }
 
@@ -487,14 +510,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.FloatUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateAll(final Try.CharUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            a[i][j] = func.applyAsFloat(a[i][j]);
+                            a[i][j] = func.applyAsChar(a[i][j]);
                         }
                     }
                 });
@@ -503,7 +526,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            a[i][j] = func.applyAsFloat(a[i][j]);
+                            a[i][j] = func.applyAsChar(a[i][j]);
                         }
                     }
                 });
@@ -512,13 +535,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        a[i][j] = func.applyAsFloat(a[i][j]);
+                        a[i][j] = func.applyAsChar(a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        a[i][j] = func.applyAsFloat(a[i][j]);
+                        a[i][j] = func.applyAsChar(a[i][j]);
                     }
                 }
             }
@@ -532,7 +555,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.IntBiFunction<Float, E> func) throws E {
+    public <E extends Exception> void updateAll(final Try.IntBiFunction<Character, E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -578,7 +601,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param newValue the new value
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.FloatPredicate<E> predicate, final float newValue) throws E {
+    public <E extends Exception> void replaceIf(final Try.CharPredicate<E> predicate, final char newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -624,7 +647,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param newValue the new value
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final float newValue) throws E {
+    public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final char newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -667,11 +690,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param <E> the element type
      * @param func the func
-     * @return the float matrix
+     * @return the char matrix
      * @throws E the e
      */
-    public <E extends Exception> FloatMatrix map(final Try.FloatUnaryOperator<E> func) throws E {
-        final float[][] c = new float[rows][cols];
+    public <E extends Exception> CharMatrix map(final Try.CharUnaryOperator<E> func) throws E {
+        final char[][] c = new char[rows][cols];
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -679,7 +702,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsFloat(a[i][j]);
+                            c[i][j] = func.applyAsChar(a[i][j]);
                         }
                     }
                 });
@@ -688,7 +711,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsFloat(a[i][j]);
+                            c[i][j] = func.applyAsChar(a[i][j]);
                         }
                     }
                 });
@@ -697,19 +720,19 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsFloat(a[i][j]);
+                        c[i][j] = func.applyAsChar(a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsFloat(a[i][j]);
+                        c[i][j] = func.applyAsChar(a[i][j]);
                     }
                 }
             }
         }
 
-        return FloatMatrix.of(c);
+        return CharMatrix.of(c);
     }
 
     /**
@@ -722,7 +745,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return the matrix
      * @throws E the e
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.FloatFunction<? extends T, E> func) throws E {
+    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.CharFunction<? extends T, E> func) throws E {
         final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
 
         for (int i = 0; i < rows; i++) {
@@ -773,7 +796,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param val the val
      */
-    public void fill(final float val) {
+    public void fill(final char val) {
         for (int i = 0; i < rows; i++) {
             N.fill(a[i], val);
         }
@@ -784,7 +807,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param b the b
      */
-    public void fill(final float[][] b) {
+    public void fill(final char[][] b) {
         fill(0, 0, b);
     }
 
@@ -795,7 +818,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param fromColumnIndex the from column index
      * @param b the b
      */
-    public void fill(final int fromRowIndex, final int fromColumnIndex, final float[][] b) {
+    public void fill(final int fromRowIndex, final int fromColumnIndex, final char[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
         N.checkFromToIndex(fromColumnIndex, cols, cols);
 
@@ -807,17 +830,17 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Copy.
      *
-     * @return the float matrix
+     * @return the char matrix
      */
     @Override
-    public FloatMatrix copy() {
-        final float[][] c = new float[rows][];
+    public CharMatrix copy() {
+        final char[][] c = new char[rows][];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[i].clone();
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
@@ -825,19 +848,19 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param fromRowIndex the from row index
      * @param toRowIndex the to row index
-     * @return the float matrix
+     * @return the char matrix
      */
     @Override
-    public FloatMatrix copy(final int fromRowIndex, final int toRowIndex) {
+    public CharMatrix copy(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
-        final float[][] c = new float[toRowIndex - fromRowIndex][];
+        final char[][] c = new char[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
             c[i - fromRowIndex] = a[i].clone();
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
@@ -847,20 +870,20 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param toRowIndex the to row index
      * @param fromColumnIndex the from column index
      * @param toColumnIndex the to column index
-     * @return the float matrix
+     * @return the char matrix
      */
     @Override
-    public FloatMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
+    public CharMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
-        final float[][] c = new float[toRowIndex - fromRowIndex][];
+        final char[][] c = new char[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
             c[i - fromRowIndex] = N.copyOfRange(a[i], fromColumnIndex, toColumnIndex);
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
@@ -868,10 +891,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param newRows the new rows
      * @param newCols the new cols
-     * @return the float matrix
+     * @return the char matrix
      */
-    public FloatMatrix extend(final int newRows, final int newCols) {
-        return extend(newRows, newCols, 0);
+    public CharMatrix extend(final int newRows, final int newCols) {
+        return extend(newRows, newCols, CHAR_0);
     }
 
     /**
@@ -880,20 +903,20 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param newRows the new rows
      * @param newCols the new cols
      * @param defaultValueForNewCell the default value for new cell
-     * @return the float matrix
+     * @return the char matrix
      */
-    public FloatMatrix extend(final int newRows, final int newCols, final float defaultValueForNewCell) {
+    public CharMatrix extend(final int newRows, final int newCols, final char defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
         } else {
-            final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final float[][] b = new float[newRows][];
+            final boolean fillDefaultValue = defaultValueForNewCell != CHAR_0;
+            final char[][] b = new char[newRows][];
 
             for (int i = 0; i < newRows; i++) {
-                b[i] = i < rows ? N.copyOf(a[i], newCols) : new float[newCols];
+                b[i] = i < rows ? N.copyOf(a[i], newCols) : new char[newCols];
 
                 if (fillDefaultValue) {
                     if (i >= rows) {
@@ -904,7 +927,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                 }
             }
 
-            return new FloatMatrix(b);
+            return new CharMatrix(b);
         }
     }
 
@@ -915,10 +938,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param toDown the to down
      * @param toLeft the to left
      * @param toRight the to right
-     * @return the float matrix
+     * @return the char matrix
      */
-    public FloatMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
-        return extend(toUp, toDown, toLeft, toRight, 0);
+    public CharMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
+        return extend(toUp, toDown, toLeft, toRight, CHAR_0);
     }
 
     /**
@@ -929,9 +952,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param toLeft the to left
      * @param toRight the to right
      * @param defaultValueForNewCell the default value for new cell
-     * @return the float matrix
+     * @return the char matrix
      */
-    public FloatMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final float defaultValueForNewCell) {
+    public CharMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final char defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
         N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
         N.checkArgument(toLeft >= 0, "The 'toLeft' can't be negative %s", toLeft);
@@ -942,8 +965,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
         } else {
             final int newRows = toUp + rows + toDown;
             final int newCols = toLeft + cols + toRight;
-            final boolean fillDefaultValue = defaultValueForNewCell != 0;
-            final float[][] b = new float[newRows][newCols];
+            final boolean fillDefaultValue = defaultValueForNewCell != CHAR_0;
+            final char[][] b = new char[newRows][newCols];
 
             for (int i = 0; i < newRows; i++) {
                 if (i >= toUp && i < toUp + rows) {
@@ -965,7 +988,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                 }
             }
 
-            return new FloatMatrix(b);
+            return new CharMatrix(b);
         }
     }
 
@@ -983,7 +1006,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
-            float tmp = 0;
+            char tmp = 0;
             for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
@@ -995,11 +1018,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Flip H.
      *
-     * @return the float matrix
+     * @return the char matrix
      * @see IntMatrix#flipH()
      */
-    public FloatMatrix flipH() {
-        final FloatMatrix res = this.copy();
+    public CharMatrix flipH() {
+        final CharMatrix res = this.copy();
         res.reverseH();
         return res;
     }
@@ -1007,11 +1030,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Flip V.
      *
-     * @return the float matrix
+     * @return the char matrix
      * @see IntMatrix#flipV()
      */
-    public FloatMatrix flipV() {
-        final FloatMatrix res = this.copy();
+    public CharMatrix flipV() {
+        final CharMatrix res = this.copy();
         res.reverseV();
         return res;
     }
@@ -1019,11 +1042,11 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     /**
      * Rotate 90.
      *
-     * @return the float matrix
+     * @return the char matrix
      */
     @Override
-    public FloatMatrix rotate90() {
-        final float[][] c = new float[cols][rows];
+    public CharMatrix rotate90() {
+        final char[][] c = new char[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1039,34 +1062,34 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
      * Rotate 180.
      *
-     * @return the float matrix
+     * @return the char matrix
      */
     @Override
-    public FloatMatrix rotate180() {
-        final float[][] c = new float[rows][];
+    public CharMatrix rotate180() {
+        final char[][] c = new char[rows][];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[rows - i - 1].clone();
             N.reverse(c[i]);
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
      * Rotate 270.
      *
-     * @return the float matrix
+     * @return the char matrix
      */
     @Override
-    public FloatMatrix rotate270() {
-        final float[][] c = new float[cols][rows];
+    public CharMatrix rotate270() {
+        final char[][] c = new char[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1082,17 +1105,17 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
      * Transpose.
      *
-     * @return the float matrix
+     * @return the char matrix
      */
     @Override
-    public FloatMatrix transpose() {
-        final float[][] c = new float[cols][rows];
+    public CharMatrix transpose() {
+        final char[][] c = new char[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1108,7 +1131,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
@@ -1116,18 +1139,18 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @param newRows the new rows
      * @param newCols the new cols
-     * @return the float matrix
+     * @return the char matrix
      */
     @Override
-    public FloatMatrix reshape(final int newRows, final int newCols) {
-        final float[][] c = new float[newRows][newCols];
+    public CharMatrix reshape(final int newRows, final int newCols) {
+        final char[][] c = new char[newRows][newCols];
 
         if (newRows == 0 || newCols == 0 || N.isNullOrEmpty(a)) {
-            return new FloatMatrix(c);
+            return new CharMatrix(c);
         }
 
         if (a.length == 1) {
-            final float[] a0 = a[0];
+            final char[] a0 = a[0];
 
             for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
                 N.copy(a0, i * newCols, c[i], 0, (int) N.min(newCols, count - i * newCols));
@@ -1142,7 +1165,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
@@ -1154,13 +1177,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @see IntMatrix#repelem(int, int)
      */
     @Override
-    public FloatMatrix repelem(final int rowRepeats, final int colRepeats) {
+    public CharMatrix repelem(final int rowRepeats, final int colRepeats) {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
-        final float[][] c = new float[rows * rowRepeats][cols * colRepeats];
+        final char[][] c = new char[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
-            final float[] fr = c[i * rowRepeats];
+            final char[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < cols; j++) {
                 N.copy(Array.repeat(a[i][j], colRepeats), 0, fr, j * colRepeats, colRepeats);
@@ -1171,7 +1194,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
@@ -1183,10 +1206,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @see IntMatrix#repmat(int, int)
      */
     @Override
-    public FloatMatrix repmat(final int rowRepeats, final int colRepeats) {
+    public CharMatrix repmat(final int rowRepeats, final int colRepeats) {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
-        final float[][] c = new float[rows * rowRepeats][cols * colRepeats];
+        final char[][] c = new char[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < colRepeats; j++) {
@@ -1200,23 +1223,23 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
      * Flatten.
      *
-     * @return the float list
+     * @return the char list
      */
     @Override
-    public FloatList flatten() {
-        final float[] c = new float[rows * cols];
+    public CharList flatten() {
+        final char[] c = new char[rows * cols];
 
         for (int i = 0; i < rows; i++) {
             N.copy(a[i], 0, c, i * cols, cols);
         }
 
-        return FloatList.of(c);
+        return CharList.of(c);
     }
 
     /**
@@ -1227,7 +1250,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E the e
      */
     @Override
-    public <E extends Exception> void flatOp(Consumer<float[], E> op) throws E {
+    public <E extends Exception> void flatOp(Consumer<char[], E> op) throws E {
         f.flatOp(a, op);
     }
 
@@ -1235,13 +1258,13 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Vstack.
      *
      * @param b the b
-     * @return the float matrix
+     * @return the char matrix
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public FloatMatrix vstack(final FloatMatrix b) {
+    public CharMatrix vstack(final CharMatrix b) {
         N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
 
-        final float[][] c = new float[this.rows + b.rows][];
+        final char[][] c = new char[this.rows + b.rows][];
         int j = 0;
 
         for (int i = 0; i < rows; i++) {
@@ -1252,39 +1275,39 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             c[j++] = b.a[i].clone();
         }
 
-        return FloatMatrix.of(c);
+        return CharMatrix.of(c);
     }
 
     /**
      * Hstack.
      *
      * @param b the b
-     * @return the float matrix
+     * @return the char matrix
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public FloatMatrix hstack(final FloatMatrix b) {
+    public CharMatrix hstack(final CharMatrix b) {
         N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
 
-        final float[][] c = new float[rows][cols + b.cols];
+        final char[][] c = new char[rows][cols + b.cols];
 
         for (int i = 0; i < rows; i++) {
             N.copy(a[i], 0, c[i], 0, cols);
             N.copy(b.a[i], 0, c[i], cols, b.cols);
         }
 
-        return FloatMatrix.of(c);
+        return CharMatrix.of(c);
     }
 
     /**
      * Adds the.
      *
      * @param b the b
-     * @return the float matrix
+     * @return the char matrix
      */
-    public FloatMatrix add(final FloatMatrix b) {
+    public CharMatrix add(final CharMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
-        final float[][] c = new float[rows][cols];
+        final char[][] c = new char[rows][cols];
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1292,7 +1315,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     @Override
                     public void accept(final int i) {
                         for (int j = 0; j < cols; j++) {
-                            c[i][j] = a[i][j] + b.a[i][j];
+                            c[i][j] = (char) (a[i][j] + b.a[i][j]);
                         }
                     }
                 });
@@ -1301,7 +1324,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     @Override
                     public void accept(final int j) {
                         for (int i = 0; i < rows; i++) {
-                            c[i][j] = a[i][j] + b.a[i][j];
+                            c[i][j] = (char) (a[i][j] + b.a[i][j]);
                         }
                     }
                 });
@@ -1310,31 +1333,31 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        c[i][j] = a[i][j] + b.a[i][j];
+                        c[i][j] = (char) (a[i][j] + b.a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        c[i][j] = a[i][j] + b.a[i][j];
+                        c[i][j] = (char) (a[i][j] + b.a[i][j]);
                     }
                 }
             }
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
      * Subtract.
      *
      * @param b the b
-     * @return the float matrix
+     * @return the char matrix
      */
-    public FloatMatrix subtract(final FloatMatrix b) {
+    public CharMatrix subtract(final CharMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
-        final float[][] c = new float[rows][cols];
+        final char[][] c = new char[rows][cols];
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1342,7 +1365,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     @Override
                     public void accept(final int i) {
                         for (int j = 0; j < cols; j++) {
-                            c[i][j] = a[i][j] - b.a[i][j];
+                            c[i][j] = (char) (a[i][j] - b.a[i][j]);
                         }
                     }
                 });
@@ -1351,7 +1374,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     @Override
                     public void accept(final int j) {
                         for (int i = 0; i < rows; i++) {
-                            c[i][j] = a[i][j] - b.a[i][j];
+                            c[i][j] = (char) (a[i][j] - b.a[i][j]);
                         }
                     }
                 });
@@ -1360,32 +1383,32 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        c[i][j] = a[i][j] - b.a[i][j];
+                        c[i][j] = (char) (a[i][j] - b.a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        c[i][j] = a[i][j] - b.a[i][j];
+                        c[i][j] = (char) (a[i][j] - b.a[i][j]);
                     }
                 }
             }
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
      * Multiply.
      *
      * @param b the b
-     * @return the float matrix
+     * @return the char matrix
      */
-    public FloatMatrix multiply(final FloatMatrix b) {
+    public CharMatrix multiply(final CharMatrix b) {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
 
-        final float[][] c = new float[rows][b.cols];
-        final float[][] a2 = b.a;
+        final char[][] c = new char[rows][b.cols];
+        final char[][] a2 = b.a;
 
         if (isParallelable(b.cols)) {
             if (N.min(rows, cols, b.cols) == rows) {
@@ -1519,7 +1542,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
         }
 
-        return new FloatMatrix(c);
+        return new CharMatrix(c);
     }
 
     /**
@@ -1527,8 +1550,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      *
      * @return the matrix
      */
-    public Matrix<Float> boxed() {
-        final Float[][] c = new Float[rows][cols];
+    public Matrix<Character> boxed() {
+        final Character[][] c = new Character[rows][cols];
 
         if (rows <= cols) {
             for (int i = 0; i < rows; i++) {
@@ -1548,12 +1571,87 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
+     * To int matrix.
+     *
+     * @return the int matrix
+     */
+    public IntMatrix toIntMatrix() {
+        return IntMatrix.from(a);
+    }
+
+    /**
+     * To long matrix.
+     *
+     * @return the long matrix
+     */
+    public LongMatrix toLongMatrix() {
+        final long[][] c = new long[rows][cols];
+
+        if (rows <= cols) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        } else {
+            for (int j = 0; j < cols; j++) {
+                for (int i = 0; i < rows; i++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        }
+
+        return new LongMatrix(c);
+    }
+
+    /**
+     * To float matrix.
+     *
+     * @return the float matrix
+     */
+    public FloatMatrix toFloatMatrix() {
+        final float[][] c = new float[rows][cols];
+
+        if (rows <= cols) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        } else {
+            for (int j = 0; j < cols; j++) {
+                for (int i = 0; i < rows; i++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        }
+
+        return new FloatMatrix(c);
+    }
+
+    /**
      * To double matrix.
      *
      * @return the double matrix
      */
     public DoubleMatrix toDoubleMatrix() {
-        return DoubleMatrix.from(a);
+        final double[][] c = new double[rows][cols];
+
+        if (rows <= cols) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        } else {
+            for (int j = 0; j < cols; j++) {
+                for (int i = 0; i < rows; i++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        }
+
+        return new DoubleMatrix(c);
     }
 
     /**
@@ -1562,14 +1660,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param <E> the element type
      * @param matrixB the matrix B
      * @param zipFunction the zip function
-     * @return the float matrix
+     * @return the char matrix
      * @throws E the e
      */
-    public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final Try.FloatBiFunction<Float, E> zipFunction) throws E {
+    public <E extends Exception> CharMatrix zipWith(final CharMatrix matrixB, final Try.CharBiFunction<Character, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
-        final float[][] result = new float[rows][cols];
-        final float[][] b = matrixB.a;
+        final char[][] result = new char[rows][cols];
+        final char[][] b = matrixB.a;
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1607,7 +1705,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
         }
 
-        return new FloatMatrix(result);
+        return new CharMatrix(result);
     }
 
     /**
@@ -1617,16 +1715,16 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param matrixB the matrix B
      * @param matrixC the matrix C
      * @param zipFunction the zip function
-     * @return the float matrix
+     * @return the char matrix
      * @throws E the e
      */
-    public <E extends Exception> FloatMatrix zipWith(final FloatMatrix matrixB, final FloatMatrix matrixC, final Try.FloatTriFunction<Float, E> zipFunction)
+    public <E extends Exception> CharMatrix zipWith(final CharMatrix matrixB, final CharMatrix matrixC, final Try.CharTriFunction<Character, E> zipFunction)
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
 
-        final float[][] result = new float[rows][cols];
-        final float[][] b = matrixB.a;
-        final float[][] c = matrixC.a;
+        final char[][] result = new char[rows][cols];
+        final char[][] b = matrixB.a;
+        final char[][] c = matrixC.a;
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1664,7 +1762,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
         }
 
-        return new FloatMatrix(result);
+        return new CharMatrix(result);
     }
 
     /**
@@ -1673,14 +1771,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a stream composed by elements on the diagonal line from left up to right down.
      */
     @Override
-    public FloatStream streamLU2RD() {
+    public CharStream streamLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         if (isEmpty()) {
-            return FloatStream.empty();
+            return CharStream.empty();
         }
 
-        return FloatStream.of(new FloatIteratorEx() {
+        return CharStream.of(new CharIteratorEx() {
             private final int toIndex = rows;
             private int cursor = 0;
 
@@ -1690,7 +1788,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public float nextFloat() {
+            public char nextChar() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
@@ -1718,14 +1816,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a stream composed by elements on the diagonal line from right up to left down.
      */
     @Override
-    public FloatStream streamRU2LD() {
+    public CharStream streamRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         if (isEmpty()) {
-            return FloatStream.empty();
+            return CharStream.empty();
         }
 
-        return FloatStream.of(new FloatIteratorEx() {
+        return CharStream.of(new CharIteratorEx() {
             private final int toIndex = rows;
             private int cursor = 0;
 
@@ -1735,7 +1833,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public float nextFloat() {
+            public char nextChar() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
@@ -1763,7 +1861,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a stream based on the order of row.
      */
     @Override
-    public FloatStream streamH() {
+    public CharStream streamH() {
         return streamH(0, rows);
     }
 
@@ -1771,10 +1869,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Stream H.
      *
      * @param rowIndex the row index
-     * @return the float stream
+     * @return the char stream
      */
     @Override
-    public FloatStream streamH(final int rowIndex) {
+    public CharStream streamH(final int rowIndex) {
         return streamH(rowIndex, rowIndex + 1);
     }
 
@@ -1786,14 +1884,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a stream based on the order of row.
      */
     @Override
-    public FloatStream streamH(final int fromRowIndex, final int toRowIndex) {
+    public CharStream streamH(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
-            return FloatStream.empty();
+            return CharStream.empty();
         }
 
-        return FloatStream.of(new FloatIteratorEx() {
+        return CharStream.of(new CharIteratorEx() {
             private int i = fromRowIndex;
             private int j = 0;
 
@@ -1803,12 +1901,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public float nextFloat() {
+            public char nextChar() {
                 if (i >= toRowIndex) {
                     throw new NoSuchElementException();
                 }
 
-                final float result = a[i][j++];
+                final char result = a[i][j++];
 
                 if (j >= cols) {
                     i++;
@@ -1837,9 +1935,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public float[] toArray() {
+            public char[] toArray() {
                 final int len = (int) count();
-                final float[] c = new float[len];
+                final char[] c = new char[len];
 
                 for (int k = 0; k < len; k++) {
                     c[k] = a[i][j++];
@@ -1862,7 +1960,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     @Beta
-    public FloatStream streamV() {
+    public CharStream streamV() {
         return streamV(0, cols);
     }
 
@@ -1870,10 +1968,10 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * Stream V.
      *
      * @param columnIndex the column index
-     * @return the float stream
+     * @return the char stream
      */
     @Override
-    public FloatStream streamV(final int columnIndex) {
+    public CharStream streamV(final int columnIndex) {
         return streamV(columnIndex, columnIndex + 1);
     }
 
@@ -1886,14 +1984,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     @Beta
-    public FloatStream streamV(final int fromColumnIndex, final int toColumnIndex) {
+    public CharStream streamV(final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
-            return FloatStream.empty();
+            return CharStream.empty();
         }
 
-        return FloatStream.of(new FloatIteratorEx() {
+        return CharStream.of(new CharIteratorEx() {
             private int i = 0;
             private int j = fromColumnIndex;
 
@@ -1903,12 +2001,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public float nextFloat() {
+            public char nextChar() {
                 if (j >= toColumnIndex) {
                     throw new NoSuchElementException();
                 }
 
-                final float result = a[i++][j];
+                final char result = a[i++][j];
 
                 if (i >= rows) {
                     i = 0;
@@ -1922,12 +2020,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             public void skip(long n) {
                 N.checkArgNotNegative(n, "n");
 
-                if (n >= (toColumnIndex - j) * FloatMatrix.this.rows * 1L - i) {
+                if (n >= (toColumnIndex - j) * CharMatrix.this.rows * 1L - i) {
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    i += (n + i) % FloatMatrix.this.rows;
-                    j += (n + i) / FloatMatrix.this.rows;
+                    i += (n + i) % CharMatrix.this.rows;
+                    j += (n + i) / CharMatrix.this.rows;
                 }
             }
 
@@ -1937,9 +2035,9 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public float[] toArray() {
+            public char[] toArray() {
                 final int len = (int) count();
-                final float[] c = new float[len];
+                final char[] c = new char[len];
 
                 for (int k = 0; k < len; k++) {
                     c[k] = a[i++][j];
@@ -1961,7 +2059,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a row stream based on the order of row.
      */
     @Override
-    public Stream<FloatStream> streamR() {
+    public Stream<CharStream> streamR() {
         return streamR(0, rows);
     }
 
@@ -1973,14 +2071,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return a row stream based on the order of row.
      */
     @Override
-    public Stream<FloatStream> streamR(final int fromRowIndex, final int toRowIndex) {
+    public Stream<CharStream> streamR(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<FloatStream>() {
+        return Stream.of(new ObjIteratorEx<CharStream>() {
             private final int toIndex = toRowIndex;
             private int cursor = fromRowIndex;
 
@@ -1990,12 +2088,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public FloatStream next() {
+            public CharStream next() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
 
-                return FloatStream.of(a[cursor++]);
+                return CharStream.of(a[cursor++]);
             }
 
             @Override
@@ -2019,7 +2117,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     @Beta
-    public Stream<FloatStream> streamC() {
+    public Stream<CharStream> streamC() {
         return streamC(0, cols);
     }
 
@@ -2032,14 +2130,14 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      */
     @Override
     @Beta
-    public Stream<FloatStream> streamC(final int fromColumnIndex, final int toColumnIndex) {
+    public Stream<CharStream> streamC(final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<FloatStream>() {
+        return Stream.of(new ObjIteratorEx<CharStream>() {
             private final int toIndex = toColumnIndex;
             private volatile int cursor = fromColumnIndex;
 
@@ -2049,12 +2147,12 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             }
 
             @Override
-            public FloatStream next() {
+            public CharStream next() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
 
-                return FloatStream.of(new FloatIteratorEx() {
+                return CharStream.of(new CharIteratorEx() {
                     private final int columnIndex = cursor++;
                     private final int toIndex2 = rows;
                     private int cursor2 = 0;
@@ -2065,7 +2163,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
                     }
 
                     @Override
-                    public float nextFloat() {
+                    public char nextChar() {
                         if (cursor2 >= toIndex2) {
                             throw new NoSuchElementException();
                         }
@@ -2108,7 +2206,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @return the int
      */
     @Override
-    protected int length(float[] a) {
+    protected int length(char[] a) {
         return a == null ? 0 : a.length;
     }
 
@@ -2119,7 +2217,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @param action the action
      * @throws E the e
      */
-    public <E extends Exception> void forEach(final Try.FloatConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Try.CharConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
@@ -2135,7 +2233,7 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Try.FloatConsumer<E> action) throws E {
+            final Try.CharConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -2176,8 +2274,8 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
             return true;
         }
 
-        if (obj instanceof FloatMatrix) {
-            final FloatMatrix another = (FloatMatrix) obj;
+        if (obj instanceof CharMatrix) {
+            final CharMatrix another = (CharMatrix) obj;
 
             return N.deepEquals(this.a, another.a);
         }

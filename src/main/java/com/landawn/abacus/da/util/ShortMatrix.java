@@ -12,134 +12,184 @@
  * the License.
  */
 
-package com.landawn.abacus.da;
+package com.landawn.abacus.da.util;
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.util.Array;
 import com.landawn.abacus.util.IntPair;
 import com.landawn.abacus.util.N;
+import com.landawn.abacus.util.ShortList;
 import com.landawn.abacus.util.Try;
 import com.landawn.abacus.util.Try.Consumer;
 import com.landawn.abacus.util.f;
-import com.landawn.abacus.util.f.ff;
-import com.landawn.abacus.util.u.Nullable;
+import com.landawn.abacus.util.u.OptionalShort;
+import com.landawn.abacus.util.function.IntConsumer;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
+import com.landawn.abacus.util.stream.ShortIteratorEx;
+import com.landawn.abacus.util.stream.ShortStream;
 import com.landawn.abacus.util.stream.Stream;
 
 // TODO: Auto-generated Javadoc
 /**
- * The Class Matrix.
+ * The Class ShortMatrix.
  *
  * @author Haiyang Li
- * @param <T> the generic type
  * @since 0.8
  */
-public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Stream<Stream<T>>, Matrix<T>> {
+public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortStream, Stream<ShortStream>, ShortMatrix> {
 
-    /** The array type. */
-    private final Class<T[]> arrayType;
-
-    /** The component type. */
-    private final Class<T> componentType;
+    /** The Constant EMPTY_SHORT_MATRIX. */
+    static final ShortMatrix EMPTY_SHORT_MATRIX = new ShortMatrix(new short[0][0]);
 
     /**
-     * Instantiates a new matrix.
+     * Instantiates a new short matrix.
      *
      * @param a the a
      */
-    public Matrix(final T[][] a) {
-        super(a);
-        this.arrayType = (Class<T[]>) this.a.getClass().getComponentType();
-        this.componentType = (Class<T>) this.arrayType.getComponentType();
+    public ShortMatrix(final short[][] a) {
+        super(a == null ? new short[0][0] : a);
+    }
+
+    /**
+     * Empty.
+     *
+     * @return the short matrix
+     */
+    public static ShortMatrix empty() {
+        return EMPTY_SHORT_MATRIX;
     }
 
     /**
      * Of.
      *
-     * @param <T> the generic type
      * @param a the a
-     * @return the matrix
+     * @return the short matrix
      */
     @SafeVarargs
-    public static <T> Matrix<T> of(final T[]... a) {
-        return new Matrix<>(a);
+    public static ShortMatrix of(final short[]... a) {
+        return N.isNullOrEmpty(a) ? EMPTY_SHORT_MATRIX : new ShortMatrix(a);
+    }
+
+    /**
+     * Random.
+     *
+     * @param len the len
+     * @return the short matrix
+     */
+    public static ShortMatrix random(final int len) {
+        return new ShortMatrix(new short[][] { ShortList.random(len).array() });
     }
 
     /**
      * Repeat.
      *
-     * @param <T> the generic type
      * @param val the val
      * @param len the len
-     * @return the matrix
+     * @return the short matrix
      */
-    public static <T> Matrix<T> repeat(final T val, final int len) {
-        final T[][] c = N.newArray(N.newArray(val.getClass(), 0).getClass(), 1);
-        c[0] = Array.repeat(val, len);
-        return new Matrix<>(c);
+    public static ShortMatrix repeat(final short val, final int len) {
+        return new ShortMatrix(new short[][] { Array.repeat(val, len) });
+    }
+
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @return the short matrix
+     */
+    public static ShortMatrix range(short startInclusive, final short endExclusive) {
+        return new ShortMatrix(new short[][] { Array.range(startInclusive, endExclusive) });
+    }
+
+    /**
+     * Range.
+     *
+     * @param startInclusive the start inclusive
+     * @param endExclusive the end exclusive
+     * @param by the by
+     * @return the short matrix
+     */
+    public static ShortMatrix range(short startInclusive, final short endExclusive, final short by) {
+        return new ShortMatrix(new short[][] { Array.range(startInclusive, endExclusive, by) });
+    }
+
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @return the short matrix
+     */
+    public static ShortMatrix rangeClosed(short startInclusive, final short endInclusive) {
+        return new ShortMatrix(new short[][] { Array.rangeClosed(startInclusive, endInclusive) });
+    }
+
+    /**
+     * Range closed.
+     *
+     * @param startInclusive the start inclusive
+     * @param endInclusive the end inclusive
+     * @param by the by
+     * @return the short matrix
+     */
+    public static ShortMatrix rangeClosed(short startInclusive, final short endInclusive, final short by) {
+        return new ShortMatrix(new short[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
     }
 
     /**
      * Diagonal LU 2 RD.
      *
-     * @param <T> the generic type
      * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
-     * @return the matrix
+     * @return the short matrix
      */
-    public static <T> Matrix<T> diagonalLU2RD(final T[] leftUp2RighDownDiagonal) {
+    public static ShortMatrix diagonalLU2RD(final short[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
     }
 
     /**
      * Diagonal RU 2 LD.
      *
-     * @param <T> the generic type
      * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the matrix
+     * @return the short matrix
      */
-    public static <T> Matrix<T> diagonalRU2LD(final T[] rightUp2LeftDownDiagonal) {
+    public static ShortMatrix diagonalRU2LD(final short[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
     }
 
     /**
      * Diagonal.
      *
-     * @param <T> the generic type
      * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
      * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the matrix
+     * @return the short matrix
      */
-    public static <T> Matrix<T> diagonal(final T[] leftUp2RighDownDiagonal, T[] rightUp2LeftDownDiagonal) {
+    public static ShortMatrix diagonal(final short[] leftUp2RighDownDiagonal, short[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
                 N.isNullOrEmpty(leftUp2RighDownDiagonal) || N.isNullOrEmpty(rightUp2LeftDownDiagonal)
                         || leftUp2RighDownDiagonal.length == rightUp2LeftDownDiagonal.length,
                 "The length of 'leftUp2RighDownDiagonal' and 'rightUp2LeftDownDiagonal' must be same");
 
-        final Class<?> arrayClass = leftUp2RighDownDiagonal != null ? leftUp2RighDownDiagonal.getClass() : rightUp2LeftDownDiagonal.getClass();
-        final Class<?> componentClass = arrayClass.getComponentType();
-        final int len = leftUp2RighDownDiagonal != null ? leftUp2RighDownDiagonal.length : rightUp2LeftDownDiagonal.length;
-
-        final T[][] c = N.newArray(arrayClass, len);
-
-        for (int i = 0; i < len; i++) {
-            c[i] = N.newArray(componentClass, len);
-        }
-
         if (N.isNullOrEmpty(leftUp2RighDownDiagonal)) {
             if (N.isNullOrEmpty(rightUp2LeftDownDiagonal)) {
-                return new Matrix<>(c);
+                return empty();
             } else {
+                final int len = rightUp2LeftDownDiagonal.length;
+                final short[][] c = new short[len][len];
+
                 for (int i = 0, j = len - 1; i < len; i++, j--) {
                     c[i][j] = rightUp2LeftDownDiagonal[i];
                 }
 
-                return new Matrix<>(c);
+                return new ShortMatrix(c);
             }
         } else {
+            final int len = leftUp2RighDownDiagonal.length;
+            final short[][] c = new short[len][len];
+
             for (int i = 0; i < len; i++) {
                 c[i][i] = leftUp2RighDownDiagonal[i];
             }
@@ -150,7 +200,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 }
             }
 
-            return new Matrix<>(c);
+            return new ShortMatrix(c);
         }
     }
 
@@ -159,9 +209,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param i the i
      * @param j the j
-     * @return the t
+     * @return the short
      */
-    public T get(final int i, final int j) {
+    public short get(final int i, final int j) {
         return a[i][j];
     }
 
@@ -169,9 +219,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Gets the.
      *
      * @param point the point
-     * @return the t
+     * @return the short
      */
-    public T get(final IntPair point) {
+    public short get(final IntPair point) {
         return a[point._1][point._2];
     }
 
@@ -182,7 +232,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param j the j
      * @param val the val
      */
-    public void set(final int i, final int j, final T val) {
+    public void set(final int i, final int j, final short val) {
         a[i][j] = val;
     }
 
@@ -192,7 +242,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param point the point
      * @param val the val
      */
-    public void set(final IntPair point, final T val) {
+    public void set(final IntPair point, final short val) {
         a[point._1][point._2] = val;
     }
 
@@ -201,10 +251,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param i the i
      * @param j the j
-     * @return the nullable
+     * @return the optional short
      */
-    public Nullable<T> upOf(final int i, final int j) {
-        return i == 0 ? Nullable.<T> empty() : Nullable.of(a[i - 1][j]);
+    public OptionalShort upOf(final int i, final int j) {
+        return i == 0 ? OptionalShort.empty() : OptionalShort.of(a[i - 1][j]);
     }
 
     /**
@@ -212,10 +262,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param i the i
      * @param j the j
-     * @return the nullable
+     * @return the optional short
      */
-    public Nullable<T> downOf(final int i, final int j) {
-        return i == rows - 1 ? Nullable.<T> empty() : Nullable.of(a[i + 1][j]);
+    public OptionalShort downOf(final int i, final int j) {
+        return i == rows - 1 ? OptionalShort.empty() : OptionalShort.of(a[i + 1][j]);
     }
 
     /**
@@ -223,10 +273,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param i the i
      * @param j the j
-     * @return the nullable
+     * @return the optional short
      */
-    public Nullable<T> leftOf(final int i, final int j) {
-        return j == 0 ? Nullable.<T> empty() : Nullable.of(a[i][j - 1]);
+    public OptionalShort leftOf(final int i, final int j) {
+        return j == 0 ? OptionalShort.empty() : OptionalShort.of(a[i][j - 1]);
     }
 
     /**
@@ -234,10 +284,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param i the i
      * @param j the j
-     * @return the nullable
+     * @return the optional short
      */
-    public Nullable<T> rightOf(final int i, final int j) {
-        return j == cols - 1 ? Nullable.<T> empty() : Nullable.of(a[i][j + 1]);
+    public OptionalShort rightOf(final int i, final int j) {
+        return j == cols - 1 ? OptionalShort.empty() : OptionalShort.of(a[i][j + 1]);
     }
 
     /**
@@ -281,9 +331,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Row.
      *
      * @param rowIndex the row index
-     * @return the t[]
+     * @return the short[]
      */
-    public T[] row(final int rowIndex) {
+    public short[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
 
         return a[rowIndex];
@@ -293,12 +343,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Column.
      *
      * @param columnIndex the column index
-     * @return the t[]
+     * @return the short[]
      */
-    public T[] column(final int columnIndex) {
+    public short[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
 
-        final T[] c = N.newArray(componentType, rows);
+        final short[] c = new short[rows];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[i][columnIndex];
@@ -313,7 +363,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param rowIndex the row index
      * @param row the row
      */
-    public void setRow(int rowIndex, T[] row) {
+    public void setRow(int rowIndex, short[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
 
         N.copy(row, 0, a[rowIndex], 0, cols);
@@ -325,7 +375,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param columnIndex the column index
      * @param column the column
      */
-    public void setColumn(int columnIndex, T[] column) {
+    public void setColumn(int columnIndex, short[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
 
         for (int i = 0; i < rows; i++) {
@@ -341,9 +391,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Try.UnaryOperator<T, E> func) throws E {
+    public <E extends Exception> void updateRow(int rowIndex, Try.ShortUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
-            a[rowIndex][i] = func.apply(a[rowIndex][i]);
+            a[rowIndex][i] = func.applyAsShort(a[rowIndex][i]);
         }
     }
 
@@ -355,9 +405,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Try.UnaryOperator<T, E> func) throws E {
+    public <E extends Exception> void updateColumn(int columnIndex, Try.ShortUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
-            a[i][columnIndex] = func.apply(a[i][columnIndex]);
+            a[i][columnIndex] = func.applyAsShort(a[i][columnIndex]);
         }
     }
 
@@ -366,10 +416,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @return the lu2rd
      */
-    public T[] getLU2RD() {
+    public short[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
-        final T[] res = N.newArray(componentType, rows);
+        final short[] res = new short[rows];
 
         for (int i = 0; i < rows; i++) {
             res[i] = a[i][i];
@@ -383,7 +433,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param diagonal the new lu2rd
      */
-    public void setLU2RD(final T[] diagonal) {
+    public void setLU2RD(final short[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -399,11 +449,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateLU2RD(final Try.UnaryOperator<T, E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Try.ShortUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
-            a[i][i] = func.apply(a[i][i]);
+            a[i][i] = func.applyAsShort(a[i][i]);
         }
     }
 
@@ -412,10 +462,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @return the ru2ld
      */
-    public T[] getRU2LD() {
+    public short[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
-        final T[] res = N.newArray(componentType, rows);
+        final short[] res = new short[rows];
 
         for (int i = 0; i < rows; i++) {
             res[i] = a[i][cols - i - 1];
@@ -429,7 +479,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param diagonal the new ru2ld
      */
-    public void setRU2LD(final T[] diagonal) {
+    public void setRU2LD(final short[] diagonal) {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
         N.checkArgument(diagonal.length >= rows, "The length of specified array is less than rows=%s", rows);
 
@@ -445,11 +495,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateRU2LD(final Try.UnaryOperator<T, E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Try.ShortUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
-            a[i][cols - i - 1] = func.apply(a[i][cols - i - 1]);
+            a[i][cols - i - 1] = func.applyAsShort(a[i][cols - i - 1]);
         }
     }
 
@@ -460,23 +510,24 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.UnaryOperator<T, E> func) throws E {
+    public <E extends Exception> void updateAll(final Try.ShortUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            a[i][j] = func.apply(a[i][j]);
+                            a[i][j] = func.applyAsShort(a[i][j]);
                         }
                     }
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            a[i][j] = func.apply(a[i][j]);
+                            a[i][j] = func.applyAsShort(a[i][j]);
                         }
                     }
                 });
@@ -485,13 +536,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        a[i][j] = func.apply(a[i][j]);
+                        a[i][j] = func.applyAsShort(a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        a[i][j] = func.apply(a[i][j]);
+                        a[i][j] = func.applyAsShort(a[i][j]);
                     }
                 }
             }
@@ -505,7 +556,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param func the func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.IntBiFunction<T, E> func) throws E {
+    public <E extends Exception> void updateAll(final Try.IntBiFunction<Short, E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -551,7 +602,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param newValue the new value
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.Predicate<? super T, E> predicate, final T newValue) throws E {
+    public <E extends Exception> void replaceIf(final Try.ShortPredicate<E> predicate, final short newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -597,7 +648,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param newValue the new value
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final T newValue) throws E {
+    public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final short newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
                 IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
@@ -637,231 +688,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
 
     /**
      * Map.
-     *
-     * @param <E> the element type
-     * @param func the func
-     * @return the matrix
-     * @throws E the e
-     */
-    public <E extends Exception> Matrix<T> map(final Try.UnaryOperator<T, E> func) throws E {
-        return map(this.componentType, func);
-    }
-
-    /**
-     * Map.
-     *
-     * @param <R> the generic type
-     * @param <E> the element type
-     * @param cls the cls
-     * @param func the func
-     * @return the matrix
-     * @throws E the e
-     */
-    public <R, E extends Exception> Matrix<R> map(final Class<R> cls, final Try.Function<? super T, R, E> func) throws E {
-        final R[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
-
-        for (int i = 0; i < rows; i++) {
-            c[i] = N.newArray(cls, cols);
-        }
-
-        if (isParallelable()) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.apply(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.apply(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.apply(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.apply(a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return Matrix.of(c);
-    }
-
-    /**
-     * Map to boolean.
-     *
-     * @param <E> the element type
-     * @param func the func
-     * @return the boolean matrix
-     * @throws E the e
-     */
-    public <E extends Exception> BooleanMatrix mapToBoolean(final Try.ToBooleanFunction<? super T, E> func) throws E {
-        final boolean[][] c = new boolean[rows][cols];
-
-        if (isParallelable()) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsBoolean(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsBoolean(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsBoolean(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsBoolean(a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return BooleanMatrix.of(c);
-    }
-
-    /**
-     * Map to byte.
-     *
-     * @param <E> the element type
-     * @param func the func
-     * @return the byte matrix
-     * @throws E the e
-     */
-    public <E extends Exception> ByteMatrix mapToByte(final Try.ToByteFunction<? super T, E> func) throws E {
-        final byte[][] c = new byte[rows][cols];
-
-        if (isParallelable()) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsByte(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsByte(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsByte(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsByte(a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return ByteMatrix.of(c);
-    }
-
-    /**
-     * Map to char.
-     *
-     * @param <E> the element type
-     * @param func the func
-     * @return the char matrix
-     * @throws E the e
-     */
-    public <E extends Exception> CharMatrix mapToChar(final Try.ToCharFunction<? super T, E> func) throws E {
-        final char[][] c = new char[rows][cols];
-
-        if (isParallelable()) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsChar(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsChar(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsChar(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsChar(a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return CharMatrix.of(c);
-    }
-
-    /**
-     * Map to short.
      *
      * @param <E> the element type
      * @param func the func
      * @return the short matrix
      * @throws E the e
      */
-    public <E extends Exception> ShortMatrix mapToShort(final Try.ToShortFunction<? super T, E> func) throws E {
+    public <E extends Exception> ShortMatrix map(final Try.ShortUnaryOperator<E> func) throws E {
         final short[][] c = new short[rows][cols];
 
         if (isParallelable()) {
@@ -876,6 +709,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -904,15 +738,21 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Map to int.
+     * Map to obj.
      *
+     * @param <T> the generic type
      * @param <E> the element type
+     * @param cls the cls
      * @param func the func
-     * @return the int matrix
+     * @return the matrix
      * @throws E the e
      */
-    public <E extends Exception> IntMatrix mapToInt(final Try.ToIntFunction<? super T, E> func) throws E {
-        final int[][] c = new int[rows][cols];
+    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.ShortFunction<? extends T, E> func) throws E {
+        final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
+
+        for (int i = 0; i < rows; i++) {
+            c[i] = N.newArray(cls, cols);
+        }
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -920,16 +760,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsInt(a[i][j]);
+                            c[i][j] = func.apply(a[i][j]);
                         }
                     }
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsInt(a[i][j]);
+                            c[i][j] = func.apply(a[i][j]);
                         }
                     }
                 });
@@ -938,169 +779,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             if (rows <= cols) {
                 for (int i = 0; i < rows; i++) {
                     for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsInt(a[i][j]);
+                        c[i][j] = func.apply(a[i][j]);
                     }
                 }
             } else {
                 for (int j = 0; j < cols; j++) {
                     for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsInt(a[i][j]);
+                        c[i][j] = func.apply(a[i][j]);
                     }
                 }
             }
         }
 
-        return IntMatrix.of(c);
-    }
-
-    /**
-     * Map to long.
-     *
-     * @param <E> the element type
-     * @param func the func
-     * @return the long matrix
-     * @throws E the e
-     */
-    public <E extends Exception> LongMatrix mapToLong(final Try.ToLongFunction<? super T, E> func) throws E {
-        final long[][] c = new long[rows][cols];
-
-        if (isParallelable()) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsLong(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsLong(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsLong(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsLong(a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return LongMatrix.of(c);
-    }
-
-    /**
-     * Map to float.
-     *
-     * @param <E> the element type
-     * @param func the func
-     * @return the float matrix
-     * @throws E the e
-     */
-    public <E extends Exception> FloatMatrix mapToFloat(final Try.ToFloatFunction<? super T, E> func) throws E {
-        final float[][] c = new float[rows][cols];
-
-        if (isParallelable()) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsFloat(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsFloat(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsFloat(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsFloat(a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return FloatMatrix.of(c);
-    }
-
-    /**
-     * Map to double.
-     *
-     * @param <E> the element type
-     * @param func the func
-     * @return the double matrix
-     * @throws E the e
-     */
-    public <E extends Exception> DoubleMatrix mapToDouble(final Try.ToDoubleFunction<? super T, E> func) throws E {
-        final double[][] c = new double[rows][cols];
-
-        if (isParallelable()) {
-            if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int i) throws E {
-                        for (int j = 0; j < cols; j++) {
-                            c[i][j] = func.applyAsDouble(a[i][j]);
-                        }
-                    }
-                });
-            } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
-                    @Override
-                    public void accept(final int j) throws E {
-                        for (int i = 0; i < rows; i++) {
-                            c[i][j] = func.applyAsDouble(a[i][j]);
-                        }
-                    }
-                });
-            }
-        } else {
-            if (rows <= cols) {
-                for (int i = 0; i < rows; i++) {
-                    for (int j = 0; j < cols; j++) {
-                        c[i][j] = func.applyAsDouble(a[i][j]);
-                    }
-                }
-            } else {
-                for (int j = 0; j < cols; j++) {
-                    for (int i = 0; i < rows; i++) {
-                        c[i][j] = func.applyAsDouble(a[i][j]);
-                    }
-                }
-            }
-        }
-
-        return DoubleMatrix.of(c);
+        return Matrix.of(c);
     }
 
     /**
@@ -1108,7 +799,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param val the val
      */
-    public void fill(final T val) {
+    public void fill(final short val) {
         for (int i = 0; i < rows; i++) {
             N.fill(a[i], val);
         }
@@ -1119,7 +810,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param b the b
      */
-    public void fill(final T[][] b) {
+    public void fill(final short[][] b) {
         fill(0, 0, b);
     }
 
@@ -1130,7 +821,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param fromColumnIndex the from column index
      * @param b the b
      */
-    public void fill(final int fromRowIndex, final int fromColumnIndex, final T[][] b) {
+    public void fill(final int fromRowIndex, final int fromColumnIndex, final short[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
         N.checkFromToIndex(fromColumnIndex, cols, cols);
 
@@ -1142,17 +833,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Copy.
      *
-     * @return the matrix
+     * @return the short matrix
      */
     @Override
-    public Matrix<T> copy() {
-        final T[][] c = N.newArray(arrayType, rows);
+    public ShortMatrix copy() {
+        final short[][] c = new short[rows][];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[i].clone();
         }
 
-        return new Matrix<>(c);
+        return new ShortMatrix(c);
     }
 
     /**
@@ -1160,19 +851,19 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param fromRowIndex the from row index
      * @param toRowIndex the to row index
-     * @return the matrix
+     * @return the short matrix
      */
     @Override
-    public Matrix<T> copy(final int fromRowIndex, final int toRowIndex) {
+    public ShortMatrix copy(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
-        final T[][] c = N.newArray(arrayType, toRowIndex - fromRowIndex);
+        final short[][] c = new short[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
             c[i - fromRowIndex] = a[i].clone();
         }
 
-        return new Matrix<>(c);
+        return new ShortMatrix(c);
     }
 
     /**
@@ -1182,20 +873,20 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param toRowIndex the to row index
      * @param fromColumnIndex the from column index
      * @param toColumnIndex the to column index
-     * @return the matrix
+     * @return the short matrix
      */
     @Override
-    public Matrix<T> copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
+    public ShortMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
-        final T[][] c = N.newArray(arrayType, toRowIndex - fromRowIndex);
+        final short[][] c = new short[toRowIndex - fromRowIndex][];
 
         for (int i = fromRowIndex; i < toRowIndex; i++) {
             c[i - fromRowIndex] = N.copyOfRange(a[i], fromColumnIndex, toColumnIndex);
         }
 
-        return new Matrix<>(c);
+        return new ShortMatrix(c);
     }
 
     /**
@@ -1203,10 +894,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param newRows the new rows
      * @param newCols the new cols
-     * @return the matrix
+     * @return the short matrix
      */
-    public Matrix<T> extend(final int newRows, final int newCols) {
-        return extend(newRows, newCols, null);
+    public ShortMatrix extend(final int newRows, final int newCols) {
+        return extend(newRows, newCols, SHORT_0);
     }
 
     /**
@@ -1215,20 +906,20 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param newRows the new rows
      * @param newCols the new cols
      * @param defaultValueForNewCell the default value for new cell
-     * @return the matrix
+     * @return the short matrix
      */
-    public Matrix<T> extend(final int newRows, final int newCols, final T defaultValueForNewCell) {
+    public ShortMatrix extend(final int newRows, final int newCols, final short defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
         N.checkArgument(newCols >= 0, "The 'newCols' can't be negative %s", newCols);
 
         if (newRows <= rows && newCols <= cols) {
             return copy(0, newRows, 0, newCols);
         } else {
-            final boolean fillDefaultValue = defaultValueForNewCell != null;
-            final T[][] b = N.newArray(arrayType, newRows);
+            final boolean fillDefaultValue = defaultValueForNewCell != SHORT_0;
+            final short[][] b = new short[newRows][];
 
             for (int i = 0; i < newRows; i++) {
-                b[i] = i < rows ? N.copyOf(a[i], newCols) : (T[]) N.newArray(componentType, newCols);
+                b[i] = i < rows ? N.copyOf(a[i], newCols) : new short[newCols];
 
                 if (fillDefaultValue) {
                     if (i >= rows) {
@@ -1239,7 +930,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 }
             }
 
-            return new Matrix<T>(b);
+            return new ShortMatrix(b);
         }
     }
 
@@ -1250,10 +941,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param toDown the to down
      * @param toLeft the to left
      * @param toRight the to right
-     * @return the matrix
+     * @return the short matrix
      */
-    public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
-        return extend(toUp, toDown, toLeft, toRight, null);
+    public ShortMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
+        return extend(toUp, toDown, toLeft, toRight, SHORT_0);
     }
 
     /**
@@ -1264,9 +955,9 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param toLeft the to left
      * @param toRight the to right
      * @param defaultValueForNewCell the default value for new cell
-     * @return the matrix
+     * @return the short matrix
      */
-    public Matrix<T> extend(final int toUp, final int toDown, final int toLeft, final int toRight, final T defaultValueForNewCell) {
+    public ShortMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final short defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
         N.checkArgument(toDown >= 0, "The 'toDown' can't be negative %s", toDown);
         N.checkArgument(toLeft >= 0, "The 'toLeft' can't be negative %s", toLeft);
@@ -1277,12 +968,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         } else {
             final int newRows = toUp + rows + toDown;
             final int newCols = toLeft + cols + toRight;
-            final boolean fillDefaultValue = defaultValueForNewCell != null;
-            final T[][] b = N.newArray(arrayType, newRows);
+            final boolean fillDefaultValue = defaultValueForNewCell != SHORT_0;
+            final short[][] b = new short[newRows][newCols];
 
             for (int i = 0; i < newRows; i++) {
-                b[i] = N.newArray(componentType, newCols);
-
                 if (i >= toUp && i < toUp + rows) {
                     N.copy(a[i - toUp], 0, b[i], toLeft, cols);
                 }
@@ -1302,7 +991,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 }
             }
 
-            return new Matrix<T>(b);
+            return new ShortMatrix(b);
         }
     }
 
@@ -1320,7 +1009,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     public void reverseV() {
         for (int j = 0; j < cols; j++) {
-            T tmp = null;
+            short tmp = 0;
             for (int l = 0, h = rows - 1; l < h;) {
                 tmp = a[l][j];
                 a[l++][j] = a[h][j];
@@ -1332,11 +1021,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Flip H.
      *
-     * @return the matrix
+     * @return the short matrix
      * @see IntMatrix#flipH()
      */
-    public Matrix<T> flipH() {
-        final Matrix<T> res = this.copy();
+    public ShortMatrix flipH() {
+        final ShortMatrix res = this.copy();
         res.reverseH();
         return res;
     }
@@ -1344,11 +1033,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Flip V.
      *
-     * @return the matrix
+     * @return the short matrix
      * @see IntMatrix#flipV()
      */
-    public Matrix<T> flipV() {
-        final Matrix<T> res = this.copy();
+    public ShortMatrix flipV() {
+        final ShortMatrix res = this.copy();
         res.reverseV();
         return res;
     }
@@ -1356,15 +1045,11 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Rotate 90.
      *
-     * @return the matrix
+     * @return the short matrix
      */
     @Override
-    public Matrix<T> rotate90() {
-        final T[][] c = N.newArray(arrayType, cols);
-
-        for (int i = 0; i < cols; i++) {
-            c[i] = N.newArray(this.componentType, rows);
-        }
+    public ShortMatrix rotate90() {
+        final short[][] c = new short[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1380,38 +1065,34 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<>(c);
+        return new ShortMatrix(c);
     }
 
     /**
      * Rotate 180.
      *
-     * @return the matrix
+     * @return the short matrix
      */
     @Override
-    public Matrix<T> rotate180() {
-        final T[][] c = N.newArray(arrayType, rows);
+    public ShortMatrix rotate180() {
+        final short[][] c = new short[rows][];
 
         for (int i = 0; i < rows; i++) {
             c[i] = a[rows - i - 1].clone();
             N.reverse(c[i]);
         }
 
-        return new Matrix<>(c);
+        return new ShortMatrix(c);
     }
 
     /**
      * Rotate 270.
      *
-     * @return the matrix
+     * @return the short matrix
      */
     @Override
-    public Matrix<T> rotate270() {
-        final T[][] c = N.newArray(arrayType, cols);
-
-        for (int i = 0; i < cols; i++) {
-            c[i] = N.newArray(this.componentType, rows);
-        }
+    public ShortMatrix rotate270() {
+        final short[][] c = new short[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1427,21 +1108,17 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<>(c);
+        return new ShortMatrix(c);
     }
 
     /**
      * Transpose.
      *
-     * @return the matrix
+     * @return the short matrix
      */
     @Override
-    public Matrix<T> transpose() {
-        final T[][] c = N.newArray(arrayType, cols);
-
-        for (int i = 0; i < cols; i++) {
-            c[i] = N.newArray(componentType, rows);
-        }
+    public ShortMatrix transpose() {
+        final short[][] c = new short[cols][rows];
 
         if (rows <= cols) {
             for (int j = 0; j < rows; j++) {
@@ -1456,7 +1133,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 }
             }
         }
-        return new Matrix<>(c);
+
+        return new ShortMatrix(c);
     }
 
     /**
@@ -1464,22 +1142,18 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param newRows the new rows
      * @param newCols the new cols
-     * @return the matrix
+     * @return the short matrix
      */
     @Override
-    public Matrix<T> reshape(final int newRows, final int newCols) {
-        final T[][] c = N.newArray(arrayType, newRows);
-
-        for (int i = 0; i < newRows; i++) {
-            c[i] = N.newArray(componentType, newCols);
-        }
+    public ShortMatrix reshape(final int newRows, final int newCols) {
+        final short[][] c = new short[newRows][newCols];
 
         if (newRows == 0 || newCols == 0 || N.isNullOrEmpty(a)) {
-            return new Matrix<>(c);
+            return new ShortMatrix(c);
         }
 
         if (a.length == 1) {
-            final T[] a0 = a[0];
+            final short[] a0 = a[0];
 
             for (int i = 0, len = (int) N.min(newRows, count % newCols == 0 ? count / newCols : count / newCols + 1); i < len; i++) {
                 N.copy(a0, i * newCols, c[i], 0, (int) N.min(newCols, count - i * newCols));
@@ -1494,7 +1168,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<>(c);
+        return new ShortMatrix(c);
     }
 
     /**
@@ -1506,17 +1180,13 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @see IntMatrix#repelem(int, int)
      */
     @Override
-    public Matrix<T> repelem(final int rowRepeats, final int colRepeats) {
+    public ShortMatrix repelem(final int rowRepeats, final int colRepeats) {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
-        final T[][] c = N.newArray(arrayType, rows * rowRepeats);
-
-        for (int i = 0, len = c.length; i < len; i++) {
-            c[i] = N.newArray(componentType, cols * colRepeats);
-        }
+        final short[][] c = new short[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
-            final T[] fr = c[i * rowRepeats];
+            final short[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < cols; j++) {
                 N.copy(Array.repeat(a[i][j], colRepeats), 0, fr, j * colRepeats, colRepeats);
@@ -1527,7 +1197,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<T>(c);
+        return new ShortMatrix(c);
     }
 
     /**
@@ -1539,14 +1209,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @see IntMatrix#repmat(int, int)
      */
     @Override
-    public Matrix<T> repmat(final int rowRepeats, final int colRepeats) {
+    public ShortMatrix repmat(final int rowRepeats, final int colRepeats) {
         N.checkArgument(rowRepeats > 0 && colRepeats > 0, "rowRepeats=%s and colRepeats=%s must be bigger than 0", rowRepeats, colRepeats);
 
-        final T[][] c = N.newArray(arrayType, rows * rowRepeats);
-
-        for (int i = 0, len = c.length; i < len; i++) {
-            c[i] = N.newArray(componentType, cols * colRepeats);
-        }
+        final short[][] c = new short[rows * rowRepeats][cols * colRepeats];
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < colRepeats; j++) {
@@ -1560,23 +1226,23 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<T>(c);
+        return new ShortMatrix(c);
     }
 
     /**
      * Flatten.
      *
-     * @return the list
+     * @return the short list
      */
     @Override
-    public List<T> flatten() {
-        final T[] c = N.newArray(componentType, rows * cols);
+    public ShortList flatten() {
+        final short[] c = new short[rows * cols];
 
         for (int i = 0; i < rows; i++) {
             N.copy(a[i], 0, c, i * cols, cols);
         }
 
-        return N.asList(c);
+        return ShortList.of(c);
     }
 
     /**
@@ -1587,21 +1253,21 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     @Override
-    public <E extends Exception> void flatOp(Consumer<T[], E> op) throws E {
-        ff.flatOp(a, op);
+    public <E extends Exception> void flatOp(Consumer<short[], E> op) throws E {
+        f.flatOp(a, op);
     }
 
     /**
      * Vstack.
      *
      * @param b the b
-     * @return the matrix
+     * @return the short matrix
      * @see IntMatrix#vstack(IntMatrix)
      */
-    public Matrix<T> vstack(final Matrix<? extends T> b) {
+    public ShortMatrix vstack(final ShortMatrix b) {
         N.checkArgument(this.cols == b.cols, "The count of column in this matrix and the specified matrix are not equals");
 
-        final T[][] c = N.newArray(arrayType, this.rows + b.rows);
+        final short[][] c = new short[this.rows + b.rows][];
         int j = 0;
 
         for (int i = 0; i < rows; i++) {
@@ -1612,66 +1278,405 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             c[j++] = b.a[i].clone();
         }
 
-        return Matrix.of(c);
+        return ShortMatrix.of(c);
     }
 
     /**
      * Hstack.
      *
      * @param b the b
-     * @return the matrix
+     * @return the short matrix
      * @see IntMatrix#hstack(IntMatrix)
      */
-    public Matrix<T> hstack(final Matrix<? extends T> b) {
+    public ShortMatrix hstack(final ShortMatrix b) {
         N.checkArgument(this.rows == b.rows, "The count of row in this matrix and the specified matrix are not equals");
 
-        final T[][] c = N.newArray(arrayType, rows);
+        final short[][] c = new short[rows][cols + b.cols];
 
         for (int i = 0; i < rows; i++) {
-            c[i] = N.copyOf(a[i], cols + b.cols);
+            N.copy(a[i], 0, c[i], 0, cols);
             N.copy(b.a[i], 0, c[i], cols, b.cols);
         }
 
-        return Matrix.of(c);
+        return ShortMatrix.of(c);
     }
 
     /**
-     * Zip with.
+     * Adds the.
      *
-     * @param <B> the generic type
-     * @param <E> the element type
-     * @param matrixB the matrix B
-     * @param zipFunction the zip function
-     * @return the matrix
-     * @throws E the e
+     * @param b the b
+     * @return the short matrix
      */
-    public <B, E extends Exception> Matrix<T> zipWith(final Matrix<B> matrixB, final Try.BiFunction<? super T, ? super B, T, E> zipFunction) throws E {
-        return zipWith(componentType, matrixB, zipFunction);
-    }
+    public ShortMatrix add(final ShortMatrix b) {
+        N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
 
-    /**
-     * Zip with.
-     *
-     * @param <B> the generic type
-     * @param <R> the generic type
-     * @param <E> the element type
-     * @param cls the cls
-     * @param matrixB the matrix B
-     * @param zipFunction the zip function
-     * @return the matrix
-     * @throws E the e
-     */
-    public <B, R, E extends Exception> Matrix<R> zipWith(final Class<R> cls, final Matrix<B> matrixB,
-            final Try.BiFunction<? super T, ? super B, R, E> zipFunction) throws E {
-        N.checkArgument(rows == matrixB.rows && cols == matrixB.cols, "Can't zip two matrices which have different shape.");
+        final short[][] c = new short[rows][cols];
 
-        final R[][] result = N.newArray(N.newArray(cls, 0).getClass(), rows);
+        if (isParallelable()) {
+            if (rows <= cols) {
+                IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
+                    @Override
+                    public void accept(final int i) {
+                        for (int j = 0; j < cols; j++) {
+                            c[i][j] = (short) (a[i][j] + b.a[i][j]);
+                        }
+                    }
+                });
+            } else {
+                IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
 
-        for (int i = 0; i < rows; i++) {
-            result[i] = N.newArray(cls, cols);
+                    @Override
+                    public void accept(final int j) {
+                        for (int i = 0; i < rows; i++) {
+                            c[i][j] = (short) (a[i][j] + b.a[i][j]);
+                        }
+                    }
+                });
+            }
+        } else {
+            if (rows <= cols) {
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        c[i][j] = (short) (a[i][j] + b.a[i][j]);
+                    }
+                }
+            } else {
+                for (int j = 0; j < cols; j++) {
+                    for (int i = 0; i < rows; i++) {
+                        c[i][j] = (short) (a[i][j] + b.a[i][j]);
+                    }
+                }
+            }
         }
 
-        final B[][] b = matrixB.a;
+        return new ShortMatrix(c);
+    }
+
+    /**
+     * Subtract.
+     *
+     * @param b the b
+     * @return the short matrix
+     */
+    public ShortMatrix subtract(final ShortMatrix b) {
+        N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
+
+        final short[][] c = new short[rows][cols];
+
+        if (isParallelable()) {
+            if (rows <= cols) {
+                IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
+                    @Override
+                    public void accept(final int i) {
+                        for (int j = 0; j < cols; j++) {
+                            c[i][j] = (short) (a[i][j] - b.a[i][j]);
+                        }
+                    }
+                });
+            } else {
+                IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
+
+                    @Override
+                    public void accept(final int j) {
+                        for (int i = 0; i < rows; i++) {
+                            c[i][j] = (short) (a[i][j] - b.a[i][j]);
+                        }
+                    }
+                });
+            }
+        } else {
+            if (rows <= cols) {
+                for (int i = 0; i < rows; i++) {
+                    for (int j = 0; j < cols; j++) {
+                        c[i][j] = (short) (a[i][j] - b.a[i][j]);
+                    }
+                }
+            } else {
+                for (int j = 0; j < cols; j++) {
+                    for (int i = 0; i < rows; i++) {
+                        c[i][j] = (short) (a[i][j] - b.a[i][j]);
+                    }
+                }
+            }
+        }
+
+        return new ShortMatrix(c);
+    }
+
+    /**
+     * Multiply.
+     *
+     * @param b the b
+     * @return the short matrix
+     */
+    public ShortMatrix multiply(final ShortMatrix b) {
+        N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
+
+        final short[][] c = new short[rows][b.cols];
+        final short[][] a2 = b.a;
+
+        if (isParallelable(b.cols)) {
+            if (N.min(rows, cols, b.cols) == rows) {
+                if (N.min(cols, b.cols) == cols) {
+                    IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int i) {
+                            for (int k = 0; k < cols; k++) {
+                                for (int j = 0; j < b.cols; j++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    IntStream.range(0, rows).parallel().forEach(new IntConsumer() {
+
+                        @Override
+                        public void accept(final int i) {
+                            for (int j = 0; j < b.cols; j++) {
+                                for (int k = 0; k < cols; k++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                }
+            } else if (N.min(rows, cols, b.cols) == cols) {
+                if (N.min(rows, b.cols) == rows) {
+                    IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int k) {
+                            for (int i = 0; i < rows; i++) {
+                                for (int j = 0; j < b.cols; j++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    IntStream.range(0, cols).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int k) {
+                            for (int j = 0; j < b.cols; j++) {
+                                for (int i = 0; i < rows; i++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                }
+            } else {
+                if (N.min(rows, cols) == rows) {
+                    IntStream.range(0, b.cols).parallel().forEach(new IntConsumer() {
+
+                        @Override
+                        public void accept(final int j) {
+                            for (int i = 0; i < rows; i++) {
+                                for (int k = 0; k < cols; k++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                } else {
+                    IntStream.range(0, b.cols).parallel().forEach(new IntConsumer() {
+                        @Override
+                        public void accept(final int j) {
+                            for (int k = 0; k < cols; k++) {
+                                for (int i = 0; i < rows; i++) {
+                                    c[i][j] += a[i][k] * a2[k][j];
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        } else {
+            if (N.min(rows, cols, b.cols) == rows) {
+                if (N.min(cols, b.cols) == cols) {
+                    for (
+
+                            int i = 0; i < rows; i++) {
+                        for (int k = 0; k < cols; k++) {
+                            for (int j = 0; j < b.cols; j++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < rows; i++) {
+                        for (int j = 0; j < b.cols; j++) {
+                            for (int k = 0; k < cols; k++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                }
+            } else if (N.min(rows, cols, b.cols) == cols) {
+                if (N.min(rows, b.cols) == rows) {
+                    for (int k = 0; k < cols; k++) {
+                        for (int i = 0; i < rows; i++) {
+                            for (int j = 0; j < b.cols; j++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                } else {
+                    for (int k = 0; k < cols; k++) {
+                        for (int j = 0; j < b.cols; j++) {
+                            for (int i = 0; i < rows; i++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                }
+            } else {
+                if (N.min(rows, cols) == rows) {
+                    for (int j = 0; j < b.cols; j++) {
+                        for (int i = 0; i < rows; i++) {
+                            for (int k = 0; k < cols; k++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                } else {
+                    for (int j = 0; j < b.cols; j++) {
+                        for (int k = 0; k < cols; k++) {
+                            for (int i = 0; i < rows; i++) {
+                                c[i][j] += a[i][k] * a2[k][j];
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return new ShortMatrix(c);
+    }
+
+    /**
+     * Boxed.
+     *
+     * @return the matrix
+     */
+    public Matrix<Short> boxed() {
+        final Short[][] c = new Short[rows][cols];
+
+        if (rows <= cols) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        } else {
+            for (int j = 0; j < cols; j++) {
+                for (int i = 0; i < rows; i++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        }
+
+        return new Matrix<>(c);
+    }
+
+    /**
+     * To int matrix.
+     *
+     * @return the int matrix
+     */
+    public IntMatrix toIntMatrix() {
+        return IntMatrix.from(a);
+    }
+
+    /**
+     * To long matrix.
+     *
+     * @return the long matrix
+     */
+    public LongMatrix toLongMatrix() {
+        final long[][] c = new long[rows][cols];
+
+        if (rows <= cols) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        } else {
+            for (int j = 0; j < cols; j++) {
+                for (int i = 0; i < rows; i++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        }
+
+        return new LongMatrix(c);
+    }
+
+    /**
+     * To float matrix.
+     *
+     * @return the float matrix
+     */
+    public FloatMatrix toFloatMatrix() {
+        final float[][] c = new float[rows][cols];
+
+        if (rows <= cols) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        } else {
+            for (int j = 0; j < cols; j++) {
+                for (int i = 0; i < rows; i++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        }
+
+        return new FloatMatrix(c);
+    }
+
+    /**
+     * To double matrix.
+     *
+     * @return the double matrix
+     */
+    public DoubleMatrix toDoubleMatrix() {
+        final double[][] c = new double[rows][cols];
+
+        if (rows <= cols) {
+            for (int i = 0; i < rows; i++) {
+                for (int j = 0; j < cols; j++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        } else {
+            for (int j = 0; j < cols; j++) {
+                for (int i = 0; i < rows; i++) {
+                    c[i][j] = a[i][j];
+                }
+            }
+        }
+
+        return new DoubleMatrix(c);
+    }
+
+    /**
+     * Zip with.
+     *
+     * @param <E> the element type
+     * @param matrixB the matrix B
+     * @param zipFunction the zip function
+     * @return the short matrix
+     * @throws E the e
+     */
+    public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final Try.ShortBiFunction<Short, E> zipFunction) throws E {
+        N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
+
+        final short[][] result = new short[rows][cols];
+        final short[][] b = matrixB.a;
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1685,6 +1690,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -1709,52 +1715,26 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<>(result);
+        return new ShortMatrix(result);
     }
 
     /**
      * Zip with.
      *
-     * @param <B> the generic type
-     * @param <C> the generic type
      * @param <E> the element type
      * @param matrixB the matrix B
      * @param matrixC the matrix C
      * @param zipFunction the zip function
-     * @return the matrix
+     * @return the short matrix
      * @throws E the e
      */
-    public <B, C, E extends Exception> Matrix<T> zipWith(final Matrix<B> matrixB, final Matrix<C> matrixC,
-            final Try.TriFunction<? super T, ? super B, ? super C, T, E> zipFunction) throws E {
-        return zipWith(componentType, matrixB, matrixC, zipFunction);
-    }
+    public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final ShortMatrix matrixC, final Try.ShortTriFunction<Short, E> zipFunction)
+            throws E {
+        N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
 
-    /**
-     * Zip with.
-     *
-     * @param <B> the generic type
-     * @param <C> the generic type
-     * @param <R> the generic type
-     * @param <E> the element type
-     * @param cls the cls
-     * @param matrixB the matrix B
-     * @param matrixC the matrix C
-     * @param zipFunction the zip function
-     * @return the matrix
-     * @throws E the e
-     */
-    public <B, C, R, E extends Exception> Matrix<R> zipWith(final Class<R> cls, final Matrix<B> matrixB, final Matrix<C> matrixC,
-            final Try.TriFunction<? super T, ? super B, ? super C, R, E> zipFunction) throws E {
-        N.checkArgument(rows == matrixB.rows && cols == matrixB.cols, "Can't zip two matrices which have different shape.");
-
-        final R[][] result = N.newArray(N.newArray(cls, 0).getClass(), rows);
-
-        for (int i = 0; i < rows; i++) {
-            result[i] = N.newArray(cls, cols);
-        }
-
-        final B[][] b = matrixB.a;
-        final C[][] c = matrixC.a;
+        final short[][] result = new short[rows][cols];
+        final short[][] b = matrixB.a;
+        final short[][] c = matrixC.a;
 
         if (isParallelable()) {
             if (rows <= cols) {
@@ -1768,6 +1748,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 });
             } else {
                 IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -1792,7 +1773,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<>(result);
+        return new ShortMatrix(result);
     }
 
     /**
@@ -1801,14 +1782,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a stream composed by elements on the diagonal line from left up to right down.
      */
     @Override
-    public Stream<T> streamLU2RD() {
+    public ShortStream streamLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         if (isEmpty()) {
-            return Stream.empty();
+            return ShortStream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<T>() {
+        return ShortStream.of(new ShortIteratorEx() {
             private final int toIndex = rows;
             private int cursor = 0;
 
@@ -1818,7 +1799,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public T next() {
+            public short nextShort() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
@@ -1846,14 +1827,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a stream composed by elements on the diagonal line from right up to left down.
      */
     @Override
-    public Stream<T> streamRU2LD() {
+    public ShortStream streamRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         if (isEmpty()) {
-            return Stream.empty();
+            return ShortStream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<T>() {
+        return ShortStream.of(new ShortIteratorEx() {
             private final int toIndex = rows;
             private int cursor = 0;
 
@@ -1863,7 +1844,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public T next() {
+            public short nextShort() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
@@ -1891,7 +1872,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a stream based on the order of row.
      */
     @Override
-    public Stream<T> streamH() {
+    public ShortStream streamH() {
         return streamH(0, rows);
     }
 
@@ -1899,10 +1880,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Stream H.
      *
      * @param rowIndex the row index
-     * @return the stream
+     * @return the short stream
      */
     @Override
-    public Stream<T> streamH(final int rowIndex) {
+    public ShortStream streamH(final int rowIndex) {
         return streamH(rowIndex, rowIndex + 1);
     }
 
@@ -1914,14 +1895,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a stream based on the order of row.
      */
     @Override
-    public Stream<T> streamH(final int fromRowIndex, final int toRowIndex) {
+    public ShortStream streamH(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
-            return Stream.empty();
+            return ShortStream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<T>() {
+        return ShortStream.of(new ShortIteratorEx() {
             private int i = fromRowIndex;
             private int j = 0;
 
@@ -1931,12 +1912,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public T next() {
+            public short nextShort() {
                 if (i >= toRowIndex) {
                     throw new NoSuchElementException();
                 }
 
-                final T result = a[i][j++];
+                final short result = a[i][j++];
 
                 if (j >= cols) {
                     i++;
@@ -1965,15 +1946,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public <A> A[] toArray(A[] c) {
+            public short[] toArray() {
                 final int len = (int) count();
-
-                if (c.length < len) {
-                    c = N.copyOf(c, len);
-                }
+                final short[] c = new short[len];
 
                 for (int k = 0; k < len; k++) {
-                    c[k] = (A) a[i][j++];
+                    c[k] = a[i][j++];
 
                     if (j >= cols) {
                         i++;
@@ -1993,7 +1971,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     @Beta
-    public Stream<T> streamV() {
+    public ShortStream streamV() {
         return streamV(0, cols);
     }
 
@@ -2001,10 +1979,10 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Stream V.
      *
      * @param columnIndex the column index
-     * @return the stream
+     * @return the short stream
      */
     @Override
-    public Stream<T> streamV(final int columnIndex) {
+    public ShortStream streamV(final int columnIndex) {
         return streamV(columnIndex, columnIndex + 1);
     }
 
@@ -2015,16 +1993,16 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param toColumnIndex the to column index
      * @return a stream based on the order of column.
      */
-    @Beta
     @Override
-    public Stream<T> streamV(final int fromColumnIndex, final int toColumnIndex) {
+    @Beta
+    public ShortStream streamV(final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
-            return Stream.empty();
+            return ShortStream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<T>() {
+        return ShortStream.of(new ShortIteratorEx() {
             private int i = 0;
             private int j = fromColumnIndex;
 
@@ -2034,12 +2012,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public T next() {
+            public short nextShort() {
                 if (j >= toColumnIndex) {
                     throw new NoSuchElementException();
                 }
 
-                final T result = a[i++][j];
+                final short result = a[i++][j];
 
                 if (i >= rows) {
                     i = 0;
@@ -2053,12 +2031,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             public void skip(long n) {
                 N.checkArgNotNegative(n, "n");
 
-                if (n >= (toColumnIndex - j) * Matrix.this.rows * 1L - i) {
+                if (n >= (toColumnIndex - j) * ShortMatrix.this.rows * 1L - i) {
                     i = 0;
                     j = toColumnIndex;
                 } else {
-                    i += (n + i) % Matrix.this.rows;
-                    j += (n + i) / Matrix.this.rows;
+                    i += (n + i) % ShortMatrix.this.rows;
+                    j += (n + i) / ShortMatrix.this.rows;
                 }
             }
 
@@ -2068,15 +2046,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public <A> A[] toArray(A[] c) {
+            public short[] toArray() {
                 final int len = (int) count();
-
-                if (c.length < len) {
-                    c = N.copyOf(c, len);
-                }
+                final short[] c = new short[len];
 
                 for (int k = 0; k < len; k++) {
-                    c[k] = (A) a[i++][j];
+                    c[k] = a[i++][j];
 
                     if (i >= rows) {
                         i = 0;
@@ -2095,7 +2070,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a row stream based on the order of row.
      */
     @Override
-    public Stream<Stream<T>> streamR() {
+    public Stream<ShortStream> streamR() {
         return streamR(0, rows);
     }
 
@@ -2107,14 +2082,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return a row stream based on the order of row.
      */
     @Override
-    public Stream<Stream<T>> streamR(final int fromRowIndex, final int toRowIndex) {
+    public Stream<ShortStream> streamR(final int fromRowIndex, final int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
 
         if (isEmpty()) {
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Stream<T>>() {
+        return Stream.of(new ObjIteratorEx<ShortStream>() {
             private final int toIndex = toRowIndex;
             private int cursor = fromRowIndex;
 
@@ -2124,12 +2099,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public Stream<T> next() {
+            public ShortStream next() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
 
-                return Stream.of(a[cursor++]);
+                return ShortStream.of(a[cursor++]);
             }
 
             @Override
@@ -2153,7 +2128,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     @Beta
-    public Stream<Stream<T>> streamC() {
+    public Stream<ShortStream> streamC() {
         return streamC(0, cols);
     }
 
@@ -2166,14 +2141,14 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Override
     @Beta
-    public Stream<Stream<T>> streamC(final int fromColumnIndex, final int toColumnIndex) {
+    public Stream<ShortStream> streamC(final int fromColumnIndex, final int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
         if (isEmpty()) {
             return Stream.empty();
         }
 
-        return Stream.of(new ObjIteratorEx<Stream<T>>() {
+        return Stream.of(new ObjIteratorEx<ShortStream>() {
             private final int toIndex = toColumnIndex;
             private volatile int cursor = fromColumnIndex;
 
@@ -2183,12 +2158,12 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
 
             @Override
-            public Stream<T> next() {
+            public ShortStream next() {
                 if (cursor >= toIndex) {
                     throw new NoSuchElementException();
                 }
 
-                return Stream.of(new ObjIteratorEx<T>() {
+                return ShortStream.of(new ShortIteratorEx() {
                     private final int columnIndex = cursor++;
                     private final int toIndex2 = rows;
                     private int cursor2 = 0;
@@ -2199,7 +2174,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                     }
 
                     @Override
-                    public T next() {
+                    public short nextShort() {
                         if (cursor2 >= toIndex2) {
                             throw new NoSuchElementException();
                         }
@@ -2242,7 +2217,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @return the int
      */
     @Override
-    protected int length(T[] a) {
+    protected int length(short[] a) {
         return a == null ? 0 : a.length;
     }
 
@@ -2253,7 +2228,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param action the action
      * @throws E the e
      */
-    public <E extends Exception> void forEach(final Try.Consumer<? super T, E> action) throws E {
+    public <E extends Exception> void forEach(final Try.ShortConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
@@ -2269,7 +2244,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Try.Consumer<? super T, E> action) throws E {
+            final Try.ShortConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 
@@ -2310,8 +2285,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             return true;
         }
 
-        if (obj instanceof Matrix) {
-            final Matrix<T> another = (Matrix<T>) obj;
+        if (obj instanceof ShortMatrix) {
+            final ShortMatrix another = (ShortMatrix) obj;
 
             return N.deepEquals(this.a, another.a);
         }
