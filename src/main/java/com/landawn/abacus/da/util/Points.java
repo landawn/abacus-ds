@@ -18,44 +18,94 @@ package com.landawn.abacus.da.util;
 
 import com.landawn.abacus.util.N;
 
+// TODO: Auto-generated Javadoc
 /**
- * 
- * @author haiyangl
+ * The Class Points.
  *
+ * @author haiyangl
  */
 public final class Points {
+    
+    /**
+     * Instantiates a new points.
+     */
     private Points() {
         // singleton.
     }
 
+    /**
+     * The Class xy.
+     */
     public static final class xy {
+        
+        /**
+         * Instantiates a new xy.
+         */
         private xy() {
             // singleton.
         }
 
+        /**
+         * The Class ByteBytePoint.
+         */
         public static final class ByteBytePoint {
+            
+            /** The x. */
             public byte x;
+            
+            /** The y. */
             public byte y;
+            
+            /** The v. */
             public byte v; // value
 
+            /**
+             * Instantiates a new byte byte point.
+             */
             public ByteBytePoint() {
             }
 
+            /**
+             * Instantiates a new byte byte point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public ByteBytePoint(byte x, byte y, byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the byte byte point
+             */
             public static ByteBytePoint of(byte x, byte y, byte v) {
                 return new ByteBytePoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (x * 31 + y) * 31 + v;
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -70,35 +120,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class ByteIntPoint.
+         */
         public static final class ByteIntPoint {
+            
+            /** The x. */
             public byte x;
+            
+            /** The y. */
             public byte y;
+            
+            /** The v. */
             public int v; // value
 
+            /**
+             * Instantiates a new byte int point.
+             */
             public ByteIntPoint() {
             }
 
+            /**
+             * Instantiates a new byte int point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public ByteIntPoint(byte x, byte y, int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the byte int point
+             */
             public static ByteIntPoint of(byte x, byte y, int v) {
                 return new ByteIntPoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (x * 31 + y) * 31 + v;
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -113,35 +206,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class ByteLongPoint.
+         */
         public static final class ByteLongPoint {
+            
+            /** The x. */
             public byte x;
+            
+            /** The y. */
             public byte y;
+            
+            /** The v. */
             public long v; // value
 
+            /**
+             * Instantiates a new byte long point.
+             */
             public ByteLongPoint() {
             }
 
+            /**
+             * Instantiates a new byte long point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public ByteLongPoint(byte x, byte y, long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the byte long point
+             */
             public static ByteLongPoint of(byte x, byte y, long v) {
                 return new ByteLongPoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -156,35 +292,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class ByteDoublePoint.
+         */
         public static final class ByteDoublePoint {
+            
+            /** The x. */
             public byte x;
+            
+            /** The y. */
             public byte y;
+            
+            /** The v. */
             public double v; // value
 
+            /**
+             * Instantiates a new byte double point.
+             */
             public ByteDoublePoint() {
             }
 
+            /**
+             * Instantiates a new byte double point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public ByteDoublePoint(byte x, byte y, double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the byte double point
+             */
             public static ByteDoublePoint of(byte x, byte y, double v) {
                 return new ByteDoublePoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -199,35 +378,81 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class ByteObjPoint.
+         *
+         * @param <T> the generic type
+         */
         public static final class ByteObjPoint<T> {
+            
+            /** The x. */
             public byte x;
+            
+            /** The y. */
             public byte y;
+            
+            /** The v. */
             public T v; // value
 
+            /**
+             * Instantiates a new byte obj point.
+             */
             public ByteObjPoint() {
             }
 
+            /**
+             * Instantiates a new byte obj point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public ByteObjPoint(byte x, byte y, T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param <T> the generic type
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the byte obj point
+             */
             public static <T> ByteObjPoint<T> of(byte x, byte y, T v) {
                 return new ByteObjPoint<>(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (x * 31 + y) * 31 + N.hashCode(v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -242,35 +467,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + N.toString(v) + "]";
             }
         }
 
+        /**
+         * The Class IntBytePoint.
+         */
         public static final class IntBytePoint {
+            
+            /** The x. */
             public int x;
+            
+            /** The y. */
             public int y;
+            
+            /** The v. */
             public byte v; // value
 
+            /**
+             * Instantiates a new int byte point.
+             */
             public IntBytePoint() {
             }
 
+            /**
+             * Instantiates a new int byte point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public IntBytePoint(int x, int y, byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the int byte point
+             */
             public static IntBytePoint of(int x, int y, byte v) {
                 return new IntBytePoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (x * 31 + y) * 31 + v;
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -285,35 +553,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class IntIntPoint.
+         */
         public static final class IntIntPoint {
+            
+            /** The x. */
             public int x;
+            
+            /** The y. */
             public int y;
+            
+            /** The v. */
             public int v; // value
 
+            /**
+             * Instantiates a new int int point.
+             */
             public IntIntPoint() {
             }
 
+            /**
+             * Instantiates a new int int point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public IntIntPoint(int x, int y, int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the int int point
+             */
             public static IntIntPoint of(int x, int y, int v) {
                 return new IntIntPoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (x * 31 + y) * 31 + v;
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -328,35 +639,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class IntLongPoint.
+         */
         public static final class IntLongPoint {
+            
+            /** The x. */
             public int x;
+            
+            /** The y. */
             public int y;
+            
+            /** The v. */
             public long v; // value
 
+            /**
+             * Instantiates a new int long point.
+             */
             public IntLongPoint() {
             }
 
+            /**
+             * Instantiates a new int long point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public IntLongPoint(int x, int y, long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the int long point
+             */
             public static IntLongPoint of(int x, int y, long v) {
                 return new IntLongPoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -371,35 +725,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class IntDoublePoint.
+         */
         public static final class IntDoublePoint {
+            
+            /** The x. */
             public int x;
+            
+            /** The y. */
             public int y;
+            
+            /** The v. */
             public double v; // value
 
+            /**
+             * Instantiates a new int double point.
+             */
             public IntDoublePoint() {
             }
 
+            /**
+             * Instantiates a new int double point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public IntDoublePoint(int x, int y, double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the int double point
+             */
             public static IntDoublePoint of(int x, int y, double v) {
                 return new IntDoublePoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -414,35 +811,81 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class IntObjPoint.
+         *
+         * @param <T> the generic type
+         */
         public static final class IntObjPoint<T> {
+            
+            /** The x. */
             public int x;
+            
+            /** The y. */
             public int y;
+            
+            /** The v. */
             public T v; // value
 
+            /**
+             * Instantiates a new int obj point.
+             */
             public IntObjPoint() {
             }
 
+            /**
+             * Instantiates a new int obj point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public IntObjPoint(int x, int y, T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param <T> the generic type
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the int obj point
+             */
             public static <T> IntObjPoint<T> of(int x, int y, T v) {
                 return new IntObjPoint<>(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (x * 31 + y) * 31 + N.hashCode(v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -457,35 +900,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + N.toString(v) + "]";
             }
         }
 
+        /**
+         * The Class LongBytePoint.
+         */
         public static final class LongBytePoint {
+            
+            /** The x. */
             public long x;
+            
+            /** The y. */
             public long y;
+            
+            /** The v. */
             public byte v; // value
 
+            /**
+             * Instantiates a new long byte point.
+             */
             public LongBytePoint() {
             }
 
+            /**
+             * Instantiates a new long byte point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public LongBytePoint(long x, long y, byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the long byte point
+             */
             public static LongBytePoint of(long x, long y, byte v) {
                 return new LongBytePoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -500,35 +986,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class LongIntPoint.
+         */
         public static final class LongIntPoint {
+            
+            /** The x. */
             public long x;
+            
+            /** The y. */
             public long y;
+            
+            /** The v. */
             public int v; // value
 
+            /**
+             * Instantiates a new long int point.
+             */
             public LongIntPoint() {
             }
 
+            /**
+             * Instantiates a new long int point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public LongIntPoint(long x, long y, int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the long int point
+             */
             public static LongIntPoint of(long x, long y, int v) {
                 return new LongIntPoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -543,35 +1072,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class LongLongPoint.
+         */
         public static final class LongLongPoint {
+            
+            /** The x. */
             public long x;
+            
+            /** The y. */
             public long y;
+            
+            /** The v. */
             public long v; // value
 
+            /**
+             * Instantiates a new long long point.
+             */
             public LongLongPoint() {
             }
 
+            /**
+             * Instantiates a new long long point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public LongLongPoint(long x, long y, long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the long long point
+             */
             public static LongLongPoint of(long x, long y, long v) {
                 return new LongLongPoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -586,35 +1158,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class LongDoublePoint.
+         */
         public static final class LongDoublePoint {
+            
+            /** The x. */
             public long x;
+            
+            /** The y. */
             public long y;
+            
+            /** The v. */
             public double v; // value
 
+            /**
+             * Instantiates a new long double point.
+             */
             public LongDoublePoint() {
             }
 
+            /**
+             * Instantiates a new long double point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public LongDoublePoint(long x, long y, double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the long double point
+             */
             public static LongDoublePoint of(long x, long y, double v) {
                 return new LongDoublePoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -629,35 +1244,81 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class LongObjPoint.
+         *
+         * @param <T> the generic type
+         */
         public static final class LongObjPoint<T> {
+            
+            /** The x. */
             public long x;
+            
+            /** The y. */
             public long y;
+            
+            /** The v. */
             public T v; // value
 
+            /**
+             * Instantiates a new long obj point.
+             */
             public LongObjPoint() {
             }
 
+            /**
+             * Instantiates a new long obj point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public LongObjPoint(long x, long y, T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param <T> the generic type
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the long obj point
+             */
             public static <T> LongObjPoint<T> of(long x, long y, T v) {
                 return new LongObjPoint<>(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + N.hashCode(v));
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -672,35 +1333,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + N.toString(v) + "]";
             }
         }
 
+        /**
+         * The Class DoubleBytePoint.
+         */
         public static final class DoubleBytePoint {
+            
+            /** The x. */
             public double x;
+            
+            /** The y. */
             public double y;
+            
+            /** The v. */
             public byte v; // value
 
+            /**
+             * Instantiates a new double byte point.
+             */
             public DoubleBytePoint() {
             }
 
+            /**
+             * Instantiates a new double byte point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public DoubleBytePoint(double x, double y, byte v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the double byte point
+             */
             public static DoubleBytePoint of(double x, double y, byte v) {
                 return new DoubleBytePoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -715,35 +1419,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class DoubleIntPoint.
+         */
         public static final class DoubleIntPoint {
+            
+            /** The x. */
             public double x;
+            
+            /** The y. */
             public double y;
+            
+            /** The v. */
             public int v; // value
 
+            /**
+             * Instantiates a new double int point.
+             */
             public DoubleIntPoint() {
             }
 
+            /**
+             * Instantiates a new double int point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public DoubleIntPoint(double x, double y, int v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the double int point
+             */
             public static DoubleIntPoint of(double x, double y, int v) {
                 return new DoubleIntPoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -758,35 +1505,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class DoubleLongPoint.
+         */
         public static final class DoubleLongPoint {
+            
+            /** The x. */
             public double x;
+            
+            /** The y. */
             public double y;
+            
+            /** The v. */
             public long v; // value
 
+            /**
+             * Instantiates a new double long point.
+             */
             public DoubleLongPoint() {
             }
 
+            /**
+             * Instantiates a new double long point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public DoubleLongPoint(double x, double y, long v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the double long point
+             */
             public static DoubleLongPoint of(double x, double y, long v) {
                 return new DoubleLongPoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -801,35 +1591,78 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class DoubleDoublePoint.
+         */
         public static final class DoubleDoublePoint {
+            
+            /** The x. */
             public double x;
+            
+            /** The y. */
             public double y;
+            
+            /** The v. */
             public double v; // value
 
+            /**
+             * Instantiates a new double double point.
+             */
             public DoubleDoublePoint() {
             }
 
+            /**
+             * Instantiates a new double double point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public DoubleDoublePoint(double x, double y, double v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the double double point
+             */
             public static DoubleDoublePoint of(double x, double y, double v) {
                 return new DoubleDoublePoint(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -844,35 +1677,81 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class DoubleObjPoint.
+         *
+         * @param <T> the generic type
+         */
         public static final class DoubleObjPoint<T> {
+            
+            /** The x. */
             public double x;
+            
+            /** The y. */
             public double y;
+            
+            /** The v. */
             public T v; // value
 
+            /**
+             * Instantiates a new double obj point.
+             */
             public DoubleObjPoint() {
             }
 
+            /**
+             * Instantiates a new double obj point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             */
             public DoubleObjPoint(double x, double y, T v) {
                 this.x = x;
                 this.y = y;
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param <T> the generic type
+             * @param x the x
+             * @param y the y
+             * @param v the v
+             * @return the double obj point
+             */
             public static <T> DoubleObjPoint<T> of(double x, double y, T v) {
                 return new DoubleObjPoint<>(x, y, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) ((x * 31 + y) * 31 + N.hashCode(v));
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -887,6 +1766,11 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + N.toString(v) + "]";
@@ -3434,20 +4318,49 @@ public final class Points {
         //        }
     }
 
+    /**
+     * The Class xyz.
+     */
     public static final class xyz {
+        
+        /**
+         * Instantiates a new xyz.
+         */
         private xyz() {
             // singleton.
         }
 
+        /**
+         * The Class ByteBytePoint.
+         */
         public static final class ByteBytePoint {
+            
+            /** The x. */
             public byte x;
+            
+            /** The y. */
             public byte y;
+            
+            /** The z. */
             public byte z;
+            
+            /** The v. */
             public byte v; // value
 
+            /**
+             * Instantiates a new byte byte point.
+             */
             public ByteBytePoint() {
             }
 
+            /**
+             * Instantiates a new byte byte point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public ByteBytePoint(byte x, byte y, byte z, byte v) {
                 this.x = x;
                 this.y = y;
@@ -3455,15 +4368,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the byte byte point
+             */
             public static ByteBytePoint of(byte x, byte y, byte z, byte v) {
                 return new ByteBytePoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return ((x * 31 + y) * 31 + z) * 31 + v;
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3478,21 +4411,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class ByteIntPoint.
+         */
         public static final class ByteIntPoint {
+            
+            /** The x. */
             public byte x;
+            
+            /** The y. */
             public byte y;
+            
+            /** The z. */
             public byte z;
+            
+            /** The v. */
             public int v; // value
 
+            /**
+             * Instantiates a new byte int point.
+             */
             public ByteIntPoint() {
             }
 
+            /**
+             * Instantiates a new byte int point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public ByteIntPoint(byte x, byte y, byte z, int v) {
                 this.x = x;
                 this.y = y;
@@ -3500,15 +4460,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the byte int point
+             */
             public static ByteIntPoint of(byte x, byte y, byte z, int v) {
                 return new ByteIntPoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return ((x * 31 + y) * 31 + z) * 31 + v;
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3523,21 +4503,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class ByteLongPoint.
+         */
         public static final class ByteLongPoint {
+            
+            /** The x. */
             public byte x;
+            
+            /** The y. */
             public byte y;
+            
+            /** The z. */
             public byte z;
+            
+            /** The v. */
             public long v; // value
 
+            /**
+             * Instantiates a new byte long point.
+             */
             public ByteLongPoint() {
             }
 
+            /**
+             * Instantiates a new byte long point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public ByteLongPoint(byte x, byte y, byte z, long v) {
                 this.x = x;
                 this.y = y;
@@ -3545,15 +4552,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the byte long point
+             */
             public static ByteLongPoint of(byte x, byte y, byte z, long v) {
                 return new ByteLongPoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3568,21 +4595,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class ByteDoublePoint.
+         */
         public static final class ByteDoublePoint {
+            
+            /** The x. */
             public byte x;
+            
+            /** The y. */
             public byte y;
+            
+            /** The z. */
             public byte z;
+            
+            /** The v. */
             public double v; // value
 
+            /**
+             * Instantiates a new byte double point.
+             */
             public ByteDoublePoint() {
             }
 
+            /**
+             * Instantiates a new byte double point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public ByteDoublePoint(byte x, byte y, byte z, double v) {
                 this.x = x;
                 this.y = y;
@@ -3590,15 +4644,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the byte double point
+             */
             public static ByteDoublePoint of(byte x, byte y, byte z, double v) {
                 return new ByteDoublePoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3613,21 +4687,50 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class ByteObjPoint.
+         *
+         * @param <T> the generic type
+         */
         public static final class ByteObjPoint<T> {
+            
+            /** The x. */
             public byte x;
+            
+            /** The y. */
             public byte y;
+            
+            /** The z. */
             public byte z;
+            
+            /** The v. */
             public T v; // value
 
+            /**
+             * Instantiates a new byte obj point.
+             */
             public ByteObjPoint() {
             }
 
+            /**
+             * Instantiates a new byte obj point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public ByteObjPoint(byte x, byte y, byte z, T v) {
                 this.x = x;
                 this.y = y;
@@ -3635,15 +4738,36 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param <T> the generic type
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the byte obj point
+             */
             public static <T> ByteObjPoint<T> of(byte x, byte y, byte z, T v) {
                 return new ByteObjPoint<>(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return ((x * 31 + y) * 31 + z) * 31 + N.hashCode(v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3658,21 +4782,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + N.toString(v) + "]";
             }
         }
 
+        /**
+         * The Class IntBytePoint.
+         */
         public static final class IntBytePoint {
+            
+            /** The x. */
             public int x;
+            
+            /** The y. */
             public int y;
+            
+            /** The z. */
             public int z;
+            
+            /** The v. */
             public byte v; // value
 
+            /**
+             * Instantiates a new int byte point.
+             */
             public IntBytePoint() {
             }
 
+            /**
+             * Instantiates a new int byte point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public IntBytePoint(int x, int y, int z, byte v) {
                 this.x = x;
                 this.y = y;
@@ -3680,15 +4831,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the int byte point
+             */
             public static IntBytePoint of(int x, int y, int z, byte v) {
                 return new IntBytePoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return ((x * 31 + y) * 31 + z) * 31 + v;
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3703,21 +4874,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class IntIntPoint.
+         */
         public static final class IntIntPoint {
+            
+            /** The x. */
             public int x;
+            
+            /** The y. */
             public int y;
+            
+            /** The z. */
             public int z;
+            
+            /** The v. */
             public int v; // value
 
+            /**
+             * Instantiates a new int int point.
+             */
             public IntIntPoint() {
             }
 
+            /**
+             * Instantiates a new int int point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public IntIntPoint(int x, int y, int z, int v) {
                 this.x = x;
                 this.y = y;
@@ -3725,15 +4923,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the int int point
+             */
             public static IntIntPoint of(int x, int y, int z, int v) {
                 return new IntIntPoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return ((x * 31 + y) * 31 + z) * 31 + v;
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3748,21 +4966,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class IntLongPoint.
+         */
         public static final class IntLongPoint {
+            
+            /** The x. */
             public int x;
+            
+            /** The y. */
             public int y;
+            
+            /** The z. */
             public int z;
+            
+            /** The v. */
             public long v; // value
 
+            /**
+             * Instantiates a new int long point.
+             */
             public IntLongPoint() {
             }
 
+            /**
+             * Instantiates a new int long point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public IntLongPoint(int x, int y, int z, long v) {
                 this.x = x;
                 this.y = y;
@@ -3770,15 +5015,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the int long point
+             */
             public static IntLongPoint of(int x, int y, int z, long v) {
                 return new IntLongPoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3793,21 +5058,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class IntDoublePoint.
+         */
         public static final class IntDoublePoint {
+            
+            /** The x. */
             public int x;
+            
+            /** The y. */
             public int y;
+            
+            /** The z. */
             public int z;
+            
+            /** The v. */
             public double v; // value
 
+            /**
+             * Instantiates a new int double point.
+             */
             public IntDoublePoint() {
             }
 
+            /**
+             * Instantiates a new int double point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public IntDoublePoint(int x, int y, int z, double v) {
                 this.x = x;
                 this.y = y;
@@ -3815,15 +5107,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the int double point
+             */
             public static IntDoublePoint of(int x, int y, int z, double v) {
                 return new IntDoublePoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3838,21 +5150,50 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class IntObjPoint.
+         *
+         * @param <T> the generic type
+         */
         public static final class IntObjPoint<T> {
+            
+            /** The x. */
             public int x;
+            
+            /** The y. */
             public int y;
+            
+            /** The z. */
             public int z;
+            
+            /** The v. */
             public T v; // value
 
+            /**
+             * Instantiates a new int obj point.
+             */
             public IntObjPoint() {
             }
 
+            /**
+             * Instantiates a new int obj point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public IntObjPoint(int x, int y, int z, T v) {
                 this.x = x;
                 this.y = y;
@@ -3860,15 +5201,36 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param <T> the generic type
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the int obj point
+             */
             public static <T> IntObjPoint<T> of(int x, int y, int z, T v) {
                 return new IntObjPoint<>(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return ((x * 31 + y) * 31 + z) * 31 + N.hashCode(v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3883,21 +5245,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + N.toString(v) + "]";
             }
         }
 
+        /**
+         * The Class LongBytePoint.
+         */
         public static final class LongBytePoint {
+            
+            /** The x. */
             public long x;
+            
+            /** The y. */
             public long y;
+            
+            /** The z. */
             public long z;
+            
+            /** The v. */
             public byte v; // value
 
+            /**
+             * Instantiates a new long byte point.
+             */
             public LongBytePoint() {
             }
 
+            /**
+             * Instantiates a new long byte point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public LongBytePoint(long x, long y, long z, byte v) {
                 this.x = x;
                 this.y = y;
@@ -3905,15 +5294,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the long byte point
+             */
             public static LongBytePoint of(long x, long y, long z, byte v) {
                 return new LongBytePoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3928,21 +5337,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class LongIntPoint.
+         */
         public static final class LongIntPoint {
+            
+            /** The x. */
             public long x;
+            
+            /** The y. */
             public long y;
+            
+            /** The z. */
             public long z;
+            
+            /** The v. */
             public int v; // value
 
+            /**
+             * Instantiates a new long int point.
+             */
             public LongIntPoint() {
             }
 
+            /**
+             * Instantiates a new long int point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public LongIntPoint(long x, long y, long z, int v) {
                 this.x = x;
                 this.y = y;
@@ -3950,15 +5386,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the long int point
+             */
             public static LongIntPoint of(long x, long y, long z, int v) {
                 return new LongIntPoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -3973,21 +5429,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class LongLongPoint.
+         */
         public static final class LongLongPoint {
+            
+            /** The x. */
             public long x;
+            
+            /** The y. */
             public long y;
+            
+            /** The z. */
             public long z;
+            
+            /** The v. */
             public long v; // value
 
+            /**
+             * Instantiates a new long long point.
+             */
             public LongLongPoint() {
             }
 
+            /**
+             * Instantiates a new long long point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public LongLongPoint(long x, long y, long z, long v) {
                 this.x = x;
                 this.y = y;
@@ -3995,15 +5478,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the long long point
+             */
             public static LongLongPoint of(long x, long y, long z, long v) {
                 return new LongLongPoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -4018,21 +5521,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class LongDoublePoint.
+         */
         public static final class LongDoublePoint {
+            
+            /** The x. */
             public long x;
+            
+            /** The y. */
             public long y;
+            
+            /** The z. */
             public long z;
+            
+            /** The v. */
             public double v; // value
 
+            /**
+             * Instantiates a new long double point.
+             */
             public LongDoublePoint() {
             }
 
+            /**
+             * Instantiates a new long double point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public LongDoublePoint(long x, long y, long z, double v) {
                 this.x = x;
                 this.y = y;
@@ -4040,15 +5570,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the long double point
+             */
             public static LongDoublePoint of(long x, long y, long z, double v) {
                 return new LongDoublePoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -4063,21 +5613,50 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class LongObjPoint.
+         *
+         * @param <T> the generic type
+         */
         public static final class LongObjPoint<T> {
+            
+            /** The x. */
             public long x;
+            
+            /** The y. */
             public long y;
+            
+            /** The z. */
             public long z;
+            
+            /** The v. */
             public T v; // value
 
+            /**
+             * Instantiates a new long obj point.
+             */
             public LongObjPoint() {
             }
 
+            /**
+             * Instantiates a new long obj point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public LongObjPoint(long x, long y, long z, T v) {
                 this.x = x;
                 this.y = y;
@@ -4085,15 +5664,36 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param <T> the generic type
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the long obj point
+             */
             public static <T> LongObjPoint<T> of(long x, long y, long z, T v) {
                 return new LongObjPoint<>(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + N.hashCode(v));
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -4108,21 +5708,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + N.toString(v) + "]";
             }
         }
 
+        /**
+         * The Class DoubleBytePoint.
+         */
         public static final class DoubleBytePoint {
+            
+            /** The x. */
             public double x;
+            
+            /** The y. */
             public double y;
+            
+            /** The z. */
             public double z;
+            
+            /** The v. */
             public byte v; // value
 
+            /**
+             * Instantiates a new double byte point.
+             */
             public DoubleBytePoint() {
             }
 
+            /**
+             * Instantiates a new double byte point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public DoubleBytePoint(double x, double y, double z, byte v) {
                 this.x = x;
                 this.y = y;
@@ -4130,15 +5757,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the double byte point
+             */
             public static DoubleBytePoint of(double x, double y, double z, byte v) {
                 return new DoubleBytePoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -4153,21 +5800,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class DoubleIntPoint.
+         */
         public static final class DoubleIntPoint {
+            
+            /** The x. */
             public double x;
+            
+            /** The y. */
             public double y;
+            
+            /** The z. */
             public double z;
+            
+            /** The v. */
             public int v; // value
 
+            /**
+             * Instantiates a new double int point.
+             */
             public DoubleIntPoint() {
             }
 
+            /**
+             * Instantiates a new double int point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public DoubleIntPoint(double x, double y, double z, int v) {
                 this.x = x;
                 this.y = y;
@@ -4175,15 +5849,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the double int point
+             */
             public static DoubleIntPoint of(double x, double y, double z, int v) {
                 return new DoubleIntPoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -4198,21 +5892,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class DoubleLongPoint.
+         */
         public static final class DoubleLongPoint {
+            
+            /** The x. */
             public double x;
+            
+            /** The y. */
             public double y;
+            
+            /** The z. */
             public double z;
+            
+            /** The v. */
             public long v; // value
 
+            /**
+             * Instantiates a new double long point.
+             */
             public DoubleLongPoint() {
             }
 
+            /**
+             * Instantiates a new double long point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public DoubleLongPoint(double x, double y, double z, long v) {
                 this.x = x;
                 this.y = y;
@@ -4220,15 +5941,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the double long point
+             */
             public static DoubleLongPoint of(double x, double y, double z, long v) {
                 return new DoubleLongPoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -4243,21 +5984,48 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class DoubleDoublePoint.
+         */
         public static final class DoubleDoublePoint {
+            
+            /** The x. */
             public double x;
+            
+            /** The y. */
             public double y;
+            
+            /** The z. */
             public double z;
+            
+            /** The v. */
             public double v; // value
 
+            /**
+             * Instantiates a new double double point.
+             */
             public DoubleDoublePoint() {
             }
 
+            /**
+             * Instantiates a new double double point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public DoubleDoublePoint(double x, double y, double z, double v) {
                 this.x = x;
                 this.y = y;
@@ -4265,15 +6033,35 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the double double point
+             */
             public static DoubleDoublePoint of(double x, double y, double z, double v) {
                 return new DoubleDoublePoint(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + v);
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -4288,21 +6076,50 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + v + "]";
             }
         }
 
+        /**
+         * The Class DoubleObjPoint.
+         *
+         * @param <T> the generic type
+         */
         public static final class DoubleObjPoint<T> {
+            
+            /** The x. */
             public double x;
+            
+            /** The y. */
             public double y;
+            
+            /** The z. */
             public double z;
+            
+            /** The v. */
             public T v; // value
 
+            /**
+             * Instantiates a new double obj point.
+             */
             public DoubleObjPoint() {
             }
 
+            /**
+             * Instantiates a new double obj point.
+             *
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             */
             public DoubleObjPoint(double x, double y, double z, T v) {
                 this.x = x;
                 this.y = y;
@@ -4310,15 +6127,36 @@ public final class Points {
                 this.v = v;
             }
 
+            /**
+             * Of.
+             *
+             * @param <T> the generic type
+             * @param x the x
+             * @param y the y
+             * @param z the z
+             * @param v the v
+             * @return the double obj point
+             */
             public static <T> DoubleObjPoint<T> of(double x, double y, double z, T v) {
                 return new DoubleObjPoint<>(x, y, z, v);
             }
 
+            /**
+             * Hash code.
+             *
+             * @return the int
+             */
             @Override
             public int hashCode() {
                 return (int) (((x * 31 + y) * 31 + z) * 31 + N.hashCode(v));
             }
 
+            /**
+             * Equals.
+             *
+             * @param obj the obj
+             * @return true, if successful
+             */
             @Override
             public boolean equals(Object obj) {
                 if (obj == this) {
@@ -4333,6 +6171,11 @@ public final class Points {
                 return false;
             }
 
+            /**
+             * To string.
+             *
+             * @return the string
+             */
             @Override
             public String toString() {
                 return "[" + x + ", " + y + ", " + z + ", " + N.toString(v) + "]";
