@@ -1,6 +1,7 @@
-### 0.8.4
+### 0.9
 
 * Add `f/Points`.
+* re-organize the package.
 
 
 ### 0.8.3

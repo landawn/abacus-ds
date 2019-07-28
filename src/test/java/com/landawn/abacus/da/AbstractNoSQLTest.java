@@ -22,13 +22,13 @@ public class AbstractNoSQLTest extends TestCase {
     static final JSONParser jsonParser = ParserFactory.createJSONParser();
     static final XMLParser xmlParser = ParserFactory.createXMLParser();
 
-    static Account createAccount() {
+    protected Account createAccount() {
         Account account = N.fill(Account.class);
         account.setId(generateId());
         return account;
     }
 
-    static String generateId() {
+    protected String generateId() {
         return Hex.encodeToString(N.uuid().getBytes()).substring(0, 24);
     }
 }
