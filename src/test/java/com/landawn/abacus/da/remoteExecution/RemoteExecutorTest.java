@@ -12,7 +12,7 @@ import com.landawn.abacus.da.RemoteExecutor;
 import com.landawn.abacus.da.RemoteTask;
 import com.landawn.abacus.util.DateUtil;
 import com.landawn.abacus.util.N;
- 
+
 public class RemoteExecutorTest {
     static final String url = "http://localhost:8080/abacus/javaExecution";
     static final RemoteExecutor remoteExecutor = new RemoteExecutor(url);
