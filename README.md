@@ -27,7 +27,8 @@ Abacus Data Access&Analysis
 [RemoteExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/RemoteExecutor_view.html).
 
 
-* More: [Sheet](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Sheet_view.html)...
+* More: [Sheet](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Sheet_view.html), 
+[f](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/f_view.html), ...
 
 
 ## Download/Installation & [Changes](https://github.com/landawn/abacus-da/blob/master/CHANGES.md):
