@@ -83,6 +83,57 @@ public class RemoteExecutorTest {
     //        N.println(respList.get(0).getResult());
     //    }
 
+//    @Test
+//    public void test_echo() {
+//        final String url = "http://localhost:8080/abacus/echo";
+//
+//        KryoParser kryoParser = ParserFactory.createKryoParser();
+//
+//        RemoteTask<?, Object> remoteTask = new RemoteTask<Object, Object>() {
+//            @Override
+//            public Object run(Object t) {
+//                LocalTask.test_print(t);
+//                return null;
+//            }
+//        };
+//
+//        final RemoteExecutionRequest request = remoteExecutor.createRemoteRequest((Class) remoteTask.getClass());
+//
+//        String resp = HttpRequest.url(url).header("Content-Type", HttpHeaders.Values.APPLICATION_KRYO).post(request);
+//        N.println(resp);
+//    }
+//
+//    @Test
+//    public void test_kryo() {
+//        KryoParser kryoParser = ParserFactory.createKryoParser();
+//
+//        RemoteTask<?, Object> remoteTask = new RemoteTask<Object, Object>() {
+//            @Override
+//            public Object run(Object t) {
+//                LocalTask.test_print(t);
+//                return null;
+//            }
+//        };
+//
+//        final RemoteExecutionRequest request = remoteExecutor.createRemoteRequest((Class) remoteTask.getClass());
+//
+//        String str = kryoParser.serialize(request);
+//        N.println(str);
+//
+//        RemoteExecutionRequest request2 = kryoParser.deserialize(RemoteExecutionRequest.class, str);
+//        N.println(request2);
+//        // assertEquals(request, request2);
+//
+//        File file = new File("./tmp");
+//
+//        kryoParser.serialize(file, request);
+//        request2 = kryoParser.deserialize(RemoteExecutionRequest.class, file);
+//        N.println(request2);
+//
+//        IOUtil.deleteIfExists(file);
+//
+//    }
+
     @Test
     public void test_execute_01() {
         RemoteTask<?, Object> remoteTask = new RemoteTask<Object, Object>() {

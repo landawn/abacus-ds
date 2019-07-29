@@ -668,9 +668,9 @@ public final class RemoteExecutor {
         final HttpSettings newHttpSettings = httpSettings == null ? HttpSettings.create() : httpSettings.copy();
 
         if (newHttpSettings.getContentFormat() == null) {
-            newHttpSettings.setContentFormat(ContentFormat.KRYO);
+            newHttpSettings.setContentFormat(ContentFormat.JSON);
         } else if (newHttpSettings.getContentFormat() != ContentFormat.KRYO) {
-            throw new IllegalArgumentException("Only Kryo format is supported");
+            throw new IllegalArgumentException("Only format JSON/Kryo is supported");
         }
 
         final RemoteExecutionRequest request0 = createRemoteRequest(remoteTask);

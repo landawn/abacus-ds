@@ -152,7 +152,7 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
 
                 default:
                     remoteResponse.setErrorCode(getClassName(AbacusException.class));
-                    remoteResponse.setErrorMessage("Unsupported content format: " + contentFormat + ". Only Kryo is supported");
+                    remoteResponse.setErrorMessage("Unsupported content format: " + contentFormat + ". Only format JSON/Kryo is supported");
             }
 
             if (remoteResponse.getErrorCode() == null) {
@@ -212,7 +212,7 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
 
             flush(os);
         } catch (IOException e) {
-            String msg = "Failed to execute task on server: " + IOUtil.HOST_NAME;
+            String msg = "Failed to send task response back on server: " + IOUtil.HOST_NAME;
             throw new UncheckedIOException(msg, e);
         } finally {
             IOUtil.close(os);
