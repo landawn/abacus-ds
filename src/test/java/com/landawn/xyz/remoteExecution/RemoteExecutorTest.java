@@ -10,6 +10,9 @@ import org.junit.Test;
 import com.landawn.abacus.da.RemoteExecutionResponse;
 import com.landawn.abacus.da.RemoteExecutor;
 import com.landawn.abacus.da.RemoteTask;
+import com.landawn.abacus.http.ContentFormat;
+import com.landawn.abacus.http.HttpHeaders;
+import com.landawn.abacus.http.HttpSettings;
 import com.landawn.abacus.util.DateUtil;
 import com.landawn.abacus.util.N;
 
@@ -83,26 +86,26 @@ public class RemoteExecutorTest {
     //        N.println(respList.get(0).getResult());
     //    }
 
-//    @Test
-//    public void test_echo() {
-//        final String url = "http://localhost:8080/abacus/echo";
-//
-//        KryoParser kryoParser = ParserFactory.createKryoParser();
-//
-//        RemoteTask<?, Object> remoteTask = new RemoteTask<Object, Object>() {
-//            @Override
-//            public Object run(Object t) {
-//                LocalTask.test_print(t);
-//                return null;
-//            }
-//        };
-//
-//        final RemoteExecutionRequest request = remoteExecutor.createRemoteRequest((Class) remoteTask.getClass());
-//
-//        String resp = HttpRequest.url(url).header("Content-Type", HttpHeaders.Values.APPLICATION_KRYO).post(request);
-//        N.println(resp);
-//    }
-//
+    //    @Test
+    //    public void test_echo() {
+    //        final String url = "http://localhost:8080/abacus/echo";
+    //
+    //        KryoParser kryoParser = ParserFactory.createKryoParser();
+    //
+    //        RemoteTask<?, Object> remoteTask = new RemoteTask<Object, Object>() {
+    //            @Override
+    //            public Object run(Object t) {
+    //                LocalTask.test_print(t);
+    //                return null;
+    //            }
+    //        };
+    //
+    //        final RemoteExecutionRequest request = remoteExecutor.createRemoteRequest((Class) remoteTask.getClass());
+    //
+    //        String resp = HttpRequest.url(url).header("Content-Type", HttpHeaders.Values.APPLICATION_KRYO).post(request);
+    //        N.println(resp);
+    //    }
+    //
 //    @Test
 //    public void test_kryo() {
 //        KryoParser kryoParser = ParserFactory.createKryoParser();
@@ -130,8 +133,17 @@ public class RemoteExecutorTest {
 //        request2 = kryoParser.deserialize(RemoteExecutionRequest.class, file);
 //        N.println(request2);
 //
+//        N.println(IOUtil.readBytes(file, 0, 64));
+//
 //        IOUtil.deleteIfExists(file);
 //
+//        kryoParser.serialize(file, request);
+//        request2 = kryoParser.deserialize(RemoteExecutionRequest.class, file);
+//        N.println(request2);
+//
+//        N.println(IOUtil.readBytes(file, 0, 64));
+//
+//        IOUtil.deleteIfExists(file);
 //    }
 
     @Test
@@ -144,7 +156,9 @@ public class RemoteExecutorTest {
             }
         };
 
-        List<RemoteExecutionResponse> respList = remoteExecutor.execute(remoteTask, 123);
+        List<RemoteExecutionResponse> respList = remoteExecutor.execute(remoteTask, 123,
+                HttpSettings.create().setContentFormat(ContentFormat.KRYO).header(HttpHeaders.Names.CONTENT_TYPE, HttpHeaders.Values.APPLICATION_KRYO),
+                Long.MAX_VALUE, null);
         N.println(respList);
 
         respList = remoteExecutor.execute(remoteTask, N.uuid());
