@@ -106,45 +106,45 @@ public class RemoteExecutorTest {
     //        N.println(resp);
     //    }
     //
-//    @Test
-//    public void test_kryo() {
-//        KryoParser kryoParser = ParserFactory.createKryoParser();
-//
-//        RemoteTask<?, Object> remoteTask = new RemoteTask<Object, Object>() {
-//            @Override
-//            public Object run(Object t) {
-//                LocalTask.test_print(t);
-//                return null;
-//            }
-//        };
-//
-//        final RemoteExecutionRequest request = remoteExecutor.createRemoteRequest((Class) remoteTask.getClass());
-//
-//        String str = kryoParser.serialize(request);
-//        N.println(str);
-//
-//        RemoteExecutionRequest request2 = kryoParser.deserialize(RemoteExecutionRequest.class, str);
-//        N.println(request2);
-//        // assertEquals(request, request2);
-//
-//        File file = new File("./tmp");
-//
-//        kryoParser.serialize(file, request);
-//        request2 = kryoParser.deserialize(RemoteExecutionRequest.class, file);
-//        N.println(request2);
-//
-//        N.println(IOUtil.readBytes(file, 0, 64));
-//
-//        IOUtil.deleteIfExists(file);
-//
-//        kryoParser.serialize(file, request);
-//        request2 = kryoParser.deserialize(RemoteExecutionRequest.class, file);
-//        N.println(request2);
-//
-//        N.println(IOUtil.readBytes(file, 0, 64));
-//
-//        IOUtil.deleteIfExists(file);
-//    }
+    //    @Test
+    //    public void test_kryo() {
+    //        KryoParser kryoParser = ParserFactory.createKryoParser();
+    //
+    //        RemoteTask<?, Object> remoteTask = new RemoteTask<Object, Object>() {
+    //            @Override
+    //            public Object run(Object t) {
+    //                LocalTask.test_print(t);
+    //                return null;
+    //            }
+    //        };
+    //
+    //        final RemoteExecutionRequest request = remoteExecutor.createRemoteRequest((Class) remoteTask.getClass());
+    //
+    //        String str = kryoParser.serialize(request);
+    //        N.println(str);
+    //
+    //        RemoteExecutionRequest request2 = kryoParser.deserialize(RemoteExecutionRequest.class, str);
+    //        N.println(request2);
+    //        // assertEquals(request, request2);
+    //
+    //        File file = new File("./tmp");
+    //
+    //        kryoParser.serialize(file, request);
+    //        request2 = kryoParser.deserialize(RemoteExecutionRequest.class, file);
+    //        N.println(request2);
+    //
+    //        N.println(IOUtil.readBytes(file, 0, 64));
+    //
+    //        IOUtil.deleteIfExists(file);
+    //
+    //        kryoParser.serialize(file, request);
+    //        request2 = kryoParser.deserialize(RemoteExecutionRequest.class, file);
+    //        N.println(request2);
+    //
+    //        N.println(IOUtil.readBytes(file, 0, 64));
+    //
+    //        IOUtil.deleteIfExists(file);
+    //    }
 
     @Test
     public void test_execute_01() {
@@ -156,12 +156,12 @@ public class RemoteExecutorTest {
             }
         };
 
-        List<RemoteExecutionResponse> respList = remoteExecutor.execute(remoteTask, 123,
-                HttpSettings.create().setContentFormat(ContentFormat.KRYO).header(HttpHeaders.Names.CONTENT_TYPE, HttpHeaders.Values.APPLICATION_KRYO),
-                Long.MAX_VALUE, null);
+        HttpSettings httpSettings = HttpSettings.create().setContentFormat(ContentFormat.KRYO);
+        List<RemoteExecutionResponse> respList = remoteExecutor.execute(remoteTask, 123, httpSettings, Long.MAX_VALUE, null);
         N.println(respList);
 
-        respList = remoteExecutor.execute(remoteTask, N.uuid());
+        httpSettings.setContentFormat(ContentFormat.JSON).header(HttpHeaders.Names.CONTENT_TYPE, HttpHeaders.Values.APPLICATION_JSON);
+        respList = remoteExecutor.execute(remoteTask, N.uuid(), httpSettings, Long.MAX_VALUE, null);
         N.println(respList);
 
         respList = remoteExecutor.execute(remoteTask, Long.MAX_VALUE);
