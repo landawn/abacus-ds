@@ -169,7 +169,7 @@ public final class CouchbaseExecutor implements Closeable {
      * @param sqlMapper the sql mapper
      */
     public CouchbaseExecutor(Cluster cluster, Bucket bucket, final SQLMapper sqlMapper) {
-        this(cluster, bucket, sqlMapper, new AsyncExecutor(64, 300, TimeUnit.SECONDS));
+        this(cluster, bucket, sqlMapper, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
     }
 
     /**

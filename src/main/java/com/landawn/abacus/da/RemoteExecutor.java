@@ -259,7 +259,7 @@ public final class RemoteExecutor {
             httpClients.add(HttpClient.create(server, HttpClient.DEFAULT_MAX_CONNECTION, Integer.MAX_VALUE, Integer.MAX_VALUE));
         }
 
-        asyncExecutor = new AsyncExecutor(servers.size(), 300, TimeUnit.SECONDS);
+        asyncExecutor = new AsyncExecutor(Math.min(8, servers.size()), servers.size(), 180L, TimeUnit.SECONDS);
 
         this.classNamefilter = new Predicate<String>() {
             @Override

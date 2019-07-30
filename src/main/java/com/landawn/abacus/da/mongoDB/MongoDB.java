@@ -113,7 +113,7 @@ public final class MongoDB {
      * @param mongoDB the mongo DB
      */
     public MongoDB(final MongoDatabase mongoDB) {
-        this(mongoDB, new AsyncExecutor(64, 300, TimeUnit.SECONDS));
+        this(mongoDB, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
     }
 
     /**

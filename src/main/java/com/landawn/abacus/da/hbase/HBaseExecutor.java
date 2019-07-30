@@ -103,7 +103,7 @@ public final class HBaseExecutor implements Closeable {
      * @param conn the conn
      */
     public HBaseExecutor(final Connection conn) {
-        this(conn, new AsyncExecutor(64, 300, TimeUnit.SECONDS));
+        this(conn, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
     }
 
     /**

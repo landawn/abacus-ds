@@ -57,7 +57,6 @@ import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 import com.landawn.abacus.DataSet;
 import com.landawn.abacus.DirtyMarker;
 import com.landawn.abacus.core.RowDataSet;
-import com.landawn.abacus.da.aws.dynamoDB.AsyncDynamoDBExecutor;
 import com.landawn.abacus.parser.ParserUtil;
 import com.landawn.abacus.parser.ParserUtil.EntityInfo;
 import com.landawn.abacus.parser.ParserUtil.PropInfo;
@@ -108,7 +107,7 @@ public final class DynamoDBExecutor implements Closeable {
      * @param config the config
      */
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB, final DynamoDBMapperConfig config) {
-        this(dynamoDB, config, new AsyncExecutor(64, 300, TimeUnit.SECONDS));
+        this(dynamoDB, config, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
     }
 
     /**

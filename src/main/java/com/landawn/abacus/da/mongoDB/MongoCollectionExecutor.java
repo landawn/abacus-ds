@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
@@ -26,8 +25,8 @@ import org.bson.types.ObjectId;
 
 import com.landawn.abacus.DataSet;
 import com.landawn.abacus.annotation.Beta;
-import com.landawn.abacus.da.mongoDB.AsyncMongoCollectionExecutor;
-import com.landawn.abacus.da.mongoDB.MongoDB;
+import com.landawn.abacus.util.AsyncExecutor;
+import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.u.Nullable;
 import com.landawn.abacus.util.u.Optional;
 import com.landawn.abacus.util.u.OptionalBoolean;
@@ -38,8 +37,6 @@ import com.landawn.abacus.util.u.OptionalFloat;
 import com.landawn.abacus.util.u.OptionalInt;
 import com.landawn.abacus.util.u.OptionalLong;
 import com.landawn.abacus.util.u.OptionalShort;
-import com.landawn.abacus.util.AsyncExecutor;
-import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.function.Function;
 import com.landawn.abacus.util.function.ToBooleanFunction;
 import com.landawn.abacus.util.function.ToByteFunction;
@@ -96,16 +93,6 @@ public final class MongoCollectionExecutor {
 
     /** The async coll executor. */
     private final AsyncMongoCollectionExecutor asyncCollExecutor;
-
-    /**
-     * Call <code>mongoDB.withCodecRegistry(CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(), new GeneralCodecRegistry()));</code> to support the encode/decode for general type
-     *
-     * @param dbExecutor the db executor
-     * @param coll the coll
-     */
-    MongoCollectionExecutor(final MongoDB dbExecutor, final MongoCollection<Document> coll) {
-        this(dbExecutor, coll, new AsyncExecutor(64, 300, TimeUnit.SECONDS));
-    }
 
     /**
      * Instantiates a new mongo collection executor.

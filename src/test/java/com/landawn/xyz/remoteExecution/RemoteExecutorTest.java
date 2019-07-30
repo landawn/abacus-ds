@@ -11,7 +11,6 @@ import com.landawn.abacus.da.RemoteExecutionResponse;
 import com.landawn.abacus.da.RemoteExecutor;
 import com.landawn.abacus.da.RemoteTask;
 import com.landawn.abacus.http.ContentFormat;
-import com.landawn.abacus.http.HttpHeaders;
 import com.landawn.abacus.http.HttpSettings;
 import com.landawn.abacus.util.DateUtil;
 import com.landawn.abacus.util.N;
@@ -156,12 +155,11 @@ public class RemoteExecutorTest {
             }
         };
 
-        HttpSettings httpSettings = HttpSettings.create().setContentFormat(ContentFormat.KRYO);
-        List<RemoteExecutionResponse> respList = remoteExecutor.execute(remoteTask, 123, httpSettings, Long.MAX_VALUE, null);
+        List<RemoteExecutionResponse> respList = remoteExecutor.execute(remoteTask, 123, HttpSettings.create().setContentFormat(ContentFormat.KRYO),
+                Long.MAX_VALUE, null);
         N.println(respList);
 
-        httpSettings.setContentFormat(ContentFormat.JSON).header(HttpHeaders.Names.CONTENT_TYPE, HttpHeaders.Values.APPLICATION_JSON);
-        respList = remoteExecutor.execute(remoteTask, N.uuid(), httpSettings, Long.MAX_VALUE, null);
+        respList = remoteExecutor.execute(remoteTask, N.uuid(), HttpSettings.create().setContentFormat(ContentFormat.JSON), Long.MAX_VALUE, null);
         N.println(respList);
 
         respList = remoteExecutor.execute(remoteTask, Long.MAX_VALUE);

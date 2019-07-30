@@ -288,7 +288,7 @@ public final class CassandraExecutor implements Closeable {
 
         this.cqlMapper = cqlMapper;
         this.namingPolicy = namingPolicy == null ? NamingPolicy.LOWER_CASE_WITH_UNDERSCORE : namingPolicy;
-        this.asyncExecutor = asyncExecutor == null ? new AsyncExecutor(64, 300, TimeUnit.SECONDS) : asyncExecutor;
+        this.asyncExecutor = asyncExecutor == null ? new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS) : asyncExecutor;
     }
 
     /**
