@@ -42,6 +42,7 @@ import org.bson.types.ObjectId;
 
 import com.landawn.abacus.DataSet;
 import com.landawn.abacus.DirtyMarker;
+import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.parser.JSONParser;
 import com.landawn.abacus.parser.ParserFactory;
 import com.landawn.abacus.type.Type;
@@ -399,7 +400,6 @@ public final class MongoDB {
      * @param doc the doc
      * @return the t
      */
-    @SuppressWarnings("deprecation")
     public static <T> T toEntity(final Class<T> targetClass, final Document doc) {
         checkTargetClass(targetClass);
 
@@ -436,8 +436,8 @@ public final class MongoDB {
                 doc.put(_ID, objectId);
             }
 
-            if (ClassUtil.isDirtyMarker(entity.getClass())) {
-                ((DirtyMarker) entity).markDirty(false);
+            if (DirtyMarkerUtil.isDirtyMarker(entity.getClass())) {
+                DirtyMarkerUtil.markDirty((DirtyMarker) entity, false);
             }
 
             return entity;

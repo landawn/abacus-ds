@@ -56,6 +56,7 @@ import com.amazonaws.services.dynamodbv2.model.UpdateItemResult;
 import com.amazonaws.services.dynamodbv2.model.WriteRequest;
 import com.landawn.abacus.DataSet;
 import com.landawn.abacus.DirtyMarker;
+import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.core.RowDataSet;
 import com.landawn.abacus.parser.ParserUtil;
 import com.landawn.abacus.parser.ParserUtil.EntityInfo;
@@ -610,7 +611,6 @@ public final class DynamoDBExecutor implements Closeable {
      * @param item the item
      * @return the t
      */
-    @SuppressWarnings("deprecation")
     private static <T> T toValue(final Type<T> type, final Class<T> targetClass, final Map<String, AttributeValue> item) {
         if (item == null) {
             return null;
@@ -647,8 +647,8 @@ public final class DynamoDBExecutor implements Closeable {
                 ClassUtil.setPropValue(entity, propSetMethod, propInfo.jsonXmlType.valueOf(attrValueType.stringOf(entry.getValue())));
             }
 
-            if (ClassUtil.isDirtyMarker(entity.getClass())) {
-                ((DirtyMarker) entity).markDirty(false);
+            if (DirtyMarkerUtil.isDirtyMarker(entity.getClass())) {
+                DirtyMarkerUtil.markDirty((DirtyMarker) entity, false);
             }
 
             return entity;
@@ -762,7 +762,7 @@ public final class DynamoDBExecutor implements Closeable {
         final Class<?> cls = entity.getClass();
 
         if (ClassUtil.isEntity(cls)) {
-            if (ClassUtil.isDirtyMarker(cls)) {
+            if (DirtyMarkerUtil.isDirtyMarker(cls)) {
                 @SuppressWarnings("deprecation")
                 Set<String> signedPropNames = ((DirtyMarker) entity).signedPropNames();
                 Method propGetMethod = null;
@@ -951,7 +951,7 @@ public final class DynamoDBExecutor implements Closeable {
         final Class<?> cls = entity.getClass();
 
         if (ClassUtil.isEntity(cls)) {
-            if (ClassUtil.isDirtyMarker(cls)) {
+            if (DirtyMarkerUtil.isDirtyMarker(cls)) {
                 @SuppressWarnings("deprecation")
                 final Set<String> dirtyPropNames = ((DirtyMarker) entity).dirtyPropNames();
                 Method propGetMethod = null;

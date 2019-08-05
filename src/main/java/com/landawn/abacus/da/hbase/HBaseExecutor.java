@@ -51,6 +51,7 @@ import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;
 import com.google.protobuf.Service;
 import com.landawn.abacus.DirtyMarker;
+import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.parser.ParserUtil;
 import com.landawn.abacus.parser.ParserUtil.EntityInfo;
@@ -304,7 +305,6 @@ public final class HBaseExecutor implements Closeable {
      * @return the t
      * @throws IOException Signals that an I/O exception has occurred.
      */
-    @SuppressWarnings("deprecation")
     private static <T> T toValue(final Type<T> type, final Class<T> targetClass, final Result result) throws IOException {
         if (type.isMap()) {
             throw new IllegalArgumentException("Map is not supported");
@@ -509,8 +509,8 @@ public final class HBaseExecutor implements Closeable {
                 }
             }
 
-            if (ClassUtil.isDirtyMarker(entity.getClass())) {
-                ((DirtyMarker) entity).markDirty(false);
+            if (DirtyMarkerUtil.isDirtyMarker(entity.getClass())) {
+                DirtyMarkerUtil.markDirty((DirtyMarker) entity, false);
             }
 
             return entity;

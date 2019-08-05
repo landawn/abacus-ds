@@ -62,6 +62,7 @@ import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.condition.And;
 import com.landawn.abacus.condition.Condition;
 import com.landawn.abacus.condition.ConditionFactory.CF;
+import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.core.RowDataSet;
 import com.landawn.abacus.da.canssandra.CQLBuilder.CP;
 import com.landawn.abacus.da.canssandra.CQLBuilder.NAC;
@@ -577,7 +578,6 @@ public final class CassandraExecutor implements Closeable {
      * @param columnDefinitions the column definitions
      * @return the t
      */
-    @SuppressWarnings("deprecation")
     static <T> T toEntity(final Class<T> targetClass, final Row row, final ColumnDefinitions columnDefinitions) {
         final int columnCount = columnDefinitions.size();
 
@@ -637,8 +637,8 @@ public final class CassandraExecutor implements Closeable {
                 }
             }
 
-            if (ClassUtil.isDirtyMarker(entity.getClass())) {
-                ((DirtyMarker) entity).markDirty(false);
+            if (DirtyMarkerUtil.isDirtyMarker(entity.getClass())) {
+                DirtyMarkerUtil.markDirty((DirtyMarker) entity, false);
             }
 
             return entity;

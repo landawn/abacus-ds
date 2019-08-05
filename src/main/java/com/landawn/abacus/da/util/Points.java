@@ -25,7 +25,7 @@ import com.landawn.abacus.util.N;
  * @author haiyangl
  */
 public final class Points {
-    
+
     /**
      * Instantiates a new points.
      */
@@ -37,7 +37,7 @@ public final class Points {
      * The Class xy.
      */
     public static final class xy {
-        
+
         /**
          * Instantiates a new xy.
          */
@@ -49,13 +49,13 @@ public final class Points {
          * The Class ByteBytePoint.
          */
         public static final class ByteBytePoint {
-            
+
             /** The x. */
             public byte x;
-            
+
             /** The y. */
             public byte y;
-            
+
             /** The v. */
             public byte v; // value
 
@@ -135,13 +135,13 @@ public final class Points {
          * The Class ByteIntPoint.
          */
         public static final class ByteIntPoint {
-            
+
             /** The x. */
             public byte x;
-            
+
             /** The y. */
             public byte y;
-            
+
             /** The v. */
             public int v; // value
 
@@ -221,13 +221,13 @@ public final class Points {
          * The Class ByteLongPoint.
          */
         public static final class ByteLongPoint {
-            
+
             /** The x. */
             public byte x;
-            
+
             /** The y. */
             public byte y;
-            
+
             /** The v. */
             public long v; // value
 
@@ -307,13 +307,13 @@ public final class Points {
          * The Class ByteDoublePoint.
          */
         public static final class ByteDoublePoint {
-            
+
             /** The x. */
             public byte x;
-            
+
             /** The y. */
             public byte y;
-            
+
             /** The v. */
             public double v; // value
 
@@ -395,13 +395,13 @@ public final class Points {
          * @param <T> the generic type
          */
         public static final class ByteObjPoint<T> {
-            
+
             /** The x. */
             public byte x;
-            
+
             /** The y. */
             public byte y;
-            
+
             /** The v. */
             public T v; // value
 
@@ -482,13 +482,13 @@ public final class Points {
          * The Class IntBytePoint.
          */
         public static final class IntBytePoint {
-            
+
             /** The x. */
             public int x;
-            
+
             /** The y. */
             public int y;
-            
+
             /** The v. */
             public byte v; // value
 
@@ -568,13 +568,13 @@ public final class Points {
          * The Class IntIntPoint.
          */
         public static final class IntIntPoint {
-            
+
             /** The x. */
             public int x;
-            
+
             /** The y. */
             public int y;
-            
+
             /** The v. */
             public int v; // value
 
@@ -654,13 +654,13 @@ public final class Points {
          * The Class IntLongPoint.
          */
         public static final class IntLongPoint {
-            
+
             /** The x. */
             public int x;
-            
+
             /** The y. */
             public int y;
-            
+
             /** The v. */
             public long v; // value
 
@@ -740,13 +740,13 @@ public final class Points {
          * The Class IntDoublePoint.
          */
         public static final class IntDoublePoint {
-            
+
             /** The x. */
             public int x;
-            
+
             /** The y. */
             public int y;
-            
+
             /** The v. */
             public double v; // value
 
@@ -828,13 +828,13 @@ public final class Points {
          * @param <T> the generic type
          */
         public static final class IntObjPoint<T> {
-            
+
             /** The x. */
             public int x;
-            
+
             /** The y. */
             public int y;
-            
+
             /** The v. */
             public T v; // value
 
@@ -915,13 +915,13 @@ public final class Points {
          * The Class LongBytePoint.
          */
         public static final class LongBytePoint {
-            
+
             /** The x. */
             public long x;
-            
+
             /** The y. */
             public long y;
-            
+
             /** The v. */
             public byte v; // value
 
@@ -1001,13 +1001,13 @@ public final class Points {
          * The Class LongIntPoint.
          */
         public static final class LongIntPoint {
-            
+
             /** The x. */
             public long x;
-            
+
             /** The y. */
             public long y;
-            
+
             /** The v. */
             public int v; // value
 
@@ -1087,13 +1087,13 @@ public final class Points {
          * The Class LongLongPoint.
          */
         public static final class LongLongPoint {
-            
+
             /** The x. */
             public long x;
-            
+
             /** The y. */
             public long y;
-            
+
             /** The v. */
             public long v; // value
 
@@ -1173,13 +1173,13 @@ public final class Points {
          * The Class LongDoublePoint.
          */
         public static final class LongDoublePoint {
-            
+
             /** The x. */
             public long x;
-            
+
             /** The y. */
             public long y;
-            
+
             /** The v. */
             public double v; // value
 
@@ -1261,13 +1261,13 @@ public final class Points {
          * @param <T> the generic type
          */
         public static final class LongObjPoint<T> {
-            
+
             /** The x. */
             public long x;
-            
+
             /** The y. */
             public long y;
-            
+
             /** The v. */
             public T v; // value
 
@@ -1348,13 +1348,13 @@ public final class Points {
          * The Class DoubleBytePoint.
          */
         public static final class DoubleBytePoint {
-            
+
             /** The x. */
             public double x;
-            
+
             /** The y. */
             public double y;
-            
+
             /** The v. */
             public byte v; // value
 
@@ -1434,13 +1434,13 @@ public final class Points {
          * The Class DoubleIntPoint.
          */
         public static final class DoubleIntPoint {
-            
+
             /** The x. */
             public double x;
-            
+
             /** The y. */
             public double y;
-            
+
             /** The v. */
             public int v; // value
 
@@ -1520,13 +1520,13 @@ public final class Points {
          * The Class DoubleLongPoint.
          */
         public static final class DoubleLongPoint {
-            
+
             /** The x. */
             public double x;
-            
+
             /** The y. */
             public double y;
-            
+
             /** The v. */
             public long v; // value
 
@@ -1606,13 +1606,13 @@ public final class Points {
          * The Class DoubleDoublePoint.
          */
         public static final class DoubleDoublePoint {
-            
+
             /** The x. */
             public double x;
-            
+
             /** The y. */
             public double y;
-            
+
             /** The v. */
             public double v; // value
 
@@ -1694,13 +1694,13 @@ public final class Points {
          * @param <T> the generic type
          */
         public static final class DoubleObjPoint<T> {
-            
+
             /** The x. */
             public double x;
-            
+
             /** The y. */
             public double y;
-            
+
             /** The v. */
             public T v; // value
 
@@ -4322,7 +4322,7 @@ public final class Points {
      * The Class xyz.
      */
     public static final class xyz {
-        
+
         /**
          * Instantiates a new xyz.
          */
@@ -4334,16 +4334,16 @@ public final class Points {
          * The Class ByteBytePoint.
          */
         public static final class ByteBytePoint {
-            
+
             /** The x. */
             public byte x;
-            
+
             /** The y. */
             public byte y;
-            
+
             /** The z. */
             public byte z;
-            
+
             /** The v. */
             public byte v; // value
 
@@ -4426,16 +4426,16 @@ public final class Points {
          * The Class ByteIntPoint.
          */
         public static final class ByteIntPoint {
-            
+
             /** The x. */
             public byte x;
-            
+
             /** The y. */
             public byte y;
-            
+
             /** The z. */
             public byte z;
-            
+
             /** The v. */
             public int v; // value
 
@@ -4518,16 +4518,16 @@ public final class Points {
          * The Class ByteLongPoint.
          */
         public static final class ByteLongPoint {
-            
+
             /** The x. */
             public byte x;
-            
+
             /** The y. */
             public byte y;
-            
+
             /** The z. */
             public byte z;
-            
+
             /** The v. */
             public long v; // value
 
@@ -4610,16 +4610,16 @@ public final class Points {
          * The Class ByteDoublePoint.
          */
         public static final class ByteDoublePoint {
-            
+
             /** The x. */
             public byte x;
-            
+
             /** The y. */
             public byte y;
-            
+
             /** The z. */
             public byte z;
-            
+
             /** The v. */
             public double v; // value
 
@@ -4704,16 +4704,16 @@ public final class Points {
          * @param <T> the generic type
          */
         public static final class ByteObjPoint<T> {
-            
+
             /** The x. */
             public byte x;
-            
+
             /** The y. */
             public byte y;
-            
+
             /** The z. */
             public byte z;
-            
+
             /** The v. */
             public T v; // value
 
@@ -4797,16 +4797,16 @@ public final class Points {
          * The Class IntBytePoint.
          */
         public static final class IntBytePoint {
-            
+
             /** The x. */
             public int x;
-            
+
             /** The y. */
             public int y;
-            
+
             /** The z. */
             public int z;
-            
+
             /** The v. */
             public byte v; // value
 
@@ -4889,16 +4889,16 @@ public final class Points {
          * The Class IntIntPoint.
          */
         public static final class IntIntPoint {
-            
+
             /** The x. */
             public int x;
-            
+
             /** The y. */
             public int y;
-            
+
             /** The z. */
             public int z;
-            
+
             /** The v. */
             public int v; // value
 
@@ -4981,16 +4981,16 @@ public final class Points {
          * The Class IntLongPoint.
          */
         public static final class IntLongPoint {
-            
+
             /** The x. */
             public int x;
-            
+
             /** The y. */
             public int y;
-            
+
             /** The z. */
             public int z;
-            
+
             /** The v. */
             public long v; // value
 
@@ -5073,16 +5073,16 @@ public final class Points {
          * The Class IntDoublePoint.
          */
         public static final class IntDoublePoint {
-            
+
             /** The x. */
             public int x;
-            
+
             /** The y. */
             public int y;
-            
+
             /** The z. */
             public int z;
-            
+
             /** The v. */
             public double v; // value
 
@@ -5167,16 +5167,16 @@ public final class Points {
          * @param <T> the generic type
          */
         public static final class IntObjPoint<T> {
-            
+
             /** The x. */
             public int x;
-            
+
             /** The y. */
             public int y;
-            
+
             /** The z. */
             public int z;
-            
+
             /** The v. */
             public T v; // value
 
@@ -5260,16 +5260,16 @@ public final class Points {
          * The Class LongBytePoint.
          */
         public static final class LongBytePoint {
-            
+
             /** The x. */
             public long x;
-            
+
             /** The y. */
             public long y;
-            
+
             /** The z. */
             public long z;
-            
+
             /** The v. */
             public byte v; // value
 
@@ -5352,16 +5352,16 @@ public final class Points {
          * The Class LongIntPoint.
          */
         public static final class LongIntPoint {
-            
+
             /** The x. */
             public long x;
-            
+
             /** The y. */
             public long y;
-            
+
             /** The z. */
             public long z;
-            
+
             /** The v. */
             public int v; // value
 
@@ -5444,16 +5444,16 @@ public final class Points {
          * The Class LongLongPoint.
          */
         public static final class LongLongPoint {
-            
+
             /** The x. */
             public long x;
-            
+
             /** The y. */
             public long y;
-            
+
             /** The z. */
             public long z;
-            
+
             /** The v. */
             public long v; // value
 
@@ -5536,16 +5536,16 @@ public final class Points {
          * The Class LongDoublePoint.
          */
         public static final class LongDoublePoint {
-            
+
             /** The x. */
             public long x;
-            
+
             /** The y. */
             public long y;
-            
+
             /** The z. */
             public long z;
-            
+
             /** The v. */
             public double v; // value
 
@@ -5630,16 +5630,16 @@ public final class Points {
          * @param <T> the generic type
          */
         public static final class LongObjPoint<T> {
-            
+
             /** The x. */
             public long x;
-            
+
             /** The y. */
             public long y;
-            
+
             /** The z. */
             public long z;
-            
+
             /** The v. */
             public T v; // value
 
@@ -5723,16 +5723,16 @@ public final class Points {
          * The Class DoubleBytePoint.
          */
         public static final class DoubleBytePoint {
-            
+
             /** The x. */
             public double x;
-            
+
             /** The y. */
             public double y;
-            
+
             /** The z. */
             public double z;
-            
+
             /** The v. */
             public byte v; // value
 
@@ -5815,16 +5815,16 @@ public final class Points {
          * The Class DoubleIntPoint.
          */
         public static final class DoubleIntPoint {
-            
+
             /** The x. */
             public double x;
-            
+
             /** The y. */
             public double y;
-            
+
             /** The z. */
             public double z;
-            
+
             /** The v. */
             public int v; // value
 
@@ -5907,16 +5907,16 @@ public final class Points {
          * The Class DoubleLongPoint.
          */
         public static final class DoubleLongPoint {
-            
+
             /** The x. */
             public double x;
-            
+
             /** The y. */
             public double y;
-            
+
             /** The z. */
             public double z;
-            
+
             /** The v. */
             public long v; // value
 
@@ -5999,16 +5999,16 @@ public final class Points {
          * The Class DoubleDoublePoint.
          */
         public static final class DoubleDoublePoint {
-            
+
             /** The x. */
             public double x;
-            
+
             /** The y. */
             public double y;
-            
+
             /** The z. */
             public double z;
-            
+
             /** The v. */
             public double v; // value
 
@@ -6093,16 +6093,16 @@ public final class Points {
          * @param <T> the generic type
          */
         public static final class DoubleObjPoint<T> {
-            
+
             /** The x. */
             public double x;
-            
+
             /** The y. */
             public double y;
-            
+
             /** The z. */
             public double z;
-            
+
             /** The v. */
             public T v; // value
 

@@ -34,13 +34,13 @@ public final class f {
 
     /** The Constant CHAR_0. */
     static final char CHAR_0 = (char) 0;
-    
+
     /** The Constant BYTE_0. */
     static final byte BYTE_0 = (byte) 0;
-    
+
     /** The Constant BYTE_1. */
     static final byte BYTE_1 = (byte) 1;
-    
+
     /** The Constant SHORT_0. */
     static final short SHORT_0 = (short) 0;
 
@@ -1281,7 +1281,7 @@ public final class f {
      * The Class ff.
      */
     public static final class ff {
-        
+
         /**
          * Instantiates a new ff.
          */
@@ -2131,7 +2131,7 @@ public final class f {
      * The Class fff.
      */
     public static final class fff {
-        
+
         /**
          * Instantiates a new fff.
          */

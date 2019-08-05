@@ -42,6 +42,7 @@ import com.couchbase.client.java.query.N1qlQueryRow;
 import com.landawn.abacus.DataSet;
 import com.landawn.abacus.DirtyMarker;
 import com.landawn.abacus.annotation.Beta;
+import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.core.RowDataSet;
 import com.landawn.abacus.exception.AbacusException;
 import com.landawn.abacus.pool.KeyedObjectPool;
@@ -448,7 +449,6 @@ public final class CouchbaseExecutor implements Closeable {
      * @param jsonObject the json object
      * @return the t
      */
-    @SuppressWarnings("deprecation")
     public static <T> T toEntity(final Class<T> targetClass, final JsonObject jsonObject) {
         checkTargetClass(targetClass);
 
@@ -504,8 +504,8 @@ public final class CouchbaseExecutor implements Closeable {
                 }
             }
 
-            if (ClassUtil.isDirtyMarker(entity.getClass())) {
-                ((DirtyMarker) entity).markDirty(false);
+            if (DirtyMarkerUtil.isDirtyMarker(entity.getClass())) {
+                DirtyMarkerUtil.markDirty((DirtyMarker) entity, false);
             }
 
             return entity;

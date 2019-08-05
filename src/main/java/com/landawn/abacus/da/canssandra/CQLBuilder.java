@@ -53,6 +53,7 @@ import com.landawn.abacus.condition.Expression;
 import com.landawn.abacus.condition.In;
 import com.landawn.abacus.condition.Junction;
 import com.landawn.abacus.condition.SubQuery;
+import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.exception.AbacusException;
 import com.landawn.abacus.logging.Logger;
 import com.landawn.abacus.logging.LoggerFactory;
@@ -1452,7 +1453,7 @@ public abstract class CQLBuilder {
             final Class<?> entityClass = entity.getClass();
             this.entityClass = entityClass;
             final Collection<String> propNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
-            final Set<String> dirtyPropNames = ClassUtil.isDirtyMarker(entityClass) ? ((DirtyMarker) entity).dirtyPropNames() : null;
+            final Set<String> dirtyPropNames = DirtyMarkerUtil.isDirtyMarker(entityClass) ? ((DirtyMarker) entity).dirtyPropNames() : null;
             final Map<String, Object> props = N.newHashMap(N.initHashCapacity(N.isNullOrEmpty(dirtyPropNames) ? propNames.size() : dirtyPropNames.size()));
 
             for (String propName : propNames) {

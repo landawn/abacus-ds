@@ -29,7 +29,7 @@ import com.landawn.abacus.util.stream.IntIteratorEx;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
- 
+
 // TODO: Auto-generated Javadoc
 /**
  * The Class IntMatrix.
