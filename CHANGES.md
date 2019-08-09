@@ -1,3 +1,8 @@
+### 0.9.4
+
+* Improve Java Docs.
+
+
 ### 0.9.3
 
 * Improvements and bug fix.
