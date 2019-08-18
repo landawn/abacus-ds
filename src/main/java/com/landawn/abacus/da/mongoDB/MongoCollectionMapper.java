@@ -53,7 +53,7 @@ import com.mongodb.client.result.UpdateResult;
  * The Class MongoCollectionMapper.
  *
  * @author Haiyang Li
- * @param <T> the generic type
+ * @param <T>
  * @since 0.8
  */
 public final class MongoCollectionMapper<T> {
@@ -67,8 +67,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Instantiates a new mongo collection mapper.
      *
-     * @param collExecutor the coll executor
-     * @param targetClass the target class
+     * @param collExecutor
+     * @param targetClass
      */
     MongoCollectionMapper(final MongoCollectionExecutor collExecutor, final Class<T> targetClass) {
         this.collExecutor = collExecutor;
@@ -78,7 +78,7 @@ public final class MongoCollectionMapper<T> {
     /**
      * Coll executor.
      *
-     * @return the mongo collection executor
+     * @return
      */
     public MongoCollectionExecutor collExecutor() {
         return collExecutor;
@@ -87,7 +87,7 @@ public final class MongoCollectionMapper<T> {
     /**
      * Exists.
      *
-     * @param objectId the object id
+     * @param objectId
      * @return true, if successful
      */
     public boolean exists(final String objectId) {
@@ -97,7 +97,7 @@ public final class MongoCollectionMapper<T> {
     /**
      * Exists.
      *
-     * @param objectId the object id
+     * @param objectId
      * @return true, if successful
      */
     public boolean exists(final ObjectId objectId) {
@@ -107,7 +107,7 @@ public final class MongoCollectionMapper<T> {
     /**
      * Exists.
      *
-     * @param filter the filter
+     * @param filter
      * @return true, if successful
      */
     public boolean exists(final Bson filter) {
@@ -117,7 +117,7 @@ public final class MongoCollectionMapper<T> {
     /**
      * Count.
      *
-     * @return the long
+     * @return
      */
     public long count() {
         return collExecutor.count();
@@ -126,8 +126,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Count.
      *
-     * @param filter the filter
-     * @return the long
+     * @param filter
+     * @return
      */
     public long count(final Bson filter) {
         return collExecutor.count(filter);
@@ -136,9 +136,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Count.
      *
-     * @param filter the filter
-     * @param options the options
-     * @return the long
+     * @param filter
+     * @param options
+     * @return
      */
     public long count(final Bson filter, final CountOptions options) {
         return collExecutor.count(filter, options);
@@ -147,8 +147,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Gets the.
      *
-     * @param objectId the object id
-     * @return the optional
+     * @param objectId
+     * @return
      */
     public Optional<T> get(final String objectId) {
         return collExecutor.get(targetClass, objectId);
@@ -157,8 +157,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Gets the.
      *
-     * @param objectId the object id
-     * @return the optional
+     * @param objectId
+     * @return
      */
     public Optional<T> get(final ObjectId objectId) {
         return collExecutor.get(targetClass, objectId);
@@ -167,9 +167,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Gets the.
      *
-     * @param objectId the object id
-     * @param selectPropNames the select prop names
-     * @return the optional
+     * @param objectId
+     * @param selectPropNames
+     * @return
      */
     public Optional<T> get(final String objectId, final Collection<String> selectPropNames) {
         return collExecutor.get(targetClass, objectId, selectPropNames);
@@ -178,9 +178,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Gets the.
      *
-     * @param objectId the object id
-     * @param selectPropNames the select prop names
-     * @return the optional
+     * @param objectId
+     * @param selectPropNames
+     * @return
      */
     public Optional<T> get(final ObjectId objectId, final Collection<String> selectPropNames) {
         return collExecutor.get(targetClass, objectId, selectPropNames);
@@ -189,8 +189,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Gets the t.
      *
-     * @param objectId the object id
-     * @return the t
+     * @param objectId
+     * @return
      */
     public T gett(final String objectId) {
         return collExecutor.gett(targetClass, objectId);
@@ -199,8 +199,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Gets the t.
      *
-     * @param objectId the object id
-     * @return the t
+     * @param objectId
+     * @return
      */
     public T gett(final ObjectId objectId) {
         return collExecutor.gett(targetClass, objectId);
@@ -209,9 +209,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Gets the t.
      *
-     * @param objectId the object id
-     * @param selectPropNames the select prop names
-     * @return the t
+     * @param objectId
+     * @param selectPropNames
+     * @return
      */
     public T gett(final String objectId, final Collection<String> selectPropNames) {
         return collExecutor.gett(targetClass, objectId, selectPropNames);
@@ -220,9 +220,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Gets the t.
      *
-     * @param objectId the object id
-     * @param selectPropNames the select prop names
-     * @return the t
+     * @param objectId
+     * @param selectPropNames
+     * @return
      */
     public T gett(final ObjectId objectId, final Collection<String> selectPropNames) {
         return collExecutor.gett(targetClass, objectId, selectPropNames);
@@ -231,8 +231,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Find first.
      *
-     * @param filter the filter
-     * @return the optional
+     * @param filter
+     * @return
      */
     public Optional<T> findFirst(final Bson filter) {
         return collExecutor.findFirst(targetClass, filter);
@@ -241,9 +241,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Find first.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @return the optional
+     * @param selectPropNames
+     * @param filter
+     * @return
      */
     public Optional<T> findFirst(final Collection<String> selectPropNames, final Bson filter) {
         return collExecutor.findFirst(targetClass, selectPropNames, filter);
@@ -252,10 +252,10 @@ public final class MongoCollectionMapper<T> {
     /**
      * Find first.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @return the optional
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @return
      */
     public Optional<T> findFirst(final Collection<String> selectPropNames, final Bson filter, final Bson sort) {
         return collExecutor.findFirst(targetClass, selectPropNames, filter, sort);
@@ -264,10 +264,10 @@ public final class MongoCollectionMapper<T> {
     /**
      * Find first.
      *
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @return the optional
+     * @param filter
+     * @param sort
+     * @param projection
+     * @return
      */
     public Optional<T> findFirst(final Bson filter, final Bson sort, final Bson projection) {
         return collExecutor.findFirst(targetClass, filter, sort, projection);
@@ -276,8 +276,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * List.
      *
-     * @param filter the filter
-     * @return the list
+     * @param filter
+     * @return
      */
     public List<T> list(final Bson filter) {
         return collExecutor.list(targetClass, filter);
@@ -286,9 +286,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * List.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @return the list
+     * @param selectPropNames
+     * @param filter
+     * @return
      */
     public List<T> list(final Collection<String> selectPropNames, final Bson filter) {
         return collExecutor.list(targetClass, selectPropNames, filter);
@@ -297,11 +297,11 @@ public final class MongoCollectionMapper<T> {
     /**
      * List.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param offset the offset
-     * @param count the count
-     * @return the list
+     * @param selectPropNames
+     * @param filter
+     * @param offset
+     * @param count
+     * @return
      */
     public List<T> list(final Collection<String> selectPropNames, final Bson filter, final int offset, final int count) {
         return collExecutor.list(targetClass, selectPropNames, filter, offset, count);
@@ -310,10 +310,10 @@ public final class MongoCollectionMapper<T> {
     /**
      * List.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @return the list
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @return
      */
     public List<T> list(final Collection<String> selectPropNames, final Bson filter, final Bson sort) {
         return collExecutor.list(targetClass, selectPropNames, filter, sort);
@@ -322,12 +322,12 @@ public final class MongoCollectionMapper<T> {
     /**
      * List.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @param offset the offset
-     * @param count the count
-     * @return the list
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @param offset
+     * @param count
+     * @return
      */
     public List<T> list(final Collection<String> selectPropNames, final Bson filter, final Bson sort, final int offset, final int count) {
         return collExecutor.list(targetClass, selectPropNames, filter, sort, offset, count);
@@ -336,10 +336,10 @@ public final class MongoCollectionMapper<T> {
     /**
      * List.
      *
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @return the list
+     * @param filter
+     * @param sort
+     * @param projection
+     * @return
      */
     public List<T> list(final Bson filter, final Bson sort, final Bson projection) {
         return collExecutor.list(targetClass, filter, sort, projection);
@@ -348,12 +348,12 @@ public final class MongoCollectionMapper<T> {
     /**
      * List.
      *
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @param offset the offset
-     * @param count the count
-     * @return the list
+     * @param filter
+     * @param sort
+     * @param projection
+     * @param offset
+     * @param count
+     * @return
      */
     public List<T> list(final Bson filter, final Bson sort, final Bson projection, final int offset, final int count) {
         return collExecutor.list(targetClass, filter, sort, projection, offset, count);
@@ -362,9 +362,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query for boolean.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional boolean
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalBoolean queryForBoolean(final String propName, final Bson filter) {
@@ -374,9 +374,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query for char.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional char
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalChar queryForChar(final String propName, final Bson filter) {
@@ -386,9 +386,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query for byte.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional byte
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalByte queryForByte(final String propName, final Bson filter) {
@@ -398,9 +398,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query for short.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional short
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalShort queryForShort(final String propName, final Bson filter) {
@@ -410,9 +410,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query for int.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional int
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalInt queryForInt(final String propName, final Bson filter) {
@@ -422,9 +422,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query for long.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional long
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalLong queryForLong(final String propName, final Bson filter) {
@@ -434,9 +434,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query for float.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional float
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalFloat queryForFloat(final String propName, final Bson filter) {
@@ -446,9 +446,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query for double.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional double
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalDouble queryForDouble(final String propName, final Bson filter) {
@@ -458,9 +458,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query for string.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the nullable
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public Nullable<String> queryForString(final String propName, final Bson filter) {
@@ -470,9 +470,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query for date.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the nullable
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public Nullable<Date> queryForDate(final String propName, final Bson filter) {
@@ -482,11 +482,11 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query for date.
      *
-     * @param <P> the generic type
-     * @param targetPropClass the target prop class
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the nullable
+     * @param <P>
+     * @param targetPropClass
+     * @param propName
+     * @param filter
+     * @return
      */
     public <P extends Date> Nullable<P> queryForDate(final Class<P> targetPropClass, final String propName, final Bson filter) {
         return collExecutor.queryForDate(targetPropClass, propName, filter);
@@ -496,10 +496,10 @@ public final class MongoCollectionMapper<T> {
      * Query for single result.
      *
      * @param <V> the value type
-     * @param targetPropClass the target prop class
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the nullable
+     * @param targetPropClass
+     * @param propName
+     * @param filter
+     * @return
      */
     public <V> Nullable<V> queryForSingleResult(final Class<V> targetPropClass, final String propName, final Bson filter) {
         return collExecutor.queryForSingleResult(targetPropClass, propName, filter);
@@ -508,8 +508,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query.
      *
-     * @param filter the filter
-     * @return the data set
+     * @param filter
+     * @return
      */
     public DataSet query(final Bson filter) {
         return collExecutor.query(targetClass, filter);
@@ -518,9 +518,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @return the data set
+     * @param selectPropNames
+     * @param filter
+     * @return
      */
     public DataSet query(final Collection<String> selectPropNames, final Bson filter) {
         return collExecutor.query(targetClass, selectPropNames, filter);
@@ -529,11 +529,11 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param offset the offset
-     * @param count the count
-     * @return the data set
+     * @param selectPropNames
+     * @param filter
+     * @param offset
+     * @param count
+     * @return
      */
     public DataSet query(final Collection<String> selectPropNames, final Bson filter, final int offset, final int count) {
         return collExecutor.query(targetClass, selectPropNames, filter, offset, count);
@@ -542,10 +542,10 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @return the data set
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @return
      */
     public DataSet query(final Collection<String> selectPropNames, final Bson filter, final Bson sort) {
         return collExecutor.query(targetClass, selectPropNames, filter, sort);
@@ -554,12 +554,12 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @param offset the offset
-     * @param count the count
-     * @return the data set
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @param offset
+     * @param count
+     * @return
      */
     public DataSet query(final Collection<String> selectPropNames, final Bson filter, final Bson sort, final int offset, final int count) {
         return collExecutor.query(targetClass, selectPropNames, filter, sort, offset, count);
@@ -568,10 +568,10 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query.
      *
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @return the data set
+     * @param filter
+     * @param sort
+     * @param projection
+     * @return
      */
     public DataSet query(final Bson filter, final Bson sort, final Bson projection) {
         return collExecutor.query(targetClass, filter, sort, projection);
@@ -580,12 +580,12 @@ public final class MongoCollectionMapper<T> {
     /**
      * Query.
      *
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @param offset the offset
-     * @param count the count
-     * @return the data set
+     * @param filter
+     * @param sort
+     * @param projection
+     * @param offset
+     * @param count
+     * @return
      */
     public DataSet query(final Bson filter, final Bson sort, final Bson projection, final int offset, final int count) {
         return collExecutor.query(targetClass, filter, sort, projection, offset, count);
@@ -594,8 +594,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Stream.
      *
-     * @param filter the filter
-     * @return the stream
+     * @param filter
+     * @return
      */
     public Stream<T> stream(final Bson filter) {
         return collExecutor.stream(targetClass, filter);
@@ -604,9 +604,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Stream.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @return the stream
+     * @param selectPropNames
+     * @param filter
+     * @return
      */
     public Stream<T> stream(final Collection<String> selectPropNames, final Bson filter) {
         return collExecutor.stream(targetClass, selectPropNames, filter);
@@ -615,11 +615,11 @@ public final class MongoCollectionMapper<T> {
     /**
      * Stream.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param offset the offset
-     * @param count the count
-     * @return the stream
+     * @param selectPropNames
+     * @param filter
+     * @param offset
+     * @param count
+     * @return
      */
     public Stream<T> stream(final Collection<String> selectPropNames, final Bson filter, final int offset, final int count) {
         return collExecutor.stream(targetClass, selectPropNames, filter, offset, count);
@@ -628,10 +628,10 @@ public final class MongoCollectionMapper<T> {
     /**
      * Stream.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @return the stream
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @return
      */
     public Stream<T> stream(final Collection<String> selectPropNames, final Bson filter, final Bson sort) {
         return collExecutor.stream(targetClass, selectPropNames, filter, sort);
@@ -640,12 +640,12 @@ public final class MongoCollectionMapper<T> {
     /**
      * Stream.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @param offset the offset
-     * @param count the count
-     * @return the stream
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @param offset
+     * @param count
+     * @return
      */
     public Stream<T> stream(final Collection<String> selectPropNames, final Bson filter, final Bson sort, final int offset, final int count) {
         return collExecutor.stream(targetClass, selectPropNames, filter, sort, offset, count);
@@ -654,10 +654,10 @@ public final class MongoCollectionMapper<T> {
     /**
      * Stream.
      *
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @return the stream
+     * @param filter
+     * @param sort
+     * @param projection
+     * @return
      */
     public Stream<T> stream(final Bson filter, final Bson sort, final Bson projection) {
         return collExecutor.stream(targetClass, filter, sort, projection);
@@ -666,12 +666,12 @@ public final class MongoCollectionMapper<T> {
     /**
      * Stream.
      *
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @param offset the offset
-     * @param count the count
-     * @return the stream
+     * @param filter
+     * @param sort
+     * @param projection
+     * @param offset
+     * @param count
+     * @return
      */
     public Stream<T> stream(final Bson filter, final Bson sort, final Bson projection, final int offset, final int count) {
         return collExecutor.stream(targetClass, filter, sort, projection, offset, count);
@@ -680,7 +680,7 @@ public final class MongoCollectionMapper<T> {
     /**
      * Insert.
      *
-     * @param obj the obj
+     * @param obj
      */
     public void insert(final T obj) {
         collExecutor.insert(obj);
@@ -689,8 +689,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Insert.
      *
-     * @param obj the obj
-     * @param options the options
+     * @param obj
+     * @param options
      */
     public void insert(final T obj, final InsertOneOptions options) {
         collExecutor.insert(obj, options);
@@ -699,7 +699,7 @@ public final class MongoCollectionMapper<T> {
     /**
      * Insert all.
      *
-     * @param objList the obj list
+     * @param objList
      */
     public void insertAll(final Collection<? extends T> objList) {
         collExecutor.insertAll(objList);
@@ -708,8 +708,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Insert all.
      *
-     * @param objList the obj list
-     * @param options the options
+     * @param objList
+     * @param options
      */
     public void insertAll(final Collection<? extends T> objList, final InsertManyOptions options) {
         collExecutor.insertAll(objList, options);
@@ -718,9 +718,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Update.
      *
-     * @param objectId the object id
-     * @param update the update
-     * @return the update result
+     * @param objectId
+     * @param update
+     * @return
      */
     public UpdateResult update(final String objectId, final T update) {
         return collExecutor.update(objectId, update);
@@ -729,9 +729,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Update.
      *
-     * @param objectId the object id
-     * @param update the update
-     * @return the update result
+     * @param objectId
+     * @param update
+     * @return
      */
     public UpdateResult update(final ObjectId objectId, final T update) {
         return collExecutor.update(objectId, update);
@@ -740,9 +740,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Update one.
      *
-     * @param filter the filter
-     * @param update the update
-     * @return the update result
+     * @param filter
+     * @param update
+     * @return
      */
     public UpdateResult updateOne(final Bson filter, final T update) {
         return collExecutor.updateOne(filter, update);
@@ -751,10 +751,10 @@ public final class MongoCollectionMapper<T> {
     /**
      * Update one.
      *
-     * @param filter the filter
-     * @param update the update
-     * @param options the options
-     * @return the update result
+     * @param filter
+     * @param update
+     * @param options
+     * @return
      */
     public UpdateResult updateOne(final Bson filter, final T update, final UpdateOptions options) {
         return collExecutor.updateOne(filter, update, options);
@@ -763,9 +763,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Update all.
      *
-     * @param filter the filter
-     * @param update the update
-     * @return the update result
+     * @param filter
+     * @param update
+     * @return
      */
     public UpdateResult updateAll(final Bson filter, final T update) {
         return collExecutor.updateAll(filter, update);
@@ -774,10 +774,10 @@ public final class MongoCollectionMapper<T> {
     /**
      * Update all.
      *
-     * @param filter the filter
-     * @param update the update
-     * @param options the options
-     * @return the update result
+     * @param filter
+     * @param update
+     * @param options
+     * @return
      */
     public UpdateResult updateAll(final Bson filter, final T update, final UpdateOptions options) {
         return collExecutor.updateAll(filter, update, options);
@@ -786,9 +786,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Replace.
      *
-     * @param objectId the object id
-     * @param replacement the replacement
-     * @return the update result
+     * @param objectId
+     * @param replacement
+     * @return
      */
     public UpdateResult replace(final String objectId, final T replacement) {
         return collExecutor.replace(objectId, replacement);
@@ -797,9 +797,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Replace.
      *
-     * @param objectId the object id
-     * @param replacement the replacement
-     * @return the update result
+     * @param objectId
+     * @param replacement
+     * @return
      */
     public UpdateResult replace(final ObjectId objectId, final T replacement) {
         return collExecutor.replace(objectId, replacement);
@@ -808,9 +808,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Replace one.
      *
-     * @param filter the filter
-     * @param replacement the replacement
-     * @return the update result
+     * @param filter
+     * @param replacement
+     * @return
      */
     public UpdateResult replaceOne(final Bson filter, final T replacement) {
         return collExecutor.replaceOne(filter, replacement);
@@ -819,10 +819,10 @@ public final class MongoCollectionMapper<T> {
     /**
      * Replace one.
      *
-     * @param filter the filter
-     * @param replacement the replacement
-     * @param options the options
-     * @return the update result
+     * @param filter
+     * @param replacement
+     * @param options
+     * @return
      */
     public UpdateResult replaceOne(final Bson filter, final T replacement, final ReplaceOptions options) {
         return collExecutor.replaceOne(filter, replacement, options);
@@ -831,8 +831,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Delete.
      *
-     * @param objectId the object id
-     * @return the delete result
+     * @param objectId
+     * @return
      */
     public DeleteResult delete(final String objectId) {
         return collExecutor.delete(objectId);
@@ -841,8 +841,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Delete.
      *
-     * @param objectId the object id
-     * @return the delete result
+     * @param objectId
+     * @return
      */
     public DeleteResult delete(final ObjectId objectId) {
         return collExecutor.delete(objectId);
@@ -851,8 +851,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Delete one.
      *
-     * @param filter the filter
-     * @return the delete result
+     * @param filter
+     * @return
      */
     public DeleteResult deleteOne(final Bson filter) {
         return collExecutor.deleteOne(filter);
@@ -861,9 +861,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Delete one.
      *
-     * @param filter the filter
-     * @param options the options
-     * @return the delete result
+     * @param filter
+     * @param options
+     * @return
      */
     public DeleteResult deleteOne(final Bson filter, final DeleteOptions options) {
         return collExecutor.deleteOne(filter, options);
@@ -872,8 +872,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Delete all.
      *
-     * @param filter the filter
-     * @return the delete result
+     * @param filter
+     * @return
      */
     public DeleteResult deleteAll(final Bson filter) {
         return collExecutor.deleteAll(filter);
@@ -882,9 +882,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Delete all.
      *
-     * @param filter the filter
-     * @param options the options
-     * @return the delete result
+     * @param filter
+     * @param options
+     * @return
      */
     public DeleteResult deleteAll(Bson filter, DeleteOptions options) {
         return collExecutor.deleteAll(filter, options);
@@ -893,8 +893,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Bulk insert.
      *
-     * @param entities the entities
-     * @return the int
+     * @param entities
+     * @return
      */
     public int bulkInsert(final Collection<? extends T> entities) {
         return collExecutor.bulkInsert(entities);
@@ -903,9 +903,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Bulk insert.
      *
-     * @param entities the entities
-     * @param options the options
-     * @return the int
+     * @param entities
+     * @param options
+     * @return
      */
     public int bulkInsert(final Collection<? extends T> entities, final BulkWriteOptions options) {
         return collExecutor.bulkInsert(entities, options);
@@ -914,8 +914,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Bulk write.
      *
-     * @param requests the requests
-     * @return the bulk write result
+     * @param requests
+     * @return
      */
     public BulkWriteResult bulkWrite(final List<? extends WriteModel<? extends Document>> requests) {
         return collExecutor.bulkWrite(requests);
@@ -924,9 +924,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Bulk write.
      *
-     * @param requests the requests
-     * @param options the options
-     * @return the bulk write result
+     * @param requests
+     * @param options
+     * @return
      */
     public BulkWriteResult bulkWrite(final List<? extends WriteModel<? extends Document>> requests, final BulkWriteOptions options) {
         return collExecutor.bulkWrite(requests, options);
@@ -935,8 +935,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Distinct.
      *
-     * @param fieldName the field name
-     * @return the stream
+     * @param fieldName
+     * @return
      */
     public Stream<T> distinct(final String fieldName) {
         return collExecutor.distinct(targetClass, fieldName);
@@ -945,9 +945,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Distinct.
      *
-     * @param fieldName the field name
-     * @param filter the filter
-     * @return the stream
+     * @param fieldName
+     * @param filter
+     * @return
      */
     public Stream<T> distinct(final String fieldName, final Bson filter) {
         return collExecutor.distinct(targetClass, fieldName, filter);
@@ -956,8 +956,8 @@ public final class MongoCollectionMapper<T> {
     /**
      * Aggregate.
      *
-     * @param pipeline the pipeline
-     * @return the stream
+     * @param pipeline
+     * @return
      */
     public Stream<T> aggregate(final List<? extends Bson> pipeline) {
         return collExecutor.aggregate(targetClass, pipeline);
@@ -966,9 +966,9 @@ public final class MongoCollectionMapper<T> {
     /**
      * Map reduce.
      *
-     * @param mapFunction the map function
-     * @param reduceFunction the reduce function
-     * @return the stream
+     * @param mapFunction
+     * @param reduceFunction
+     * @return
      */
     public Stream<T> mapReduce(final String mapFunction, final String reduceFunction) {
         return collExecutor.mapReduce(targetClass, mapFunction, reduceFunction);

@@ -46,7 +46,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Instantiates a new double matrix.
      *
-     * @param a the a
+     * @param a
      */
     public DoubleMatrix(final double[][] a) {
         super(a == null ? new double[0][0] : a);
@@ -55,7 +55,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Empty.
      *
-     * @return the double matrix
+     * @return
      */
     public static DoubleMatrix empty() {
         return EMPTY_DOUBLE_MATRIX;
@@ -64,8 +64,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Of.
      *
-     * @param a the a
-     * @return the double matrix
+     * @param a
+     * @return
      */
     @SafeVarargs
     public static DoubleMatrix of(final double[]... a) {
@@ -75,8 +75,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * From.
      *
-     * @param a the a
-     * @return the double matrix
+     * @param a
+     * @return
      */
     @SafeVarargs
     public static DoubleMatrix from(final int[]... a) {
@@ -98,8 +98,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * From.
      *
-     * @param a the a
-     * @return the double matrix
+     * @param a
+     * @return
      */
     @SafeVarargs
     public static DoubleMatrix from(final long[]... a) {
@@ -121,8 +121,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * From.
      *
-     * @param a the a
-     * @return the double matrix
+     * @param a
+     * @return
      */
     @SafeVarargs
     public static DoubleMatrix from(final float[]... a) {
@@ -144,8 +144,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Random.
      *
-     * @param len the len
-     * @return the double matrix
+     * @param len
+     * @return
      */
     public static DoubleMatrix random(final int len) {
         return new DoubleMatrix(new double[][] { DoubleList.random(len).array() });
@@ -154,9 +154,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Repeat.
      *
-     * @param val the val
-     * @param len the len
-     * @return the double matrix
+     * @param val
+     * @param len
+     * @return
      */
     public static DoubleMatrix repeat(final double val, final int len) {
         return new DoubleMatrix(new double[][] { Array.repeat(val, len) });
@@ -165,8 +165,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Diagonal LU 2 RD.
      *
-     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
-     * @return the double matrix
+     * @param leftUp2RighDownDiagonal
+     * @return
      */
     public static DoubleMatrix diagonalLU2RD(final double[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
@@ -175,8 +175,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Diagonal RU 2 LD.
      *
-     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the double matrix
+     * @param rightUp2LeftDownDiagonal
+     * @return
      */
     public static DoubleMatrix diagonalRU2LD(final double[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
@@ -185,9 +185,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Diagonal.
      *
-     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
-     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the double matrix
+     * @param leftUp2RighDownDiagonal
+     * @param rightUp2LeftDownDiagonal
+     * @return
      */
     public static DoubleMatrix diagonal(final double[] leftUp2RighDownDiagonal, double[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
@@ -229,9 +229,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Gets the.
      *
-     * @param i the i
-     * @param j the j
-     * @return the double
+     * @param i
+     * @param j
+     * @return
      */
     public double get(final int i, final int j) {
         return a[i][j];
@@ -240,8 +240,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Gets the.
      *
-     * @param point the point
-     * @return the double
+     * @param point
+     * @return
      */
     public double get(final IntPair point) {
         return a[point._1][point._2];
@@ -250,9 +250,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Sets the.
      *
-     * @param i the i
-     * @param j the j
-     * @param val the val
+     * @param i
+     * @param j
+     * @param val
      */
     public void set(final int i, final int j, final double val) {
         a[i][j] = val;
@@ -261,8 +261,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Sets the.
      *
-     * @param point the point
-     * @param val the val
+     * @param point
+     * @param val
      */
     public void set(final IntPair point, final double val) {
         a[point._1][point._2] = val;
@@ -271,9 +271,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Up of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional double
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalDouble upOf(final int i, final int j) {
         return i == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i - 1][j]);
@@ -282,9 +282,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Down of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional double
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalDouble downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i + 1][j]);
@@ -293,9 +293,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Left of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional double
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalDouble leftOf(final int i, final int j) {
         return j == 0 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j - 1]);
@@ -304,9 +304,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Right of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional double
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalDouble rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalDouble.empty() : OptionalDouble.of(a[i][j + 1]);
@@ -315,9 +315,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Returns the four adjacencies with order: up, right, down, left. <code>null</code> is set if the adjacency doesn't exist.
      *
-     * @param i the i
-     * @param j the j
-     * @return the stream
+     * @param i
+     * @param j
+     * @return
      */
     public Stream<IntPair> adjacent4Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -331,9 +331,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. <code>null</code> is set if the adjacency doesn't exist.
      *
-     * @param i the i
-     * @param j the j
-     * @return the stream
+     * @param i
+     * @param j
+     * @return
      */
     public Stream<IntPair> adjacent8Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -352,8 +352,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Row.
      *
-     * @param rowIndex the row index
-     * @return the double[]
+     * @param rowIndex
+     * @return
      */
     public double[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -364,8 +364,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Column.
      *
-     * @param columnIndex the column index
-     * @return the double[]
+     * @param columnIndex
+     * @return
      */
     public double[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -382,8 +382,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Sets the row.
      *
-     * @param rowIndex the row index
-     * @param row the row
+     * @param rowIndex
+     * @param row
      */
     public void setRow(int rowIndex, double[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -394,8 +394,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Sets the column.
      *
-     * @param columnIndex the column index
-     * @param column the column
+     * @param columnIndex
+     * @param column
      */
     public void setColumn(int columnIndex, double[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -409,8 +409,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Update row.
      *
      * @param <E> the element type
-     * @param rowIndex the row index
-     * @param func the func
+     * @param rowIndex
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateRow(int rowIndex, Try.DoubleUnaryOperator<E> func) throws E {
@@ -423,8 +423,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Update column.
      *
      * @param <E> the element type
-     * @param columnIndex the column index
-     * @param func the func
+     * @param columnIndex
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateColumn(int columnIndex, Try.DoubleUnaryOperator<E> func) throws E {
@@ -436,7 +436,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Gets the lu2rd.
      *
-     * @return the lu2rd
+     * @return
      */
     public double[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
@@ -468,7 +468,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Update LU 2 RD.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateLU2RD(final Try.DoubleUnaryOperator<E> func) throws E {
@@ -482,7 +482,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Gets the ru2ld.
      *
-     * @return the ru2ld
+     * @return
      */
     public double[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
@@ -514,7 +514,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Update RU 2 LD.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateRU2LD(final Try.DoubleUnaryOperator<E> func) throws E {
@@ -529,7 +529,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Update all.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Try.DoubleUnaryOperator<E> func) throws E {
@@ -574,7 +574,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Update all elements based on points.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Try.IntBiFunction<Double, E> func) throws E {
@@ -619,8 +619,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Replace if.
      *
      * @param <E> the element type
-     * @param predicate the predicate
-     * @param newValue the new value
+     * @param predicate
+     * @param newValue
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Try.DoublePredicate<E> predicate, final double newValue) throws E {
@@ -665,8 +665,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
      *
      * @param <E> the element type
-     * @param predicate the predicate
-     * @param newValue the new value
+     * @param predicate
+     * @param newValue
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final double newValue) throws E {
@@ -711,8 +711,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Map.
      *
      * @param <E> the element type
-     * @param func the func
-     * @return the double matrix
+     * @param func
+     * @return
      * @throws E the e
      */
     public <E extends Exception> DoubleMatrix map(final Try.DoubleUnaryOperator<E> func) throws E {
@@ -760,11 +760,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Map to obj.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param <E> the element type
-     * @param cls the cls
-     * @param func the func
-     * @return the matrix
+     * @param cls
+     * @param func
+     * @return
      * @throws E the e
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.DoubleFunction<? extends T, E> func) throws E {
@@ -816,7 +816,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Fill.
      *
-     * @param val the val
+     * @param val
      */
     public void fill(final double val) {
         for (int i = 0; i < rows; i++) {
@@ -827,7 +827,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Fill.
      *
-     * @param b the b
+     * @param b
      */
     public void fill(final double[][] b) {
         fill(0, 0, b);
@@ -836,9 +836,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Fill.
      *
-     * @param fromRowIndex the from row index
-     * @param fromColumnIndex the from column index
-     * @param b the b
+     * @param fromRowIndex
+     * @param fromColumnIndex
+     * @param b
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final double[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
@@ -852,7 +852,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Copy.
      *
-     * @return the double matrix
+     * @return
      */
     @Override
     public DoubleMatrix copy() {
@@ -868,9 +868,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Copy.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @return the double matrix
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @return
      */
     @Override
     public DoubleMatrix copy(final int fromRowIndex, final int toRowIndex) {
@@ -888,11 +888,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Copy.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
-     * @return the double matrix
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @return
      */
     @Override
     public DoubleMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
@@ -911,9 +911,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Extend.
      *
-     * @param newRows the new rows
-     * @param newCols the new cols
-     * @return the double matrix
+     * @param newRows
+     * @param newCols
+     * @return
      */
     public DoubleMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, 0);
@@ -922,10 +922,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Extend.
      *
-     * @param newRows the new rows
-     * @param newCols the new cols
-     * @param defaultValueForNewCell the default value for new cell
-     * @return the double matrix
+     * @param newRows
+     * @param newCols
+     * @param defaultValueForNewCell
+     * @return
      */
     public DoubleMatrix extend(final int newRows, final int newCols, final double defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
@@ -956,11 +956,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Extend.
      *
-     * @param toUp the to up
-     * @param toDown the to down
-     * @param toLeft the to left
-     * @param toRight the to right
-     * @return the double matrix
+     * @param toUp
+     * @param toDown
+     * @param toLeft
+     * @param toRight
+     * @return
      */
     public DoubleMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, 0);
@@ -969,12 +969,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Extend.
      *
-     * @param toUp the to up
-     * @param toDown the to down
-     * @param toLeft the to left
-     * @param toRight the to right
-     * @param defaultValueForNewCell the default value for new cell
-     * @return the double matrix
+     * @param toUp
+     * @param toDown
+     * @param toLeft
+     * @param toRight
+     * @param defaultValueForNewCell
+     * @return
      */
     public DoubleMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final double defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
@@ -1040,7 +1040,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Flip H.
      *
-     * @return the double matrix
+     * @return
      * @see IntMatrix#flipH()
      */
     public DoubleMatrix flipH() {
@@ -1052,7 +1052,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Flip V.
      *
-     * @return the double matrix
+     * @return
      * @see IntMatrix#flipV()
      */
     public DoubleMatrix flipV() {
@@ -1064,7 +1064,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Rotate 90.
      *
-     * @return the double matrix
+     * @return
      */
     @Override
     public DoubleMatrix rotate90() {
@@ -1090,7 +1090,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Rotate 180.
      *
-     * @return the double matrix
+     * @return
      */
     @Override
     public DoubleMatrix rotate180() {
@@ -1107,7 +1107,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Rotate 270.
      *
-     * @return the double matrix
+     * @return
      */
     @Override
     public DoubleMatrix rotate270() {
@@ -1133,7 +1133,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Transpose.
      *
-     * @return the double matrix
+     * @return
      */
     @Override
     public DoubleMatrix transpose() {
@@ -1159,9 +1159,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Reshape.
      *
-     * @param newRows the new rows
-     * @param newCols the new cols
-     * @return the double matrix
+     * @param newRows
+     * @param newCols
+     * @return
      */
     @Override
     public DoubleMatrix reshape(final int newRows, final int newCols) {
@@ -1193,8 +1193,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats the row repeats
-     * @param colRepeats the col repeats
+     * @param rowRepeats
+     * @param colRepeats
      * @return a new matrix
      * @see IntMatrix#repelem(int, int)
      */
@@ -1222,8 +1222,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats the row repeats
-     * @param colRepeats the col repeats
+     * @param rowRepeats
+     * @param colRepeats
      * @return a new matrix
      * @see IntMatrix#repmat(int, int)
      */
@@ -1251,7 +1251,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Flatten.
      *
-     * @return the double list
+     * @return
      */
     @Override
     public DoubleList flatten() {
@@ -1268,7 +1268,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Flat op.
      *
      * @param <E> the element type
-     * @param op the op
+     * @param op
      * @throws E the e
      */
     @Override
@@ -1279,8 +1279,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Vstack.
      *
-     * @param b the b
-     * @return the double matrix
+     * @param b
+     * @return
      * @see IntMatrix#vstack(IntMatrix)
      */
     public DoubleMatrix vstack(final DoubleMatrix b) {
@@ -1303,8 +1303,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Hstack.
      *
-     * @param b the b
-     * @return the double matrix
+     * @param b
+     * @return
      * @see IntMatrix#hstack(IntMatrix)
      */
     public DoubleMatrix hstack(final DoubleMatrix b) {
@@ -1323,8 +1323,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Adds the.
      *
-     * @param b the b
-     * @return the double matrix
+     * @param b
+     * @return
      */
     public DoubleMatrix add(final DoubleMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
@@ -1373,8 +1373,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Subtract.
      *
-     * @param b the b
-     * @return the double matrix
+     * @param b
+     * @return
      */
     public DoubleMatrix subtract(final DoubleMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
@@ -1423,8 +1423,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Multiply.
      *
-     * @param b the b
-     * @return the double matrix
+     * @param b
+     * @return
      */
     public DoubleMatrix multiply(final DoubleMatrix b) {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
@@ -1570,7 +1570,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Boxed.
      *
-     * @return the matrix
+     * @return
      */
     public Matrix<Double> boxed() {
         final Double[][] c = new Double[rows][cols];
@@ -1596,9 +1596,9 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Zip with.
      *
      * @param <E> the element type
-     * @param matrixB the matrix B
-     * @param zipFunction the zip function
-     * @return the double matrix
+     * @param matrixB
+     * @param zipFunction
+     * @return
      * @throws E the e
      */
     public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final Try.DoubleBiFunction<Double, E> zipFunction) throws E {
@@ -1650,10 +1650,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Zip with.
      *
      * @param <E> the element type
-     * @param matrixB the matrix B
-     * @param matrixC the matrix C
-     * @param zipFunction the zip function
-     * @return the double matrix
+     * @param matrixB
+     * @param matrixC
+     * @param zipFunction
+     * @return
      * @throws E the e
      */
     public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final DoubleMatrix matrixC,
@@ -1806,8 +1806,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Stream H.
      *
-     * @param rowIndex the row index
-     * @return the double stream
+     * @param rowIndex
+     * @return
      */
     @Override
     public DoubleStream streamH(final int rowIndex) {
@@ -1817,8 +1817,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Stream H.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
+     * @param fromRowIndex
+     * @param toRowIndex
      * @return a stream based on the order of row.
      */
     @Override
@@ -1905,8 +1905,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Stream V.
      *
-     * @param columnIndex the column index
-     * @return the double stream
+     * @param columnIndex
+     * @return
      */
     @Override
     public DoubleStream streamV(final int columnIndex) {
@@ -1916,8 +1916,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Stream V.
      *
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
+     * @param fromColumnIndex
+     * @param toColumnIndex
      * @return a stream based on the order of column.
      */
     @Override
@@ -2004,8 +2004,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Stream R.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
+     * @param fromRowIndex
+     * @param toRowIndex
      * @return a row stream based on the order of row.
      */
     @Override
@@ -2062,8 +2062,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Stream C.
      *
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
+     * @param fromColumnIndex
+     * @param toColumnIndex
      * @return a column stream based on the order of column.
      */
     @Override
@@ -2140,8 +2140,8 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Length.
      *
-     * @param a the a
-     * @return the int
+     * @param a
+     * @return
      */
     @Override
     protected int length(double[] a) {
@@ -2152,7 +2152,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * For each.
      *
      * @param <E> the element type
-     * @param action the action
+     * @param action
      * @throws E the e
      */
     public <E extends Exception> void forEach(final Try.DoubleConsumer<E> action) throws E {
@@ -2163,11 +2163,11 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * For each.
      *
      * @param <E> the element type
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
-     * @param action the action
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @param action
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -2193,7 +2193,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Hash code.
      *
-     * @return the int
+     * @return
      */
     @Override
     public int hashCode() {
@@ -2203,7 +2203,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Equals.
      *
-     * @param obj the obj
+     * @param obj
      * @return true, if successful
      */
     @Override
@@ -2224,7 +2224,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * To string.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String toString() {

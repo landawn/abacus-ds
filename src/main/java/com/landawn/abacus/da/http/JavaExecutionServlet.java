@@ -114,8 +114,8 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     /**
      * Do post.
      *
-     * @param request the request
-     * @param response the response
+     * @param request
+     * @param response
      * @throws ServletException the servlet exception
      */
     @Override
@@ -126,8 +126,8 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     /**
      * Execute.
      *
-     * @param request the request
-     * @param response the response
+     * @param request
+     * @param response
      * @throws UncheckedIOException the unchecked IO exception
      */
     protected void execute(final HttpServletRequest request, final HttpServletResponse response) throws UncheckedIOException {
@@ -222,11 +222,11 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     /**
      * Define class.
      *
-     * @param <T> the generic type
-     * @param classLoader the class loader
-     * @param className the class name
-     * @param bytes the bytes
-     * @return the class
+     * @param <T>
+     * @param classLoader
+     * @param className
+     * @param bytes
+     * @return
      */
     private static <T> Class<T> defineClass(ClassLoader classLoader, String className, byte[] bytes) {
         return invoke(classLoader, defineClassMethod, className, bytes, 0, bytes.length);
@@ -235,8 +235,8 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     /**
      * Gets the class name.
      *
-     * @param cls the cls
-     * @return the class name
+     * @param cls
+     * @return
      */
     private static String getClassName(final Class<?> cls) {
         return cls.getName();
@@ -245,10 +245,10 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     /**
      * Gets the declared method.
      *
-     * @param cls the cls
-     * @param methodName the method name
-     * @param parameterTypes the parameter types
-     * @return the declared method
+     * @param cls
+     * @param methodName
+     * @param parameterTypes
+     * @return
      */
     private static Method getDeclaredMethod(final Class<?> cls, final String methodName, final Class<?>... parameterTypes) {
         Method method = null;
@@ -277,9 +277,9 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     /**
      * New instance.
      *
-     * @param <T> the generic type
-     * @param cls the cls
-     * @return the t
+     * @param <T>
+     * @param cls
+     * @return
      */
     private static <T> T newInstance(final Class<T> cls) {
         try {
@@ -318,11 +318,11 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     /**
      * Invoke.
      *
-     * @param <T> the generic type
-     * @param instance the instance
-     * @param method the method
-     * @param args the args
-     * @return the t
+     * @param <T>
+     * @param instance
+     * @param method
+     * @param args
+     * @return
      */
     @SuppressWarnings("unchecked")
     private static <T> T invoke(final Object instance, final Method method, final Object... args) {
@@ -340,10 +340,10 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     /**
      * Invoke.
      *
-     * @param <T> the generic type
-     * @param c the c
-     * @param args the args
-     * @return the t
+     * @param <T>
+     * @param c
+     * @param args
+     * @return
      */
     @SuppressWarnings("unchecked")
     private static <T> T invoke(final Constructor<T> c, final Object... args) {
@@ -366,7 +366,7 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
         /**
          * Instantiates a new dynamic class loader.
          *
-         * @param parent the parent
+         * @param parent
          */
         public DynamicClassLoader(ClassLoader parent) {
             super(parent);

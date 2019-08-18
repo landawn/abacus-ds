@@ -46,7 +46,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Instantiates a new char matrix.
      *
-     * @param a the a
+     * @param a
      */
     public CharMatrix(final char[][] a) {
         super(a == null ? new char[0][0] : a);
@@ -55,7 +55,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Empty.
      *
-     * @return the char matrix
+     * @return
      */
     public static CharMatrix empty() {
         return EMPTY_CHAR_MATRIX;
@@ -64,8 +64,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Of.
      *
-     * @param a the a
-     * @return the char matrix
+     * @param a
+     * @return
      */
     @SafeVarargs
     public static CharMatrix of(final char[]... a) {
@@ -75,8 +75,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Random.
      *
-     * @param len the len
-     * @return the char matrix
+     * @param len
+     * @return
      */
     public static CharMatrix random(final int len) {
         return new CharMatrix(new char[][] { CharList.random(len).array() });
@@ -85,9 +85,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Repeat.
      *
-     * @param val the val
-     * @param len the len
-     * @return the char matrix
+     * @param val
+     * @param len
+     * @return
      */
     public static CharMatrix repeat(final char val, final int len) {
         return new CharMatrix(new char[][] { Array.repeat(val, len) });
@@ -96,9 +96,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Range.
      *
-     * @param startInclusive the start inclusive
-     * @param endExclusive the end exclusive
-     * @return the char matrix
+     * @param startInclusive
+     * @param endExclusive
+     * @return
      */
     public static CharMatrix range(char startInclusive, final char endExclusive) {
         return new CharMatrix(new char[][] { Array.range(startInclusive, endExclusive) });
@@ -107,10 +107,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Range.
      *
-     * @param startInclusive the start inclusive
-     * @param endExclusive the end exclusive
-     * @param by the by
-     * @return the char matrix
+     * @param startInclusive
+     * @param endExclusive
+     * @param by
+     * @return
      */
     public static CharMatrix range(char startInclusive, final char endExclusive, final int by) {
         return new CharMatrix(new char[][] { Array.range(startInclusive, endExclusive, by) });
@@ -119,9 +119,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Range closed.
      *
-     * @param startInclusive the start inclusive
-     * @param endInclusive the end inclusive
-     * @return the char matrix
+     * @param startInclusive
+     * @param endInclusive
+     * @return
      */
     public static CharMatrix rangeClosed(char startInclusive, final char endInclusive) {
         return new CharMatrix(new char[][] { Array.rangeClosed(startInclusive, endInclusive) });
@@ -130,10 +130,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Range closed.
      *
-     * @param startInclusive the start inclusive
-     * @param endInclusive the end inclusive
-     * @param by the by
-     * @return the char matrix
+     * @param startInclusive
+     * @param endInclusive
+     * @param by
+     * @return
      */
     public static CharMatrix rangeClosed(char startInclusive, final char endInclusive, final int by) {
         return new CharMatrix(new char[][] { Array.rangeClosed(startInclusive, endInclusive, by) });
@@ -142,8 +142,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Diagonal LU 2 RD.
      *
-     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
-     * @return the char matrix
+     * @param leftUp2RighDownDiagonal
+     * @return
      */
     public static CharMatrix diagonalLU2RD(final char[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
@@ -152,8 +152,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Diagonal RU 2 LD.
      *
-     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the char matrix
+     * @param rightUp2LeftDownDiagonal
+     * @return
      */
     public static CharMatrix diagonalRU2LD(final char[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
@@ -162,9 +162,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Diagonal.
      *
-     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
-     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the char matrix
+     * @param leftUp2RighDownDiagonal
+     * @param rightUp2LeftDownDiagonal
+     * @return
      */
     public static CharMatrix diagonal(final char[] leftUp2RighDownDiagonal, char[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
@@ -206,9 +206,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Gets the.
      *
-     * @param i the i
-     * @param j the j
-     * @return the char
+     * @param i
+     * @param j
+     * @return
      */
     public char get(final int i, final int j) {
         return a[i][j];
@@ -217,8 +217,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Gets the.
      *
-     * @param point the point
-     * @return the char
+     * @param point
+     * @return
      */
     public char get(final IntPair point) {
         return a[point._1][point._2];
@@ -227,9 +227,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Sets the.
      *
-     * @param i the i
-     * @param j the j
-     * @param val the val
+     * @param i
+     * @param j
+     * @param val
      */
     public void set(final int i, final int j, final char val) {
         a[i][j] = val;
@@ -238,8 +238,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Sets the.
      *
-     * @param point the point
-     * @param val the val
+     * @param point
+     * @param val
      */
     public void set(final IntPair point, final char val) {
         a[point._1][point._2] = val;
@@ -248,9 +248,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Up of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional char
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalChar upOf(final int i, final int j) {
         return i == 0 ? OptionalChar.empty() : OptionalChar.of(a[i - 1][j]);
@@ -259,9 +259,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Down of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional char
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalChar downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalChar.empty() : OptionalChar.of(a[i + 1][j]);
@@ -270,9 +270,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Left of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional char
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalChar leftOf(final int i, final int j) {
         return j == 0 ? OptionalChar.empty() : OptionalChar.of(a[i][j - 1]);
@@ -281,9 +281,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Right of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional char
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalChar rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalChar.empty() : OptionalChar.of(a[i][j + 1]);
@@ -292,9 +292,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns the four adjacencies with order: up, right, down, left. <code>null</code> is set if the adjacency doesn't exist.
      *
-     * @param i the i
-     * @param j the j
-     * @return the stream
+     * @param i
+     * @param j
+     * @return
      */
     public Stream<IntPair> adjacent4Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -308,9 +308,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. <code>null</code> is set if the adjacency doesn't exist.
      *
-     * @param i the i
-     * @param j the j
-     * @return the stream
+     * @param i
+     * @param j
+     * @return
      */
     public Stream<IntPair> adjacent8Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -329,8 +329,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Row.
      *
-     * @param rowIndex the row index
-     * @return the char[]
+     * @param rowIndex
+     * @return
      */
     public char[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -341,8 +341,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Column.
      *
-     * @param columnIndex the column index
-     * @return the char[]
+     * @param columnIndex
+     * @return
      */
     public char[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -359,8 +359,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Sets the row.
      *
-     * @param rowIndex the row index
-     * @param row the row
+     * @param rowIndex
+     * @param row
      */
     public void setRow(int rowIndex, char[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -371,8 +371,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Sets the column.
      *
-     * @param columnIndex the column index
-     * @param column the column
+     * @param columnIndex
+     * @param column
      */
     public void setColumn(int columnIndex, char[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -386,8 +386,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Update row.
      *
      * @param <E> the element type
-     * @param rowIndex the row index
-     * @param func the func
+     * @param rowIndex
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateRow(int rowIndex, Try.CharUnaryOperator<E> func) throws E {
@@ -400,8 +400,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Update column.
      *
      * @param <E> the element type
-     * @param columnIndex the column index
-     * @param func the func
+     * @param columnIndex
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateColumn(int columnIndex, Try.CharUnaryOperator<E> func) throws E {
@@ -413,7 +413,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Gets the lu2rd.
      *
-     * @return the lu2rd
+     * @return
      */
     public char[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
@@ -445,7 +445,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Update LU 2 RD.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateLU2RD(final Try.CharUnaryOperator<E> func) throws E {
@@ -459,7 +459,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Gets the ru2ld.
      *
-     * @return the ru2ld
+     * @return
      */
     public char[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
@@ -491,7 +491,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Update RU 2 LD.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateRU2LD(final Try.CharUnaryOperator<E> func) throws E {
@@ -506,7 +506,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Update all.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Try.CharUnaryOperator<E> func) throws E {
@@ -551,7 +551,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Update all elements based on points.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Try.IntBiFunction<Character, E> func) throws E {
@@ -596,8 +596,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Replace if.
      *
      * @param <E> the element type
-     * @param predicate the predicate
-     * @param newValue the new value
+     * @param predicate
+     * @param newValue
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Try.CharPredicate<E> predicate, final char newValue) throws E {
@@ -642,8 +642,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
      *
      * @param <E> the element type
-     * @param predicate the predicate
-     * @param newValue the new value
+     * @param predicate
+     * @param newValue
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final char newValue) throws E {
@@ -688,8 +688,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Map.
      *
      * @param <E> the element type
-     * @param func the func
-     * @return the char matrix
+     * @param func
+     * @return
      * @throws E the e
      */
     public <E extends Exception> CharMatrix map(final Try.CharUnaryOperator<E> func) throws E {
@@ -737,11 +737,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Map to obj.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param <E> the element type
-     * @param cls the cls
-     * @param func the func
-     * @return the matrix
+     * @param cls
+     * @param func
+     * @return
      * @throws E the e
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.CharFunction<? extends T, E> func) throws E {
@@ -793,7 +793,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Fill.
      *
-     * @param val the val
+     * @param val
      */
     public void fill(final char val) {
         for (int i = 0; i < rows; i++) {
@@ -804,7 +804,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Fill.
      *
-     * @param b the b
+     * @param b
      */
     public void fill(final char[][] b) {
         fill(0, 0, b);
@@ -813,9 +813,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Fill.
      *
-     * @param fromRowIndex the from row index
-     * @param fromColumnIndex the from column index
-     * @param b the b
+     * @param fromRowIndex
+     * @param fromColumnIndex
+     * @param b
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final char[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
@@ -829,7 +829,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Copy.
      *
-     * @return the char matrix
+     * @return
      */
     @Override
     public CharMatrix copy() {
@@ -845,9 +845,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Copy.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @return the char matrix
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @return
      */
     @Override
     public CharMatrix copy(final int fromRowIndex, final int toRowIndex) {
@@ -865,11 +865,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Copy.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
-     * @return the char matrix
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @return
      */
     @Override
     public CharMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
@@ -888,9 +888,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Extend.
      *
-     * @param newRows the new rows
-     * @param newCols the new cols
-     * @return the char matrix
+     * @param newRows
+     * @param newCols
+     * @return
      */
     public CharMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, CHAR_0);
@@ -899,10 +899,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Extend.
      *
-     * @param newRows the new rows
-     * @param newCols the new cols
-     * @param defaultValueForNewCell the default value for new cell
-     * @return the char matrix
+     * @param newRows
+     * @param newCols
+     * @param defaultValueForNewCell
+     * @return
      */
     public CharMatrix extend(final int newRows, final int newCols, final char defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
@@ -933,11 +933,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Extend.
      *
-     * @param toUp the to up
-     * @param toDown the to down
-     * @param toLeft the to left
-     * @param toRight the to right
-     * @return the char matrix
+     * @param toUp
+     * @param toDown
+     * @param toLeft
+     * @param toRight
+     * @return
      */
     public CharMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, CHAR_0);
@@ -946,12 +946,12 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Extend.
      *
-     * @param toUp the to up
-     * @param toDown the to down
-     * @param toLeft the to left
-     * @param toRight the to right
-     * @param defaultValueForNewCell the default value for new cell
-     * @return the char matrix
+     * @param toUp
+     * @param toDown
+     * @param toLeft
+     * @param toRight
+     * @param defaultValueForNewCell
+     * @return
      */
     public CharMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final char defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
@@ -1017,7 +1017,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Flip H.
      *
-     * @return the char matrix
+     * @return
      * @see IntMatrix#flipH()
      */
     public CharMatrix flipH() {
@@ -1029,7 +1029,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Flip V.
      *
-     * @return the char matrix
+     * @return
      * @see IntMatrix#flipV()
      */
     public CharMatrix flipV() {
@@ -1041,7 +1041,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Rotate 90.
      *
-     * @return the char matrix
+     * @return
      */
     @Override
     public CharMatrix rotate90() {
@@ -1067,7 +1067,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Rotate 180.
      *
-     * @return the char matrix
+     * @return
      */
     @Override
     public CharMatrix rotate180() {
@@ -1084,7 +1084,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Rotate 270.
      *
-     * @return the char matrix
+     * @return
      */
     @Override
     public CharMatrix rotate270() {
@@ -1110,7 +1110,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Transpose.
      *
-     * @return the char matrix
+     * @return
      */
     @Override
     public CharMatrix transpose() {
@@ -1136,9 +1136,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Reshape.
      *
-     * @param newRows the new rows
-     * @param newCols the new cols
-     * @return the char matrix
+     * @param newRows
+     * @param newCols
+     * @return
      */
     @Override
     public CharMatrix reshape(final int newRows, final int newCols) {
@@ -1170,8 +1170,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats the row repeats
-     * @param colRepeats the col repeats
+     * @param rowRepeats
+     * @param colRepeats
      * @return a new matrix
      * @see IntMatrix#repelem(int, int)
      */
@@ -1199,8 +1199,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats the row repeats
-     * @param colRepeats the col repeats
+     * @param rowRepeats
+     * @param colRepeats
      * @return a new matrix
      * @see IntMatrix#repmat(int, int)
      */
@@ -1228,7 +1228,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Flatten.
      *
-     * @return the char list
+     * @return
      */
     @Override
     public CharList flatten() {
@@ -1245,7 +1245,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Flat op.
      *
      * @param <E> the element type
-     * @param op the op
+     * @param op
      * @throws E the e
      */
     @Override
@@ -1256,8 +1256,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Vstack.
      *
-     * @param b the b
-     * @return the char matrix
+     * @param b
+     * @return
      * @see IntMatrix#vstack(IntMatrix)
      */
     public CharMatrix vstack(final CharMatrix b) {
@@ -1280,8 +1280,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Hstack.
      *
-     * @param b the b
-     * @return the char matrix
+     * @param b
+     * @return
      * @see IntMatrix#hstack(IntMatrix)
      */
     public CharMatrix hstack(final CharMatrix b) {
@@ -1300,8 +1300,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Adds the.
      *
-     * @param b the b
-     * @return the char matrix
+     * @param b
+     * @return
      */
     public CharMatrix add(final CharMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
@@ -1350,8 +1350,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Subtract.
      *
-     * @param b the b
-     * @return the char matrix
+     * @param b
+     * @return
      */
     public CharMatrix subtract(final CharMatrix b) {
         N.checkArgument(this.rows == b.rows && this.cols == b.cols, "The 'n' and length are not equal");
@@ -1400,8 +1400,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Multiply.
      *
-     * @param b the b
-     * @return the char matrix
+     * @param b
+     * @return
      */
     public CharMatrix multiply(final CharMatrix b) {
         N.checkArgument(this.cols == b.rows, "Illegal matrix dimensions");
@@ -1547,7 +1547,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Boxed.
      *
-     * @return the matrix
+     * @return
      */
     public Matrix<Character> boxed() {
         final Character[][] c = new Character[rows][cols];
@@ -1572,7 +1572,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * To int matrix.
      *
-     * @return the int matrix
+     * @return
      */
     public IntMatrix toIntMatrix() {
         return IntMatrix.from(a);
@@ -1581,7 +1581,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * To long matrix.
      *
-     * @return the long matrix
+     * @return
      */
     public LongMatrix toLongMatrix() {
         final long[][] c = new long[rows][cols];
@@ -1606,7 +1606,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * To float matrix.
      *
-     * @return the float matrix
+     * @return
      */
     public FloatMatrix toFloatMatrix() {
         final float[][] c = new float[rows][cols];
@@ -1631,7 +1631,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * To double matrix.
      *
-     * @return the double matrix
+     * @return
      */
     public DoubleMatrix toDoubleMatrix() {
         final double[][] c = new double[rows][cols];
@@ -1657,9 +1657,9 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Zip with.
      *
      * @param <E> the element type
-     * @param matrixB the matrix B
-     * @param zipFunction the zip function
-     * @return the char matrix
+     * @param matrixB
+     * @param zipFunction
+     * @return
      * @throws E the e
      */
     public <E extends Exception> CharMatrix zipWith(final CharMatrix matrixB, final Try.CharBiFunction<Character, E> zipFunction) throws E {
@@ -1711,10 +1711,10 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Zip with.
      *
      * @param <E> the element type
-     * @param matrixB the matrix B
-     * @param matrixC the matrix C
-     * @param zipFunction the zip function
-     * @return the char matrix
+     * @param matrixB
+     * @param matrixC
+     * @param zipFunction
+     * @return
      * @throws E the e
      */
     public <E extends Exception> CharMatrix zipWith(final CharMatrix matrixB, final CharMatrix matrixC, final Try.CharTriFunction<Character, E> zipFunction)
@@ -1867,8 +1867,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Stream H.
      *
-     * @param rowIndex the row index
-     * @return the char stream
+     * @param rowIndex
+     * @return
      */
     @Override
     public CharStream streamH(final int rowIndex) {
@@ -1878,8 +1878,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Stream H.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
+     * @param fromRowIndex
+     * @param toRowIndex
      * @return a stream based on the order of row.
      */
     @Override
@@ -1966,8 +1966,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Stream V.
      *
-     * @param columnIndex the column index
-     * @return the char stream
+     * @param columnIndex
+     * @return
      */
     @Override
     public CharStream streamV(final int columnIndex) {
@@ -1977,8 +1977,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Stream V.
      *
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
+     * @param fromColumnIndex
+     * @param toColumnIndex
      * @return a stream based on the order of column.
      */
     @Override
@@ -2065,8 +2065,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Stream R.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
+     * @param fromRowIndex
+     * @param toRowIndex
      * @return a row stream based on the order of row.
      */
     @Override
@@ -2123,8 +2123,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Stream C.
      *
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
+     * @param fromColumnIndex
+     * @param toColumnIndex
      * @return a column stream based on the order of column.
      */
     @Override
@@ -2201,8 +2201,8 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Length.
      *
-     * @param a the a
-     * @return the int
+     * @param a
+     * @return
      */
     @Override
     protected int length(char[] a) {
@@ -2213,7 +2213,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * For each.
      *
      * @param <E> the element type
-     * @param action the action
+     * @param action
      * @throws E the e
      */
     public <E extends Exception> void forEach(final Try.CharConsumer<E> action) throws E {
@@ -2224,11 +2224,11 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * For each.
      *
      * @param <E> the element type
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
-     * @param action the action
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @param action
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -2254,7 +2254,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Hash code.
      *
-     * @return the int
+     * @return
      */
     @Override
     public int hashCode() {
@@ -2264,7 +2264,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Equals.
      *
-     * @param obj the obj
+     * @param obj
      * @return true, if successful
      */
     @Override
@@ -2285,7 +2285,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * To string.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String toString() {

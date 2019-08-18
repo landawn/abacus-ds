@@ -43,7 +43,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Instantiates a new any get.
      *
-     * @param rowKey the row key
+     * @param rowKey
      */
     public AnyGet(Object rowKey) {
         super(new Get(toRowKeyBytes(rowKey)));
@@ -53,9 +53,9 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Instantiates a new any get.
      *
-     * @param rowKey the row key
-     * @param rowOffset the row offset
-     * @param rowLength the row length
+     * @param rowKey
+     * @param rowOffset
+     * @param rowLength
      */
     public AnyGet(Object rowKey, int rowOffset, int rowLength) {
         super(new Get(toRowKeyBytes(rowKey), rowOffset, rowLength));
@@ -65,7 +65,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Instantiates a new any get.
      *
-     * @param row the row
+     * @param row
      */
     public AnyGet(ByteBuffer row) {
         super(new Get(row));
@@ -75,7 +75,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Instantiates a new any get.
      *
-     * @param get the get
+     * @param get
      */
     public AnyGet(Get get) {
         super(get);
@@ -85,8 +85,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Of.
      *
-     * @param rowKey the row key
-     * @return the any get
+     * @param rowKey
+     * @return
      */
     public static AnyGet of(Object rowKey) {
         return new AnyGet(rowKey);
@@ -95,10 +95,10 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Of.
      *
-     * @param rowKey the row key
-     * @param rowOffset the row offset
-     * @param rowLength the row length
-     * @return the any get
+     * @param rowKey
+     * @param rowOffset
+     * @param rowLength
+     * @return
      */
     public static AnyGet of(Object rowKey, int rowOffset, int rowLength) {
         return new AnyGet(rowKey, rowOffset, rowLength);
@@ -107,8 +107,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Of.
      *
-     * @param row the row
-     * @return the any get
+     * @param row
+     * @return
      */
     public static AnyGet of(ByteBuffer row) {
         return new AnyGet(row);
@@ -117,8 +117,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Of.
      *
-     * @param get the get
-     * @return the any get
+     * @param get
+     * @return
      */
     public static AnyGet of(Get get) {
         return new AnyGet(get);
@@ -127,7 +127,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Val.
      *
-     * @return the gets the
+     * @return
      */
     public Get val() {
         return get;
@@ -136,8 +136,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Adds the family.
      *
-     * @param family the family
-     * @return the any get
+     * @param family
+     * @return
      */
     public AnyGet addFamily(String family) {
         get.addFamily(toFamilyQualifierBytes(family));
@@ -148,8 +148,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Adds the family.
      *
-     * @param family the family
-     * @return the any get
+     * @param family
+     * @return
      */
     public AnyGet addFamily(byte[] family) {
         get.addFamily(family);
@@ -160,9 +160,9 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Adds the column.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @return the any get
+     * @param family
+     * @param qualifier
+     * @return
      */
     public AnyGet addColumn(String family, String qualifier) {
         get.addColumn(toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier));
@@ -173,9 +173,9 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Adds the column.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @return the any get
+     * @param family
+     * @param qualifier
+     * @return
      */
     public AnyGet addColumn(byte[] family, byte[] qualifier) {
         get.addColumn(family, qualifier);
@@ -186,7 +186,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Gets the family map.
      *
-     * @return the family map
+     * @return
      */
     public Map<byte[], NavigableSet<byte[]>> getFamilyMap() {
         return get.getFamilyMap();
@@ -204,8 +204,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Sets the check existence only.
      *
-     * @param checkExistenceOnly the check existence only
-     * @return the any get
+     * @param checkExistenceOnly
+     * @return
      */
     public AnyGet setCheckExistenceOnly(boolean checkExistenceOnly) {
         get.setCheckExistenceOnly(checkExistenceOnly);
@@ -228,8 +228,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * This is not used any more and does nothing. Use reverse scan instead.
      *
-     * @param closestRowBefore the closest row before
-     * @return the any get
+     * @param closestRowBefore
+     * @return
      * @deprecated since 2.0.0 and will be removed in 3.0.0
      */
     @Deprecated
@@ -242,7 +242,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Gets the time range.
      *
-     * @return the time range
+     * @return
      */
     public TimeRange getTimeRange() {
         return get.getTimeRange();
@@ -251,9 +251,9 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Sets the time range.
      *
-     * @param minStamp the min stamp
-     * @param maxStamp the max stamp
-     * @return the any get
+     * @param minStamp
+     * @param maxStamp
+     * @return
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public AnyGet setTimeRange(long minStamp, long maxStamp) throws IOException {
@@ -265,8 +265,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Sets the timestamp.
      *
-     * @param timestamp the timestamp
-     * @return the any get
+     * @param timestamp
+     * @return
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public AnyGet setTimestamp(long timestamp) throws IOException {
@@ -294,7 +294,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Gets the max versions.
      *
-     * @return the max versions
+     * @return
      */
     public int getMaxVersions() {
         return get.getMaxVersions();
@@ -355,7 +355,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Gets the max results per column family.
      *
-     * @return the max results per column family
+     * @return
      */
     public int getMaxResultsPerColumnFamily() {
         return get.getMaxResultsPerColumnFamily();
@@ -364,8 +364,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Sets the max results per column family.
      *
-     * @param limit the limit
-     * @return the any get
+     * @param limit
+     * @return
      */
     public AnyGet setMaxResultsPerColumnFamily(int limit) {
         get.setMaxResultsPerColumnFamily(limit);
@@ -376,7 +376,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Gets the row offset per column family.
      *
-     * @return the row offset per column family
+     * @return
      */
     public int getRowOffsetPerColumnFamily() {
         return get.getRowOffsetPerColumnFamily();
@@ -385,8 +385,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Sets the row offset per column family.
      *
-     * @param offset the offset
-     * @return the any get
+     * @param offset
+     * @return
      */
     public AnyGet setRowOffsetPerColumnFamily(int offset) {
         get.setRowOffsetPerColumnFamily(offset);
@@ -397,7 +397,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Gets the cache blocks.
      *
-     * @return the cache blocks
+     * @return
      */
     public boolean getCacheBlocks() {
         return get.getCacheBlocks();
@@ -406,8 +406,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Sets the cache blocks.
      *
-     * @param cacheBlocks the cache blocks
-     * @return the any get
+     * @param cacheBlocks
+     * @return
      */
     public AnyGet setCacheBlocks(boolean cacheBlocks) {
         get.setCacheBlocks(cacheBlocks);
@@ -419,7 +419,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
      * To Keep it simple, there should be no methods for the properties if it's not set by this class
      * The properties not set by this should be get by the methods in <code>Get</code>.
      *
-     * @return the row
+     * @return
      */
     public byte[] getRow() {
         return get.getRow();
@@ -437,7 +437,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Num families.
      *
-     * @return the int
+     * @return
      */
     public int numFamilies() {
         return get.numFamilies();
@@ -446,7 +446,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Family set.
      *
-     * @return the sets the
+     * @return
      */
     public Set<byte[]> familySet() {
         return get.familySet();
@@ -455,8 +455,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Compare to.
      *
-     * @param other the other
-     * @return the int
+     * @param other
+     * @return
      */
     @Override
     public int compareTo(Row other) {
@@ -466,7 +466,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Hash code.
      *
-     * @return the int
+     * @return
      */
     @Override
     public int hashCode() {
@@ -476,7 +476,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Equals.
      *
-     * @param obj the obj
+     * @param obj
      * @return true, if successful
      */
     @Override
@@ -497,7 +497,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * To string.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String toString() {

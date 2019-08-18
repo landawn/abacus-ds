@@ -151,9 +151,9 @@ public final class RemoteExecutor {
     /**
      * Get global property with the specified key.
      *
-     * @param <T> the generic type
-     * @param key the key
-     * @return the property
+     * @param <T>
+     * @param key
+     * @return
      */
     public static <T> T getProperty(Object key) {
         final PoolableWrapper<Object> wrapper = pool.get(key);
@@ -164,10 +164,10 @@ public final class RemoteExecutor {
     /**
      * Get global property with the specified key.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param key the key
-     * @return the property
+     * @param <T>
+     * @param targetClass
+     * @param key
+     * @return
      */
     public static <T> T getProperty(Class<T> targetClass, Object key) {
         final PoolableWrapper<Object> wrapper = pool.get(key);
@@ -178,8 +178,8 @@ public final class RemoteExecutor {
     /**
      * Set global property with the specified key and value.
      *
-     * @param key the key
-     * @param value the value
+     * @param key
+     * @param value
      */
     public static void setProperty(Object key, Object value) {
         pool.put(key, PoolableWrapper.of(value));
@@ -188,10 +188,10 @@ public final class RemoteExecutor {
     /**
      * Set global property with the specified key and value.
      *
-     * @param key the key
-     * @param value the value
-     * @param liveTime the live time
-     * @param maxIdleTime the max idle time
+     * @param key
+     * @param value
+     * @param liveTime
+     * @param maxIdleTime
      */
     public static void setProperty(Object key, Object value, long liveTime, long maxIdleTime) {
         pool.put(key, PoolableWrapper.of(value, liveTime, maxIdleTime));
@@ -200,8 +200,8 @@ public final class RemoteExecutor {
     /**
      * remove global property with the specified key and value.
      *
-     * @param key the key
-     * @return the object
+     * @param key
+     * @return
      */
     public static Object removeProperty(Object key) {
         return pool.remove(key);
@@ -231,7 +231,7 @@ public final class RemoteExecutor {
      *
      * @param servers a string containing whitespace or comma separated host or IP addresses and port numbers of the form
      * "host:port host2:port" or "host:port, host2:port"
-     * @param classNamefilter the class namefilter
+     * @param classNamefilter
      */
     public RemoteExecutor(String servers, Predicate<? super String> classNamefilter) {
         this(AddrUtil.getServerList(servers), classNamefilter);
@@ -240,7 +240,7 @@ public final class RemoteExecutor {
     /**
      * Instantiates a new remote executor.
      *
-     * @param servers the servers
+     * @param servers
      */
     public RemoteExecutor(Collection<String> servers) {
         this(servers, null);
@@ -249,8 +249,8 @@ public final class RemoteExecutor {
     /**
      * Instantiates a new remote executor.
      *
-     * @param servers the servers
-     * @param classNamefilter the class namefilter
+     * @param servers
+     * @param classNamefilter
      */
     public RemoteExecutor(final Collection<String> servers, final Predicate<? super String> classNamefilter) {
         httpClients = new ArrayList<>(servers.size());
@@ -284,9 +284,9 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
-     * @return the list
+     * @return
      */
     public <T> List<RemoteExecutionResponse> execute(final Class<? extends RemoteTask<?, T>> remoteTask) {
         return execute(remoteTask, (Object) null);
@@ -297,11 +297,11 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param parameter it must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
-     * @return the list
+     * @return
      */
     public <T> List<RemoteExecutionResponse> execute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter) {
         return execute(remoteTask, parameter, null, Long.MAX_VALUE, null);
@@ -312,14 +312,14 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param parameter it must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
      * @param httpSettings refer to com.landawn.abacus.http.AbstractHttpClient.HttpSettings
-     * @param totalExecutionTimeout the total execution timeout
+     * @param totalExecutionTimeout
      * @param serverFilter filter the servers by the input parameter or other logic. There are two elements in the array. left is the target server url, right is the input parameter.
-     * @return the list
+     * @return
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<RemoteExecutionResponse> execute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter,
@@ -332,11 +332,11 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param serverParameterMapper the key is the target host/url and the value must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
-     * @return the list
+     * @return
      */
     public <T> List<RemoteExecutionResponse> execute(final Class<? extends RemoteTask<?, T>> remoteTask, final Map<String, ?> serverParameterMapper) {
         return execute(remoteTask, serverParameterMapper, null, Long.MAX_VALUE);
@@ -347,13 +347,13 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param serverParameterMapper the key is the target host/url and the value must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
      * @param httpSettings refer to com.landawn.abacus.http.AbstractHttpClient.HttpSettings
-     * @param totalExecutionTimeout the total execution timeout
-     * @return the list
+     * @param totalExecutionTimeout
+     * @return
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<RemoteExecutionResponse> execute(final Class<? extends RemoteTask<?, T>> remoteTask, final Map<String, ?> serverParameterMapper,
@@ -366,9 +366,9 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask must be equals to the instance obtained by remoteTask.getClass().newInstance(). That's to say no extra properties has been set after the object was created.
-     * @return the list
+     * @return
      */
     public <T> List<RemoteExecutionResponse> execute(final RemoteTask<?, T> remoteTask) {
         return execute(remoteTask, (Object) null);
@@ -379,11 +379,11 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask must be equals to the instance obtained by remoteTask.getClass().newInstance(). That's to say no extra properties has been set after the object was created.
      * @param parameter it must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
-     * @return the list
+     * @return
      */
     public <T> List<RemoteExecutionResponse> execute(final RemoteTask<?, T> remoteTask, final Object parameter) {
         return execute(remoteTask, parameter, null, Long.MAX_VALUE, null);
@@ -394,14 +394,14 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask must be equals to the instance obtained by remoteTask.getClass().newInstance(). That's to say no extra properties has been set after the object was created.
      * @param parameter it must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
      * @param httpSettings refer to com.landawn.abacus.http.AbstractHttpClient.HttpSettings
-     * @param totalExecutionTimeout the total execution timeout
+     * @param totalExecutionTimeout
      * @param serverFilter filter the servers by the input parameter or other logic. There are two elements in the array. left is the target server url, right is the input parameter.
-     * @return the list
+     * @return
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<RemoteExecutionResponse> execute(final RemoteTask<?, T> remoteTask, final Object parameter, final HttpSettings httpSettings,
@@ -414,11 +414,11 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask must be equals to the instance obtained by remoteTask.getClass().newInstance(). That's to say no extra properties has been set after the object was created.
      * @param serverParameterMapper the key is the target host/url and the value must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
-     * @return the list
+     * @return
      */
     public <T> List<RemoteExecutionResponse> execute(final RemoteTask<?, T> remoteTask, final Map<String, ?> serverParameterMapper) {
         return execute(remoteTask, serverParameterMapper, null, Long.MAX_VALUE);
@@ -429,12 +429,12 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask must be equals to the instance obtained by remoteTask.getClass().newInstance(). That's to say no extra properties has been set after the object was created.
      * @param serverParameterMapper the key is the target host/url and the value must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      * @param httpSettings refer to com.landawn.abacus.http.AbstractHttpClient.HttpSettings
-     * @param totalExecutionTimeout the total execution timeout
-     * @return the list
+     * @param totalExecutionTimeout
+     * @return
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<RemoteExecutionResponse> execute(final RemoteTask<?, T> remoteTask, final Map<String, ?> serverParameterMapper,
@@ -445,14 +445,14 @@ public final class RemoteExecutor {
     /**
      * Execute.
      *
-     * @param <T> the generic type
-     * @param remoteTask the remote task
-     * @param parameter the parameter
-     * @param serverParameterMapper the server parameter mapper
-     * @param httpSettings the http settings
-     * @param totalExecutionTimeout the total execution timeout
-     * @param serverFilter the server filter
-     * @return the list
+     * @param <T>
+     * @param remoteTask
+     * @param parameter
+     * @param serverParameterMapper
+     * @param httpSettings
+     * @param totalExecutionTimeout
+     * @param serverFilter
+     * @return
      */
     private <T> List<RemoteExecutionResponse> execute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter,
             final Map<String, ?> serverParameterMapper, final HttpSettings httpSettings, final long totalExecutionTimeout,
@@ -491,9 +491,9 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
-     * @return the list
+     * @return
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final Class<? extends RemoteTask<?, T>> remoteTask) {
         return asyncExecute(remoteTask, (Object) null);
@@ -504,11 +504,11 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param parameter it must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
-     * @return the list
+     * @return
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter) {
         return asyncExecute(remoteTask, parameter, null, null);
@@ -519,13 +519,13 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param parameter it must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
      * @param httpSettings refer to com.landawn.abacus.http.AbstractHttpClient.HttpSettings
      * @param serverFilter filter the servers by the input parameter or other logic. There are two elements in the array. left is the target server url, right is the input parameter.
-     * @return the list
+     * @return
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter,
@@ -538,11 +538,11 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param serverParameterMapper the key is the target host/url and the value must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
-     * @return the list
+     * @return
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final Class<? extends RemoteTask<?, T>> remoteTask,
             final Map<String, ?> serverParameterMapper) {
@@ -554,12 +554,12 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param serverParameterMapper the key is the target host/url and the value must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
      * @param httpSettings refer to com.landawn.abacus.http.AbstractHttpClient.HttpSettings
-     * @return the list
+     * @return
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final Class<? extends RemoteTask<?, T>> remoteTask,
@@ -572,9 +572,9 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
-     * @return the list
+     * @return
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final RemoteTask<?, T> remoteTask) {
         return asyncExecute(remoteTask, (Object) null);
@@ -585,11 +585,11 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param parameter it must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
-     * @return the list
+     * @return
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final RemoteTask<?, T> remoteTask, final Object parameter) {
         return asyncExecute(remoteTask, parameter, null, null);
@@ -600,13 +600,13 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param parameter it must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
      * @param httpSettings refer to com.landawn.abacus.http.AbstractHttpClient.HttpSettings
      * @param serverFilter filter the servers by the input parameter or other logic. There are two elements in the array. left is the target server url, right is the input parameter.
-     * @return the list
+     * @return
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final RemoteTask<?, T> remoteTask, final Object parameter,
@@ -619,11 +619,11 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param serverParameterMapper the key is the target host/url and the value must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
-     * @return the list
+     * @return
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final RemoteTask<?, T> remoteTask, final Map<String, ?> serverParameterMapper) {
         return asyncExecute(remoteTask, serverParameterMapper, null);
@@ -634,12 +634,12 @@ public final class RemoteExecutor {
      * The types of parameter/return value only can be the classes exists in JDK or common libraries deployed on target servers.
      * It's one of the best practices to transfer big request parameter or response result by <code>DataSet</code>
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param remoteTask which has and only has the default constructor
      * @param serverParameterMapper the key is the target host/url and the value must be primitive types/string (array)/date/collection/map/entity... which can be serialized to JSON.
      *        The element in the Collection or key/value in Map must be concrete types: primitive types wrapper/String/Date/Entity..., can't be Collection or Map again.
      * @param httpSettings refer to com.landawn.abacus.http.AbstractHttpClient.HttpSettings
-     * @return the list
+     * @return
      * @see com.landawn.abacus.http.HttpSettings
      */
     public <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final RemoteTask<?, T> remoteTask, final Map<String, ?> serverParameterMapper,
@@ -650,13 +650,13 @@ public final class RemoteExecutor {
     /**
      * Async execute.
      *
-     * @param <T> the generic type
-     * @param remoteTask the remote task
-     * @param parameter the parameter
-     * @param serverParameterMapper the server parameter mapper
-     * @param httpSettings the http settings
-     * @param serverFilter the server filter
-     * @return the list
+     * @param <T>
+     * @param remoteTask
+     * @param parameter
+     * @param serverParameterMapper
+     * @param httpSettings
+     * @param serverFilter
+     * @return
      */
     @SuppressWarnings("deprecation")
     private <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter,
@@ -737,8 +737,8 @@ public final class RemoteExecutor {
     /**
      * Creates the remote request.
      *
-     * @param remoteTask the remote task
-     * @return the remote execution request
+     * @param remoteTask
+     * @return
      */
     @SuppressWarnings("deprecation")
     private RemoteExecutionRequest createRemoteRequest(final Class<? extends RemoteTask<?, ?>> remoteTask) {
@@ -772,8 +772,8 @@ public final class RemoteExecutor {
     /**
      * Gets the class dependency.
      *
-     * @param classToCheck the class to check
-     * @return the class dependency
+     * @param classToCheck
+     * @return
      */
     private LinkedHashMap<String, byte[]> getClassDependency(final Class<?> classToCheck) {
         LinkedHashMap<String, byte[]> classBytesMap = classBytesMapPool.get(classToCheck);
@@ -802,8 +802,8 @@ public final class RemoteExecutor {
     /**
      * Read class.
      *
-     * @param cls the cls
-     * @return the byte[]
+     * @param cls
+     * @return
      */
     private static byte[] readClass(Class<?> cls) {
         InputStream is = null;
@@ -822,8 +822,8 @@ public final class RemoteExecutor {
     /**
      * Gets the class name.
      *
-     * @param cls the cls
-     * @return the class name
+     * @param cls
+     * @return
      */
     private static String getClassName(final Class<?> cls) {
         return cls.getName();

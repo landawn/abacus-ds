@@ -60,7 +60,7 @@ public class RemoteExecutionResponse {
     /**
      * Gets the result.
      *
-     * @return the result
+     * @return
      */
     @Type("Object")
     public Object getResult() {
@@ -70,8 +70,8 @@ public class RemoteExecutionResponse {
     /**
      * Sets the result.
      *
-     * @param result the result
-     * @return the remote execution response
+     * @param result
+     * @return
      */
     public RemoteExecutionResponse setResult(Object result) {
         this.result = result;
@@ -82,7 +82,7 @@ public class RemoteExecutionResponse {
     /**
      * Gets the error code.
      *
-     * @return the error code
+     * @return
      */
     @Type("String")
     public String getErrorCode() {
@@ -92,8 +92,8 @@ public class RemoteExecutionResponse {
     /**
      * Sets the error code.
      *
-     * @param errorCode the error code
-     * @return the remote execution response
+     * @param errorCode
+     * @return
      */
     public RemoteExecutionResponse setErrorCode(String errorCode) {
         this.errorCode = errorCode;
@@ -104,7 +104,7 @@ public class RemoteExecutionResponse {
     /**
      * Gets the error message.
      *
-     * @return the error message
+     * @return
      */
     @Type("String")
     public String getErrorMessage() {
@@ -114,8 +114,8 @@ public class RemoteExecutionResponse {
     /**
      * Sets the error message.
      *
-     * @param errorMessage the error message
-     * @return the remote execution response
+     * @param errorMessage
+     * @return
      */
     public RemoteExecutionResponse setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
@@ -126,7 +126,7 @@ public class RemoteExecutionResponse {
     /**
      * Gets the request host.
      *
-     * @return the request host
+     * @return
      */
     @Type("String")
     public String getRequestHost() {
@@ -136,8 +136,8 @@ public class RemoteExecutionResponse {
     /**
      * Sets the request host.
      *
-     * @param requestHost the request host
-     * @return the remote execution response
+     * @param requestHost
+     * @return
      */
     public RemoteExecutionResponse setRequestHost(String requestHost) {
         this.requestHost = requestHost;
@@ -148,7 +148,7 @@ public class RemoteExecutionResponse {
     /**
      * Gets the request time.
      *
-     * @return the request time
+     * @return
      */
     @Type("long")
     public long getRequestTime() {
@@ -158,8 +158,8 @@ public class RemoteExecutionResponse {
     /**
      * Sets the request time.
      *
-     * @param requestTime the request time
-     * @return the remote execution response
+     * @param requestTime
+     * @return
      */
     public RemoteExecutionResponse setRequestTime(long requestTime) {
         this.requestTime = requestTime;
@@ -170,7 +170,7 @@ public class RemoteExecutionResponse {
     /**
      * Gets the response time.
      *
-     * @return the response time
+     * @return
      */
     @Type("long")
     public long getResponseTime() {
@@ -180,8 +180,8 @@ public class RemoteExecutionResponse {
     /**
      * Sets the response time.
      *
-     * @param responseTime the response time
-     * @return the remote execution response
+     * @param responseTime
+     * @return
      */
     public RemoteExecutionResponse setResponseTime(long responseTime) {
         this.responseTime = responseTime;
@@ -192,7 +192,7 @@ public class RemoteExecutionResponse {
     /**
      * Gets the execution time.
      *
-     * @return the execution time
+     * @return
      */
     @Type("long")
     public long getExecutionTime() {
@@ -202,8 +202,8 @@ public class RemoteExecutionResponse {
     /**
      * Sets the execution time.
      *
-     * @param ExecutionTime the execution time
-     * @return the remote execution response
+     * @param ExecutionTime
+     * @return
      */
     public RemoteExecutionResponse setExecutionTime(long ExecutionTime) {
         this.ExecutionTime = ExecutionTime;
@@ -214,7 +214,7 @@ public class RemoteExecutionResponse {
     /**
      * Gets the execution host.
      *
-     * @return the execution host
+     * @return
      */
     @Type("String")
     public String getExecutionHost() {
@@ -224,8 +224,8 @@ public class RemoteExecutionResponse {
     /**
      * Sets the execution host.
      *
-     * @param ExecutionHost the execution host
-     * @return the remote execution response
+     * @param ExecutionHost
+     * @return
      */
     public RemoteExecutionResponse setExecutionHost(String ExecutionHost) {
         this.ExecutionHost = ExecutionHost;
@@ -236,7 +236,7 @@ public class RemoteExecutionResponse {
     /**
      * Gets the elapsed time.
      *
-     * @return the elapsed time
+     * @return
      */
     @Type("long")
     public long getElapsedTime() {
@@ -246,8 +246,8 @@ public class RemoteExecutionResponse {
     /**
      * Sets the elapsed time.
      *
-     * @param elapsedTime the elapsed time
-     * @return the remote execution response
+     * @param elapsedTime
+     * @return
      */
     public RemoteExecutionResponse setElapsedTime(long elapsedTime) {
         this.elapsedTime = elapsedTime;
@@ -258,7 +258,7 @@ public class RemoteExecutionResponse {
     /**
      * Copy.
      *
-     * @return the remote execution response
+     * @return
      */
     public RemoteExecutionResponse copy() {
         final RemoteExecutionResponse copy = new RemoteExecutionResponse();
@@ -279,7 +279,7 @@ public class RemoteExecutionResponse {
     /**
      * Hash code.
      *
-     * @return the int
+     * @return
      */
     @Override
     public int hashCode() {
@@ -300,7 +300,7 @@ public class RemoteExecutionResponse {
     /**
      * Equals.
      *
-     * @param obj the obj
+     * @param obj
      * @return true, if successful
      */
     @Override
@@ -327,7 +327,7 @@ public class RemoteExecutionResponse {
     /**
      * To string.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String toString() {

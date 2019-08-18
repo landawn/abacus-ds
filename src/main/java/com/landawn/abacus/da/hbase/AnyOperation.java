@@ -23,7 +23,7 @@ import org.apache.hadoop.hbase.client.Operation;
 /**
  * It's a wrapper of <code>Operation</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *
- * @param <AP> the generic type
+ * @param <AP>
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.Operation
  * @since 1.7.13
@@ -36,7 +36,7 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     /**
      * Instantiates a new any operation.
      *
-     * @param op the op
+     * @param op
      */
     protected AnyOperation(final Operation op) {
         this.op = op;
@@ -45,7 +45,7 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     /**
      * Gets the fingerprint.
      *
-     * @return the fingerprint
+     * @return
      */
     public Map<String, Object> getFingerprint() {
         return op.getFingerprint();
@@ -54,7 +54,7 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     /**
      * To map.
      *
-     * @return the map
+     * @return
      */
     public Map<String, Object> toMap() {
         return op.toMap();
@@ -63,8 +63,8 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     /**
      * To map.
      *
-     * @param maxCols the max cols
-     * @return the map
+     * @param maxCols
+     * @return
      */
     public Map<String, Object> toMap(final int maxCols) {
         return op.toMap(maxCols);
@@ -73,7 +73,7 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     /**
      * To JSON.
      *
-     * @return the string
+     * @return
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public String toJSON() throws IOException {
@@ -83,8 +83,8 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     /**
      * To JSON.
      *
-     * @param maxCols the max cols
-     * @return the string
+     * @param maxCols
+     * @return
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public String toJSON(final int maxCols) throws IOException {
@@ -94,7 +94,7 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     /**
      * To string.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String toString() {
@@ -104,8 +104,8 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     /**
      * To string.
      *
-     * @param maxCols the max cols
-     * @return the string
+     * @param maxCols
+     * @return
      */
     public String toString(final int maxCols) {
         return op.toString(maxCols);

@@ -43,7 +43,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Instantiates a new boolean matrix.
      *
-     * @param a the a
+     * @param a
      */
     public BooleanMatrix(final boolean[][] a) {
         super(a == null ? new boolean[0][0] : a);
@@ -52,7 +52,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Empty.
      *
-     * @return the boolean matrix
+     * @return
      */
     public static BooleanMatrix empty() {
         return EMPTY_BOOLEAN_MATRIX;
@@ -61,8 +61,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Of.
      *
-     * @param a the a
-     * @return the boolean matrix
+     * @param a
+     * @return
      */
     @SafeVarargs
     public static BooleanMatrix of(final boolean[]... a) {
@@ -72,8 +72,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Random.
      *
-     * @param len the len
-     * @return the boolean matrix
+     * @param len
+     * @return
      */
     public static BooleanMatrix random(final int len) {
         return new BooleanMatrix(new boolean[][] { BooleanList.random(len).array() });
@@ -82,9 +82,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Repeat.
      *
-     * @param val the val
-     * @param len the len
-     * @return the boolean matrix
+     * @param val
+     * @param len
+     * @return
      */
     public static BooleanMatrix repeat(final boolean val, final int len) {
         return new BooleanMatrix(new boolean[][] { Array.repeat(val, len) });
@@ -93,8 +93,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Diagonal LU 2 RD.
      *
-     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
-     * @return the boolean matrix
+     * @param leftUp2RighDownDiagonal
+     * @return
      */
     public static BooleanMatrix diagonalLU2RD(final boolean[] leftUp2RighDownDiagonal) {
         return diagonal(leftUp2RighDownDiagonal, null);
@@ -103,8 +103,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Diagonal RU 2 LD.
      *
-     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the boolean matrix
+     * @param rightUp2LeftDownDiagonal
+     * @return
      */
     public static BooleanMatrix diagonalRU2LD(final boolean[] rightUp2LeftDownDiagonal) {
         return diagonal(null, rightUp2LeftDownDiagonal);
@@ -113,9 +113,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Diagonal.
      *
-     * @param leftUp2RighDownDiagonal the left up 2 righ down diagonal
-     * @param rightUp2LeftDownDiagonal the right up 2 left down diagonal
-     * @return the boolean matrix
+     * @param leftUp2RighDownDiagonal
+     * @param rightUp2LeftDownDiagonal
+     * @return
      */
     public static BooleanMatrix diagonal(final boolean[] leftUp2RighDownDiagonal, boolean[] rightUp2LeftDownDiagonal) {
         N.checkArgument(
@@ -157,8 +157,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Gets the.
      *
-     * @param i the i
-     * @param j the j
+     * @param i
+     * @param j
      * @return true, if successful
      */
     public boolean get(final int i, final int j) {
@@ -168,7 +168,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Gets the.
      *
-     * @param point the point
+     * @param point
      * @return true, if successful
      */
     public boolean get(final IntPair point) {
@@ -178,9 +178,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Sets the.
      *
-     * @param i the i
-     * @param j the j
-     * @param val the val
+     * @param i
+     * @param j
+     * @param val
      */
     public void set(final int i, final int j, final boolean val) {
         a[i][j] = val;
@@ -189,8 +189,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Sets the.
      *
-     * @param point the point
-     * @param val the val
+     * @param point
+     * @param val
      */
     public void set(final IntPair point, final boolean val) {
         a[point._1][point._2] = val;
@@ -199,9 +199,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Up of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional boolean
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalBoolean upOf(final int i, final int j) {
         return i == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i - 1][j]);
@@ -210,9 +210,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Down of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional boolean
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalBoolean downOf(final int i, final int j) {
         return i == rows - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i + 1][j]);
@@ -221,9 +221,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Left of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional boolean
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalBoolean leftOf(final int i, final int j) {
         return j == 0 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j - 1]);
@@ -232,9 +232,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Right of.
      *
-     * @param i the i
-     * @param j the j
-     * @return the optional boolean
+     * @param i
+     * @param j
+     * @return
      */
     public OptionalBoolean rightOf(final int i, final int j) {
         return j == cols - 1 ? OptionalBoolean.empty() : OptionalBoolean.of(a[i][j + 1]);
@@ -243,9 +243,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Returns the four adjacencies with order: up, right, down, left. <code>null</code> is set if the adjacency doesn't exist.
      *
-     * @param i the i
-     * @param j the j
-     * @return the stream
+     * @param i
+     * @param j
+     * @return
      */
     public Stream<IntPair> adjacent4Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -259,9 +259,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Returns the eight adjacencies with order: left-up, up, right-up, right, right-down, down, left-down, left. <code>null</code> is set if the adjacency doesn't exist.
      *
-     * @param i the i
-     * @param j the j
-     * @return the stream
+     * @param i
+     * @param j
+     * @return
      */
     public Stream<IntPair> adjacent8Points(final int i, final int j) {
         final IntPair up = i == 0 ? null : IntPair.of(i - 1, j);
@@ -280,8 +280,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Row.
      *
-     * @param rowIndex the row index
-     * @return the boolean[]
+     * @param rowIndex
+     * @return
      */
     public boolean[] row(final int rowIndex) {
         N.checkArgument(rowIndex >= 0 && rowIndex < rows, "Invalid row Index: %s", rowIndex);
@@ -292,8 +292,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Column.
      *
-     * @param columnIndex the column index
-     * @return the boolean[]
+     * @param columnIndex
+     * @return
      */
     public boolean[] column(final int columnIndex) {
         N.checkArgument(columnIndex >= 0 && columnIndex < cols, "Invalid column Index: %s", columnIndex);
@@ -310,8 +310,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Sets the row.
      *
-     * @param rowIndex the row index
-     * @param row the row
+     * @param rowIndex
+     * @param row
      */
     public void setRow(int rowIndex, boolean[] row) {
         N.checkArgument(row.length == cols, "The size of the specified row doesn't match the length of column");
@@ -322,8 +322,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Sets the column.
      *
-     * @param columnIndex the column index
-     * @param column the column
+     * @param columnIndex
+     * @param column
      */
     public void setColumn(int columnIndex, boolean[] column) {
         N.checkArgument(column.length == rows, "The size of the specified column doesn't match the length of row");
@@ -337,8 +337,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Update row.
      *
      * @param <E> the element type
-     * @param rowIndex the row index
-     * @param func the func
+     * @param rowIndex
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateRow(int rowIndex, Try.BooleanUnaryOperator<E> func) throws E {
@@ -351,8 +351,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Update column.
      *
      * @param <E> the element type
-     * @param columnIndex the column index
-     * @param func the func
+     * @param columnIndex
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateColumn(int columnIndex, Try.BooleanUnaryOperator<E> func) throws E {
@@ -364,7 +364,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Gets the lu2rd.
      *
-     * @return the lu2rd
+     * @return
      */
     public boolean[] getLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
@@ -396,7 +396,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Update LU 2 RD.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateLU2RD(final Try.BooleanUnaryOperator<E> func) throws E {
@@ -410,7 +410,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Gets the ru2ld.
      *
-     * @return the ru2ld
+     * @return
      */
     public boolean[] getRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
@@ -442,7 +442,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Update RU 2 LD.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateRU2LD(final Try.BooleanUnaryOperator<E> func) throws E {
@@ -457,7 +457,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Update all.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Try.BooleanUnaryOperator<E> func) throws E {
@@ -503,7 +503,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Update all elements based on points.
      *
      * @param <E> the element type
-     * @param func the func
+     * @param func
      * @throws E the e
      */
     public <E extends Exception> void updateAll(final Try.IntBiFunction<Boolean, E> func) throws E {
@@ -548,8 +548,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Replace if.
      *
      * @param <E> the element type
-     * @param predicate the predicate
-     * @param newValue the new value
+     * @param predicate
+     * @param newValue
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Try.BooleanPredicate<E> predicate, final boolean newValue) throws E {
@@ -594,8 +594,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
      *
      * @param <E> the element type
-     * @param predicate the predicate
-     * @param newValue the new value
+     * @param predicate
+     * @param newValue
      * @throws E the e
      */
     public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final boolean newValue) throws E {
@@ -640,8 +640,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Map.
      *
      * @param <E> the element type
-     * @param func the func
-     * @return the boolean matrix
+     * @param func
+     * @return
      * @throws E the e
      */
     public <E extends Exception> BooleanMatrix map(final Try.BooleanUnaryOperator<E> func) throws E {
@@ -689,11 +689,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Map to obj.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param <E> the element type
-     * @param cls the cls
-     * @param func the func
-     * @return the matrix
+     * @param cls
+     * @param func
+     * @return
      * @throws E the e
      */
     public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.BooleanFunction<? extends T, E> func) throws E {
@@ -745,7 +745,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Fill.
      *
-     * @param val the val
+     * @param val
      */
     public void fill(final boolean val) {
         for (int i = 0; i < rows; i++) {
@@ -756,7 +756,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Fill.
      *
-     * @param b the b
+     * @param b
      */
     public void fill(final boolean[][] b) {
         fill(0, 0, b);
@@ -765,9 +765,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Fill.
      *
-     * @param fromRowIndex the from row index
-     * @param fromColumnIndex the from column index
-     * @param b the b
+     * @param fromRowIndex
+     * @param fromColumnIndex
+     * @param b
      */
     public void fill(final int fromRowIndex, final int fromColumnIndex, final boolean[][] b) {
         N.checkFromToIndex(fromRowIndex, rows, rows);
@@ -781,7 +781,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Copy.
      *
-     * @return the boolean matrix
+     * @return
      */
     @Override
     public BooleanMatrix copy() {
@@ -797,9 +797,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Copy.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @return the boolean matrix
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @return
      */
     @Override
     public BooleanMatrix copy(final int fromRowIndex, final int toRowIndex) {
@@ -817,11 +817,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Copy.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
-     * @return the boolean matrix
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @return
      */
     @Override
     public BooleanMatrix copy(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex) {
@@ -840,9 +840,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Extend.
      *
-     * @param newRows the new rows
-     * @param newCols the new cols
-     * @return the boolean matrix
+     * @param newRows
+     * @param newCols
+     * @return
      */
     public BooleanMatrix extend(final int newRows, final int newCols) {
         return extend(newRows, newCols, false);
@@ -851,10 +851,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Extend.
      *
-     * @param newRows the new rows
-     * @param newCols the new cols
-     * @param defaultValueForNewCell the default value for new cell
-     * @return the boolean matrix
+     * @param newRows
+     * @param newCols
+     * @param defaultValueForNewCell
+     * @return
      */
     public BooleanMatrix extend(final int newRows, final int newCols, final boolean defaultValueForNewCell) {
         N.checkArgument(newRows >= 0, "The 'newRows' can't be negative %s", newRows);
@@ -885,11 +885,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Extend.
      *
-     * @param toUp the to up
-     * @param toDown the to down
-     * @param toLeft the to left
-     * @param toRight the to right
-     * @return the boolean matrix
+     * @param toUp
+     * @param toDown
+     * @param toLeft
+     * @param toRight
+     * @return
      */
     public BooleanMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight) {
         return extend(toUp, toDown, toLeft, toRight, false);
@@ -898,12 +898,12 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Extend.
      *
-     * @param toUp the to up
-     * @param toDown the to down
-     * @param toLeft the to left
-     * @param toRight the to right
-     * @param defaultValueForNewCell the default value for new cell
-     * @return the boolean matrix
+     * @param toUp
+     * @param toDown
+     * @param toLeft
+     * @param toRight
+     * @param defaultValueForNewCell
+     * @return
      */
     public BooleanMatrix extend(final int toUp, final int toDown, final int toLeft, final int toRight, final boolean defaultValueForNewCell) {
         N.checkArgument(toUp >= 0, "The 'toUp' can't be negative %s", toUp);
@@ -969,7 +969,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Flip H.
      *
-     * @return the boolean matrix
+     * @return
      * @see IntMatrix#flipH()
      */
     public BooleanMatrix flipH() {
@@ -981,7 +981,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Flip V.
      *
-     * @return the boolean matrix
+     * @return
      * @see IntMatrix#flipV()
      */
     public BooleanMatrix flipV() {
@@ -993,7 +993,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Rotate 90.
      *
-     * @return the boolean matrix
+     * @return
      */
     @Override
     public BooleanMatrix rotate90() {
@@ -1019,7 +1019,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Rotate 180.
      *
-     * @return the boolean matrix
+     * @return
      */
     @Override
     public BooleanMatrix rotate180() {
@@ -1036,7 +1036,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Rotate 270.
      *
-     * @return the boolean matrix
+     * @return
      */
     @Override
     public BooleanMatrix rotate270() {
@@ -1062,7 +1062,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Transpose.
      *
-     * @return the boolean matrix
+     * @return
      */
     @Override
     public BooleanMatrix transpose() {
@@ -1088,9 +1088,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Reshape.
      *
-     * @param newRows the new rows
-     * @param newCols the new cols
-     * @return the boolean matrix
+     * @param newRows
+     * @param newCols
+     * @return
      */
     @Override
     public BooleanMatrix reshape(final int newRows, final int newCols) {
@@ -1122,8 +1122,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats the row repeats
-     * @param colRepeats the col repeats
+     * @param rowRepeats
+     * @param colRepeats
      * @return a new matrix
      * @see IntMatrix#repelem(int, int)
      */
@@ -1151,8 +1151,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats the row repeats
-     * @param colRepeats the col repeats
+     * @param rowRepeats
+     * @param colRepeats
      * @return a new matrix
      * @see IntMatrix#repmat(int, int)
      */
@@ -1180,7 +1180,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Flatten.
      *
-     * @return the boolean list
+     * @return
      */
     @Override
     public BooleanList flatten() {
@@ -1197,7 +1197,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Flat op.
      *
      * @param <E> the element type
-     * @param op the op
+     * @param op
      * @throws E the e
      */
     @Override
@@ -1208,8 +1208,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Vstack.
      *
-     * @param b the b
-     * @return the boolean matrix
+     * @param b
+     * @return
      * @see IntMatrix#vstack(IntMatrix)
      */
     public BooleanMatrix vstack(final BooleanMatrix b) {
@@ -1232,8 +1232,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Hstack.
      *
-     * @param b the b
-     * @return the boolean matrix
+     * @param b
+     * @return
      * @see IntMatrix#hstack(IntMatrix)
      */
     public BooleanMatrix hstack(final BooleanMatrix b) {
@@ -1252,7 +1252,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Boxed.
      *
-     * @return the matrix
+     * @return
      */
     public Matrix<Boolean> boxed() {
         final Boolean[][] c = new Boolean[rows][cols];
@@ -1278,9 +1278,9 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Zip with.
      *
      * @param <E> the element type
-     * @param matrixB the matrix B
-     * @param zipFunction the zip function
-     * @return the boolean matrix
+     * @param matrixB
+     * @param zipFunction
+     * @return
      * @throws E the e
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final Try.BooleanBiFunction<Boolean, E> zipFunction) throws E {
@@ -1333,10 +1333,10 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Zip with.
      *
      * @param <E> the element type
-     * @param matrixB the matrix B
-     * @param matrixC the matrix C
-     * @param zipFunction the zip function
-     * @return the boolean matrix
+     * @param matrixB
+     * @param matrixC
+     * @param zipFunction
+     * @return
      * @throws E the e
      */
     public <E extends Exception> BooleanMatrix zipWith(final BooleanMatrix matrixB, final BooleanMatrix matrixC,
@@ -1490,8 +1490,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Stream H.
      *
-     * @param rowIndex the row index
-     * @return the stream
+     * @param rowIndex
+     * @return
      */
     @Override
     public Stream<Boolean> streamH(final int rowIndex) {
@@ -1501,8 +1501,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Stream H.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
+     * @param fromRowIndex
+     * @param toRowIndex
      * @return a stream based on the order of row.
      */
     @Override
@@ -1592,8 +1592,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Stream V.
      *
-     * @param columnIndex the column index
-     * @return the stream
+     * @param columnIndex
+     * @return
      */
     @Override
     public Stream<Boolean> streamV(final int columnIndex) {
@@ -1603,8 +1603,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Stream V.
      *
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
+     * @param fromColumnIndex
+     * @param toColumnIndex
      * @return a stream based on the order of column.
      */
     @Override
@@ -1694,8 +1694,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Stream R.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
+     * @param fromRowIndex
+     * @param toRowIndex
      * @return a row stream based on the order of row.
      */
     @Override
@@ -1752,8 +1752,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Stream C.
      *
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
+     * @param fromColumnIndex
+     * @param toColumnIndex
      * @return a column stream based on the order of column.
      */
     @Override
@@ -1830,8 +1830,8 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Length.
      *
-     * @param a the a
-     * @return the int
+     * @param a
+     * @return
      */
     @Override
     protected int length(boolean[] a) {
@@ -1842,7 +1842,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * For each.
      *
      * @param <E> the element type
-     * @param action the action
+     * @param action
      * @throws E the e
      */
     public <E extends Exception> void forEach(final Try.BooleanConsumer<E> action) throws E {
@@ -1853,11 +1853,11 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * For each.
      *
      * @param <E> the element type
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
-     * @param action the action
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @param action
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
@@ -1883,7 +1883,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Hash code.
      *
-     * @return the int
+     * @return
      */
     @Override
     public int hashCode() {
@@ -1893,7 +1893,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Equals.
      *
-     * @param obj the obj
+     * @param obj
      * @return true, if successful
      */
     @Override
@@ -1914,7 +1914,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * To string.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String toString() {

@@ -35,8 +35,8 @@ import com.landawn.abacus.util.WD;
  * The Class SheetType.
  *
  * @author Haiyang Li
- * @param <R> the generic type
- * @param <C> the generic type
+ * @param <R>
+ * @param <C>
  * @param <E> the element type
  * @since 0.8
  */
@@ -66,10 +66,10 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     /**
      * Instantiates a new sheet type.
      *
-     * @param typeClass the type class
-     * @param rowKeyTypeName the row key type name
-     * @param columnKeyTypeName the column key type name
-     * @param elementTypeName the element type name
+     * @param typeClass
+     * @param rowKeyTypeName
+     * @param columnKeyTypeName
+     * @param elementTypeName
      */
     @SuppressWarnings("unchecked")
     public SheetType(Class<Sheet<R, C, E>> typeClass, String rowKeyTypeName, String columnKeyTypeName, String elementTypeName) {
@@ -89,7 +89,7 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     /**
      * Declaring name.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String declaringName() {
@@ -99,7 +99,7 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     /**
      * Clazz.
      *
-     * @return the class
+     * @return
      */
     @Override
     public Class<Sheet<R, C, E>> clazz() {
@@ -109,7 +109,7 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     /**
      * Gets the parameter types.
      *
-     * @return the parameter types
+     * @return
      */
     @Override
     public Type<?>[] getParameterTypes() {
@@ -139,8 +139,8 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     /**
      * String of.
      *
-     * @param x the x
-     * @return the string
+     * @param x
+     * @return
      */
     @Override
     public String stringOf(Sheet<R, C, E> x) {
@@ -165,8 +165,8 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     /**
      * Value of.
      *
-     * @param str the str
-     * @return the sheet
+     * @param str
+     * @return
      */
     @Override
     public Sheet<R, C, E> valueOf(String str) {
@@ -198,12 +198,12 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     /**
      * Gets the type name.
      *
-     * @param typeClass the type class
-     * @param rowKeyTypeName the row key type name
-     * @param columnKeyTypeName the column key type name
-     * @param elementTypeName the element type name
-     * @param isDeclaringName the is declaring name
-     * @return the type name
+     * @param typeClass
+     * @param rowKeyTypeName
+     * @param columnKeyTypeName
+     * @param elementTypeName
+     * @param isDeclaringName
+     * @return
      */
     protected static String getTypeName(Class<?> typeClass, String rowKeyTypeName, String columnKeyTypeName, String elementTypeName, boolean isDeclaringName) {
         if (isDeclaringName) {

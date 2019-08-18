@@ -95,7 +95,7 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Instantiates a new dynamo DB executor.
      *
-     * @param dynamoDB the dynamo DB
+     * @param dynamoDB
      */
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB) {
         this(dynamoDB, null);
@@ -104,8 +104,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Instantiates a new dynamo DB executor.
      *
-     * @param dynamoDB the dynamo DB
-     * @param config the config
+     * @param dynamoDB
+     * @param config
      */
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB, final DynamoDBMapperConfig config) {
         this(dynamoDB, config, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
@@ -114,9 +114,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Instantiates a new dynamo DB executor.
      *
-     * @param dynamoDB the dynamo DB
-     * @param config the config
-     * @param asyncExecutor the async executor
+     * @param dynamoDB
+     * @param config
+     * @param asyncExecutor
      */
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB, final DynamoDBMapperConfig config, final AsyncExecutor asyncExecutor) {
         this.dynamoDB = dynamoDB;
@@ -127,7 +127,7 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Dynamo DB.
      *
-     * @return the amazon dynamo DB client
+     * @return
      */
     public AmazonDynamoDBClient dynamoDB() {
         return dynamoDB;
@@ -136,7 +136,7 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Mapper.
      *
-     * @return the dynamo DB mapper
+     * @return
      */
     public DynamoDBMapper mapper() {
         return mapper;
@@ -145,8 +145,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Mapper.
      *
-     * @param config the config
-     * @return the dynamo DB mapper
+     * @param config
+     * @return
      */
     public DynamoDBMapper mapper(final DynamoDBMapperConfig config) {
         return new DynamoDBMapper(dynamoDB, config);
@@ -155,7 +155,7 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Async.
      *
-     * @return the async dynamo DB executor
+     * @return
      */
     public AsyncDynamoDBExecutor async() {
         return asyncDBExecutor;
@@ -168,8 +168,8 @@ public final class DynamoDBExecutor implements Closeable {
      * otherwise, set it to String by <code>setS(N.stringOf(value))</code> for other types. 
      * That's to say all the types except Number/Boolean/ByteBuffer are defined to String. 
      *
-     * @param value the value
-     * @return the attribute value
+     * @param value
+     * @return
      */
     public static AttributeValue attrValueOf(Object value) {
         final AttributeValue attrVal = new AttributeValue();
@@ -196,8 +196,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Returns the <code>AttributeValueUpdate</code> with default <code>AttributeAction.PUT</code>
      *
-     * @param value the value
-     * @return the attribute value update
+     * @param value
+     * @return
      */
     public static AttributeValueUpdate attrValueUpdateOf(Object value) {
         return attrValueUpdateOf(value, AttributeAction.PUT);
@@ -206,9 +206,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Attr value update of.
      *
-     * @param value the value
-     * @param action the action
-     * @return the attribute value update
+     * @param value
+     * @param action
+     * @return
      */
     public static AttributeValueUpdate attrValueUpdateOf(Object value, AttributeAction action) {
         return new AttributeValueUpdate(attrValueOf(value), action);
@@ -217,9 +217,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As key.
      *
-     * @param keyName the key name
-     * @param value the value
-     * @return the map
+     * @param keyName
+     * @param value
+     * @return
      */
     public static Map<String, AttributeValue> asKey(final String keyName, final Object value) {
         return asItem(keyName, value);
@@ -228,11 +228,11 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As key.
      *
-     * @param keyName the key name
-     * @param value the value
-     * @param keyName2 the key name 2
-     * @param value2 the value 2
-     * @return the map
+     * @param keyName
+     * @param value
+     * @param keyName2
+     * @param value2
+     * @return
      */
     public static Map<String, AttributeValue> asKey(final String keyName, final Object value, final String keyName2, final Object value2) {
         return asItem(keyName, value, keyName2, value2);
@@ -241,13 +241,13 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As key.
      *
-     * @param keyName the key name
-     * @param value the value
-     * @param keyName2 the key name 2
-     * @param value2 the value 2
-     * @param keyName3 the key name 3
-     * @param value3 the value 3
-     * @return the map
+     * @param keyName
+     * @param value
+     * @param keyName2
+     * @param value2
+     * @param keyName3
+     * @param value3
+     * @return
      */
     public static Map<String, AttributeValue> asKey(final String keyName, final Object value, final String keyName2, final Object value2, final String keyName3,
             Object value3) {
@@ -257,8 +257,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As key.
      *
-     * @param a the a
-     * @return the map
+     * @param a
+     * @return
      */
     // May misused with toItem
     @SafeVarargs
@@ -269,9 +269,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As item.
      *
-     * @param keyName the key name
-     * @param value the value
-     * @return the map
+     * @param keyName
+     * @param value
+     * @return
      */
     public static Map<String, AttributeValue> asItem(final String keyName, final Object value) {
         return N.asLinkedHashMap(keyName, attrValueOf(value));
@@ -280,11 +280,11 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As item.
      *
-     * @param keyName the key name
-     * @param value the value
-     * @param keyName2 the key name 2
-     * @param value2 the value 2
-     * @return the map
+     * @param keyName
+     * @param value
+     * @param keyName2
+     * @param value2
+     * @return
      */
     public static Map<String, AttributeValue> asItem(final String keyName, final Object value, final String keyName2, final Object value2) {
         return N.asLinkedHashMap(keyName, attrValueOf(value), keyName2, attrValueOf(value2));
@@ -293,13 +293,13 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As item.
      *
-     * @param keyName the key name
-     * @param value the value
-     * @param keyName2 the key name 2
-     * @param value2 the value 2
-     * @param keyName3 the key name 3
-     * @param value3 the value 3
-     * @return the map
+     * @param keyName
+     * @param value
+     * @param keyName2
+     * @param value2
+     * @param keyName3
+     * @param value3
+     * @return
      */
     public static Map<String, AttributeValue> asItem(final String keyName, final Object value, final String keyName2, final Object value2,
             final String keyName3, Object value3) {
@@ -309,8 +309,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As item.
      *
-     * @param a the a
-     * @return the map
+     * @param a
+     * @return
      */
     // May misused with toItem
     @SafeVarargs
@@ -332,9 +332,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As update item.
      *
-     * @param keyName the key name
-     * @param value the value
-     * @return the map
+     * @param keyName
+     * @param value
+     * @return
      */
     public static Map<String, AttributeValueUpdate> asUpdateItem(final String keyName, final Object value) {
         return N.asLinkedHashMap(keyName, attrValueUpdateOf(value));
@@ -343,11 +343,11 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As update item.
      *
-     * @param keyName the key name
-     * @param value the value
-     * @param keyName2 the key name 2
-     * @param value2 the value 2
-     * @return the map
+     * @param keyName
+     * @param value
+     * @param keyName2
+     * @param value2
+     * @return
      */
     public static Map<String, AttributeValueUpdate> asUpdateItem(final String keyName, final Object value, final String keyName2, final Object value2) {
         return N.asLinkedHashMap(keyName, attrValueUpdateOf(value), keyName2, attrValueUpdateOf(value2));
@@ -356,13 +356,13 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As update item.
      *
-     * @param keyName the key name
-     * @param value the value
-     * @param keyName2 the key name 2
-     * @param value2 the value 2
-     * @param keyName3 the key name 3
-     * @param value3 the value 3
-     * @return the map
+     * @param keyName
+     * @param value
+     * @param keyName2
+     * @param value2
+     * @param keyName3
+     * @param value3
+     * @return
      */
     public static Map<String, AttributeValueUpdate> asUpdateItem(final String keyName, final Object value, final String keyName2, final Object value2,
             final String keyName3, final Object value3) {
@@ -372,8 +372,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As update item.
      *
-     * @param a the a
-     * @return the map
+     * @param a
+     * @return
      */
     // May misused with toUpdateItem
     @SafeVarargs
@@ -395,8 +395,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Extract data.
      *
-     * @param queryResult the query result
-     * @return the data set
+     * @param queryResult
+     * @return
      */
     public static DataSet extractData(final QueryResult queryResult) {
         return extractData(queryResult, 0, Integer.MAX_VALUE);
@@ -405,10 +405,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Extract data.
      *
-     * @param queryResult the query result
-     * @param offset the offset
-     * @param count the count
-     * @return the data set
+     * @param queryResult
+     * @param offset
+     * @param count
+     * @return
      */
     public static DataSet extractData(final QueryResult queryResult, int offset, int count) {
         return extractData(queryResult.getItems(), offset, count);
@@ -417,8 +417,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Extract data.
      *
-     * @param scanResult the scan result
-     * @return the data set
+     * @param scanResult
+     * @return
      */
     public static DataSet extractData(final ScanResult scanResult) {
         return extractData(scanResult, 0, Integer.MAX_VALUE);
@@ -427,10 +427,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Extract data.
      *
-     * @param scanResult the scan result
-     * @param offset the offset
-     * @param count the count
-     * @return the data set
+     * @param scanResult
+     * @param offset
+     * @param count
+     * @return
      */
     public static DataSet extractData(final ScanResult scanResult, int offset, int count) {
         return extractData(scanResult.getItems(), offset, count);
@@ -439,10 +439,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Extract data.
      *
-     * @param items the items
-     * @param offset the offset
-     * @param count the count
-     * @return the data set
+     * @param items
+     * @param offset
+     * @param count
+     * @return
      */
     static DataSet extractData(final List<Map<String, AttributeValue>> items, int offset, int count) {
         N.checkArgument(offset >= 0 && count >= 0, "'offset' and 'count' can't be negative: %s, %s", offset, count);
@@ -480,10 +480,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To list.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param queryResult the query result
-     * @return the list
+     * @param queryResult
+     * @return
      */
     public static <T> List<T> toList(final Class<T> targetClass, final QueryResult queryResult) {
         return toList(targetClass, queryResult, 0, Integer.MAX_VALUE);
@@ -492,12 +492,12 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To list.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param queryResult the query result
-     * @param offset the offset
-     * @param count the count
-     * @return the list
+     * @param queryResult
+     * @param offset
+     * @param count
+     * @return
      */
     public static <T> List<T> toList(final Class<T> targetClass, final QueryResult queryResult, int offset, int count) {
         return toList(targetClass, queryResult.getItems(), offset, count);
@@ -506,10 +506,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To list.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param scanResult the scan result
-     * @return the list
+     * @param scanResult
+     * @return
      */
     public static <T> List<T> toList(final Class<T> targetClass, final ScanResult scanResult) {
         return toList(targetClass, scanResult, 0, Integer.MAX_VALUE);
@@ -518,12 +518,12 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To list.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param scanResult the scan result
-     * @param offset the offset
-     * @param count the count
-     * @return the list
+     * @param scanResult
+     * @param offset
+     * @param count
+     * @return
      */
     public static <T> List<T> toList(final Class<T> targetClass, final ScanResult scanResult, int offset, int count) {
         return toList(targetClass, scanResult.getItems(), offset, count);
@@ -532,10 +532,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To list.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param items the items
-     * @return the list
+     * @param items
+     * @return
      */
     static <T> List<T> toList(final Class<T> targetClass, final List<Map<String, AttributeValue>> items) {
         return toList(targetClass, items, 0, Integer.MAX_VALUE);
@@ -544,12 +544,12 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To list.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param items the items
-     * @param offset the offset
-     * @param count the count
-     * @return the list
+     * @param items
+     * @param offset
+     * @param count
+     * @return
      */
     static <T> List<T> toList(final Class<T> targetClass, final List<Map<String, AttributeValue>> items, int offset, int count) {
         if (offset < 0 || count < 0) {
@@ -571,10 +571,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To entities.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param tableItems the table items
-     * @return the map
+     * @param tableItems
+     * @return
      */
     static <T> Map<String, List<T>> toEntities(final Class<T> targetClass, final Map<String, List<Map<String, AttributeValue>>> tableItems) {
         final Map<String, List<T>> tableEntities = new LinkedHashMap<>();
@@ -591,10 +591,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To entity.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param item the item
-     * @return the t
+     * @param item
+     * @return
      */
     public static <T> T toEntity(final Class<T> targetClass, final Map<String, AttributeValue> item) {
         final Type<T> type = N.typeOf(targetClass);
@@ -605,11 +605,11 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To value.
      *
-     * @param <T> the generic type
-     * @param type the type
-     * @param targetClass the target class
-     * @param item the item
-     * @return the t
+     * @param <T>
+     * @param type
+     * @param targetClass
+     * @param item
+     * @return
      */
     private static <T> T toValue(final Type<T> type, final Class<T> targetClass, final Map<String, AttributeValue> item) {
         if (item == null) {
@@ -664,9 +664,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To value.
      *
-     * @param <T> the generic type
-     * @param x the x
-     * @return the t
+     * @param <T>
+     * @param x
+     * @return
      */
     static <T> T toValue(AttributeValue x) {
         if (x == null || (x.getNULL() != null && x.isNULL())) {
@@ -730,8 +730,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Check entity class.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
+     * @param <T>
+     * @param targetClass
      */
     static <T> void checkEntityClass(final Class<T> targetClass) {
         if (!ClassUtil.isEntity(targetClass)) {
@@ -743,8 +743,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To item.
      *
-     * @param entity the entity
-     * @return the map
+     * @param entity
+     * @return
      */
     public static Map<String, AttributeValue> toItem(final Object entity) {
         return toItem(entity, NamingPolicy.LOWER_CAMEL_CASE);
@@ -753,9 +753,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To item.
      *
-     * @param entity the entity
-     * @param namingPolicy the naming policy
-     * @return the map
+     * @param entity
+     * @param namingPolicy
+     * @return
      */
     public static Map<String, AttributeValue> toItem(final Object entity, NamingPolicy namingPolicy) {
         final Map<String, AttributeValue> attrs = new LinkedHashMap<>();
@@ -905,8 +905,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To item.
      *
-     * @param entities the entities
-     * @return the list
+     * @param entities
+     * @return
      */
     static List<Map<String, AttributeValue>> toItem(final Collection<?> entities) {
         return toItem(entities, NamingPolicy.LOWER_CAMEL_CASE);
@@ -915,9 +915,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To item.
      *
-     * @param entities the entities
-     * @param namingPolicy the naming policy
-     * @return the list
+     * @param entities
+     * @param namingPolicy
+     * @return
      */
     static List<Map<String, AttributeValue>> toItem(final Collection<?> entities, NamingPolicy namingPolicy) {
         final List<Map<String, AttributeValue>> attrsList = new ArrayList<>(entities.size());
@@ -932,8 +932,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Only the dirty properties will be set to the result Map if the specified entity is a dirty marker entity.
      *
-     * @param entity the entity
-     * @return the map
+     * @param entity
+     * @return
      */
     public static Map<String, AttributeValueUpdate> toUpdateItem(final Object entity) {
         return toUpdateItem(entity, NamingPolicy.LOWER_CAMEL_CASE);
@@ -942,9 +942,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Only the dirty properties will be set to the result Map if the specified entity is a dirty marker entity.
      *
-     * @param entity the entity
-     * @param namingPolicy the naming policy
-     * @return the map
+     * @param entity
+     * @param namingPolicy
+     * @return
      */
     public static Map<String, AttributeValueUpdate> toUpdateItem(final Object entity, NamingPolicy namingPolicy) {
         final Map<String, AttributeValueUpdate> attrs = new LinkedHashMap<>();
@@ -1094,8 +1094,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To update item.
      *
-     * @param entities the entities
-     * @return the list
+     * @param entities
+     * @return
      */
     static List<Map<String, AttributeValueUpdate>> toUpdateItem(final Collection<?> entities) {
         return toUpdateItem(entities, NamingPolicy.LOWER_CAMEL_CASE);
@@ -1104,9 +1104,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * To update item.
      *
-     * @param entities the entities
-     * @param namingPolicy the naming policy
-     * @return the list
+     * @param entities
+     * @param namingPolicy
+     * @return
      */
     static List<Map<String, AttributeValueUpdate>> toUpdateItem(final Collection<?> entities, NamingPolicy namingPolicy) {
         final List<Map<String, AttributeValueUpdate>> attrsList = new ArrayList<>(entities.size());
@@ -1121,9 +1121,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Gets the item.
      *
-     * @param tableName the table name
-     * @param key the key
-     * @return the item
+     * @param tableName
+     * @param key
+     * @return
      */
     public Map<String, Object> getItem(final String tableName, final Map<String, AttributeValue> key) {
         return getItem(Map.class, tableName, key);
@@ -1132,10 +1132,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Gets the item.
      *
-     * @param tableName the table name
-     * @param key the key
-     * @param consistentRead the consistent read
-     * @return the item
+     * @param tableName
+     * @param key
+     * @param consistentRead
+     * @return
      */
     public Map<String, Object> getItem(final String tableName, final Map<String, AttributeValue> key, final Boolean consistentRead) {
         return getItem(Map.class, tableName, key, consistentRead);
@@ -1144,8 +1144,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Gets the item.
      *
-     * @param getItemRequest the get item request
-     * @return the item
+     * @param getItemRequest
+     * @return
      */
     public Map<String, Object> getItem(final GetItemRequest getItemRequest) {
         return getItem(Map.class, getItemRequest);
@@ -1154,11 +1154,11 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Gets the item.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param key the key
-     * @return the item
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param key
+     * @return
      */
     public <T> T getItem(final Class<T> targetClass, final String tableName, final Map<String, AttributeValue> key) {
         return toEntity(targetClass, dynamoDB.getItem(tableName, key).getItem());
@@ -1167,12 +1167,12 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Gets the item.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param key the key
-     * @param consistentRead the consistent read
-     * @return the item
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param key
+     * @param consistentRead
+     * @return
      */
     public <T> T getItem(final Class<T> targetClass, final String tableName, final Map<String, AttributeValue> key, final Boolean consistentRead) {
         return toEntity(targetClass, dynamoDB.getItem(tableName, key, consistentRead).getItem());
@@ -1181,10 +1181,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Gets the item.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param getItemRequest the get item request
-     * @return the item
+     * @param <T>
+     * @param targetClass
+     * @param getItemRequest
+     * @return
      */
     public <T> T getItem(final Class<T> targetClass, final GetItemRequest getItemRequest) {
         return toEntity(targetClass, dynamoDB.getItem(getItemRequest).getItem());
@@ -1193,8 +1193,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Batch get item.
      *
-     * @param requestItems the request items
-     * @return the map
+     * @param requestItems
+     * @return
      */
     @SuppressWarnings("rawtypes")
     public Map<String, List<Map<String, Object>>> batchGetItem(final Map<String, KeysAndAttributes> requestItems) {
@@ -1204,9 +1204,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Batch get item.
      *
-     * @param requestItems the request items
-     * @param returnConsumedCapacity the return consumed capacity
-     * @return the map
+     * @param requestItems
+     * @param returnConsumedCapacity
+     * @return
      */
     @SuppressWarnings("rawtypes")
     public Map<String, List<Map<String, Object>>> batchGetItem(final Map<String, KeysAndAttributes> requestItems, final String returnConsumedCapacity) {
@@ -1216,8 +1216,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Batch get item.
      *
-     * @param batchGetItemRequest the batch get item request
-     * @return the map
+     * @param batchGetItemRequest
+     * @return
      */
     @SuppressWarnings("rawtypes")
     public Map<String, List<Map<String, Object>>> batchGetItem(final BatchGetItemRequest batchGetItemRequest) {
@@ -1227,10 +1227,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Batch get item.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param requestItems the request items
-     * @return the map
+     * @param <T>
+     * @param targetClass
+     * @param requestItems
+     * @return
      */
     public <T> Map<String, List<T>> batchGetItem(final Class<T> targetClass, final Map<String, KeysAndAttributes> requestItems) {
         return toEntities(targetClass, dynamoDB.batchGetItem(requestItems).getResponses());
@@ -1239,11 +1239,11 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Batch get item.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param requestItems the request items
-     * @param returnConsumedCapacity the return consumed capacity
-     * @return the map
+     * @param <T>
+     * @param targetClass
+     * @param requestItems
+     * @param returnConsumedCapacity
+     * @return
      */
     public <T> Map<String, List<T>> batchGetItem(final Class<T> targetClass, final Map<String, KeysAndAttributes> requestItems,
             final String returnConsumedCapacity) {
@@ -1253,10 +1253,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Batch get item.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param batchGetItemRequest the batch get item request
-     * @return the map
+     * @param <T>
+     * @param targetClass
+     * @param batchGetItemRequest
+     * @return
      */
     public <T> Map<String, List<T>> batchGetItem(final Class<T> targetClass, final BatchGetItemRequest batchGetItemRequest) {
         return toEntities(targetClass, dynamoDB.batchGetItem(batchGetItemRequest).getResponses());
@@ -1265,9 +1265,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Put item.
      *
-     * @param tableName the table name
-     * @param item the item
-     * @return the put item result
+     * @param tableName
+     * @param item
+     * @return
      */
     public PutItemResult putItem(final String tableName, final Map<String, AttributeValue> item) {
         return dynamoDB.putItem(tableName, item);
@@ -1276,10 +1276,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Put item.
      *
-     * @param tableName the table name
-     * @param item the item
-     * @param returnValues the return values
-     * @return the put item result
+     * @param tableName
+     * @param item
+     * @param returnValues
+     * @return
      */
     public PutItemResult putItem(final String tableName, final Map<String, AttributeValue> item, final String returnValues) {
         return dynamoDB.putItem(tableName, item, returnValues);
@@ -1288,8 +1288,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Put item.
      *
-     * @param putItemRequest the put item request
-     * @return the put item result
+     * @param putItemRequest
+     * @return
      */
     public PutItemResult putItem(final PutItemRequest putItemRequest) {
         return dynamoDB.putItem(putItemRequest);
@@ -1299,9 +1299,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Put item.
      *
-     * @param tableName the table name
-     * @param entity the entity
-     * @return the put item result
+     * @param tableName
+     * @param entity
+     * @return
      */
     // And it may cause error because the "Object" is ambiguous to any type. 
     PutItemResult putItem(final String tableName, final Object entity) {
@@ -1311,10 +1311,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Put item.
      *
-     * @param tableName the table name
-     * @param entity the entity
-     * @param returnValues the return values
-     * @return the put item result
+     * @param tableName
+     * @param entity
+     * @param returnValues
+     * @return
      */
     PutItemResult putItem(final String tableName, final Object entity, final String returnValues) {
         return putItem(tableName, toItem(entity), returnValues);
@@ -1323,8 +1323,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Batch write item.
      *
-     * @param requestItems the request items
-     * @return the batch write item result
+     * @param requestItems
+     * @return
      */
     public BatchWriteItemResult batchWriteItem(final Map<String, List<WriteRequest>> requestItems) {
         return dynamoDB.batchWriteItem(requestItems);
@@ -1333,8 +1333,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Batch write item.
      *
-     * @param batchWriteItemRequest the batch write item request
-     * @return the batch write item result
+     * @param batchWriteItemRequest
+     * @return
      */
     public BatchWriteItemResult batchWriteItem(final BatchWriteItemRequest batchWriteItemRequest) {
         return dynamoDB.batchWriteItem(batchWriteItemRequest);
@@ -1343,10 +1343,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Update item.
      *
-     * @param tableName the table name
-     * @param key the key
-     * @param attributeUpdates the attribute updates
-     * @return the update item result
+     * @param tableName
+     * @param key
+     * @param attributeUpdates
+     * @return
      */
     public UpdateItemResult updateItem(final String tableName, final Map<String, AttributeValue> key,
             final Map<String, AttributeValueUpdate> attributeUpdates) {
@@ -1356,11 +1356,11 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Update item.
      *
-     * @param tableName the table name
-     * @param key the key
-     * @param attributeUpdates the attribute updates
-     * @param returnValues the return values
-     * @return the update item result
+     * @param tableName
+     * @param key
+     * @param attributeUpdates
+     * @param returnValues
+     * @return
      */
     public UpdateItemResult updateItem(final String tableName, final Map<String, AttributeValue> key, final Map<String, AttributeValueUpdate> attributeUpdates,
             final String returnValues) {
@@ -1370,8 +1370,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Update item.
      *
-     * @param updateItemRequest the update item request
-     * @return the update item result
+     * @param updateItemRequest
+     * @return
      */
     public UpdateItemResult updateItem(final UpdateItemRequest updateItemRequest) {
         return dynamoDB.updateItem(updateItemRequest);
@@ -1380,9 +1380,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Delete item.
      *
-     * @param tableName the table name
-     * @param key the key
-     * @return the delete item result
+     * @param tableName
+     * @param key
+     * @return
      */
     public DeleteItemResult deleteItem(final String tableName, final Map<String, AttributeValue> key) {
         return dynamoDB.deleteItem(tableName, key);
@@ -1391,10 +1391,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Delete item.
      *
-     * @param tableName the table name
-     * @param key the key
-     * @param returnValues the return values
-     * @return the delete item result
+     * @param tableName
+     * @param key
+     * @param returnValues
+     * @return
      */
     public DeleteItemResult deleteItem(final String tableName, final Map<String, AttributeValue> key, final String returnValues) {
         return dynamoDB.deleteItem(tableName, key, returnValues);
@@ -1403,8 +1403,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Delete item.
      *
-     * @param deleteItemRequest the delete item request
-     * @return the delete item result
+     * @param deleteItemRequest
+     * @return
      */
     public DeleteItemResult deleteItem(final DeleteItemRequest deleteItemRequest) {
         return dynamoDB.deleteItem(deleteItemRequest);
@@ -1413,8 +1413,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * List.
      *
-     * @param queryRequest the query request
-     * @return the list
+     * @param queryRequest
+     * @return
      */
     @SuppressWarnings("rawtypes")
     public List<Map<String, Object>> list(final QueryRequest queryRequest) {
@@ -1424,10 +1424,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * List.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass <code>Map</code> or entity class with getter/setter method.
-     * @param queryRequest the query request
-     * @return the list
+     * @param queryRequest
+     * @return
      */
     public <T> List<T> list(final Class<T> targetClass, final QueryRequest queryRequest) {
         final QueryResult queryResult = dynamoDB.query(queryRequest);
@@ -1497,8 +1497,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Query.
      *
-     * @param queryRequest the query request
-     * @return the data set
+     * @param queryRequest
+     * @return
      * @see #list(QueryRequest)
      */
     public DataSet query(final QueryRequest queryRequest) {
@@ -1508,9 +1508,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Query.
      *
-     * @param targetClass the target class
-     * @param queryRequest the query request
-     * @return the data set
+     * @param targetClass
+     * @param queryRequest
+     * @return
      * @see #list(Class, QueryRequest)
      */
     public DataSet query(final Class<?> targetClass, final QueryRequest queryRequest) {
@@ -1589,8 +1589,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Stream.
      *
-     * @param queryRequest the query request
-     * @return the stream
+     * @param queryRequest
+     * @return
      */
     @SuppressWarnings("rawtypes")
     public Stream<Map<String, Object>> stream(final QueryRequest queryRequest) {
@@ -1600,10 +1600,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Stream.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass <code>Map</code> or entity class with getter/setter method.
-     * @param queryRequest the query request
-     * @return the stream
+     * @param queryRequest
+     * @return
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final QueryRequest queryRequest) {
         final QueryResult queryResult = dynamoDB.query(queryRequest);
@@ -1657,9 +1657,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param tableName the table name
-     * @param attributesToGet the attributes to get
-     * @return the stream
+     * @param tableName
+     * @param attributesToGet
+     * @return
      */
     public Stream<Map<String, Object>> scan(final String tableName, final List<String> attributesToGet) {
         return scan(new ScanRequest().withTableName(tableName).withAttributesToGet(attributesToGet));
@@ -1668,9 +1668,9 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param tableName the table name
-     * @param scanFilter the scan filter
-     * @return the stream
+     * @param tableName
+     * @param scanFilter
+     * @return
      */
     public Stream<Map<String, Object>> scan(final String tableName, final Map<String, Condition> scanFilter) {
         return scan(new ScanRequest().withTableName(tableName).withScanFilter(scanFilter));
@@ -1679,10 +1679,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param tableName the table name
-     * @param attributesToGet the attributes to get
-     * @param scanFilter the scan filter
-     * @return the stream
+     * @param tableName
+     * @param attributesToGet
+     * @param scanFilter
+     * @return
      */
     public Stream<Map<String, Object>> scan(final String tableName, final List<String> attributesToGet, final Map<String, Condition> scanFilter) {
         return scan(new ScanRequest().withTableName(tableName).withAttributesToGet(attributesToGet).withScanFilter(scanFilter));
@@ -1691,8 +1691,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param scanRequest the scan request
-     * @return the stream
+     * @param scanRequest
+     * @return
      */
     @SuppressWarnings("rawtypes")
     public Stream<Map<String, Object>> scan(final ScanRequest scanRequest) {
@@ -1702,11 +1702,11 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param attributesToGet the attributes to get
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param attributesToGet
+     * @return
      */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final List<String> attributesToGet) {
         return scan(targetClass, new ScanRequest().withTableName(tableName).withAttributesToGet(attributesToGet));
@@ -1715,11 +1715,11 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param scanFilter the scan filter
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param scanFilter
+     * @return
      */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final Map<String, Condition> scanFilter) {
         return scan(targetClass, new ScanRequest().withTableName(tableName).withScanFilter(scanFilter));
@@ -1728,12 +1728,12 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param attributesToGet the attributes to get
-     * @param scanFilter the scan filter
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param attributesToGet
+     * @param scanFilter
+     * @return
      */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final List<String> attributesToGet, final Map<String, Condition> scanFilter) {
         return scan(targetClass, new ScanRequest().withTableName(tableName).withAttributesToGet(attributesToGet).withScanFilter(scanFilter));
@@ -1742,10 +1742,10 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param scanRequest the scan request
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param scanRequest
+     * @return
      */
     public <T> Stream<T> scan(final Class<T> targetClass, final ScanRequest scanRequest) {
         final ScanResult scanResult = dynamoDB.scan(scanRequest);
@@ -1799,8 +1799,8 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * Iterate.
      *
-     * @param items the items
-     * @return the iterator
+     * @param items
+     * @return
      */
     private Iterator<Map<String, AttributeValue>> iterate(final List<Map<String, AttributeValue>> items) {
         return N.isNullOrEmpty(items) ? ObjIterator.<Map<String, AttributeValue>> empty() : items.iterator();
@@ -1824,9 +1824,9 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Eq.
          *
-         * @param attrName the attr name
-         * @param attrValue the attr value
-         * @return the map
+         * @param attrName
+         * @param attrValue
+         * @return
          */
         public static Map<String, Condition> eq(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.EQ).withAttributeValueList(attrValueOf(attrValue)));
@@ -1835,9 +1835,9 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Ne.
          *
-         * @param attrName the attr name
-         * @param attrValue the attr value
-         * @return the map
+         * @param attrName
+         * @param attrValue
+         * @return
          */
         public static Map<String, Condition> ne(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.NE).withAttributeValueList(attrValueOf(attrValue)));
@@ -1846,9 +1846,9 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Gt.
          *
-         * @param attrName the attr name
-         * @param attrValue the attr value
-         * @return the map
+         * @param attrName
+         * @param attrValue
+         * @return
          */
         public static Map<String, Condition> gt(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.GT).withAttributeValueList(attrValueOf(attrValue)));
@@ -1857,9 +1857,9 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Ge.
          *
-         * @param attrName the attr name
-         * @param attrValue the attr value
-         * @return the map
+         * @param attrName
+         * @param attrValue
+         * @return
          */
         public static Map<String, Condition> ge(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.GE).withAttributeValueList(attrValueOf(attrValue)));
@@ -1868,9 +1868,9 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Lt.
          *
-         * @param attrName the attr name
-         * @param attrValue the attr value
-         * @return the map
+         * @param attrName
+         * @param attrValue
+         * @return
          */
         public static Map<String, Condition> lt(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.LT).withAttributeValueList(attrValueOf(attrValue)));
@@ -1879,9 +1879,9 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Le.
          *
-         * @param attrName the attr name
-         * @param attrValue the attr value
-         * @return the map
+         * @param attrName
+         * @param attrValue
+         * @return
          */
         public static Map<String, Condition> le(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.LE).withAttributeValueList(attrValueOf(attrValue)));
@@ -1890,10 +1890,10 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Between.
          *
-         * @param attrName the attr name
-         * @param minAttrValue the min attr value
-         * @param maxAttrValue the max attr value
-         * @return the map
+         * @param attrName
+         * @param minAttrValue
+         * @param maxAttrValue
+         * @return
          */
         public static Map<String, Condition> bt(String attrName, Object minAttrValue, Object maxAttrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.BETWEEN)
@@ -1903,8 +1903,8 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Checks if is null.
          *
-         * @param attrName the attr name
-         * @return the map
+         * @param attrName
+         * @return
          */
         public static Map<String, Condition> isNull(String attrName) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.NULL));
@@ -1913,8 +1913,8 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Not null.
          *
-         * @param attrName the attr name
-         * @return the map
+         * @param attrName
+         * @return
          */
         public static Map<String, Condition> notNull(String attrName) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.NOT_NULL));
@@ -1923,9 +1923,9 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Contains.
          *
-         * @param attrName the attr name
-         * @param attrValue the attr value
-         * @return the map
+         * @param attrName
+         * @param attrValue
+         * @return
          */
         public static Map<String, Condition> contains(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.CONTAINS).withAttributeValueList(attrValueOf(attrValue)));
@@ -1934,9 +1934,9 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Not contains.
          *
-         * @param attrName the attr name
-         * @param attrValue the attr value
-         * @return the map
+         * @param attrName
+         * @param attrValue
+         * @return
          */
         public static Map<String, Condition> notContains(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.NOT_CONTAINS).withAttributeValueList(attrValueOf(attrValue)));
@@ -1945,9 +1945,9 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * Begins with.
          *
-         * @param attrName the attr name
-         * @param attrValue the attr value
-         * @return the map
+         * @param attrName
+         * @param attrValue
+         * @return
          */
         public static Map<String, Condition> beginsWith(String attrName, Object attrValue) {
             return N.asMap(attrName, new Condition().withComparisonOperator(ComparisonOperator.BEGINS_WITH).withAttributeValueList(attrValueOf(attrValue)));
@@ -1956,9 +1956,9 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * In.
          *
-         * @param attrName the attr name
-         * @param attrValues the attr values
-         * @return the map
+         * @param attrName
+         * @param attrValues
+         * @return
          */
         @SafeVarargs
         public static Map<String, Condition> in(String attrName, Object... attrValues) {
@@ -1976,9 +1976,9 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * In.
          *
-         * @param attrName the attr name
-         * @param attrValues the attr values
-         * @return the map
+         * @param attrName
+         * @param attrValues
+         * @return
          */
         public static Map<String, Condition> in(String attrName, Collection<?> attrValues) {
             final AttributeValue[] attributeValueList = new AttributeValue[attrValues.size()];

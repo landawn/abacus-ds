@@ -97,9 +97,9 @@ public final class MongoCollectionExecutor {
     /**
      * Instantiates a new mongo collection executor.
      *
-     * @param dbExecutor the db executor
-     * @param coll the coll
-     * @param asyncExecutor the async executor
+     * @param dbExecutor
+     * @param coll
+     * @param asyncExecutor
      */
     MongoCollectionExecutor(final MongoDB dbExecutor, final MongoCollection<Document> coll, final AsyncExecutor asyncExecutor) {
         this.coll = coll;
@@ -109,7 +109,7 @@ public final class MongoCollectionExecutor {
     /**
      * Coll.
      *
-     * @return the mongo collection
+     * @return
      */
     public MongoCollection<Document> coll() {
         return coll;
@@ -118,7 +118,7 @@ public final class MongoCollectionExecutor {
     /**
      * Async.
      *
-     * @return the async mongo collection executor
+     * @return
      */
     public AsyncMongoCollectionExecutor async() {
         return asyncCollExecutor;
@@ -127,7 +127,7 @@ public final class MongoCollectionExecutor {
     /**
      * Exists.
      *
-     * @param objectId the object id
+     * @param objectId
      * @return true, if successful
      */
     public boolean exists(final String objectId) {
@@ -137,7 +137,7 @@ public final class MongoCollectionExecutor {
     /**
      * Exists.
      *
-     * @param objectId the object id
+     * @param objectId
      * @return true, if successful
      */
     public boolean exists(final ObjectId objectId) {
@@ -147,7 +147,7 @@ public final class MongoCollectionExecutor {
     /**
      * Exists.
      *
-     * @param filter the filter
+     * @param filter
      * @return true, if successful
      */
     public boolean exists(final Bson filter) {
@@ -157,7 +157,7 @@ public final class MongoCollectionExecutor {
     /**
      * Count.
      *
-     * @return the long
+     * @return
      */
     public long count() {
         return coll.countDocuments();
@@ -166,8 +166,8 @@ public final class MongoCollectionExecutor {
     /**
      * Count.
      *
-     * @param filter the filter
-     * @return the long
+     * @param filter
+     * @return
      */
     public long count(final Bson filter) {
         return coll.countDocuments(filter);
@@ -176,9 +176,9 @@ public final class MongoCollectionExecutor {
     /**
      * Count.
      *
-     * @param filter the filter
-     * @param options the options
-     * @return the long
+     * @param filter
+     * @param options
+     * @return
      */
     public long count(final Bson filter, final CountOptions options) {
         if (options == null) {
@@ -191,8 +191,8 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the.
      *
-     * @param objectId the object id
-     * @return the optional
+     * @param objectId
+     * @return
      */
     public Optional<Document> get(final String objectId) {
         return get(createObjectId(objectId));
@@ -201,8 +201,8 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the.
      *
-     * @param objectId the object id
-     * @return the optional
+     * @param objectId
+     * @return
      */
     public Optional<Document> get(final ObjectId objectId) {
         return get(Document.class, objectId);
@@ -211,10 +211,10 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param objectId the object id
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param objectId
+     * @return
      */
     public <T> Optional<T> get(final Class<T> targetClass, final String objectId) {
         return get(targetClass, createObjectId(objectId));
@@ -223,10 +223,10 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param objectId the object id
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param objectId
+     * @return
      */
     public <T> Optional<T> get(final Class<T> targetClass, final ObjectId objectId) {
         return get(targetClass, objectId, null);
@@ -235,11 +235,11 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param objectId the object id
-     * @param selectPropNames the select prop names
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param objectId
+     * @param selectPropNames
+     * @return
      */
     public <T> Optional<T> get(final Class<T> targetClass, final String objectId, final Collection<String> selectPropNames) {
         return get(targetClass, createObjectId(objectId), selectPropNames);
@@ -248,11 +248,11 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param objectId the object id
-     * @param selectPropNames the select prop names
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param objectId
+     * @param selectPropNames
+     * @return
      */
     public <T> Optional<T> get(final Class<T> targetClass, final ObjectId objectId, final Collection<String> selectPropNames) {
         return findFirst(targetClass, selectPropNames, createFilter(objectId), null);
@@ -261,8 +261,8 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the t.
      *
-     * @param objectId the object id
-     * @return the t
+     * @param objectId
+     * @return
      */
     public Document gett(final String objectId) {
         return gett(createObjectId(objectId));
@@ -271,8 +271,8 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the t.
      *
-     * @param objectId the object id
-     * @return the t
+     * @param objectId
+     * @return
      */
     public Document gett(final ObjectId objectId) {
         return gett(Document.class, objectId);
@@ -281,10 +281,10 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the t.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param objectId the object id
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param objectId
+     * @return
      */
     public <T> T gett(final Class<T> targetClass, final String objectId) {
         return gett(targetClass, createObjectId(objectId));
@@ -293,10 +293,10 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the t.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param objectId the object id
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param objectId
+     * @return
      */
     public <T> T gett(final Class<T> targetClass, final ObjectId objectId) {
         return gett(targetClass, objectId, null);
@@ -305,11 +305,11 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the t.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param objectId the object id
-     * @param selectPropNames the select prop names
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param objectId
+     * @param selectPropNames
+     * @return
      */
     public <T> T gett(final Class<T> targetClass, final String objectId, final Collection<String> selectPropNames) {
         return gett(targetClass, createObjectId(objectId), selectPropNames);
@@ -318,11 +318,11 @@ public final class MongoCollectionExecutor {
     /**
      * Gets the t.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param objectId the object id
-     * @param selectPropNames the select prop names
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param objectId
+     * @param selectPropNames
+     * @return
      */
     public <T> T gett(final Class<T> targetClass, final ObjectId objectId, final Collection<String> selectPropNames) {
         return findFirst(targetClass, selectPropNames, createFilter(objectId), null).orElse(null);
@@ -331,8 +331,8 @@ public final class MongoCollectionExecutor {
     /**
      * Find first.
      *
-     * @param filter the filter
-     * @return the optional
+     * @param filter
+     * @return
      */
     public Optional<Document> findFirst(final Bson filter) {
         return findFirst(Document.class, filter);
@@ -341,10 +341,10 @@ public final class MongoCollectionExecutor {
     /**
      * Find first.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @return
      */
     public <T> Optional<T> findFirst(final Class<T> targetClass, final Bson filter) {
         return findFirst(targetClass, null, filter);
@@ -353,11 +353,11 @@ public final class MongoCollectionExecutor {
     /**
      * Find first.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @return
      */
     public <T> Optional<T> findFirst(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter) {
         return findFirst(targetClass, selectPropNames, filter, null);
@@ -366,12 +366,12 @@ public final class MongoCollectionExecutor {
     /**
      * Find first.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @return
      */
     public <T> Optional<T> findFirst(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter, final Bson sort) {
         final FindIterable<Document> findIterable = query(selectPropNames, filter, sort, 0, 1);
@@ -384,12 +384,12 @@ public final class MongoCollectionExecutor {
     /**
      * Find first.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param sort
+     * @param projection
+     * @return
      */
     public <T> Optional<T> findFirst(final Class<T> targetClass, final Bson filter, final Bson sort, final Bson projection) {
         final FindIterable<Document> findIterable = query(filter, sort, projection, 0, 1);
@@ -402,8 +402,8 @@ public final class MongoCollectionExecutor {
     /**
      * List.
      *
-     * @param filter the filter
-     * @return the list
+     * @param filter
+     * @return
      */
     public List<Document> list(final Bson filter) {
         return list(Document.class, filter);
@@ -412,10 +412,10 @@ public final class MongoCollectionExecutor {
     /**
      * List.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @return the list
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @return
      */
     public <T> List<T> list(final Class<T> targetClass, final Bson filter) {
         return list(targetClass, null, filter);
@@ -424,11 +424,11 @@ public final class MongoCollectionExecutor {
     /**
      * List.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @return the list
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @return
      */
     public <T> List<T> list(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter) {
         return list(targetClass, selectPropNames, filter, 0, Integer.MAX_VALUE);
@@ -437,13 +437,13 @@ public final class MongoCollectionExecutor {
     /**
      * List.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param offset the offset
-     * @param count the count
-     * @return the list
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @param offset
+     * @param count
+     * @return
      */
     public <T> List<T> list(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter, final int offset, final int count) {
         return list(targetClass, selectPropNames, filter, null, offset, count);
@@ -452,12 +452,12 @@ public final class MongoCollectionExecutor {
     /**
      * List.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @return the list
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @return
      */
     public <T> List<T> list(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter, final Bson sort) {
         return list(targetClass, selectPropNames, filter, sort, 0, Integer.MAX_VALUE);
@@ -466,14 +466,14 @@ public final class MongoCollectionExecutor {
     /**
      * List.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @param offset the offset
-     * @param count the count
-     * @return the list
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @param offset
+     * @param count
+     * @return
      */
     public <T> List<T> list(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter, final Bson sort, final int offset,
             final int count) {
@@ -485,12 +485,12 @@ public final class MongoCollectionExecutor {
     /**
      * List.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @return the list
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param sort
+     * @param projection
+     * @return
      */
     public <T> List<T> list(final Class<T> targetClass, final Bson filter, final Bson sort, final Bson projection) {
         return list(targetClass, filter, sort, projection, 0, Integer.MAX_VALUE);
@@ -499,14 +499,14 @@ public final class MongoCollectionExecutor {
     /**
      * List.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @param offset the offset
-     * @param count the count
-     * @return the list
+     * @param filter
+     * @param sort
+     * @param projection
+     * @param offset
+     * @param count
+     * @return
      */
     public <T> List<T> list(final Class<T> targetClass, final Bson filter, final Bson sort, final Bson projection, final int offset, final int count) {
         final FindIterable<Document> findIterable = query(filter, sort, projection, offset, count);
@@ -517,9 +517,9 @@ public final class MongoCollectionExecutor {
     /**
      * Query for boolean.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional boolean
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalBoolean queryForBoolean(final String propName, final Bson filter) {
@@ -529,9 +529,9 @@ public final class MongoCollectionExecutor {
     /**
      * Query for char.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional char
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalChar queryForChar(final String propName, final Bson filter) {
@@ -541,9 +541,9 @@ public final class MongoCollectionExecutor {
     /**
      * Query for byte.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional byte
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalByte queryForByte(final String propName, final Bson filter) {
@@ -553,9 +553,9 @@ public final class MongoCollectionExecutor {
     /**
      * Query for short.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional short
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalShort queryForShort(final String propName, final Bson filter) {
@@ -565,9 +565,9 @@ public final class MongoCollectionExecutor {
     /**
      * Query for int.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional int
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalInt queryForInt(final String propName, final Bson filter) {
@@ -577,9 +577,9 @@ public final class MongoCollectionExecutor {
     /**
      * Query for long.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional long
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalLong queryForLong(final String propName, final Bson filter) {
@@ -589,9 +589,9 @@ public final class MongoCollectionExecutor {
     /**
      * Query for float.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional float
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalFloat queryForFloat(final String propName, final Bson filter) {
@@ -601,9 +601,9 @@ public final class MongoCollectionExecutor {
     /**
      * Query for double.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the optional double
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public OptionalDouble queryForDouble(final String propName, final Bson filter) {
@@ -613,9 +613,9 @@ public final class MongoCollectionExecutor {
     /**
      * Query for string.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the nullable
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public Nullable<String> queryForString(final String propName, final Bson filter) {
@@ -625,9 +625,9 @@ public final class MongoCollectionExecutor {
     /**
      * Query for date.
      *
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the nullable
+     * @param propName
+     * @param filter
+     * @return
      */
     @Beta
     public Nullable<Date> queryForDate(final String propName, final Bson filter) {
@@ -637,11 +637,11 @@ public final class MongoCollectionExecutor {
     /**
      * Query for date.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the nullable
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param filter
+     * @return
      */
     public <T extends Date> Nullable<T> queryForDate(final Class<T> targetClass, final String propName, final Bson filter) {
         return queryForSingleResult(targetClass, propName, filter);
@@ -651,10 +651,10 @@ public final class MongoCollectionExecutor {
      * Query for single result.
      *
      * @param <V> the value type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param filter the filter
-     * @return the nullable
+     * @param targetClass
+     * @param propName
+     * @param filter
+     * @return
      */
     public <V> Nullable<V> queryForSingleResult(final Class<V> targetClass, final String propName, final Bson filter) {
         final FindIterable<Document> findIterable = query(N.asList(propName), filter, null, 0, 1);
@@ -667,10 +667,10 @@ public final class MongoCollectionExecutor {
     /**
      * To entity.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param findIterable the find iterable
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param findIterable
+     * @return
      */
     private <T> T toEntity(final Class<T> targetClass, final FindIterable<Document> findIterable) {
         final Document doc = findIterable.first();
@@ -681,8 +681,8 @@ public final class MongoCollectionExecutor {
     /**
      * Query.
      *
-     * @param filter the filter
-     * @return the data set
+     * @param filter
+     * @return
      */
     public DataSet query(final Bson filter) {
         return query(Document.class, filter);
@@ -691,10 +691,10 @@ public final class MongoCollectionExecutor {
     /**
      * Query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @return the data set
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @return
      */
     public <T> DataSet query(final Class<T> targetClass, final Bson filter) {
         return query(targetClass, null, filter);
@@ -703,11 +703,11 @@ public final class MongoCollectionExecutor {
     /**
      * Query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @return the data set
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @return
      */
     public <T> DataSet query(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter) {
         return query(targetClass, selectPropNames, filter, 0, Integer.MAX_VALUE);
@@ -716,13 +716,13 @@ public final class MongoCollectionExecutor {
     /**
      * Query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param offset the offset
-     * @param count the count
-     * @return the data set
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @param offset
+     * @param count
+     * @return
      */
     public <T> DataSet query(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter, final int offset, final int count) {
         return query(targetClass, selectPropNames, filter, null, offset, count);
@@ -731,12 +731,12 @@ public final class MongoCollectionExecutor {
     /**
      * Query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @return the data set
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @return
      */
     public <T> DataSet query(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter, final Bson sort) {
         return query(targetClass, selectPropNames, filter, sort, 0, Integer.MAX_VALUE);
@@ -745,14 +745,14 @@ public final class MongoCollectionExecutor {
     /**
      * Query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @param offset the offset
-     * @param count the count
-     * @return the data set
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @param offset
+     * @param count
+     * @return
      */
     public <T> DataSet query(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter, final Bson sort, final int offset,
             final int count) {
@@ -768,12 +768,12 @@ public final class MongoCollectionExecutor {
     /**
      * Query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @return the data set
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param sort
+     * @param projection
+     * @return
      */
     public <T> DataSet query(final Class<T> targetClass, final Bson filter, final Bson sort, final Bson projection) {
         return query(targetClass, filter, sort, projection, 0, Integer.MAX_VALUE);
@@ -782,14 +782,14 @@ public final class MongoCollectionExecutor {
     /**
      * Query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @param offset the offset
-     * @param count the count
-     * @return the data set
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param sort
+     * @param projection
+     * @param offset
+     * @param count
+     * @return
      */
     public <T> DataSet query(final Class<T> targetClass, final Bson filter, final Bson sort, final Bson projection, final int offset, final int count) {
         final FindIterable<Document> findIterable = query(filter, sort, projection, offset, count);
@@ -800,8 +800,8 @@ public final class MongoCollectionExecutor {
     /**
      * Stream.
      *
-     * @param filter the filter
-     * @return the stream
+     * @param filter
+     * @return
      */
     public Stream<Document> stream(final Bson filter) {
         return stream(Document.class, filter);
@@ -810,10 +810,10 @@ public final class MongoCollectionExecutor {
     /**
      * Stream.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @return
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final Bson filter) {
         return stream(targetClass, null, filter);
@@ -822,11 +822,11 @@ public final class MongoCollectionExecutor {
     /**
      * Stream.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @return
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter) {
         return stream(targetClass, selectPropNames, filter, 0, Integer.MAX_VALUE);
@@ -835,13 +835,13 @@ public final class MongoCollectionExecutor {
     /**
      * Stream.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param offset the offset
-     * @param count the count
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @param offset
+     * @param count
+     * @return
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter, final int offset, final int count) {
         return stream(targetClass, selectPropNames, filter, null, offset, count);
@@ -850,12 +850,12 @@ public final class MongoCollectionExecutor {
     /**
      * Stream.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @return
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter, final Bson sort) {
         return stream(targetClass, selectPropNames, filter, sort, 0, Integer.MAX_VALUE);
@@ -864,14 +864,14 @@ public final class MongoCollectionExecutor {
     /**
      * Stream.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @param offset the offset
-     * @param count the count
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @param offset
+     * @param count
+     * @return
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final Collection<String> selectPropNames, final Bson filter, final Bson sort, final int offset,
             final int count) {
@@ -887,12 +887,12 @@ public final class MongoCollectionExecutor {
     /**
      * Stream.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param sort
+     * @param projection
+     * @return
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final Bson filter, final Bson sort, final Bson projection) {
         return stream(targetClass, filter, sort, projection, 0, Integer.MAX_VALUE);
@@ -901,14 +901,14 @@ public final class MongoCollectionExecutor {
     /**
      * Stream.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @param offset the offset
-     * @param count the count
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param sort
+     * @param projection
+     * @param offset
+     * @param count
+     * @return
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final Bson filter, final Bson sort, final Bson projection, final int offset, final int count) {
         final FindIterable<Document> findIterable = query(filter, sort, projection, offset, count);
@@ -923,9 +923,9 @@ public final class MongoCollectionExecutor {
     /**
      * To entity.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @return the function
+     * @param <T>
+     * @param targetClass
+     * @return
      */
     private <T> Function<Document, T> toEntity(final Class<T> targetClass) {
         return new Function<Document, T>() {
@@ -939,12 +939,12 @@ public final class MongoCollectionExecutor {
     /**
      * Query.
      *
-     * @param selectPropNames the select prop names
-     * @param filter the filter
-     * @param sort the sort
-     * @param offset the offset
-     * @param count the count
-     * @return the find iterable
+     * @param selectPropNames
+     * @param filter
+     * @param sort
+     * @param offset
+     * @param count
+     * @return
      */
     private FindIterable<Document> query(final Collection<String> selectPropNames, final Bson filter, final Bson sort, final int offset, final int count) {
         if (N.isNullOrEmpty(selectPropNames)) {
@@ -959,12 +959,12 @@ public final class MongoCollectionExecutor {
     /**
      * Query.
      *
-     * @param filter the filter
-     * @param sort the sort
-     * @param projection the projection
-     * @param offset the offset
-     * @param count the count
-     * @return the find iterable
+     * @param filter
+     * @param sort
+     * @param projection
+     * @param offset
+     * @param count
+     * @return
      */
     private FindIterable<Document> query(final Bson filter, final Bson sort, final Bson projection, final int offset, final int count) {
         if (offset < 0 || count < 0) {
@@ -1004,8 +1004,8 @@ public final class MongoCollectionExecutor {
     /**
      * Insert.
      *
-     * @param obj the obj
-     * @param options the options
+     * @param obj
+     * @param options
      */
     public void insert(final Object obj, final InsertOneOptions options) {
         coll.insertOne(createDocument(obj), options);
@@ -1024,7 +1024,7 @@ public final class MongoCollectionExecutor {
      * Insert all.
      *
      * @param objList list of <code>Document/Map<String, Object>/entity</code> class with getter/setter method.
-     * @param options the options
+     * @param options
      */
     public void insertAll(final Collection<?> objList, final InsertManyOptions options) {
         List<Document> docs = null;
@@ -1054,9 +1054,9 @@ public final class MongoCollectionExecutor {
      * Update the record in data store with the properties which have been updated/set in the specified <code>update</code> by the specified <code>objectId</code>.
      * if the <code>update</code> implements <code>DirtyMarker</code> interface, just update the dirty properties.
      *
-     * @param objectId the object id
+     * @param objectId
      * @param update can be <code>Bson/Document/Map<String, Object>/entity class with getter/setter method.
-     * @return the update result
+     * @return
      */
     public UpdateResult update(final String objectId, final Object update) {
         return update(createObjectId(objectId), update);
@@ -1066,9 +1066,9 @@ public final class MongoCollectionExecutor {
      * Update the record in data store with the properties which have been updated/set in the specified <code>update</code> by the specified <code>objectId</code>.
      * if the <code>update</code> implements <code>DirtyMarker</code> interface, just update the dirty properties.
      *
-     * @param objectId the object id
+     * @param objectId
      * @param update can be <code>Bson/Document/Map<String, Object>/entity class with getter/setter method.
-     * @return the update result
+     * @return
      */
     public UpdateResult update(final ObjectId objectId, final Object update) {
         return updateOne(createFilter(objectId), update);
@@ -1078,9 +1078,9 @@ public final class MongoCollectionExecutor {
      * Just update one record in data store with the properties which have been updated/set in the specified <code>update</code> by the specified <code>filter</code>.
      * if the <code>update</code> implements <code>DirtyMarker</code> interface, just update the dirty properties.
      *
-     * @param filter the filter
+     * @param filter
      * @param update can be <code>Bson/Document/Map<String, Object>/entity class with getter/setter method.
-     * @return the update result
+     * @return
      */
     public UpdateResult updateOne(final Bson filter, final Object update) {
         return updateOne(filter, update, null);
@@ -1090,10 +1090,10 @@ public final class MongoCollectionExecutor {
      * Just update one record in data store with the properties which have been updated/set in the specified <code>update</code> by the specified <code>filter</code>.
      * if the <code>update</code> implements <code>DirtyMarker</code> interface, just update the dirty properties.
      *
-     * @param filter the filter
+     * @param filter
      * @param update can be <code>Bson/Document/Map<String, Object>/entity class with getter/setter method.
-     * @param options the options
-     * @return the update result
+     * @param options
+     * @return
      */
     public UpdateResult updateOne(final Bson filter, final Object update, final UpdateOptions options) {
         if (options == null) {
@@ -1107,9 +1107,9 @@ public final class MongoCollectionExecutor {
      * Update the records in data store with the properties which have been updated/set in the specified <code>update</code> by the specified <code>filter</code>.
      * if the <code>update</code> implements <code>DirtyMarker</code> interface, just update the dirty properties.
      *
-     * @param filter the filter
+     * @param filter
      * @param update can be <code>Bson/Document/Map<String, Object>/entity class with getter/setter method.
-     * @return the update result
+     * @return
      */
     public UpdateResult updateAll(final Bson filter, final Object update) {
         return updateAll(filter, update, null);
@@ -1119,10 +1119,10 @@ public final class MongoCollectionExecutor {
      * Update the records in data store with the properties which have been updated/set in the specified <code>update</code> by the specified <code>filter</code>.
      * if the <code>update</code> implements <code>DirtyMarker</code> interface, just update the dirty properties.
      *
-     * @param filter the filter
+     * @param filter
      * @param update can be <code>Bson/Document/Map<String, Object>/entity class with getter/setter method.
-     * @param options the options
-     * @return the update result
+     * @param options
+     * @return
      */
     public UpdateResult updateAll(final Bson filter, final Object update, final UpdateOptions options) {
         if (options == null) {
@@ -1135,9 +1135,9 @@ public final class MongoCollectionExecutor {
     /**
      * Replace.
      *
-     * @param objectId the object id
+     * @param objectId
      * @param replacement can be <code>Document/Map<String, Object>/entity</code> class with getter/setter method.
-     * @return the update result
+     * @return
      */
     public UpdateResult replace(final String objectId, final Object replacement) {
         return replace(createObjectId(objectId), replacement);
@@ -1146,9 +1146,9 @@ public final class MongoCollectionExecutor {
     /**
      * Replace.
      *
-     * @param objectId the object id
+     * @param objectId
      * @param replacement can be <code>Document/Map<String, Object>/entity</code> class with getter/setter method.
-     * @return the update result
+     * @return
      */
     public UpdateResult replace(final ObjectId objectId, final Object replacement) {
         return replaceOne(createFilter(objectId), replacement);
@@ -1157,9 +1157,9 @@ public final class MongoCollectionExecutor {
     /**
      * Replace one.
      *
-     * @param filter the filter
+     * @param filter
      * @param replacement can be <code>Document/Map<String, Object>/entity</code> class with getter/setter method.
-     * @return the update result
+     * @return
      */
     public UpdateResult replaceOne(final Bson filter, final Object replacement) {
         return replaceOne(filter, replacement, null);
@@ -1168,10 +1168,10 @@ public final class MongoCollectionExecutor {
     /**
      * Replace one.
      *
-     * @param filter the filter
+     * @param filter
      * @param replacement can be <code>Document/Map<String, Object>/entity</code> class with getter/setter method.
-     * @param options the options
-     * @return the update result
+     * @param options
+     * @return
      */
     public UpdateResult replaceOne(final Bson filter, final Object replacement, final ReplaceOptions options) {
         if (options == null) {
@@ -1184,8 +1184,8 @@ public final class MongoCollectionExecutor {
     /**
      * Delete.
      *
-     * @param objectId the object id
-     * @return the delete result
+     * @param objectId
+     * @return
      */
     public DeleteResult delete(final String objectId) {
         return delete(createObjectId(objectId));
@@ -1194,8 +1194,8 @@ public final class MongoCollectionExecutor {
     /**
      * Delete.
      *
-     * @param objectId the object id
-     * @return the delete result
+     * @param objectId
+     * @return
      */
     public DeleteResult delete(final ObjectId objectId) {
         return deleteOne(createFilter(objectId));
@@ -1204,8 +1204,8 @@ public final class MongoCollectionExecutor {
     /**
      * Delete one.
      *
-     * @param filter the filter
-     * @return the delete result
+     * @param filter
+     * @return
      */
     public DeleteResult deleteOne(final Bson filter) {
         return coll.deleteOne(filter);
@@ -1214,9 +1214,9 @@ public final class MongoCollectionExecutor {
     /**
      * Delete one.
      *
-     * @param filter the filter
-     * @param options the options
-     * @return the delete result
+     * @param filter
+     * @param options
+     * @return
      */
     public DeleteResult deleteOne(final Bson filter, final DeleteOptions options) {
         return coll.deleteOne(filter, options);
@@ -1225,8 +1225,8 @@ public final class MongoCollectionExecutor {
     /**
      * Delete all.
      *
-     * @param filter the filter
-     * @return the delete result
+     * @param filter
+     * @return
      */
     public DeleteResult deleteAll(final Bson filter) {
         return coll.deleteMany(filter);
@@ -1235,9 +1235,9 @@ public final class MongoCollectionExecutor {
     /**
      * Delete all.
      *
-     * @param filter the filter
-     * @param options the options
-     * @return the delete result
+     * @param filter
+     * @param options
+     * @return
      */
     public DeleteResult deleteAll(final Bson filter, final DeleteOptions options) {
         return coll.deleteMany(filter, options);
@@ -1246,8 +1246,8 @@ public final class MongoCollectionExecutor {
     /**
      * Bulk insert.
      *
-     * @param entities the entities
-     * @return the int
+     * @param entities
+     * @return
      */
     public int bulkInsert(final Collection<?> entities) {
         return bulkInsert(entities, null);
@@ -1256,9 +1256,9 @@ public final class MongoCollectionExecutor {
     /**
      * Bulk insert.
      *
-     * @param entities the entities
-     * @param options the options
-     * @return the int
+     * @param entities
+     * @param options
+     * @return
      */
     public int bulkInsert(final Collection<?> entities, final BulkWriteOptions options) {
         final List<InsertOneModel<Document>> list = new ArrayList<>(entities.size());
@@ -1277,8 +1277,8 @@ public final class MongoCollectionExecutor {
     /**
      * Bulk write.
      *
-     * @param requests the requests
-     * @return the bulk write result
+     * @param requests
+     * @return
      */
     public BulkWriteResult bulkWrite(final List<? extends WriteModel<? extends Document>> requests) {
         return bulkWrite(requests, null);
@@ -1287,9 +1287,9 @@ public final class MongoCollectionExecutor {
     /**
      * Bulk write.
      *
-     * @param requests the requests
-     * @param options the options
-     * @return the bulk write result
+     * @param requests
+     * @param options
+     * @return
      */
     public BulkWriteResult bulkWrite(final List<? extends WriteModel<? extends Document>> requests, final BulkWriteOptions options) {
         if (options == null) {
@@ -1302,10 +1302,10 @@ public final class MongoCollectionExecutor {
     /**
      * Distinct.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param fieldName the field name
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param fieldName
+     * @return
      */
     public <T> Stream<T> distinct(final Class<T> targetClass, final String fieldName) {
         return Stream.of(coll.distinct(fieldName, targetClass).iterator());
@@ -1314,11 +1314,11 @@ public final class MongoCollectionExecutor {
     /**
      * Distinct.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param fieldName the field name
-     * @param filter the filter
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param fieldName
+     * @param filter
+     * @return
      */
     public <T> Stream<T> distinct(final Class<T> targetClass, final String fieldName, final Bson filter) {
         return Stream.of(coll.distinct(fieldName, filter, targetClass).iterator());
@@ -1327,8 +1327,8 @@ public final class MongoCollectionExecutor {
     /**
      * Aggregate.
      *
-     * @param pipeline the pipeline
-     * @return the stream
+     * @param pipeline
+     * @return
      */
     public Stream<Document> aggregate(final List<? extends Bson> pipeline) {
         return aggregate(Document.class, pipeline);
@@ -1337,10 +1337,10 @@ public final class MongoCollectionExecutor {
     /**
      * Aggregate.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param pipeline the pipeline
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param pipeline
+     * @return
      */
     public <T> Stream<T> aggregate(final Class<T> targetClass, final List<? extends Bson> pipeline) {
         return Stream.of(coll.aggregate(pipeline, Document.class).iterator()).map(toEntity(targetClass));
@@ -1349,9 +1349,9 @@ public final class MongoCollectionExecutor {
     /**
      * Map reduce.
      *
-     * @param mapFunction the map function
-     * @param reduceFunction the reduce function
-     * @return the stream
+     * @param mapFunction
+     * @param reduceFunction
+     * @return
      */
     public Stream<Document> mapReduce(final String mapFunction, final String reduceFunction) {
         return mapReduce(Document.class, mapFunction, reduceFunction);
@@ -1360,11 +1360,11 @@ public final class MongoCollectionExecutor {
     /**
      * Map reduce.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param mapFunction the map function
-     * @param reduceFunction the reduce function
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param mapFunction
+     * @param reduceFunction
+     * @return
      */
     public <T> Stream<T> mapReduce(final Class<T> targetClass, final String mapFunction, final String reduceFunction) {
         return Stream.of(coll.mapReduce(mapFunction, reduceFunction, Document.class).iterator()).map(toEntity(targetClass));
@@ -1373,8 +1373,8 @@ public final class MongoCollectionExecutor {
     /**
      * Group by.
      *
-     * @param fieldName the field name
-     * @return the stream
+     * @param fieldName
+     * @return
      */
     @Beta
     public Stream<Document> groupBy(final String fieldName) {
@@ -1384,8 +1384,8 @@ public final class MongoCollectionExecutor {
     /**
      * Group by.
      *
-     * @param fieldNames the field names
-     * @return the stream
+     * @param fieldNames
+     * @return
      */
     @Beta
     public Stream<Document> groupBy(final Collection<String> fieldNames) {
@@ -1401,8 +1401,8 @@ public final class MongoCollectionExecutor {
     /**
      * Group by and count.
      *
-     * @param fieldName the field name
-     * @return the stream
+     * @param fieldName
+     * @return
      */
     @Beta
     public Stream<Document> groupByAndCount(final String fieldName) {
@@ -1412,8 +1412,8 @@ public final class MongoCollectionExecutor {
     /**
      * Group by and count.
      *
-     * @param fieldNames the field names
-     * @return the stream
+     * @param fieldNames
+     * @return
      */
     @Beta
     public Stream<Document> groupByAndCount(final Collection<String> fieldNames) {
@@ -1463,8 +1463,8 @@ public final class MongoCollectionExecutor {
     /**
      * Check update.
      *
-     * @param update the update
-     * @return the bson
+     * @param update
+     * @return
      */
     private Bson checkUpdate(final Object update) {
         Bson bson = update instanceof Bson ? (Bson) update : MongoDB.toDocument(update, true);
@@ -1489,8 +1489,8 @@ public final class MongoCollectionExecutor {
     /**
      * Creates the object id.
      *
-     * @param objectId the object id
-     * @return the object id
+     * @param objectId
+     * @return
      */
     private ObjectId createObjectId(final String objectId) {
         if (N.isNullOrEmpty(objectId)) {
@@ -1503,8 +1503,8 @@ public final class MongoCollectionExecutor {
     /**
      * Creates the filter.
      *
-     * @param objectId the object id
-     * @return the bson
+     * @param objectId
+     * @return
      */
     private Bson createFilter(final ObjectId objectId) {
         return new Document(MongoDB._ID, objectId);
@@ -1513,8 +1513,8 @@ public final class MongoCollectionExecutor {
     /**
      * Creates the document.
      *
-     * @param obj the obj
-     * @return the document
+     * @param obj
+     * @return
      */
     private Document createDocument(final Object obj) {
         return obj instanceof Document ? (Document) obj : MongoDB.toDocument(obj);

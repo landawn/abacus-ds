@@ -209,7 +209,7 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Instantiates a new cassandra executor.
      *
-     * @param session the session
+     * @param session
      */
     public CassandraExecutor(final Session session) {
         this(session, null);
@@ -218,8 +218,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Instantiates a new cassandra executor.
      *
-     * @param session the session
-     * @param settings the settings
+     * @param session
+     * @param settings
      */
     public CassandraExecutor(final Session session, final StatementSettings settings) {
         this(session, settings, (AsyncExecutor) null);
@@ -228,9 +228,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Instantiates a new cassandra executor.
      *
-     * @param session the session
-     * @param settings the settings
-     * @param asyncExecutor the async executor
+     * @param session
+     * @param settings
+     * @param asyncExecutor
      * @see {@link com.datastax.driver.core.Session#executeAsync}
      * @deprecated {@code asyncExecutor} is not used anymore. {@code Session.executeAsync} is called.
      */
@@ -242,9 +242,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Instantiates a new cassandra executor.
      *
-     * @param session the session
-     * @param settings the settings
-     * @param cqlMapper the cql mapper
+     * @param session
+     * @param settings
+     * @param cqlMapper
      */
     public CassandraExecutor(final Session session, final StatementSettings settings, final CQLMapper cqlMapper) {
         this(session, settings, cqlMapper, null);
@@ -253,10 +253,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Instantiates a new cassandra executor.
      *
-     * @param session the session
-     * @param settings the settings
-     * @param cqlMapper the cql mapper
-     * @param namingPolicy the naming policy
+     * @param session
+     * @param settings
+     * @param cqlMapper
+     * @param namingPolicy
      */
     public CassandraExecutor(final Session session, final StatementSettings settings, final CQLMapper cqlMapper, final NamingPolicy namingPolicy) {
         this(session, settings, cqlMapper, namingPolicy, null);
@@ -265,11 +265,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Instantiates a new cassandra executor.
      *
-     * @param session the session
-     * @param settings the settings
-     * @param cqlMapper the cql mapper
-     * @param namingPolicy the naming policy
-     * @param asyncExecutor the async executor
+     * @param session
+     * @param settings
+     * @param cqlMapper
+     * @param namingPolicy
+     * @param asyncExecutor
      * @see {@link com.datastax.driver.core.Session#executeAsync}
      * @deprecated {@code asyncExecutor} is not used anymore. {@code Session.executeAsync} is called.
      */
@@ -295,7 +295,7 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async executor.
      *
-     * @return the async executor
+     * @return
      */
     AsyncExecutor asyncExecutor() {
         return asyncExecutor;
@@ -304,7 +304,7 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Cluster.
      *
-     * @return the cluster
+     * @return
      */
     public Cluster cluster() {
         return cluster;
@@ -313,7 +313,7 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Session.
      *
-     * @return the session
+     * @return
      */
     public Session session() {
         return session;
@@ -322,9 +322,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Mapper.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @return the mapper
+     * @param <T>
+     * @param targetClass
+     * @return
      */
     public <T> Mapper<T> mapper(Class<T> targetClass) {
         return mappingManager.mapper(targetClass);
@@ -336,8 +336,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Register keys.
      *
-     * @param entityClass the entity class
-     * @param keyNames the key names
+     * @param entityClass
+     * @param keyNames
      */
     public static void registerKeys(Class<?> entityClass, Collection<String> keyNames) {
         N.checkArgument(N.notNullOrEmpty(keyNames), "'keyNames' can't be null or empty");
@@ -354,8 +354,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Gets the key names.
      *
-     * @param entityClass the entity class
-     * @return the key names
+     * @param entityClass
+     * @return
      */
     private static List<String> getKeyNames(final Class<?> entityClass) {
         Tuple2<List<String>, Set<String>> tp = entityKeyNamesMap.get(entityClass);
@@ -373,8 +373,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Gets the key name set.
      *
-     * @param entityClass the entity class
-     * @return the key name set
+     * @param entityClass
+     * @return
      */
     private static Set<String> getKeyNameSet(final Class<?> entityClass) {
         Tuple2<List<String>, Set<String>> tp = entityKeyNamesMap.get(entityClass);
@@ -392,8 +392,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Extract data.
      *
-     * @param resultSet the result set
-     * @return the data set
+     * @param resultSet
+     * @return
      */
     public static DataSet extractData(final ResultSet resultSet) {
         return extractData(null, resultSet);
@@ -403,8 +403,8 @@ public final class CassandraExecutor implements Closeable {
      * Extract data.
      *
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
-     * @param resultSet the result set
-     * @return the data set
+     * @param resultSet
+     * @return
      */
     public static DataSet extractData(final Class<?> targetClass, final ResultSet resultSet) {
         final boolean isEntity = targetClass != null && ClassUtil.isEntity(targetClass);
@@ -447,9 +447,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Read row.
      *
-     * @param rowClass the row class
-     * @param row the row
-     * @return the object
+     * @param rowClass
+     * @param row
+     * @return
      */
     private static Object readRow(final Class<?> rowClass, final Row row) {
         final Type<?> rowType = rowClass == null ? null : N.typeOf(rowClass);
@@ -512,10 +512,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * To list.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
-     * @param resultSet the result set
-     * @return the list
+     * @param resultSet
+     * @return
      */
     public static <T> List<T> toList(final Class<T> targetClass, final ResultSet resultSet) {
         if (targetClass.isAssignableFrom(Row.class)) {
@@ -554,10 +554,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * To entity.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
-     * @param row the row
-     * @return the t
+     * @param row
+     * @return
      */
     public static <T> T toEntity(final Class<T> targetClass, final Row row) {
         checkTargetClass(targetClass);
@@ -572,11 +572,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * To entity.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param row the row
-     * @param columnDefinitions the column definitions
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param row
+     * @param columnDefinitions
+     * @return
      */
     static <T> T toEntity(final Class<T> targetClass, final Row row, final ColumnDefinitions columnDefinitions) {
         final int columnCount = columnDefinitions.size();
@@ -652,9 +652,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Ids 2 cond.
      *
-     * @param targetClass the target class
-     * @param ids the ids
-     * @return the condition
+     * @param targetClass
+     * @param ids
+     * @return
      */
     static Condition ids2Cond(final Class<?> targetClass, final Object... ids) {
         N.checkArgNotNullOrEmpty(ids, "ids");
@@ -681,8 +681,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Entity 2 cond.
      *
-     * @param entity the entity
-     * @return the condition
+     * @param entity
+     * @return
      */
     static Condition entity2Cond(final Object entity) {
         final Class<?> targetClass = entity.getClass();
@@ -715,10 +715,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @return
      * @throws DuplicatedResultException the duplicated result exception
      */
     @SafeVarargs
@@ -729,11 +729,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param ids the ids
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param ids
+     * @return
      * @throws DuplicatedResultException the duplicated result exception
      */
     @SafeVarargs
@@ -745,10 +745,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      * @throws DuplicatedResultException the duplicated result exception
      */
     public <T> Optional<T> get(final Class<T> targetClass, final Condition whereCause) throws DuplicatedResultException {
@@ -758,11 +758,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      * @throws DuplicatedResultException if more than one record found.
      */
     public <T> Optional<T> get(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause)
@@ -773,10 +773,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Gets the t.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @return
      * @throws DuplicatedResultException the duplicated result exception
      */
     @SafeVarargs
@@ -787,11 +787,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Gets the t.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param ids the ids
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param ids
+     * @return
      * @throws DuplicatedResultException the duplicated result exception
      */
     @SafeVarargs
@@ -802,10 +802,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Gets the t.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      * @throws DuplicatedResultException the duplicated result exception
      */
     public <T> T gett(final Class<T> targetClass, final Condition whereCause) throws DuplicatedResultException {
@@ -815,11 +815,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Gets the t.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      * @throws DuplicatedResultException if more than one record found.
      */
     public <T> T gett(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) throws DuplicatedResultException {
@@ -839,8 +839,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Insert.
      *
-     * @param entity the entity
-     * @return the result set
+     * @param entity
+     * @return
      */
     public ResultSet insert(final Object entity) {
         final CP cp = prepareInsert(entity);
@@ -851,8 +851,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare insert.
      *
-     * @param entity the entity
-     * @return the cp
+     * @param entity
+     * @return
      */
     private CP prepareInsert(final Object entity) {
         final Class<?> targetClass = entity.getClass();
@@ -875,9 +875,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Insert.
      *
-     * @param targetClass the target class
-     * @param props the props
-     * @return the result set
+     * @param targetClass
+     * @param props
+     * @return
      */
     public ResultSet insert(final Class<?> targetClass, final Map<String, Object> props) {
         final CP cp = prepareInsert(targetClass, props);
@@ -888,9 +888,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare insert.
      *
-     * @param targetClass the target class
-     * @param props the props
-     * @return the cp
+     * @param targetClass
+     * @param props
+     * @return
      */
     private CP prepareInsert(final Class<?> targetClass, final Map<String, Object> props) {
         switch (namingPolicy) {
@@ -911,9 +911,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Batch insert.
      *
-     * @param entities the entities
-     * @param type the type
-     * @return the result set
+     * @param entities
+     * @param type
+     * @return
      */
     public ResultSet batchInsert(final Collection<?> entities, final BatchStatement.Type type) {
         final BatchStatement batchStatement = prepareBatchInsertStatement(entities, type);
@@ -924,9 +924,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare batch insert statement.
      *
-     * @param entities the entities
-     * @param type the type
-     * @return the batch statement
+     * @param entities
+     * @param type
+     * @return
      */
     private BatchStatement prepareBatchInsertStatement(final Collection<?> entities, final BatchStatement.Type type) {
         N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
@@ -945,8 +945,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare batch statement.
      *
-     * @param type the type
-     * @return the batch statement
+     * @param type
+     * @return
      */
     private BatchStatement prepareBatchStatement(final BatchStatement.Type type) {
         final BatchStatement batchStatement = new BatchStatement(type == null ? BatchStatement.Type.LOGGED : type);
@@ -969,10 +969,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Batch insert.
      *
-     * @param targetClass the target class
-     * @param propsList the props list
-     * @param type the type
-     * @return the result set
+     * @param targetClass
+     * @param propsList
+     * @param type
+     * @return
      */
     public ResultSet batchInsert(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList, final BatchStatement.Type type) {
         final BatchStatement batchStatement = prepareBatchInsertStatement(targetClass, propsList, type);
@@ -983,10 +983,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare batch insert statement.
      *
-     * @param targetClass the target class
-     * @param propsList the props list
-     * @param type the type
-     * @return the batch statement
+     * @param targetClass
+     * @param propsList
+     * @param type
+     * @return
      */
     private BatchStatement prepareBatchInsertStatement(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList,
             final BatchStatement.Type type) {
@@ -1006,8 +1006,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Update.
      *
-     * @param entity the entity
-     * @return the result set
+     * @param entity
+     * @return
      */
     public ResultSet update(final Object entity) {
         return update(entity, getKeyNameSet(entity.getClass()));
@@ -1016,9 +1016,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Update.
      *
-     * @param entity the entity
-     * @param primaryKeyNames the primary key names
-     * @return the result set
+     * @param entity
+     * @param primaryKeyNames
+     * @return
      */
     public ResultSet update(final Object entity, final Set<String> primaryKeyNames) {
         final CP cp = prepareUpdate(entity, primaryKeyNames);
@@ -1029,9 +1029,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare update.
      *
-     * @param entity the entity
-     * @param primaryKeyNames the primary key names
-     * @return the cp
+     * @param entity
+     * @param primaryKeyNames
+     * @return
      */
     private CP prepareUpdate(final Object entity, final Set<String> primaryKeyNames) {
         N.checkArgument(N.notNullOrEmpty(primaryKeyNames), "'primaryKeyNames' can't be null or empty.");
@@ -1061,10 +1061,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Update.
      *
-     * @param targetClass the target class
-     * @param props the props
-     * @param whereCause the where cause
-     * @return the result set
+     * @param targetClass
+     * @param props
+     * @param whereCause
+     * @return
      */
     public ResultSet update(final Class<?> targetClass, final Map<String, Object> props, final Condition whereCause) {
         N.checkArgument(N.notNullOrEmpty(props), "'props' can't be null or empty.");
@@ -1077,10 +1077,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare update.
      *
-     * @param targetClass the target class
-     * @param props the props
-     * @param whereCause the where cause
-     * @return the cp
+     * @param targetClass
+     * @param props
+     * @param whereCause
+     * @return
      */
     private CP prepareUpdate(final Class<?> targetClass, final Map<String, Object> props, final Condition whereCause) {
         switch (namingPolicy) {
@@ -1101,9 +1101,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Batch update.
      *
-     * @param entities the entities
-     * @param type the type
-     * @return the result set
+     * @param entities
+     * @param type
+     * @return
      */
     public ResultSet batchUpdate(final Collection<?> entities, final BatchStatement.Type type) {
         N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
@@ -1114,10 +1114,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Batch update.
      *
-     * @param entities the entities
-     * @param primaryKeyNames the primary key names
-     * @param type the type
-     * @return the result set
+     * @param entities
+     * @param primaryKeyNames
+     * @param type
+     * @return
      */
     public ResultSet batchUpdate(final Collection<?> entities, final Set<String> primaryKeyNames, final BatchStatement.Type type) {
         N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
@@ -1130,10 +1130,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare batch update statement.
      *
-     * @param entities the entities
-     * @param primaryKeyNames the primary key names
-     * @param type the type
-     * @return the batch statement
+     * @param entities
+     * @param primaryKeyNames
+     * @param type
+     * @return
      */
     private BatchStatement prepareBatchUpdateStatement(final Collection<?> entities, final Set<String> primaryKeyNames, final BatchStatement.Type type) {
         N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
@@ -1152,11 +1152,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Batch update.
      *
-     * @param targetClass the target class
-     * @param propsList the props list
-     * @param primaryKeyNames the primary key names
-     * @param type the type
-     * @return the result set
+     * @param targetClass
+     * @param propsList
+     * @param primaryKeyNames
+     * @param type
+     * @return
      */
     public ResultSet batchUpdate(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList, final Set<String> primaryKeyNames,
             final BatchStatement.Type type) {
@@ -1168,11 +1168,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare batch update statement.
      *
-     * @param targetClass the target class
-     * @param propsList the props list
-     * @param primaryKeyNames the primary key names
-     * @param type the type
-     * @return the batch statement
+     * @param targetClass
+     * @param propsList
+     * @param primaryKeyNames
+     * @param type
+     * @return
      */
     private BatchStatement prepareBatchUpdateStatement(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList,
             final Set<String> primaryKeyNames, final BatchStatement.Type type) {
@@ -1199,8 +1199,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Delete.
      *
-     * @param entity the entity
-     * @return the result set
+     * @param entity
+     * @return
      */
     public ResultSet delete(final Object entity) {
         return delete(entity, null);
@@ -1209,9 +1209,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Delete.
      *
-     * @param entity the entity
-     * @param deletingPropNames the deleting prop names
-     * @return the result set
+     * @param entity
+     * @param deletingPropNames
+     * @return
      */
     public ResultSet delete(final Object entity, final Collection<String> deletingPropNames) {
         return delete(entity.getClass(), deletingPropNames, entity2Cond(entity));
@@ -1220,9 +1220,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Delete.
      *
-     * @param targetClass the target class
-     * @param ids the ids
-     * @return the result set
+     * @param targetClass
+     * @param ids
+     * @return
      */
     @SafeVarargs
     public final ResultSet delete(final Class<?> targetClass, final Object... ids) {
@@ -1232,10 +1232,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Delete the specified properties if <code>propNames</code> is not null or empty, otherwise, delete the whole record.
      *
-     * @param targetClass the target class
-     * @param deletingPropNames the deleting prop names
-     * @param ids the ids
-     * @return the result set
+     * @param targetClass
+     * @param deletingPropNames
+     * @param ids
+     * @return
      */
     @SafeVarargs
     public final ResultSet delete(final Class<?> targetClass, final Collection<String> deletingPropNames, final Object... ids) {
@@ -1245,9 +1245,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Delete.
      *
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the result set
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public ResultSet delete(final Class<?> targetClass, final Condition whereCause) {
         return delete(targetClass, null, whereCause);
@@ -1256,10 +1256,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Delete the specified properties if <code>propNames</code> is not null or empty, otherwise, delete the whole record.
      *
-     * @param targetClass the target class
-     * @param deletingPropNames the deleting prop names
-     * @param whereCause the where cause
-     * @return the result set
+     * @param targetClass
+     * @param deletingPropNames
+     * @param whereCause
+     * @return
      */
     public ResultSet delete(final Class<?> targetClass, final Collection<String> deletingPropNames, final Condition whereCause) {
         final CP cp = prepareDelete(targetClass, deletingPropNames, whereCause);
@@ -1270,10 +1270,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare delete.
      *
-     * @param targetClass the target class
-     * @param deletingPropNames the deleting prop names
-     * @param whereCause the where cause
-     * @return the cp
+     * @param targetClass
+     * @param deletingPropNames
+     * @param whereCause
+     * @return
      */
     private CP prepareDelete(final Class<?> targetClass, final Collection<String> deletingPropNames, final Condition whereCause) {
         switch (namingPolicy) {
@@ -1306,8 +1306,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Exists.
      *
-     * @param targetClass the target class
-     * @param ids the ids
+     * @param targetClass
+     * @param ids
      * @return true, if successful
      */
     @SafeVarargs
@@ -1318,8 +1318,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Exists.
      *
-     * @param targetClass the target class
-     * @param whereCause the where cause
+     * @param targetClass
+     * @param whereCause
      * @return true, if successful
      */
     public boolean exists(final Class<?> targetClass, final Condition whereCause) {
@@ -1333,9 +1333,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Count.
      *
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the long
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public long count(final Class<?> targetClass, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, N.asList(CQLBuilder.COUNT_ALL), whereCause, 1);
@@ -1346,10 +1346,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Find first.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public <T> Optional<T> findFirst(final Class<T> targetClass, final Condition whereCause) {
         return findFirst(targetClass, null, whereCause);
@@ -1358,11 +1358,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Find first.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the optional
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      */
     public <T> Optional<T> findFirst(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 1);
@@ -1373,10 +1373,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * List.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the list
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public <T> List<T> list(final Class<T> targetClass, final Condition whereCause) {
         return list(targetClass, null, whereCause);
@@ -1385,11 +1385,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * List.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the list
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      */
     public <T> List<T> list(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
@@ -1400,10 +1400,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the data set
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public <T> DataSet query(final Class<T> targetClass, final Condition whereCause) {
         return query(targetClass, null, whereCause);
@@ -1412,11 +1412,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the data set
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      */
     public <T> DataSet query(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
@@ -1427,11 +1427,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for boolean.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the optional boolean
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     @Beta
     public <T> OptionalBoolean queryForBoolean(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1441,11 +1441,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for char.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the optional char
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     @Beta
     public <T> OptionalChar queryForChar(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1455,11 +1455,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for byte.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the optional byte
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     @Beta
     public <T> OptionalByte queryForByte(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1469,11 +1469,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for short.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the optional short
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     @Beta
     public <T> OptionalShort queryForShort(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1483,11 +1483,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for int.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the optional int
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     @Beta
     public <T> OptionalInt queryForInt(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1497,11 +1497,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for long.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the optional long
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     @Beta
     public <T> OptionalLong queryForLong(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1511,11 +1511,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for float.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the optional float
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     @Beta
     public <T> OptionalFloat queryForFloat(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1525,11 +1525,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for double.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the optional double
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     @Beta
     public <T> OptionalDouble queryForDouble(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1539,11 +1539,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for string.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the nullable
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     @Beta
     public <T> Nullable<String> queryForString(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1553,11 +1553,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for date.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the nullable
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     @Beta
     public <T> Nullable<Date> queryForDate(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1567,13 +1567,13 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for date.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param <E> the element type
-     * @param targetClass the target class
-     * @param valueClass the value class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the nullable
+     * @param targetClass
+     * @param valueClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     @Beta
     public <T, E extends Date> Nullable<E> queryForDate(final Class<T> targetClass, final Class<E> valueClass, final String propName,
@@ -1584,13 +1584,13 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for single result.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param <V> the value type
-     * @param targetClass the target class
-     * @param valueClass the value class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the nullable
+     * @param targetClass
+     * @param valueClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T, V> Nullable<V> queryForSingleResult(final Class<T> targetClass, final Class<V> valueClass, final String propName, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, Arrays.asList(propName), whereCause, 1);
@@ -1601,10 +1601,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Stream.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final Condition whereCause) {
         return stream(targetClass, null, whereCause);
@@ -1613,11 +1613,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Stream.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
@@ -1628,8 +1628,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Always remember to set "<code>LIMIT 1</code>" in the cql statement for better performance.
      *
-     * @param query the query
-     * @param parameters the parameters
+     * @param query
+     * @param parameters
      * @return true, if successful
      */
     @SafeVarargs
@@ -1642,9 +1642,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Count.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the long
+     * @param query
+     * @param parameters
+     * @return
      * @deprecated may be misused and it's inefficient.
      */
     @Deprecated
@@ -1656,9 +1656,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for boolean.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the optional boolean
+     * @param query
+     * @param parameters
+     * @return
      */
     @Beta
     @SafeVarargs
@@ -1669,9 +1669,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for char.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the optional char
+     * @param query
+     * @param parameters
+     * @return
      */
     @Beta
     @SafeVarargs
@@ -1682,9 +1682,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for byte.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the optional byte
+     * @param query
+     * @param parameters
+     * @return
      */
     @Beta
     @SafeVarargs
@@ -1695,9 +1695,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for short.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the optional short
+     * @param query
+     * @param parameters
+     * @return
      */
     @Beta
     @SafeVarargs
@@ -1708,9 +1708,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for int.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the optional int
+     * @param query
+     * @param parameters
+     * @return
      */
     @Beta
     @SafeVarargs
@@ -1721,9 +1721,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for long.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the optional long
+     * @param query
+     * @param parameters
+     * @return
      */
     @Beta
     @SafeVarargs
@@ -1734,9 +1734,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for float.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the optional float
+     * @param query
+     * @param parameters
+     * @return
      */
     @Beta
     @SafeVarargs
@@ -1747,9 +1747,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for double.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the optional double
+     * @param query
+     * @param parameters
+     * @return
      */
     @Beta
     @SafeVarargs
@@ -1760,9 +1760,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for string.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the nullable
+     * @param query
+     * @param parameters
+     * @return
      */
     @Beta
     @SafeVarargs
@@ -1774,10 +1774,10 @@ public final class CassandraExecutor implements Closeable {
      * Query for single result.
      *
      * @param <E> the element type
-     * @param valueClass the value class
-     * @param query the query
-     * @param parameters the parameters
-     * @return the nullable
+     * @param valueClass
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <E> Nullable<E> queryForSingleResult(final Class<E> valueClass, final String query, final Object... parameters) {
@@ -1790,9 +1790,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Find first.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the optional
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final Optional<Map<String, Object>> findFirst(final String query, final Object... parameters) {
@@ -1802,11 +1802,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Find first.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
-     * @param query the query
-     * @param parameters the parameters
-     * @return the optional
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> Optional<T> findFirst(final Class<T> targetClass, final String query, final Object... parameters) {
@@ -1819,9 +1819,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * List.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the list
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final List<Map<String, Object>> list(final String query, final Object... parameters) {
@@ -1831,11 +1831,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * List.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
-     * @param query the query
-     * @param parameters the parameters
-     * @return the list
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> List<T> list(final Class<T> targetClass, final String query, final Object... parameters) {
@@ -1845,9 +1845,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the data set
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final DataSet query(final String query, final Object... parameters) {
@@ -1858,9 +1858,9 @@ public final class CassandraExecutor implements Closeable {
      * Query.
      *
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
-     * @param query the query
-     * @param parameters the parameters
-     * @return the data set
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final DataSet query(final Class<?> targetClass, final String query, final Object... parameters) {
@@ -1870,9 +1870,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Stream.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the stream
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final Stream<Object[]> stream(final String query, final Object... parameters) {
@@ -1907,11 +1907,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Stream.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
-     * @param query the query
-     * @param parameters the parameters
-     * @return the stream
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> Stream<T> stream(final Class<T> targetClass, final String query, final Object... parameters) {
@@ -1926,11 +1926,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Stream.
      *
-     * @param <T> the generic type
-     * @param query the query
-     * @param rowMapper the row mapper
-     * @param parameters the parameters
-     * @return the stream
+     * @param <T>
+     * @param query
+     * @param rowMapper
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> Stream<T> stream(final String query, final BiFunction<ColumnDefinitions, Row, T> rowMapper, final Object... parameters) {
@@ -1953,11 +1953,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the cp
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      */
     private <T> CP prepareQuery(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         return prepareQuery(targetClass, selectPropNames, whereCause, 0);
@@ -1966,12 +1966,12 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @param count the count
-     * @return the cp
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @param count
+     * @return
      */
     private <T> CP prepareQuery(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause, final int count) {
         CQLBuilder cqlBuilder = null;
@@ -2018,8 +2018,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Execute.
      *
-     * @param cp the cp
-     * @return the result set
+     * @param cp
+     * @return
      */
     private ResultSet execute(CP cp) {
         return execute(cp.cql, cp.parameters.toArray());
@@ -2028,8 +2028,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Execute.
      *
-     * @param query the query
-     * @return the result set
+     * @param query
+     * @return
      */
     public ResultSet execute(final String query) {
         return session.execute(prepareStatement(query));
@@ -2038,9 +2038,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Execute.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the result set
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final ResultSet execute(final String query, final Object... parameters) {
@@ -2050,8 +2050,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Execute.
      *
-     * @param statement the statement
-     * @return the result set
+     * @param statement
+     * @return
      */
     public ResultSet execute(final Statement statement) {
         return session.execute(statement);
@@ -2060,10 +2060,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async get.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<Optional<T>> asyncGet(final Class<T> targetClass, final Object... ids) {
@@ -2073,11 +2073,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async get.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param ids the ids
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param ids
+     * @return
      * @throws DuplicatedResultException the duplicated result exception
      */
     @SafeVarargs
@@ -2089,10 +2089,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async get.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<Optional<T>> asyncGet(final Class<T> targetClass, final Condition whereCause) {
         return asyncGet(targetClass, null, whereCause);
@@ -2101,11 +2101,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async get.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<Optional<T>> asyncGet(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 2);
@@ -2129,10 +2129,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async gett.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<T> asyncGett(final Class<T> targetClass, final Object... ids) {
@@ -2142,11 +2142,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async gett.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param ids the ids
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param ids
+     * @return
      * @throws DuplicatedResultException the duplicated result exception
      */
     @SafeVarargs
@@ -2158,10 +2158,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async gett.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<T> asyncGett(final Class<T> targetClass, final Condition whereCause) {
         return asyncGett(targetClass, null, whereCause);
@@ -2170,11 +2170,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async gett.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<T> asyncGett(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 2);
@@ -2198,8 +2198,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async insert.
      *
-     * @param entity the entity
-     * @return the continuable future
+     * @param entity
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncInsert(final Object entity) {
         final CP cp = prepareInsert(entity);
@@ -2210,9 +2210,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async insert.
      *
-     * @param targetClass the target class
-     * @param props the props
-     * @return the continuable future
+     * @param targetClass
+     * @param props
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncInsert(final Class<?> targetClass, final Map<String, Object> props) {
         final CP cp = prepareInsert(targetClass, props);
@@ -2223,9 +2223,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async batch insert.
      *
-     * @param entities the entities
-     * @param type the type
-     * @return the continuable future
+     * @param entities
+     * @param type
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncBatchInsert(final Collection<?> entities, final BatchStatement.Type type) {
         final BatchStatement batchStatement = prepareBatchInsertStatement(entities, type);
@@ -2236,10 +2236,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async batch insert.
      *
-     * @param targetClass the target class
-     * @param propsList the props list
-     * @param type the type
-     * @return the continuable future
+     * @param targetClass
+     * @param propsList
+     * @param type
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncBatchInsert(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList,
             final BatchStatement.Type type) {
@@ -2251,8 +2251,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async update.
      *
-     * @param entity the entity
-     * @return the continuable future
+     * @param entity
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncUpdate(final Object entity) {
         return asyncUpdate(entity, getKeyNameSet(entity.getClass()));
@@ -2261,9 +2261,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async update.
      *
-     * @param entity the entity
-     * @param primaryKeyNames the primary key names
-     * @return the continuable future
+     * @param entity
+     * @param primaryKeyNames
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncUpdate(final Object entity, final Set<String> primaryKeyNames) {
         final CP cp = prepareUpdate(entity, primaryKeyNames);
@@ -2274,10 +2274,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async update.
      *
-     * @param targetClass the target class
-     * @param props the props
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param targetClass
+     * @param props
+     * @param whereCause
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncUpdate(final Class<?> targetClass, final Map<String, Object> props, final Condition whereCause) {
         final CP cp = prepareUpdate(targetClass, props, whereCause);
@@ -2288,9 +2288,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async batch update.
      *
-     * @param entities the entities
-     * @param type the type
-     * @return the continuable future
+     * @param entities
+     * @param type
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncBatchUpdate(final Collection<?> entities, final BatchStatement.Type type) {
         N.checkArgument(N.notNullOrEmpty(entities), "'entities' can't be null or empty.");
@@ -2301,10 +2301,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async batch update.
      *
-     * @param entities the entities
-     * @param primaryKeyNames the primary key names
-     * @param type the type
-     * @return the continuable future
+     * @param entities
+     * @param primaryKeyNames
+     * @param type
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncBatchUpdate(final Collection<?> entities, final Set<String> primaryKeyNames, final BatchStatement.Type type) {
         final BatchStatement batchStatement = prepareBatchUpdateStatement(entities, primaryKeyNames, type);
@@ -2316,11 +2316,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async batch update.
      *
-     * @param targetClass the target class
-     * @param propsList the props list
-     * @param primaryKeyNames the primary key names
-     * @param type the type
-     * @return the continuable future
+     * @param targetClass
+     * @param propsList
+     * @param primaryKeyNames
+     * @param type
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncBatchUpdate(final Class<?> targetClass, final Collection<? extends Map<String, Object>> propsList,
             final Set<String> primaryKeyNames, final BatchStatement.Type type) {
@@ -2332,8 +2332,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async delete.
      *
-     * @param entity the entity
-     * @return the continuable future
+     * @param entity
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncDelete(final Object entity) {
         return asyncDelete(entity, null);
@@ -2342,9 +2342,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async delete.
      *
-     * @param entity the entity
-     * @param deletingPropNames the deleting prop names
-     * @return the continuable future
+     * @param entity
+     * @param deletingPropNames
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncDelete(final Object entity, final Collection<String> deletingPropNames) {
         return asyncDelete(entity.getClass(), deletingPropNames, entity2Cond(entity));
@@ -2353,9 +2353,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async delete.
      *
-     * @param targetClass the target class
-     * @param ids the ids
-     * @return the continuable future
+     * @param targetClass
+     * @param ids
+     * @return
      */
     @SafeVarargs
     public final ContinuableFuture<ResultSet> asyncDelete(final Class<?> targetClass, final Object... ids) {
@@ -2365,10 +2365,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Delete the specified properties if <code>propNames</code> is not null or empty, otherwise, delete the whole record.
      *
-     * @param targetClass the target class
-     * @param deletingPropNames the deleting prop names
-     * @param ids the ids
-     * @return the continuable future
+     * @param targetClass
+     * @param deletingPropNames
+     * @param ids
+     * @return
      */
     @SafeVarargs
     public final ContinuableFuture<ResultSet> asyncDelete(final Class<?> targetClass, final Collection<String> deletingPropNames, final Object... ids) {
@@ -2378,9 +2378,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async delete.
      *
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncDelete(final Class<?> targetClass, final Condition whereCause) {
         return asyncDelete(targetClass, null, whereCause);
@@ -2389,10 +2389,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Delete the specified properties if <code>propNames</code> is not null or empty, otherwise, delete the whole record.
      *
-     * @param targetClass the target class
-     * @param deletingPropNames the deleting prop names
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param targetClass
+     * @param deletingPropNames
+     * @param whereCause
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncDelete(final Class<?> targetClass, final Collection<String> deletingPropNames, final Condition whereCause) {
         final CP cp = prepareDelete(targetClass, deletingPropNames, whereCause);
@@ -2403,9 +2403,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async exists.
      *
-     * @param targetClass the target class
-     * @param ids the ids
-     * @return the continuable future
+     * @param targetClass
+     * @param ids
+     * @return
      */
     @SafeVarargs
     public final ContinuableFuture<Boolean> asyncExists(final Class<?> targetClass, final Object... ids) {
@@ -2415,9 +2415,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async exists.
      *
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public ContinuableFuture<Boolean> asyncExists(final Class<?> targetClass, final Condition whereCause) {
         final List<String> keyNames = getKeyNames(targetClass);
@@ -2429,9 +2429,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async count.
      *
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public ContinuableFuture<Long> asyncCount(final Class<?> targetClass, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, N.asList(NSC.COUNT_ALL), whereCause, 1);
@@ -2442,10 +2442,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async list.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<List<T>> asyncList(final Class<T> targetClass, final Condition whereCause) {
         return asyncList(targetClass, null, whereCause);
@@ -2454,11 +2454,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async list.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<List<T>> asyncList(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
@@ -2469,10 +2469,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<DataSet> asyncQuery(final Class<T> targetClass, final Condition whereCause) {
         return asyncQuery(targetClass, null, whereCause);
@@ -2481,11 +2481,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<DataSet> asyncQuery(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
@@ -2504,11 +2504,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for boolean.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<OptionalBoolean> asyncQueryForBoolean(final Class<T> targetClass, final String propName, final Condition whereCause) {
         return asyncQueryForSingleResult(targetClass, Boolean.class, propName, whereCause).map(boolean_mapper);
@@ -2525,11 +2525,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for char.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<OptionalChar> asyncQueryForChar(final Class<T> targetClass, final String propName, final Condition whereCause) {
         return asyncQueryForSingleResult(targetClass, Character.class, propName, whereCause).map(char_mapper);
@@ -2546,11 +2546,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for byte.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<OptionalByte> asyncQueryForByte(final Class<T> targetClass, final String propName, final Condition whereCause) {
         return asyncQueryForSingleResult(targetClass, Byte.class, propName, whereCause).map(byte_mapper);
@@ -2567,11 +2567,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for short.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<OptionalShort> asyncQueryForShort(final Class<T> targetClass, final String propName, final Condition whereCause) {
         return asyncQueryForSingleResult(targetClass, Short.class, propName, whereCause).map(short_mapper);
@@ -2588,11 +2588,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for int.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<OptionalInt> asyncQueryForInt(final Class<T> targetClass, final String propName, final Condition whereCause) {
         return asyncQueryForSingleResult(targetClass, Integer.class, propName, whereCause).map(int_mapper);
@@ -2609,11 +2609,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for long.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<OptionalLong> asyncQueryForLong(final Class<T> targetClass, final String propName, final Condition whereCause) {
         return asyncQueryForSingleResult(targetClass, Long.class, propName, whereCause).map(long_mapper);
@@ -2630,11 +2630,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for float.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<OptionalFloat> asyncQueryForFloat(final Class<T> targetClass, final String propName, final Condition whereCause) {
         return asyncQueryForSingleResult(targetClass, Float.class, propName, whereCause).map(float_mapper);
@@ -2651,11 +2651,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for double.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<OptionalDouble> asyncQueryForDouble(final Class<T> targetClass, final String propName, final Condition whereCause) {
         return asyncQueryForSingleResult(targetClass, Double.class, propName, whereCause).map(double_mapper);
@@ -2664,11 +2664,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for string.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<Nullable<String>> asyncQueryForString(final Class<T> targetClass, final String propName, final Condition whereCause) {
         return asyncQueryForSingleResult(targetClass, String.class, propName, whereCause);
@@ -2677,11 +2677,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for date.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<Nullable<Date>> asyncQueryForDate(final Class<T> targetClass, final String propName, final Condition whereCause) {
         return asyncQueryForSingleResult(targetClass, Date.class, propName, whereCause);
@@ -2690,13 +2690,13 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for date.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param <E> the element type
-     * @param targetClass the target class
-     * @param valueClass the value class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param targetClass
+     * @param valueClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T, E extends Date> ContinuableFuture<Nullable<E>> asyncQueryForDate(final Class<T> targetClass, final Class<E> valueClass, final String propName,
             final Condition whereCause) {
@@ -2706,13 +2706,13 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for single result.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param <V> the value type
-     * @param targetClass the target class
-     * @param valueClass the value class
-     * @param propName the prop name
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param targetClass
+     * @param valueClass
+     * @param propName
+     * @param whereCause
+     * @return
      */
     public <T, V> ContinuableFuture<Nullable<V>> asyncQueryForSingleResult(final Class<T> targetClass, final Class<V> valueClass, final String propName,
             final Condition whereCause) {
@@ -2724,10 +2724,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async find first.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<Optional<T>> asyncFindFirst(final Class<T> targetClass, final Condition whereCause) {
         return asyncFindFirst(targetClass, null, whereCause);
@@ -2736,11 +2736,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async find first.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<Optional<T>> asyncFindFirst(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 1);
@@ -2751,10 +2751,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async stream.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final Condition whereCause) {
         return asyncStream(targetClass, null, whereCause);
@@ -2763,11 +2763,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async stream.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param selectPropNames the select prop names
-     * @param whereCause the where cause
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param selectPropNames
+     * @param whereCause
+     * @return
      */
     public <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
@@ -2786,9 +2786,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Always remember to set "<code>LIMIT 1</code>" in the cql statement for better performance.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final ContinuableFuture<Boolean> asyncExists(final String query, final Object... parameters) {
@@ -2806,9 +2806,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async count.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param query
+     * @param parameters
+     * @return
      * @deprecated may be misused and it's inefficient.
      */
     @Deprecated
@@ -2820,10 +2820,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for boolean.
      *
-     * @param <T> the generic type
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalBoolean> asyncQueryForBoolean(final String query, final Object... parameters) {
@@ -2833,10 +2833,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for char.
      *
-     * @param <T> the generic type
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalChar> asyncQueryForChar(final String query, final Object... parameters) {
@@ -2846,10 +2846,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for byte.
      *
-     * @param <T> the generic type
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalByte> asyncQueryForByte(final String query, final Object... parameters) {
@@ -2859,10 +2859,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for short.
      *
-     * @param <T> the generic type
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalShort> asyncQueryForShort(final String query, final Object... parameters) {
@@ -2872,10 +2872,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for int.
      *
-     * @param <T> the generic type
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalInt> asyncQueryForInt(final String query, final Object... parameters) {
@@ -2885,10 +2885,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for long.
      *
-     * @param <T> the generic type
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalLong> asyncQueryForLong(final String query, final Object... parameters) {
@@ -2898,10 +2898,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for float.
      *
-     * @param <T> the generic type
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalFloat> asyncQueryForFloat(final String query, final Object... parameters) {
@@ -2911,10 +2911,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for double.
      *
-     * @param <T> the generic type
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<OptionalDouble> asyncQueryForDouble(final String query, final Object... parameters) {
@@ -2924,10 +2924,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for string.
      *
-     * @param <T> the generic type
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<Nullable<String>> asyncQueryForString(final String query, final Object... parameters) {
@@ -2937,11 +2937,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query for single result.
      *
-     * @param <T> the generic type
-     * @param valueClass the value class
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param valueClass
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<Nullable<T>> asyncQueryForSingleResult(final Class<T> valueClass, final String query, final Object... parameters) {
@@ -2958,9 +2958,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async find first.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final ContinuableFuture<Optional<Map<String, Object>>> asyncFindFirst(final String query, final Object... parameters) {
@@ -2970,11 +2970,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async find first.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<Optional<T>> asyncFindFirst(final Class<T> targetClass, final String query, final Object... parameters) {
@@ -2991,9 +2991,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async list.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final ContinuableFuture<List<Map<String, Object>>> asyncList(final String query, final Object... parameters) {
@@ -3003,11 +3003,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async list.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param targetClass
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<List<T>> asyncList(final Class<T> targetClass, final String query, final Object... parameters) {
@@ -3022,9 +3022,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final ContinuableFuture<DataSet> asyncQuery(final String query, final Object... parameters) {
@@ -3034,10 +3034,10 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async query.
      *
-     * @param targetClass the target class
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param targetClass
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final ContinuableFuture<DataSet> asyncQuery(final Class<?> targetClass, final String query, final Object... parameters) {
@@ -3052,9 +3052,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async stream.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final ContinuableFuture<Stream<Object[]>> asyncStream(final String query, final Object... parameters) {
@@ -3094,11 +3094,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async stream.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final String query, final Object... parameters) {
@@ -3118,11 +3118,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async stream.
      *
-     * @param <T> the generic type
-     * @param query the query
-     * @param rowMapper the row mapper
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param <T>
+     * @param query
+     * @param rowMapper
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final <T> ContinuableFuture<Stream<T>> asyncStream(final String query, final BiFunction<ColumnDefinitions, Row, T> rowMapper,
@@ -3149,8 +3149,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async execute.
      *
-     * @param cp the cp
-     * @return the continuable future
+     * @param cp
+     * @return
      */
     private ContinuableFuture<ResultSet> asyncExecute(final CP cp) {
         return asyncExecute(cp.cql, cp.parameters.toArray());
@@ -3159,8 +3159,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async execute.
      *
-     * @param query the query
-     * @return the continuable future
+     * @param query
+     * @return
      */
     public ContinuableFuture<ResultSet> asyncExecute(final String query) {
         return ContinuableFuture.wrap(session.executeAsync(query));
@@ -3169,9 +3169,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async execute.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the continuable future
+     * @param query
+     * @param parameters
+     * @return
      */
     @SafeVarargs
     public final ContinuableFuture<ResultSet> asyncExecute(final String query, final Object... parameters) {
@@ -3181,8 +3181,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Async execute.
      *
-     * @param statement the statement
-     * @return the continuable future
+     * @param statement
+     * @return
      */
     public final ContinuableFuture<ResultSet> asyncExecute(final Statement statement) {
         return ContinuableFuture.wrap(session.executeAsync(statement));
@@ -3209,8 +3209,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Check target class.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
+     * @param <T>
+     * @param targetClass
      */
     private static <T> void checkTargetClass(final Class<T> targetClass) {
         if (!(ClassUtil.isEntity(targetClass) || Map.class.isAssignableFrom(targetClass))) {
@@ -3222,8 +3222,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare statement.
      *
-     * @param query the query
-     * @return the statement
+     * @param query
+     * @return
      */
     private Statement prepareStatement(final String query) {
         Statement stmt = null;
@@ -3252,9 +3252,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare statement.
      *
-     * @param query the query
-     * @param parameters the parameters
-     * @return the statement
+     * @param query
+     * @param parameters
+     * @return
      */
     private Statement prepareStatement(String query, Object... parameters) {
         if (N.isNullOrEmpty(parameters)) {
@@ -3377,8 +3377,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Prepare.
      *
-     * @param query the query
-     * @return the prepared statement
+     * @param query
+     * @return
      */
     private PreparedStatement prepare(final String query) {
         PreparedStatement preStat = session.prepare(query);
@@ -3409,8 +3409,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Bind.
      *
-     * @param preStmt the pre stmt
-     * @return the bound statement
+     * @param preStmt
+     * @return
      */
     private BoundStatement bind(PreparedStatement preStmt) {
         BoundStatement stmt = preStmt.bind();
@@ -3425,9 +3425,9 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Bind.
      *
-     * @param preStmt the pre stmt
-     * @param parameters the parameters
-     * @return the bound statement
+     * @param preStmt
+     * @param parameters
+     * @return
      */
     private BoundStatement bind(PreparedStatement preStmt, Object... parameters) {
         BoundStatement stmt = preStmt.bind(parameters);
@@ -3442,8 +3442,8 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Gets the named CQL.
      *
-     * @param cql the cql
-     * @return the named CQL
+     * @param cql
+     * @return
      */
     private NamedCQL getNamedCQL(String cql) {
         NamedCQL namedCQL = null;
@@ -3492,7 +3492,7 @@ public final class CassandraExecutor implements Closeable {
      * </pre>
      *
      * @author haiyangl
-     * @param <T> the generic type
+     * @param <T>
      */
     public abstract static class UDTCodec<T> extends TypeCodec<T> {
 
@@ -3508,8 +3508,8 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Instantiates a new UDT codec.
          *
-         * @param innerCodec the inner codec
-         * @param javaType the java type
+         * @param innerCodec
+         * @param javaType
          */
         public UDTCodec(TypeCodec<UDTValue> innerCodec, Class<T> javaType) {
             super(innerCodec.getCqlType(), javaType);
@@ -3521,10 +3521,10 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Instantiates a new UDT codec.
          *
-         * @param cluster the cluster
-         * @param keySpace the key space
-         * @param userType the user type
-         * @param javaType the java type
+         * @param cluster
+         * @param keySpace
+         * @param userType
+         * @param javaType
          */
         public UDTCodec(final Cluster cluster, final String keySpace, final String userType, Class<T> javaType) {
             this(TypeCodec.userType(cluster.getMetadata().getKeyspace(keySpace).getUserType(userType)), javaType);
@@ -3533,9 +3533,9 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Serialize.
          *
-         * @param value the value
-         * @param protocolVersion the protocol version
-         * @return the byte buffer
+         * @param value
+         * @param protocolVersion
+         * @return
          * @throws InvalidTypeException the invalid type exception
          */
         @Override
@@ -3546,9 +3546,9 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Deserialize.
          *
-         * @param bytes the bytes
-         * @param protocolVersion the protocol version
-         * @return the t
+         * @param bytes
+         * @param protocolVersion
+         * @return
          * @throws InvalidTypeException the invalid type exception
          */
         @Override
@@ -3559,8 +3559,8 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Parses the.
          *
-         * @param value the value
-         * @return the t
+         * @param value
+         * @return
          * @throws InvalidTypeException the invalid type exception
          */
         @Override
@@ -3571,8 +3571,8 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Format.
          *
-         * @param value the value
-         * @return the string
+         * @param value
+         * @return
          * @throws InvalidTypeException the invalid type exception
          */
         @Override
@@ -3583,7 +3583,7 @@ public final class CassandraExecutor implements Closeable {
         /**
          * New UDT value.
          *
-         * @return the UDT value
+         * @return
          */
         protected UDTValue newUDTValue() {
             return userType.newValue();
@@ -3592,16 +3592,16 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Serialize.
          *
-         * @param value the value
-         * @return the UDT value
+         * @param value
+         * @return
          */
         protected abstract UDTValue serialize(T value);
 
         /**
          * Deserialize.
          *
-         * @param value the value
-         * @return the t
+         * @param value
+         * @return
          */
         protected abstract T deserialize(UDTValue value);
     }
@@ -3635,11 +3635,11 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Instantiates a new statement settings.
          *
-         * @param consistency the consistency
-         * @param serialConsistency the serial consistency
-         * @param traceQuery the trace query
-         * @param retryPolicy the retry policy
-         * @param fetchSize the fetch size
+         * @param consistency
+         * @param serialConsistency
+         * @param traceQuery
+         * @param retryPolicy
+         * @param fetchSize
          */
         public StatementSettings(ConsistencyLevel consistency, ConsistencyLevel serialConsistency, boolean traceQuery, RetryPolicy retryPolicy, int fetchSize) {
             this.consistency = consistency;
@@ -3652,7 +3652,7 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Creates the.
          *
-         * @return the statement settings
+         * @return
          */
         public static StatementSettings create() {
             return new StatementSettings();
@@ -3661,7 +3661,7 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Gets the consistency.
          *
-         * @return the consistency
+         * @return
          */
         public ConsistencyLevel getConsistency() {
             return consistency;
@@ -3670,8 +3670,8 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Sets the consistency.
          *
-         * @param consistency the consistency
-         * @return the statement settings
+         * @param consistency
+         * @return
          */
         public StatementSettings setConsistency(ConsistencyLevel consistency) {
             this.consistency = consistency;
@@ -3682,7 +3682,7 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Gets the serial consistency.
          *
-         * @return the serial consistency
+         * @return
          */
         public ConsistencyLevel getSerialConsistency() {
             return serialConsistency;
@@ -3691,8 +3691,8 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Sets the serial consistency.
          *
-         * @param serialConsistency the serial consistency
-         * @return the statement settings
+         * @param serialConsistency
+         * @return
          */
         public StatementSettings setSerialConsistency(ConsistencyLevel serialConsistency) {
             this.serialConsistency = serialConsistency;
@@ -3712,8 +3712,8 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Sets the trace query.
          *
-         * @param traceQuery the trace query
-         * @return the statement settings
+         * @param traceQuery
+         * @return
          */
         public StatementSettings setTraceQuery(boolean traceQuery) {
             this.traceQuery = traceQuery;
@@ -3724,7 +3724,7 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Gets the retry policy.
          *
-         * @return the retry policy
+         * @return
          */
         public RetryPolicy getRetryPolicy() {
             return retryPolicy;
@@ -3733,8 +3733,8 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Sets the retry policy.
          *
-         * @param retryPolicy the retry policy
-         * @return the statement settings
+         * @param retryPolicy
+         * @return
          */
         public StatementSettings setRetryPolicy(RetryPolicy retryPolicy) {
             this.retryPolicy = retryPolicy;
@@ -3745,7 +3745,7 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Gets the fetch size.
          *
-         * @return the fetch size
+         * @return
          */
         public int getFetchSize() {
             return fetchSize;
@@ -3754,8 +3754,8 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Sets the fetch size.
          *
-         * @param fetchSize the fetch size
-         * @return the statement settings
+         * @param fetchSize
+         * @return
          */
         public StatementSettings setFetchSize(int fetchSize) {
             this.fetchSize = fetchSize;
@@ -3766,7 +3766,7 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Copy.
          *
-         * @return the statement settings
+         * @return
          */
         public StatementSettings copy() {
             StatementSettings copy = new StatementSettings();
@@ -3783,7 +3783,7 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Hash code.
          *
-         * @return the int
+         * @return
          */
         @Override
         public int hashCode() {
@@ -3800,7 +3800,7 @@ public final class CassandraExecutor implements Closeable {
         /**
          * Equals.
          *
-         * @param obj the obj
+         * @param obj
          * @return true, if successful
          */
         @Override
@@ -3825,7 +3825,7 @@ public final class CassandraExecutor implements Closeable {
         /**
          * To string.
          *
-         * @return the string
+         * @return
          */
         @Override
         public String toString() {

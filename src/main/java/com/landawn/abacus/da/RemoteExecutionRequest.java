@@ -66,7 +66,7 @@ public class RemoteExecutionRequest {
     /**
      * Gets the request host.
      *
-     * @return the request host
+     * @return
      */
     public String getRequestHost() {
         return requestHost;
@@ -75,8 +75,8 @@ public class RemoteExecutionRequest {
     /**
      * Sets the request host.
      *
-     * @param requestHost the request host
-     * @return the remote execution request
+     * @param requestHost
+     * @return
      */
     public RemoteExecutionRequest setRequestHost(String requestHost) {
         this.requestHost = requestHost;
@@ -87,7 +87,7 @@ public class RemoteExecutionRequest {
     /**
      * Gets the request id.
      *
-     * @return the request id
+     * @return
      */
     public String getRequestId() {
         return requestId;
@@ -96,8 +96,8 @@ public class RemoteExecutionRequest {
     /**
      * Sets the request id.
      *
-     * @param requestId the request id
-     * @return the remote execution request
+     * @param requestId
+     * @return
      */
     public RemoteExecutionRequest setRequestId(String requestId) {
         this.requestId = requestId;
@@ -108,7 +108,7 @@ public class RemoteExecutionRequest {
     /**
      * Gets the run mode.
      *
-     * @return the run mode
+     * @return
      */
     public com.landawn.abacus.da.RemoteTask.RunMode getRunMode() {
         return runMode;
@@ -117,8 +117,8 @@ public class RemoteExecutionRequest {
     /**
      * Sets the run mode.
      *
-     * @param runMode the run mode
-     * @return the remote execution request
+     * @param runMode
+     * @return
      */
     public RemoteExecutionRequest setRunMode(com.landawn.abacus.da.RemoteTask.RunMode runMode) {
         this.runMode = runMode;
@@ -129,7 +129,7 @@ public class RemoteExecutionRequest {
     /**
      * Gets the request time.
      *
-     * @return the request time
+     * @return
      */
     public long getRequestTime() {
         return requestTime;
@@ -138,8 +138,8 @@ public class RemoteExecutionRequest {
     /**
      * Sets the request time.
      *
-     * @param requestTime the request time
-     * @return the remote execution request
+     * @param requestTime
+     * @return
      */
     public RemoteExecutionRequest setRequestTime(long requestTime) {
         this.requestTime = requestTime;
@@ -150,7 +150,7 @@ public class RemoteExecutionRequest {
     /**
      * Gets the schedule.
      *
-     * @return the schedule
+     * @return
      */
     public String getSchedule() {
         return schedule;
@@ -159,8 +159,8 @@ public class RemoteExecutionRequest {
     /**
      * Sets the schedule.
      *
-     * @param schedule the schedule
-     * @return the remote execution request
+     * @param schedule
+     * @return
      */
     public RemoteExecutionRequest setSchedule(String schedule) {
         this.schedule = schedule;
@@ -171,7 +171,7 @@ public class RemoteExecutionRequest {
     /**
      * Gets the class name.
      *
-     * @return the class name
+     * @return
      */
     public String getClassName() {
         return className;
@@ -180,8 +180,8 @@ public class RemoteExecutionRequest {
     /**
      * Sets the class name.
      *
-     * @param className the class name
-     * @return the remote execution request
+     * @param className
+     * @return
      */
     public RemoteExecutionRequest setClassName(String className) {
         this.className = className;
@@ -192,7 +192,7 @@ public class RemoteExecutionRequest {
     /**
      * Gets the parameter.
      *
-     * @return the parameter
+     * @return
      */
     public Object getParameter() {
         return parameter;
@@ -201,8 +201,8 @@ public class RemoteExecutionRequest {
     /**
      * Sets the parameter.
      *
-     * @param parameter the parameter
-     * @return the remote execution request
+     * @param parameter
+     * @return
      */
     public RemoteExecutionRequest setParameter(Object parameter) {
         this.parameter = parameter;
@@ -213,7 +213,7 @@ public class RemoteExecutionRequest {
     /**
      * Gets the class bytes map.
      *
-     * @return the class bytes map
+     * @return
      */
     @Type("Map<String, byte[]>")
     public Map<String, byte[]> getClassBytesMap() {
@@ -223,8 +223,8 @@ public class RemoteExecutionRequest {
     /**
      * Sets the class bytes map.
      *
-     * @param classBytesMap the class bytes map
-     * @return the remote execution request
+     * @param classBytesMap
+     * @return
      */
     public RemoteExecutionRequest setClassBytesMap(Map<String, byte[]> classBytesMap) {
         this.classBytesMap = classBytesMap;
@@ -235,7 +235,7 @@ public class RemoteExecutionRequest {
     /**
      * Copy.
      *
-     * @return the remote execution request
+     * @return
      */
     public RemoteExecutionRequest copy() {
         final RemoteExecutionRequest copy = new RemoteExecutionRequest();
@@ -255,7 +255,7 @@ public class RemoteExecutionRequest {
     /**
      * Hash code.
      *
-     * @return the int
+     * @return
      */
     @Override
     public int hashCode() {
@@ -275,7 +275,7 @@ public class RemoteExecutionRequest {
     /**
      * Equals.
      *
-     * @param obj the obj
+     * @param obj
      * @return true, if successful
      */
     @Override
@@ -298,7 +298,7 @@ public class RemoteExecutionRequest {
     /**
      * To string.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String toString() {

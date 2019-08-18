@@ -101,7 +101,7 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Instantiates a new h base executor.
      *
-     * @param conn the conn
+     * @param conn
      */
     public HBaseExecutor(final Connection conn) {
         this(conn, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
@@ -110,8 +110,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Instantiates a new h base executor.
      *
-     * @param conn the conn
-     * @param asyncExecutor the async executor
+     * @param conn
+     * @param asyncExecutor
      */
     public HBaseExecutor(final Connection conn, final AsyncExecutor asyncExecutor) {
         try {
@@ -128,7 +128,7 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Admin.
      *
-     * @return the admin
+     * @return
      */
     public Admin admin() {
         return admin;
@@ -137,7 +137,7 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Connection.
      *
-     * @return the connection
+     * @return
      */
     public Connection connection() {
         return conn;
@@ -146,7 +146,7 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Async.
      *
-     * @return the async H base executor
+     * @return
      */
     public AsyncHBaseExecutor async() {
         return asyncHBaseExecutor;
@@ -156,7 +156,7 @@ public final class HBaseExecutor implements Closeable {
      * The row key property will be read from/write to the specified property.
      *
      * @param cls entity classes with getter/setter methods
-     * @param rowKeyPropertyName the row key property name
+     * @param rowKeyPropertyName
      */
     public static void registerRowKeyProperty(final Class<?> cls, final String rowKeyPropertyName) {
         if (ClassUtil.getPropGetMethod(cls, rowKeyPropertyName) == null || ClassUtil.getPropSetMethod(cls, rowKeyPropertyName) == null) {
@@ -180,9 +180,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the row key set method.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @return the row key set method
+     * @param <T>
+     * @param targetClass
+     * @return
      */
     @SuppressWarnings("deprecation")
     private static <T> Method getRowKeySetMethod(final Class<T> targetClass) {
@@ -209,10 +209,10 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To list.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param resultScanner the result scanner
-     * @return the list
+     * @param resultScanner
+     * @return
      */
     public static <T> List<T> toList(final Class<T> targetClass, final ResultScanner resultScanner) {
         return toList(targetClass, resultScanner, 0, Integer.MAX_VALUE);
@@ -221,12 +221,12 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To list.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param resultScanner the result scanner
-     * @param offset the offset
-     * @param count the count
-     * @return the list
+     * @param resultScanner
+     * @param offset
+     * @param count
+     * @return
      */
     public static <T> List<T> toList(final Class<T> targetClass, final ResultScanner resultScanner, int offset, int count) {
         if (offset < 0 || count < 0) {
@@ -257,10 +257,10 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To list.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param results the results
-     * @return the list
+     * @param results
+     * @return
      */
     static <T> List<T> toList(final Class<T> targetClass, final List<Result> results) {
         final Type<T> type = N.typeOf(targetClass);
@@ -280,10 +280,10 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To entity.
      *
-     * @param <T> the generic type
+     * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param result the result
-     * @return the t
+     * @param result
+     * @return
      */
     public static <T> T toEntity(final Class<T> targetClass, final Result result) {
         final Type<T> type = N.typeOf(targetClass);
@@ -298,11 +298,11 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To value.
      *
-     * @param <T> the generic type
-     * @param type the type
-     * @param targetClass the target class
-     * @param result the result
-     * @return the t
+     * @param <T>
+     * @param type
+     * @param targetClass
+     * @param result
+     * @return
      * @throws IOException Signals that an I/O exception has occurred.
      */
     private static <T> T toValue(final Type<T> type, final Class<T> targetClass, final Result result) throws IOException {
@@ -541,8 +541,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Check entity class.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
+     * @param <T>
+     * @param targetClass
      */
     private static <T> void checkEntityClass(final Class<T> targetClass) {
         if (!ClassUtil.isEntity(targetClass)) {
@@ -555,7 +555,7 @@ public final class HBaseExecutor implements Closeable {
      *  
      *
      * @param obj entity with getter/setter methods
-     * @return the any put
+     * @return
      */
     public static AnyPut toAnyPut(final Object obj) {
         return toAnyPut(obj, NamingPolicy.LOWER_CAMEL_CASE);
@@ -565,8 +565,8 @@ public final class HBaseExecutor implements Closeable {
      * To any put.
      *
      * @param obj entity with getter/setter methods
-     * @param namingPolicy the naming policy
-     * @return the any put
+     * @param namingPolicy
+     * @return
      */
     public static AnyPut toAnyPut(final Object obj, final NamingPolicy namingPolicy) {
         return toAnyPut(null, obj, namingPolicy);
@@ -577,7 +577,7 @@ public final class HBaseExecutor implements Closeable {
      *
      * @param outputAnyPut the output result if it's not null.
      * @param obj entity with getter/setter methods
-     * @return the any put
+     * @return
      */
     static AnyPut toAnyPut(final AnyPut outputAnyPut, final Object obj) {
         return toAnyPut(outputAnyPut, obj, NamingPolicy.LOWER_CAMEL_CASE);
@@ -586,10 +586,10 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To any put.
      *
-     * @param outputAnyPut the output any put
+     * @param outputAnyPut
      * @param obj entity with getter/setter methods
-     * @param namingPolicy the naming policy
-     * @return the any put
+     * @param namingPolicy
+     * @return
      */
     static AnyPut toAnyPut(final AnyPut outputAnyPut, final Object obj, final NamingPolicy namingPolicy) {
         if (obj instanceof AnyPut) {
@@ -706,9 +706,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Format name.
      *
-     * @param name the name
-     * @param namingPolicy the naming policy
-     * @return the string
+     * @param name
+     * @param namingPolicy
+     * @return
      */
     private static String formatName(String name, final NamingPolicy namingPolicy) {
         switch (namingPolicy) {
@@ -727,7 +727,7 @@ public final class HBaseExecutor implements Closeable {
      * To any put.
      *
      * @param objs <code>AnyPut</code> or entity with getter/setter methods
-     * @return the list
+     * @return
      */
     public static List<AnyPut> toAnyPut(final Collection<?> objs) {
         final List<AnyPut> anyPuts = new ArrayList<>(objs.size());
@@ -743,8 +743,8 @@ public final class HBaseExecutor implements Closeable {
      * To any put.
      *
      * @param objs <code>AnyPut</code> or entity with getter/setter methods
-     * @param namingPolicy the naming policy
-     * @return the list
+     * @param namingPolicy
+     * @return
      */
     public static List<AnyPut> toAnyPut(final Collection<?> objs, final NamingPolicy namingPolicy) {
         final List<AnyPut> anyPuts = new ArrayList<>(objs.size());
@@ -760,7 +760,7 @@ public final class HBaseExecutor implements Closeable {
      * To put.
      *
      * @param objs <code>AnyPut</code> or entity with getter/setter methods
-     * @return the list
+     * @return
      */
     public static List<Put> toPut(final Collection<?> objs) {
         final List<Put> puts = new ArrayList<>(objs.size());
@@ -776,8 +776,8 @@ public final class HBaseExecutor implements Closeable {
      * To put.
      *
      * @param objs <code>AnyPut</code> or entity with getter/setter methods
-     * @param namingPolicy the naming policy
-     * @return the list
+     * @param namingPolicy
+     * @return
      */
     public static List<Put> toPut(final Collection<?> objs, final NamingPolicy namingPolicy) {
         final List<Put> puts = new ArrayList<>(objs.size());
@@ -792,8 +792,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To get.
      *
-     * @param anyGets the any gets
-     * @return the list
+     * @param anyGets
+     * @return
      */
     public static List<Get> toGet(final Collection<AnyGet> anyGets) {
         final List<Get> gets = new ArrayList<>(anyGets.size());
@@ -808,8 +808,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To delete.
      *
-     * @param anyDeletes the any deletes
-     * @return the list
+     * @param anyDeletes
+     * @return
      */
     public static List<Delete> toDelete(final Collection<AnyDelete> anyDeletes) {
         final List<Delete> deletes = new ArrayList<>(anyDeletes.size());
@@ -824,8 +824,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the table.
      *
-     * @param tableName the table name
-     * @return the table
+     * @param tableName
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public Table getTable(final String tableName) throws UncheckedIOException {
@@ -839,7 +839,7 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Close quietly.
      *
-     * @param table the table
+     * @param table
      */
     private void closeQuietly(final Table table) {
         IOUtil.closeQuietly(table);
@@ -849,8 +849,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Exists.
      *
-     * @param tableName the table name
-     * @param rowKey the row key
+     * @param tableName
+     * @param rowKey
      * @return true, if successful
      * @throws UncheckedIOException the unchecked IO exception
      */
@@ -862,8 +862,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Exists.
      *
-     * @param tableName the table name
-     * @param get the get
+     * @param tableName
+     * @param get
      * @return true, if successful
      * @throws UncheckedIOException the unchecked IO exception
      */
@@ -882,9 +882,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Exists.
      *
-     * @param tableName the table name
-     * @param gets the gets
-     * @return the list
+     * @param tableName
+     * @param gets
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public List<Boolean> exists(final String tableName, final List<Get> gets) throws UncheckedIOException {
@@ -906,8 +906,8 @@ public final class HBaseExecutor implements Closeable {
      * This is a server-side call so it prevents any data from being transferred to
      * the client.
      *
-     * @param tableName the table name
-     * @param gets the Gets
+     * @param tableName
+     * @param gets
      * @return Array of boolean.  True if the specified Get matches one or more keys, false if not.
      * @throws UncheckedIOException the unchecked IO exception
      * @deprecated since 2.0 version and will be removed in 3.0 version.
@@ -929,8 +929,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Exists.
      *
-     * @param tableName the table name
-     * @param anyGet the any get
+     * @param tableName
+     * @param anyGet
      * @return true, if successful
      * @throws UncheckedIOException the unchecked IO exception
      */
@@ -941,9 +941,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Exists.
      *
-     * @param tableName the table name
-     * @param anyGets the any gets
-     * @return the list
+     * @param tableName
+     * @param anyGets
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public List<Boolean> exists(final String tableName, final Collection<AnyGet> anyGets) throws UncheckedIOException {
@@ -953,9 +953,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Exists all.
      *
-     * @param tableName the table name
-     * @param anyGets the any gets
-     * @return the list
+     * @param tableName
+     * @param anyGets
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      * @deprecated  use {@code exists(String, Collection)}
      */
@@ -968,9 +968,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param tableName the table name
-     * @param rowKey the row key
-     * @return the result
+     * @param tableName
+     * @param rowKey
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     // And it may cause error because the "Object" is ambiguous to any type. 
@@ -981,9 +981,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param tableName the table name
-     * @param get the get
-     * @return the result
+     * @param tableName
+     * @param get
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public Result get(final String tableName, final Get get) throws UncheckedIOException {
@@ -1001,9 +1001,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param tableName the table name
-     * @param gets the gets
-     * @return the list
+     * @param tableName
+     * @param gets
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public List<Result> get(final String tableName, final List<Get> gets) throws UncheckedIOException {
@@ -1021,9 +1021,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param tableName the table name
-     * @param anyGet the any get
-     * @return the result
+     * @param tableName
+     * @param anyGet
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public Result get(final String tableName, final AnyGet anyGet) throws UncheckedIOException {
@@ -1033,9 +1033,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param tableName the table name
-     * @param anyGets the any gets
-     * @return the list
+     * @param tableName
+     * @param anyGets
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public List<Result> get(final String tableName, final Collection<AnyGet> anyGets) throws UncheckedIOException {
@@ -1046,11 +1046,11 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param rowKey the row key
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param rowKey
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     // And it may cause error because the "Object" is ambiguous to any type. 
@@ -1061,11 +1061,11 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param get the get
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param get
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public <T> T get(final Class<T> targetClass, final String tableName, final Get get) throws UncheckedIOException {
@@ -1075,11 +1075,11 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param gets the gets
-     * @return the list
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param gets
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public <T> List<T> get(final Class<T> targetClass, final String tableName, final List<Get> gets) throws UncheckedIOException {
@@ -1089,11 +1089,11 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param anyGet the any get
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param anyGet
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public <T> T get(final Class<T> targetClass, final String tableName, final AnyGet anyGet) throws UncheckedIOException {
@@ -1103,11 +1103,11 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param anyGets the any gets
-     * @return the list
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param anyGets
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public <T> List<T> get(final Class<T> targetClass, final String tableName, final Collection<AnyGet> anyGets) throws UncheckedIOException {
@@ -1117,9 +1117,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param tableName the table name
-     * @param scan the scan
-     * @return the stream
+     * @param tableName
+     * @param scan
+     * @return
      */
     public Stream<Result> scan(final String tableName, final Scan scan) {
         N.checkArgNotNull(tableName, "tableName");
@@ -1181,9 +1181,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param tableName the table name
-     * @param anyScan the any scan
-     * @return the stream
+     * @param tableName
+     * @param anyScan
+     * @return
      */
     public Stream<Result> scan(final String tableName, final AnyScan anyScan) {
         return scan(tableName, anyScan.val());
@@ -1192,9 +1192,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param tableName the table name
-     * @param family the family
-     * @return the stream
+     * @param tableName
+     * @param family
+     * @return
      */
     public Stream<Result> scan(final String tableName, final String family) {
         return scan(tableName, AnyScan.create().addFamily(family));
@@ -1203,10 +1203,10 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param tableName the table name
-     * @param family the family
-     * @param qualifier the qualifier
-     * @return the stream
+     * @param tableName
+     * @param family
+     * @param qualifier
+     * @return
      */
     public Stream<Result> scan(final String tableName, final String family, final String qualifier) {
         return scan(tableName, AnyScan.create().addColumn(family, qualifier));
@@ -1215,9 +1215,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param tableName the table name
-     * @param family the family
-     * @return the stream
+     * @param tableName
+     * @param family
+     * @return
      */
     public Stream<Result> scan(final String tableName, final byte[] family) {
         return scan(tableName, AnyScan.create().addFamily(family));
@@ -1226,10 +1226,10 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param tableName the table name
-     * @param family the family
-     * @param qualifier the qualifier
-     * @return the stream
+     * @param tableName
+     * @param family
+     * @param qualifier
+     * @return
      */
     public Stream<Result> scan(final String tableName, final byte[] family, final byte[] qualifier) {
         return scan(tableName, AnyScan.create().addColumn(family, qualifier));
@@ -1238,11 +1238,11 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param scan the scan
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param scan
+     * @return
      */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final Scan scan) {
         return scan(tableName, scan).map(toEntity(targetClass));
@@ -1251,11 +1251,11 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param anyScan the any scan
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param anyScan
+     * @return
      */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final AnyScan anyScan) {
         return scan(tableName, anyScan).map(toEntity(targetClass));
@@ -1264,11 +1264,11 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param family the family
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param family
+     * @return
      */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final String family) {
         return scan(tableName, family).map(toEntity(targetClass));
@@ -1277,12 +1277,12 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param family the family
-     * @param qualifier the qualifier
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param family
+     * @param qualifier
+     * @return
      */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final String family, final String qualifier) {
         return scan(tableName, family, qualifier).map(toEntity(targetClass));
@@ -1291,11 +1291,11 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param family the family
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param family
+     * @return
      */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final byte[] family) {
         return scan(tableName, family).map(toEntity(targetClass));
@@ -1304,12 +1304,12 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Scan.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param tableName the table name
-     * @param family the family
-     * @param qualifier the qualifier
-     * @return the stream
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param family
+     * @param qualifier
+     * @return
      */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final byte[] family, final byte[] qualifier) {
         return scan(tableName, family, qualifier).map(toEntity(targetClass));
@@ -1318,9 +1318,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To entity.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @return the function
+     * @param <T>
+     * @param targetClass
+     * @return
      */
     private <T> Function<Result, T> toEntity(final Class<T> targetClass) {
         return new Function<Result, T>() {
@@ -1334,8 +1334,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Put.
      *
-     * @param tableName the table name
-     * @param put the put
+     * @param tableName
+     * @param put
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void put(final String tableName, final Put put) throws UncheckedIOException {
@@ -1353,8 +1353,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Put.
      *
-     * @param tableName the table name
-     * @param puts the puts
+     * @param tableName
+     * @param puts
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void put(final String tableName, final List<Put> puts) throws UncheckedIOException {
@@ -1372,8 +1372,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Put.
      *
-     * @param tableName the table name
-     * @param anyPut the any put
+     * @param tableName
+     * @param anyPut
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void put(final String tableName, final AnyPut anyPut) throws UncheckedIOException {
@@ -1383,8 +1383,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Put.
      *
-     * @param tableName the table name
-     * @param anyPuts the any puts
+     * @param tableName
+     * @param anyPuts
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void put(final String tableName, final Collection<AnyPut> anyPuts) throws UncheckedIOException {
@@ -1395,8 +1395,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Delete.
      *
-     * @param tableName the table name
-     * @param rowKey the row key
+     * @param tableName
+     * @param rowKey
      * @throws UncheckedIOException the unchecked IO exception
      */
     // And it may cause error because the "Object" is ambiguous to any type. 
@@ -1407,8 +1407,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Delete.
      *
-     * @param tableName the table name
-     * @param delete the delete
+     * @param tableName
+     * @param delete
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void delete(final String tableName, final Delete delete) throws UncheckedIOException {
@@ -1426,8 +1426,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Delete.
      *
-     * @param tableName the table name
-     * @param deletes the deletes
+     * @param tableName
+     * @param deletes
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void delete(final String tableName, final List<Delete> deletes) throws UncheckedIOException {
@@ -1445,8 +1445,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Delete.
      *
-     * @param tableName the table name
-     * @param anyDelete the any delete
+     * @param tableName
+     * @param anyDelete
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void delete(final String tableName, final AnyDelete anyDelete) throws UncheckedIOException {
@@ -1456,8 +1456,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Delete.
      *
-     * @param tableName the table name
-     * @param anyDeletes the any deletes
+     * @param tableName
+     * @param anyDeletes
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void delete(final String tableName, final Collection<AnyDelete> anyDeletes) throws UncheckedIOException {
@@ -1467,8 +1467,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Mutate row.
      *
-     * @param tableName the table name
-     * @param rm the rm
+     * @param tableName
+     * @param rm
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void mutateRow(final String tableName, final RowMutations rm) throws UncheckedIOException {
@@ -1486,9 +1486,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Append.
      *
-     * @param tableName the table name
-     * @param append the append
-     * @return the result
+     * @param tableName
+     * @param append
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public Result append(final String tableName, final Append append) throws UncheckedIOException {
@@ -1506,9 +1506,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Increment.
      *
-     * @param tableName the table name
-     * @param increment the increment
-     * @return the result
+     * @param tableName
+     * @param increment
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public Result increment(final String tableName, final Increment increment) throws UncheckedIOException {
@@ -1526,12 +1526,12 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Increment column value.
      *
-     * @param tableName the table name
-     * @param rowKey the row key
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param amount the amount
-     * @return the long
+     * @param tableName
+     * @param rowKey
+     * @param family
+     * @param qualifier
+     * @param amount
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public long incrementColumnValue(final String tableName, final Object rowKey, final String family, final String qualifier, final long amount)
@@ -1542,13 +1542,13 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Increment column value.
      *
-     * @param tableName the table name
-     * @param rowKey the row key
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param amount the amount
-     * @param durability the durability
-     * @return the long
+     * @param tableName
+     * @param rowKey
+     * @param family
+     * @param qualifier
+     * @param amount
+     * @param durability
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public long incrementColumnValue(final String tableName, final Object rowKey, final String family, final String qualifier, final long amount,
@@ -1559,12 +1559,12 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Increment column value.
      *
-     * @param tableName the table name
-     * @param rowKey the row key
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param amount the amount
-     * @return the long
+     * @param tableName
+     * @param rowKey
+     * @param family
+     * @param qualifier
+     * @param amount
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public long incrementColumnValue(final String tableName, final Object rowKey, final byte[] family, final byte[] qualifier, final long amount)
@@ -1583,13 +1583,13 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Increment column value.
      *
-     * @param tableName the table name
-     * @param rowKey the row key
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param amount the amount
-     * @param durability the durability
-     * @return the long
+     * @param tableName
+     * @param rowKey
+     * @param family
+     * @param qualifier
+     * @param amount
+     * @param durability
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
     public long incrementColumnValue(final String tableName, final Object rowKey, final byte[] family, final byte[] qualifier, final long amount,
@@ -1608,9 +1608,9 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Coprocessor service.
      *
-     * @param tableName the table name
-     * @param rowKey the row key
-     * @return the coprocessor rpc channel
+     * @param tableName
+     * @param rowKey
+     * @return
      */
     public CoprocessorRpcChannel coprocessorService(final String tableName, final Object rowKey) {
         final Table table = getTable(tableName);
@@ -1625,14 +1625,14 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Coprocessor service.
      *
-     * @param <T> the generic type
-     * @param <R> the generic type
-     * @param tableName the table name
-     * @param service the service
-     * @param startRowKey the start row key
-     * @param endRowKey the end row key
-     * @param callable the callable
-     * @return the map
+     * @param <T>
+     * @param <R>
+     * @param tableName
+     * @param service
+     * @param startRowKey
+     * @param endRowKey
+     * @param callable
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      * @throws Exception the exception
      */
@@ -1654,14 +1654,14 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Coprocessor service.
      *
-     * @param <T> the generic type
-     * @param <R> the generic type
-     * @param tableName the table name
-     * @param service the service
-     * @param startRowKey the start row key
-     * @param endRowKey the end row key
-     * @param callable the callable
-     * @param callback the callback
+     * @param <T>
+     * @param <R>
+     * @param tableName
+     * @param service
+     * @param startRowKey
+     * @param endRowKey
+     * @param callable
+     * @param callback
      * @throws UncheckedIOException the unchecked IO exception
      * @throws Exception the exception
      */
@@ -1683,14 +1683,14 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Batch coprocessor service.
      *
-     * @param <R> the generic type
-     * @param tableName the table name
-     * @param methodDescriptor the method descriptor
-     * @param request the request
-     * @param startRowKey the start row key
-     * @param endRowKey the end row key
-     * @param responsePrototype the response prototype
-     * @return the map
+     * @param <R>
+     * @param tableName
+     * @param methodDescriptor
+     * @param request
+     * @param startRowKey
+     * @param endRowKey
+     * @param responsePrototype
+     * @return
      * @throws UncheckedIOException the unchecked IO exception
      * @throws Exception the exception
      */
@@ -1712,14 +1712,14 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Batch coprocessor service.
      *
-     * @param <R> the generic type
-     * @param tableName the table name
-     * @param methodDescriptor the method descriptor
-     * @param request the request
-     * @param startRowKey the start row key
-     * @param endRowKey the end row key
-     * @param responsePrototype the response prototype
-     * @param callback the callback
+     * @param <R>
+     * @param tableName
+     * @param methodDescriptor
+     * @param request
+     * @param startRowKey
+     * @param endRowKey
+     * @param responsePrototype
+     * @param callback
      * @throws UncheckedIOException the unchecked IO exception
      * @throws Exception the exception
      */
@@ -1742,8 +1742,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To family qualifier bytes.
      *
-     * @param str the str
-     * @return the byte[]
+     * @param str
+     * @return
      */
     static byte[] toFamilyQualifierBytes(final String str) {
         if (str == null) {
@@ -1764,8 +1764,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To row key bytes.
      *
-     * @param rowKey the row key
-     * @return the byte[]
+     * @param rowKey
+     * @return
      */
     static byte[] toRowKeyBytes(final Object rowKey) {
         return toValueBytes(rowKey);
@@ -1774,8 +1774,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To row bytes.
      *
-     * @param row the row
-     * @return the byte[]
+     * @param row
+     * @return
      */
     static byte[] toRowBytes(final Object row) {
         return toValueBytes(row);
@@ -1784,8 +1784,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To value bytes.
      *
-     * @param value the value
-     * @return the byte[]
+     * @param value
+     * @return
      */
     static byte[] toValueBytes(final Object value) {
         if (value == null) {
@@ -1813,10 +1813,10 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To row key string.
      *
-     * @param bytes the bytes
-     * @param offset the offset
-     * @param len the len
-     * @return the string
+     * @param bytes
+     * @param offset
+     * @param len
+     * @return
      */
     static String toRowKeyString(byte[] bytes, int offset, int len) {
         return Bytes.toString(bytes, offset, len);
@@ -1825,10 +1825,10 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To family qualifier string.
      *
-     * @param bytes the bytes
-     * @param offset the offset
-     * @param len the len
-     * @return the string
+     * @param bytes
+     * @param offset
+     * @param len
+     * @return
      */
     static String toFamilyQualifierString(byte[] bytes, int offset, int len) {
         return Bytes.toString(bytes, offset, len);
@@ -1837,10 +1837,10 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To value string.
      *
-     * @param bytes the bytes
-     * @param offset the offset
-     * @param len the len
-     * @return the string
+     * @param bytes
+     * @param offset
+     * @param len
+     * @return
      */
     static String toValueString(byte[] bytes, int offset, int len) {
         return Bytes.toString(bytes, offset, len);
@@ -1849,8 +1849,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the row key string.
      *
-     * @param cell the cell
-     * @return the row key string
+     * @param cell
+     * @return
      */
     static String getRowKeyString(final Cell cell) {
         return toRowKeyString(cell.getRowArray(), cell.getRowOffset(), cell.getRowLength());
@@ -1859,8 +1859,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the family string.
      *
-     * @param cell the cell
-     * @return the family string
+     * @param cell
+     * @return
      */
     static String getFamilyString(final Cell cell) {
         return toFamilyQualifierString(cell.getFamilyArray(), cell.getFamilyOffset(), cell.getFamilyLength());
@@ -1869,8 +1869,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the qualifier string.
      *
-     * @param cell the cell
-     * @return the qualifier string
+     * @param cell
+     * @return
      */
     static String getQualifierString(final Cell cell) {
         return toFamilyQualifierString(cell.getQualifierArray(), cell.getQualifierOffset(), cell.getQualifierLength());
@@ -1879,8 +1879,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the value string.
      *
-     * @param cell the cell
-     * @return the value string
+     * @param cell
+     * @return
      */
     static String getValueString(final Cell cell) {
         return toValueString(cell.getValueArray(), cell.getValueOffset(), cell.getValueLength());
@@ -1889,8 +1889,8 @@ public final class HBaseExecutor implements Closeable {
     /**
      * Gets the adds the method name.
      *
-     * @param getSetMethod the get set method
-     * @return the adds the method name
+     * @param getSetMethod
+     * @return
      */
     static String getAddMethodName(Method getSetMethod) {
         return "add" + getSetMethod.getName().substring(3);

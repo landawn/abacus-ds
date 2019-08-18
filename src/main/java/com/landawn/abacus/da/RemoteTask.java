@@ -28,8 +28,8 @@ package com.landawn.abacus.da;
  *    remoteExecutor.execute(remoteTask, param);
  * </pre>
  *
- * @param <T> the generic type
- * @param <R> the generic type
+ * @param <T>
+ * @param <R>
  */
 public interface RemoteTask<T, R> {
 

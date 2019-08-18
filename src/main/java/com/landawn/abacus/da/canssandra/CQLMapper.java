@@ -134,7 +134,7 @@ public final class CQLMapper {
     /**
      * Key set.
      *
-     * @return the sets the
+     * @return
      */
     public Set<String> keySet() {
         return cqlMap.keySet();
@@ -143,8 +143,8 @@ public final class CQLMapper {
     /**
      * Gets the.
      *
-     * @param id the id
-     * @return the named CQL
+     * @param id
+     * @return
      */
     public NamedCQL get(String id) {
         return cqlMap.get(id);
@@ -153,9 +153,9 @@ public final class CQLMapper {
     /**
      * Adds the.
      *
-     * @param id the id
-     * @param namedCQL the named CQL
-     * @return the named CQL
+     * @param id
+     * @param namedCQL
+     * @return
      */
     public NamedCQL add(String id, NamedCQL namedCQL) {
         return cqlMap.put(id, namedCQL);
@@ -164,9 +164,9 @@ public final class CQLMapper {
     /**
      * Adds the.
      *
-     * @param id the id
-     * @param cql the cql
-     * @param attrs the attrs
+     * @param id
+     * @param cql
+     * @param attrs
      */
     public void add(String id, String cql, Map<String, String> attrs) {
         if (cqlMap.containsKey(id)) {
@@ -179,7 +179,7 @@ public final class CQLMapper {
     /**
      * Removes the.
      *
-     * @param id the id
+     * @param id
      */
     public void remove(String id) {
         cqlMap.remove(id);
@@ -188,7 +188,7 @@ public final class CQLMapper {
     /**
      * Save to.
      *
-     * @param file the file
+     * @param file
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void saveTo(File file) throws UncheckedIOException {
@@ -239,7 +239,7 @@ public final class CQLMapper {
     /**
      * Hash code.
      *
-     * @return the int
+     * @return
      */
     @Override
     public int hashCode() {
@@ -249,7 +249,7 @@ public final class CQLMapper {
     /**
      * Equals.
      *
-     * @param obj the obj
+     * @param obj
      * @return true, if successful
      */
     @Override
@@ -260,7 +260,7 @@ public final class CQLMapper {
     /**
      * To string.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String toString() {

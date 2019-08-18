@@ -81,8 +81,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Instantiates a new any scan.
      *
-     * @param startRow the start row
-     * @param filter the filter
+     * @param startRow
+     * @param filter
      * @deprecated use {@code new Scan().withStartRow(startRow).setFilter(filter)} instead.
      */
     @Deprecated
@@ -94,7 +94,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Instantiates a new any scan.
      *
-     * @param scan the scan
+     * @param scan
      */
     public AnyScan(final Scan scan) {
         super(scan);
@@ -104,7 +104,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Instantiates a new any scan.
      *
-     * @param get the get
+     * @param get
      */
     public AnyScan(final Get get) {
         super(get);
@@ -114,7 +114,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Creates the.
      *
-     * @return the any scan
+     * @return
      */
     public static AnyScan create() {
         return new AnyScan();
@@ -123,8 +123,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Creates the scan from cursor.
      *
-     * @param cursor the cursor
-     * @return the any scan
+     * @param cursor
+     * @return
      */
     public static AnyScan createScanFromCursor(Cursor cursor) {
         return new AnyScan(Scan.createScanFromCursor(cursor));
@@ -137,7 +137,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * specified row.
      *
      * @param startRow row to start scanner at or after
-     * @return the any scan
+     * @return
      * @deprecated use {@code new Scan().withStartRow(startRow)} instead.
      */
     @Deprecated
@@ -150,7 +150,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      *
      * @param startRow row to start scanner at or after (inclusive)
      * @param stopRow row to stop scanner before (exclusive)
-     * @return the any scan
+     * @return
      * @deprecated use {@code new Scan().withStartRow(startRow).withStopRow(stopRow)} instead.
      */
     @Deprecated
@@ -161,9 +161,9 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Of.
      *
-     * @param startRow the start row
-     * @param filter the filter
-     * @return the any scan
+     * @param startRow
+     * @param filter
+     * @return
      * @deprecated use {@code new Scan().withStartRow(startRow).setFilter(filter)} instead.
      */
     @Deprecated
@@ -174,8 +174,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Of.
      *
-     * @param scan the scan
-     * @return the any scan
+     * @param scan
+     * @return
      */
     public static AnyScan of(final Scan scan) {
         return new AnyScan(scan);
@@ -184,8 +184,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Of.
      *
-     * @param get the get
-     * @return the any scan
+     * @param get
+     * @return
      */
     public static AnyScan of(final Get get) {
         return new AnyScan(get);
@@ -194,7 +194,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Val.
      *
-     * @return the scan
+     * @return
      */
     public Scan val() {
         return scan;
@@ -221,7 +221,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Num families.
      *
-     * @return the int
+     * @return
      */
     public int numFamilies() {
         return scan.numFamilies();
@@ -230,7 +230,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the families.
      *
-     * @return the families
+     * @return
      */
     public byte[][] getFamilies() {
         return scan.getFamilies();
@@ -239,8 +239,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Adds the family.
      *
-     * @param family the family
-     * @return the any scan
+     * @param family
+     * @return
      */
     public AnyScan addFamily(String family) {
         scan.addFamily(toFamilyQualifierBytes(family));
@@ -251,8 +251,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Adds the family.
      *
-     * @param family the family
-     * @return the any scan
+     * @param family
+     * @return
      */
     public AnyScan addFamily(byte[] family) {
         scan.addFamily(family);
@@ -263,7 +263,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the family map.
      *
-     * @return the family map
+     * @return
      */
     public Map<byte[], NavigableSet<byte[]>> getFamilyMap() {
         return scan.getFamilyMap();
@@ -272,8 +272,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the family map.
      *
-     * @param familyMap the family map
-     * @return the any scan
+     * @param familyMap
+     * @return
      */
     public AnyScan setFamilyMap(Map<byte[], NavigableSet<byte[]>> familyMap) {
         scan.setFamilyMap(familyMap);
@@ -284,10 +284,10 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the column family time range.
      *
-     * @param family the family
-     * @param minTimestamp the min timestamp
-     * @param maxTimestamp the max timestamp
-     * @return the any scan
+     * @param family
+     * @param minTimestamp
+     * @param maxTimestamp
+     * @return
      */
     @Override
     public AnyScan setColumnFamilyTimeRange(String family, long minTimestamp, long maxTimestamp) {
@@ -299,10 +299,10 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the column family time range.
      *
-     * @param family the family
-     * @param minTimestamp the min timestamp
-     * @param maxTimestamp the max timestamp
-     * @return the any scan
+     * @param family
+     * @param minTimestamp
+     * @param maxTimestamp
+     * @return
      */
     @Override
     public AnyScan setColumnFamilyTimeRange(byte[] family, long minTimestamp, long maxTimestamp) {
@@ -314,9 +314,9 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Adds the column.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @return the any scan
+     * @param family
+     * @param qualifier
+     * @return
      */
     public AnyScan addColumn(String family, String qualifier) {
         scan.addColumn(toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier));
@@ -327,9 +327,9 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Adds the column.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @return the any scan
+     * @param family
+     * @param qualifier
+     * @return
      */
     public AnyScan addColumn(byte[] family, byte[] qualifier) {
         scan.addColumn(family, qualifier);
@@ -340,7 +340,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the time range.
      *
-     * @return the time range
+     * @return
      */
     public TimeRange getTimeRange() {
         return scan.getTimeRange();
@@ -349,9 +349,9 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the time range.
      *
-     * @param minStamp the min stamp
-     * @param maxStamp the max stamp
-     * @return the any scan
+     * @param minStamp
+     * @param maxStamp
+     * @return
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public AnyScan setTimeRange(long minStamp, long maxStamp) throws IOException {
@@ -363,8 +363,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the timestamp.
      *
-     * @param timestamp the timestamp
-     * @return the any scan
+     * @param timestamp
+     * @return
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public AnyScan setTimestamp(long timestamp) throws IOException {
@@ -406,7 +406,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the start row.
      *
-     * @return the start row
+     * @return
      */
     public byte[] getStartRow() {
         return scan.getStartRow();
@@ -434,8 +434,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * With start row.
      *
-     * @param startRow the start row
-     * @return the any scan
+     * @param startRow
+     * @return
      */
     public AnyScan withStartRow(final Object startRow) {
         scan.withStartRow(toRowKeyBytes(startRow));
@@ -446,9 +446,9 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * With start row.
      *
-     * @param startRow the start row
-     * @param inclusive the inclusive
-     * @return the any scan
+     * @param startRow
+     * @param inclusive
+     * @return
      */
     public AnyScan withStartRow(final Object startRow, final boolean inclusive) {
         scan.withStartRow(toRowKeyBytes(startRow), inclusive);
@@ -468,7 +468,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the stop row.
      *
-     * @return the stop row
+     * @return
      */
     public byte[] getStopRow() {
         return scan.getStopRow();
@@ -499,8 +499,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * With stop row.
      *
-     * @param stopRow the stop row
-     * @return the any scan
+     * @param stopRow
+     * @return
      */
     public AnyScan withStopRow(final Object stopRow) {
         scan.withStopRow(toRowKeyBytes(stopRow));
@@ -511,9 +511,9 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * With stop row.
      *
-     * @param stopRow the stop row
-     * @param inclusive the inclusive
-     * @return the any scan
+     * @param stopRow
+     * @param inclusive
+     * @return
      */
     public AnyScan withStopRow(final Object stopRow, final boolean inclusive) {
         scan.withStopRow(toRowKeyBytes(stopRow), inclusive);
@@ -524,8 +524,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the row prefix filter.
      *
-     * @param rowPrefix the row prefix
-     * @return the any scan
+     * @param rowPrefix
+     * @return
      */
     public AnyScan setRowPrefixFilter(final Object rowPrefix) {
         scan.setRowPrefixFilter(toRowKeyBytes(rowPrefix));
@@ -536,7 +536,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the max versions.
      *
-     * @return the max versions
+     * @return
      */
     public int getMaxVersions() {
         return scan.getMaxVersions();
@@ -545,7 +545,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Get all available versions.
      *
-     * @param maxVersions the max versions
+     * @param maxVersions
      * @return this
      * @throws IOException Signals that an I/O exception has occurred.
      * @deprecated It is easy to misunderstand with column family's max versions, so use
@@ -574,8 +574,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Read versions.
      *
-     * @param maxVersions the max versions
-     * @return the any scan
+     * @param maxVersions
+     * @return
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public AnyScan readVersions(int maxVersions) throws IOException {
@@ -587,7 +587,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Read all versions.
      *
-     * @return the any scan
+     * @return
      */
     public AnyScan readAllVersions() {
         scan.readAllVersions();
@@ -598,7 +598,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the batch.
      *
-     * @return the batch
+     * @return
      */
     public int getBatch() {
         return scan.getBatch();
@@ -607,8 +607,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the batch.
      *
-     * @param batch the batch
-     * @return the any scan
+     * @param batch
+     * @return
      */
     public AnyScan setBatch(int batch) {
         scan.setBatch(batch);
@@ -619,7 +619,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the max results per column family.
      *
-     * @return the max results per column family
+     * @return
      */
     public int getMaxResultsPerColumnFamily() {
         return scan.getMaxResultsPerColumnFamily();
@@ -628,8 +628,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the max results per column family.
      *
-     * @param limit the limit
-     * @return the any scan
+     * @param limit
+     * @return
      */
     public AnyScan setMaxResultsPerColumnFamily(int limit) {
         scan.setMaxResultsPerColumnFamily(limit);
@@ -640,7 +640,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the row offset per column family.
      *
-     * @return the row offset per column family
+     * @return
      */
     public int getRowOffsetPerColumnFamily() {
         return scan.getRowOffsetPerColumnFamily();
@@ -649,8 +649,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the row offset per column family.
      *
-     * @param offset the offset
-     * @return the any scan
+     * @param offset
+     * @return
      */
     public AnyScan setRowOffsetPerColumnFamily(int offset) {
         scan.setRowOffsetPerColumnFamily(offset);
@@ -661,7 +661,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the caching.
      *
-     * @return the caching
+     * @return
      */
     public int getCaching() {
         return scan.getCaching();
@@ -670,8 +670,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the caching.
      *
-     * @param caching the caching
-     * @return the any scan
+     * @param caching
+     * @return
      */
     public AnyScan setCaching(int caching) {
         scan.setCaching(caching);
@@ -682,7 +682,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the cache blocks.
      *
-     * @return the cache blocks
+     * @return
      */
     public boolean getCacheBlocks() {
         return scan.getCacheBlocks();
@@ -691,8 +691,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the cache blocks.
      *
-     * @param cacheBlocks the cache blocks
-     * @return the any scan
+     * @param cacheBlocks
+     * @return
      */
     public AnyScan setCacheBlocks(boolean cacheBlocks) {
         scan.setCacheBlocks(cacheBlocks);
@@ -703,7 +703,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the max result size.
      *
-     * @return the max result size
+     * @return
      */
     public long getMaxResultSize() {
         return scan.getMaxResultSize();
@@ -712,8 +712,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the max result size.
      *
-     * @param maxResultSize the max result size
-     * @return the any scan
+     * @param maxResultSize
+     * @return
      */
     public AnyScan setMaxResultSize(long maxResultSize) {
         scan.setMaxResultSize(maxResultSize);
@@ -724,7 +724,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the limit.
      *
-     * @return the limit
+     * @return
      */
     public int getLimit() {
         return scan.getLimit();
@@ -733,8 +733,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the limit.
      *
-     * @param limit the limit
-     * @return the any scan
+     * @param limit
+     * @return
      */
     public AnyScan setLimit(int limit) {
         scan.setLimit(limit);
@@ -745,7 +745,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the one row limit.
      *
-     * @return the any scan
+     * @return
      */
     public AnyScan setOneRowLimit() {
         scan.setOneRowLimit();
@@ -774,8 +774,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the reversed.
      *
-     * @param reversed the reversed
-     * @return the any scan
+     * @param reversed
+     * @return
      */
     public AnyScan setReversed(boolean reversed) {
         scan.setReversed(reversed);
@@ -786,7 +786,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the allow partial results.
      *
-     * @return the allow partial results
+     * @return
      */
     public boolean getAllowPartialResults() {
         return scan.getAllowPartialResults();
@@ -795,8 +795,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the allow partial results.
      *
-     * @param allowPartialResults the allow partial results
-     * @return the any scan
+     * @param allowPartialResults
+     * @return
      */
     public AnyScan setAllowPartialResults(boolean allowPartialResults) {
         scan.setAllowPartialResults(allowPartialResults);
@@ -816,8 +816,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the raw.
      *
-     * @param raw the raw
-     * @return the any scan
+     * @param raw
+     * @return
      */
     public AnyScan setRaw(boolean raw) {
         scan.setRaw(raw);
@@ -846,8 +846,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * better performance for small scan. [HBASE-9488]. Generally, if the scan range is within one
      * data block(64KB), it could be considered as a small scan.
      *
-     * @param small the small
-     * @return the any scan
+     * @param small
+     * @return
      * @see Scan#setLimit(int)
      * @see Scan#setReadType(ReadType)
      * @deprecated since 2.0.0. Use {@code setLimit(int)} and {@code setReadType(ReadType)} instead.
@@ -874,8 +874,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the scan metrics enabled.
      *
-     * @param enabled the enabled
-     * @return the any scan
+     * @param enabled
+     * @return
      */
     public AnyScan setScanMetricsEnabled(final boolean enabled) {
         scan.setScanMetricsEnabled(enabled);
@@ -900,7 +900,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Checks if is async prefetch.
      *
-     * @return the boolean
+     * @return
      */
     public Boolean isAsyncPrefetch() {
         return scan.isAsyncPrefetch();
@@ -909,8 +909,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the async prefetch.
      *
-     * @param asyncPrefetch the async prefetch
-     * @return the any scan
+     * @param asyncPrefetch
+     * @return
      */
     public AnyScan setAsyncPrefetch(boolean asyncPrefetch) {
         scan.setAsyncPrefetch(asyncPrefetch);
@@ -921,7 +921,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Gets the read type.
      *
-     * @return the read type for this scan
+     * @return
      */
     public ReadType getReadType() {
         return scan.getReadType();
@@ -933,7 +933,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * Notice that we may choose to use pread even if you specific {@link ReadType#STREAM} here. For
      * example, we will always use pread if this is a get scan.
      *
-     * @param readType the read type
+     * @param readType
      * @return this
      */
     public AnyScan setReadType(ReadType readType) {
@@ -954,8 +954,8 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Sets the need cursor result.
      *
-     * @param needCursorResult the need cursor result
-     * @return the any scan
+     * @param needCursorResult
+     * @return
      */
     public AnyScan setNeedCursorResult(boolean needCursorResult) {
         scan.setAllowPartialResults(needCursorResult);
@@ -966,7 +966,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Hash code.
      *
-     * @return the int
+     * @return
      */
     @Override
     public int hashCode() {
@@ -976,7 +976,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Equals.
      *
-     * @param obj the obj
+     * @param obj
      * @return true, if successful
      */
     @Override
@@ -997,7 +997,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * To string.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String toString() {

@@ -31,7 +31,7 @@ import org.apache.hadoop.hbase.security.visibility.Authorizations;
 /**
  * It's a wrapper of <code>Query</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *
- * @param <QP> the generic type
+ * @param <QP>
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.Query
  * @since 1.7.13
@@ -44,7 +44,7 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
     /**
      * Instantiates a new any query.
      *
-     * @param query the query
+     * @param query
      */
     protected AnyQuery(final Query query) {
         super(query);
@@ -86,8 +86,8 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
     /**
      * Sets the authorizations to be used by this Query.
      *
-     * @param authorizations the authorizations
-     * @return the qp
+     * @param authorizations
+     * @return
      */
     public QP setAuthorizations(final Authorizations authorizations) {
         this.query.setAuthorizations(authorizations);
@@ -109,7 +109,7 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
      *
      * @param user User short name
      * @param perms Permissions for the user
-     * @return the qp
+     * @return
      */
     public QP setACL(final String user, final Permission perms) {
         this.query.setACL(user, perms);
@@ -121,7 +121,7 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
      * Sets the ACL.
      *
      * @param perms A map of permissions for a user or users
-     * @return the qp
+     * @return
      */
     public QP setACL(final Map<String, Permission> perms) {
         this.query.setACL(perms);
@@ -132,7 +132,7 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
     /**
      * Returns the consistency level for this operation.
      *
-     * @return the consistency level
+     * @return
      */
     public Consistency getConsistency() {
         return this.query.getConsistency();
@@ -142,7 +142,7 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
      * Sets the consistency level for this operation.
      *
      * @param consistency the consistency level
-     * @return the qp
+     * @return
      */
     public QP setConsistency(final Consistency consistency) {
         this.query.setConsistency(consistency);
@@ -164,8 +164,8 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
      * a specific replicaId.
      * <br><b> Expert: </b>This is an advanced API exposed. Only use it if you know what you are doing
      *
-     * @param id the id
-     * @return the qp
+     * @param id
+     * @return
      */
     public QP setReplicaId(final int id) {
         this.query.setReplicaId(id);
@@ -196,7 +196,7 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
      * is assumed to be READ_COMMITTED.
      *
      * @param level IsolationLevel for this query
-     * @return the qp
+     * @return
      */
     public QP setIsolationLevel(final IsolationLevel level) {
         this.query.setIsolationLevel(level);
@@ -207,7 +207,7 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
     /**
      * Get the raw loadColumnFamiliesOnDemand setting; if it's not set, can be null.
      *
-     * @return the load column families on demand value
+     * @return
      */
     public Boolean getLoadColumnFamiliesOnDemandValue() {
         return this.query.getLoadColumnFamiliesOnDemandValue();
@@ -229,8 +229,8 @@ abstract class AnyQuery<QP extends AnyQuery<?>> extends AnyOperationWithAttribut
      * - if there's a concurrent split and you have more than 2 column families, some rows may be
      *   missing some column families.
      *
-     * @param value the value
-     * @return the qp
+     * @param value
+     * @return
      */
     public QP setLoadColumnFamiliesOnDemand(final boolean value) {
         this.query.setLoadColumnFamiliesOnDemand(value);

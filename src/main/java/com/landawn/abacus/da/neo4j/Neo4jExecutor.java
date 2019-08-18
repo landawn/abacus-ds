@@ -47,7 +47,7 @@ public final class Neo4jExecutor {
     /**
      * Instantiates a new neo 4 j executor.
      *
-     * @param sessionFactory the session factory
+     * @param sessionFactory
      */
     public Neo4jExecutor(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -56,7 +56,7 @@ public final class Neo4jExecutor {
     /**
      * Session factory.
      *
-     * @return the session factory
+     * @return
      */
     public SessionFactory sessionFactory() {
         return sessionFactory;
@@ -65,7 +65,7 @@ public final class Neo4jExecutor {
     /**
      * Open session.
      *
-     * @return the session
+     * @return
      */
     public Session openSession() {
         return sessionFactory.openSession();
@@ -74,10 +74,10 @@ public final class Neo4jExecutor {
     /**
      * Load.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param id the id
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param id
+     * @return
      */
     public <T> T load(Class<T> targetClass, Long id) {
         final Session session = getSession();
@@ -92,11 +92,11 @@ public final class Neo4jExecutor {
     /**
      * Load.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param id the id
-     * @param depth the depth
-     * @return the t
+     * @param <T>
+     * @param targetClass
+     * @param id
+     * @param depth
+     * @return
      */
     public <T> T load(Class<T> targetClass, Long id, int depth) {
         final Session session = getSession();
@@ -111,10 +111,10 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Collection<Long> ids) {
         final Session session = getSession();
@@ -129,11 +129,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Collection<Long> ids, int depth) {
         final Session session = getSession();
@@ -148,11 +148,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @param sortOrder the sort order
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @param sortOrder
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Collection<Long> ids, SortOrder sortOrder) {
         final Session session = getSession();
@@ -167,12 +167,12 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @param sortOrder the sort order
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @param sortOrder
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Collection<Long> ids, SortOrder sortOrder, int depth) {
         final Session session = getSession();
@@ -187,11 +187,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @param pagination the pagination
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @param pagination
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Collection<Long> ids, Pagination pagination) {
         final Session session = getSession();
@@ -206,12 +206,12 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @param pagination the pagination
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @param pagination
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Collection<Long> ids, Pagination pagination, int depth) {
         final Session session = getSession();
@@ -226,12 +226,12 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @param sortOrder the sort order
-     * @param pagination the pagination
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @param sortOrder
+     * @param pagination
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Collection<Long> ids, SortOrder sortOrder, Pagination pagination) {
         final Session session = getSession();
@@ -246,13 +246,13 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param ids the ids
-     * @param sortOrder the sort order
-     * @param pagination the pagination
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param ids
+     * @param sortOrder
+     * @param pagination
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Collection<Long> ids, SortOrder sortOrder, Pagination pagination, int depth) {
         final Session session = getSession();
@@ -267,9 +267,9 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param objects the objects
-     * @return the collection
+     * @param <T>
+     * @param objects
+     * @return
      */
     public <T> Collection<T> loadAll(Collection<T> objects) {
         final Session session = getSession();
@@ -284,10 +284,10 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param objects the objects
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param objects
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Collection<T> objects, int depth) {
         final Session session = getSession();
@@ -302,10 +302,10 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param objects the objects
-     * @param sortOrder the sort order
-     * @return the collection
+     * @param <T>
+     * @param objects
+     * @param sortOrder
+     * @return
      */
     public <T> Collection<T> loadAll(Collection<T> objects, SortOrder sortOrder) {
         final Session session = getSession();
@@ -320,11 +320,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param objects the objects
-     * @param sortOrder the sort order
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param objects
+     * @param sortOrder
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Collection<T> objects, SortOrder sortOrder, int depth) {
         final Session session = getSession();
@@ -339,10 +339,10 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param objects the objects
-     * @param pagination the pagination
-     * @return the collection
+     * @param <T>
+     * @param objects
+     * @param pagination
+     * @return
      */
     public <T> Collection<T> loadAll(Collection<T> objects, Pagination pagination) {
         final Session session = getSession();
@@ -357,11 +357,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param objects the objects
-     * @param pagination the pagination
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param objects
+     * @param pagination
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Collection<T> objects, Pagination pagination, int depth) {
         final Session session = getSession();
@@ -376,11 +376,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param objects the objects
-     * @param sortOrder the sort order
-     * @param pagination the pagination
-     * @return the collection
+     * @param <T>
+     * @param objects
+     * @param sortOrder
+     * @param pagination
+     * @return
      */
     public <T> Collection<T> loadAll(Collection<T> objects, SortOrder sortOrder, Pagination pagination) {
         final Session session = getSession();
@@ -395,12 +395,12 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param objects the objects
-     * @param sortOrder the sort order
-     * @param pagination the pagination
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param objects
+     * @param sortOrder
+     * @param pagination
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Collection<T> objects, SortOrder sortOrder, Pagination pagination, int depth) {
         final Session session = getSession();
@@ -415,9 +415,9 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass) {
         final Session session = getSession();
@@ -432,10 +432,10 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, int depth) {
         final Session session = getSession();
@@ -450,10 +450,10 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param sortOrder the sort order
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param sortOrder
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, SortOrder sortOrder) {
         final Session session = getSession();
@@ -468,11 +468,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param sortOrder the sort order
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param sortOrder
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, SortOrder sortOrder, int depth) {
         final Session session = getSession();
@@ -487,10 +487,10 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param pagination the pagination
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param pagination
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Pagination pagination) {
         final Session session = getSession();
@@ -505,11 +505,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param pagination the pagination
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param pagination
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Pagination pagination, int depth) {
         final Session session = getSession();
@@ -524,11 +524,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param sortOrder the sort order
-     * @param pagination the pagination
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param sortOrder
+     * @param pagination
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, SortOrder sortOrder, Pagination pagination) {
         final Session session = getSession();
@@ -543,12 +543,12 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param sortOrder the sort order
-     * @param pagination the pagination
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param sortOrder
+     * @param pagination
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, SortOrder sortOrder, Pagination pagination, int depth) {
         final Session session = getSession();
@@ -563,10 +563,10 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filter filter) {
         final Session session = getSession();
@@ -581,11 +581,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filter filter, int depth) {
         final Session session = getSession();
@@ -600,11 +600,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param sortOrder the sort order
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param sortOrder
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filter filter, SortOrder sortOrder) {
         final Session session = getSession();
@@ -619,12 +619,12 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param sortOrder the sort order
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param sortOrder
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filter filter, SortOrder sortOrder, int depth) {
         final Session session = getSession();
@@ -639,11 +639,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param pagination the pagination
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param pagination
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filter filter, Pagination pagination) {
         final Session session = getSession();
@@ -658,12 +658,12 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param pagination the pagination
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param pagination
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filter filter, Pagination pagination, int depth) {
         final Session session = getSession();
@@ -678,12 +678,12 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param sortOrder the sort order
-     * @param pagination the pagination
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param sortOrder
+     * @param pagination
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filter filter, SortOrder sortOrder, Pagination pagination) {
         final Session session = getSession();
@@ -698,13 +698,13 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filter the filter
-     * @param sortOrder the sort order
-     * @param pagination the pagination
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filter
+     * @param sortOrder
+     * @param pagination
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filter filter, SortOrder sortOrder, Pagination pagination, int depth) {
         final Session session = getSession();
@@ -719,10 +719,10 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filters the filters
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filters
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filters filters) {
         final Session session = getSession();
@@ -737,11 +737,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filters the filters
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filters
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filters filters, int depth) {
         final Session session = getSession();
@@ -756,11 +756,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filters the filters
-     * @param sortOrder the sort order
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filters
+     * @param sortOrder
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filters filters, SortOrder sortOrder) {
         final Session session = getSession();
@@ -775,12 +775,12 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filters the filters
-     * @param sortOrder the sort order
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filters
+     * @param sortOrder
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filters filters, SortOrder sortOrder, int depth) {
         final Session session = getSession();
@@ -795,11 +795,11 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filters the filters
-     * @param pagination the pagination
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filters
+     * @param pagination
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filters filters, Pagination pagination) {
         final Session session = getSession();
@@ -814,12 +814,12 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filters the filters
-     * @param pagination the pagination
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filters
+     * @param pagination
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filters filters, Pagination pagination, int depth) {
         final Session session = getSession();
@@ -834,12 +834,12 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filters the filters
-     * @param sortOrder the sort order
-     * @param pagination the pagination
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filters
+     * @param sortOrder
+     * @param pagination
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filters filters, SortOrder sortOrder, Pagination pagination) {
         final Session session = getSession();
@@ -854,13 +854,13 @@ public final class Neo4jExecutor {
     /**
      * Load all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
-     * @param filters the filters
-     * @param sortOrder the sort order
-     * @param pagination the pagination
-     * @param depth the depth
-     * @return the collection
+     * @param <T>
+     * @param targetClass
+     * @param filters
+     * @param sortOrder
+     * @param pagination
+     * @param depth
+     * @return
      */
     public <T> Collection<T> loadAll(Class<T> targetClass, Filters filters, SortOrder sortOrder, Pagination pagination, int depth) {
         final Session session = getSession();
@@ -875,8 +875,8 @@ public final class Neo4jExecutor {
     /**
      * Save.
      *
-     * @param <T> the generic type
-     * @param object the object
+     * @param <T>
+     * @param object
      */
     public <T> void save(T object) {
         final Session session = getSession();
@@ -891,9 +891,9 @@ public final class Neo4jExecutor {
     /**
      * Save.
      *
-     * @param <T> the generic type
-     * @param object the object
-     * @param depth the depth
+     * @param <T>
+     * @param object
+     * @param depth
      */
     public <T> void save(T object, int depth) {
         final Session session = getSession();
@@ -908,8 +908,8 @@ public final class Neo4jExecutor {
     /**
      * Delete.
      *
-     * @param <T> the generic type
-     * @param object the object
+     * @param <T>
+     * @param object
      */
     public <T> void delete(T object) {
         final Session session = getSession();
@@ -924,8 +924,8 @@ public final class Neo4jExecutor {
     /**
      * Delete all.
      *
-     * @param <T> the generic type
-     * @param targetClass the target class
+     * @param <T>
+     * @param targetClass
      */
     public <T> void deleteAll(Class<T> targetClass) {
         final Session session = getSession();
@@ -941,11 +941,11 @@ public final class Neo4jExecutor {
     /**
      * Query for object.
      *
-     * @param <T> the generic type
-     * @param objectType the object type
-     * @param cypher the cypher
-     * @param parameters the parameters
-     * @return the t
+     * @param <T>
+     * @param objectType
+     * @param cypher
+     * @param parameters
+     * @return
      */
     public <T> T queryForObject(Class<T> objectType, String cypher, Map<String, ?> parameters) {
         final Session session = getSession();
@@ -960,9 +960,9 @@ public final class Neo4jExecutor {
     /**
      * Query.
      *
-     * @param cypher the cypher
-     * @param parameters the parameters
-     * @return the stream
+     * @param cypher
+     * @param parameters
+     * @return
      */
     public Stream<Map<String, Object>> query(String cypher, Map<String, ?> parameters) {
         final Session session = getSession();
@@ -973,10 +973,10 @@ public final class Neo4jExecutor {
     /**
      * Query.
      *
-     * @param cypher the cypher
-     * @param parameters the parameters
-     * @param readOnly the read only
-     * @return the stream
+     * @param cypher
+     * @param parameters
+     * @param readOnly
+     * @return
      */
     public Stream<Map<String, Object>> query(String cypher, Map<String, ?> parameters, boolean readOnly) {
         final Session session = getSession();
@@ -987,11 +987,11 @@ public final class Neo4jExecutor {
     /**
      * Query.
      *
-     * @param <T> the generic type
-     * @param objectType the object type
-     * @param cypher the cypher
-     * @param parameters the parameters
-     * @return the stream
+     * @param <T>
+     * @param objectType
+     * @param cypher
+     * @param parameters
+     * @return
      */
     public <T> Stream<T> query(Class<T> objectType, String cypher, Map<String, ?> parameters) {
         final Session session = getSession();
@@ -1002,8 +1002,8 @@ public final class Neo4jExecutor {
     /**
      * New close handle.
      *
-     * @param session the session
-     * @return the runnable
+     * @param session
+     * @return
      */
     private Runnable newCloseHandle(final Session session) {
         return new Runnable() {
@@ -1017,8 +1017,8 @@ public final class Neo4jExecutor {
     /**
      * Count entities of type.
      *
-     * @param entity the entity
-     * @return the long
+     * @param entity
+     * @return
      */
     public long countEntitiesOfType(Class<?> entity) {
         final Session session = getSession();
@@ -1033,8 +1033,8 @@ public final class Neo4jExecutor {
     /**
      * Resolve graph id for.
      *
-     * @param possibleEntity the possible entity
-     * @return the long
+     * @param possibleEntity
+     * @return
      */
     public Long resolveGraphIdFor(Object possibleEntity) {
         final Session session = getSession();
@@ -1049,7 +1049,7 @@ public final class Neo4jExecutor {
     /**
      * Gets the session.
      *
-     * @return the session
+     * @return
      */
     private Session getSession() {
         Session session = null;
@@ -1070,7 +1070,7 @@ public final class Neo4jExecutor {
     /**
      * Close session.
      *
-     * @param session the session
+     * @param session
      */
     private void closeSession(Session session) {
         if (session != null) {

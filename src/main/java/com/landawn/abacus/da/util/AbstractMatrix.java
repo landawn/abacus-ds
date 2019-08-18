@@ -29,11 +29,11 @@ import com.landawn.abacus.util.stream.Stream;
  * </li>
  *
  * @author Haiyang Li
- * @param <A> the generic type
- * @param <PL> the generic type
+ * @param <A>
+ * @param <PL>
  * @param <ES> element stream
  * @param <RS> row/column stream.
- * @param <X> the generic type
+ * @param <X>
  * @since 0.8
  */
 public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, PL, ES, RS, X>> {
@@ -86,7 +86,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Instantiates a new abstract matrix.
      *
-     * @param a the a
+     * @param a
      */
     protected AbstractMatrix(A[] a) {
         this.a = a;
@@ -107,7 +107,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Array.
      *
-     * @return the a[]
+     * @return
      */
     public A[] array() {
         return a;
@@ -142,8 +142,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Copy.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
+     * @param fromRowIndex
+     * @param toRowIndex
      * @return a new Matrix
      */
     public abstract X copy(int fromRowIndex, int toRowIndex);
@@ -151,10 +151,10 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Copy.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @param fromColumnIndex
+     * @param toColumnIndex
      * @return a new Matrix
      */
     public abstract X copy(int fromRowIndex, int toRowIndex, int fromColumnIndex, int toColumnIndex);
@@ -183,15 +183,15 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Transpose.
      *
-     * @return the x
+     * @return
      */
     public abstract X transpose();
 
     /**
      * Reshape.
      *
-     * @param newCols the new cols
-     * @return the x
+     * @param newCols
+     * @return
      */
     public X reshape(int newCols) {
         return reshape((int) (count % newCols == 0 ? count / newCols : count / newCols + 1), newCols);
@@ -200,16 +200,16 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Reshape.
      *
-     * @param newRows the new rows
-     * @param newCols the new cols
-     * @return the x
+     * @param newRows
+     * @param newCols
+     * @return
      */
     public abstract X reshape(int newRows, int newCols);
 
     /**
      * Checks if is same shape.
      *
-     * @param x the x
+     * @param x
      * @return true, if is same shape
      */
     public boolean isSameShape(X x) {
@@ -219,8 +219,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Repeat elements <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats the row repeats
-     * @param colRepeats the col repeats
+     * @param rowRepeats
+     * @param colRepeats
      * @return a new matrix
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repelem.html">https://www.mathworks.com/help/matlab/ref/repelem.html</a>
      */
@@ -229,8 +229,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Repeat this matrix <code>rowRepeats</code> times in row direction and <code>colRepeats</code> times in column direction.
      *
-     * @param rowRepeats the row repeats
-     * @param colRepeats the col repeats
+     * @param rowRepeats
+     * @param colRepeats
      * @return a new matrix
      * @see <a href="https://www.mathworks.com/help/matlab/ref/repmat.html">https://www.mathworks.com/help/matlab/ref/repmat.html</a>
      */
@@ -239,7 +239,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Flatten.
      *
-     * @return the pl
+     * @return
      */
     public abstract PL flatten();
 
@@ -252,7 +252,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * </pre>
      *
      * @param <E> the element type
-     * @param op the op
+     * @param op
      * @throws E the e
      */
     public abstract <E extends Exception> void flatOp(Try.Consumer<A, E> op) throws E;
@@ -269,7 +269,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * </pre>
      *
      * @param <E> the element type
-     * @param action the action
+     * @param action
      * @throws E the e
      */
     public <E extends Exception> void forEach(Try.IntBiConsumer<E> action) throws E {
@@ -283,7 +283,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points LU 2 RD.
      *
-     * @return the stream
+     * @return
      */
     public Stream<IntPair> pointsLU2RD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
@@ -299,7 +299,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points RU 2 LD.
      *
-     * @return the stream
+     * @return
      */
     public Stream<IntPair> pointsRU2LD() {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
@@ -315,7 +315,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points H.
      *
-     * @return the stream
+     * @return
      */
     public Stream<IntPair> pointsH() {
         return pointsH(0, rows);
@@ -324,8 +324,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points H.
      *
-     * @param rowIndex the row index
-     * @return the stream
+     * @param rowIndex
+     * @return
      */
     public Stream<IntPair> pointsH(int rowIndex) {
         return pointsH(rowIndex, rowIndex + 1);
@@ -334,9 +334,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points H.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @return the stream
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @return
      */
     public Stream<IntPair> pointsH(int fromRowIndex, int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -357,7 +357,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points V.
      *
-     * @return the stream
+     * @return
      */
     public Stream<IntPair> pointsV() {
         return pointsV(0, cols);
@@ -366,8 +366,8 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points V.
      *
-     * @param columnIndex the column index
-     * @return the stream
+     * @param columnIndex
+     * @return
      */
     public Stream<IntPair> pointsV(int columnIndex) {
         return pointsV(columnIndex, columnIndex + 1);
@@ -376,9 +376,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points V.
      *
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
-     * @return the stream
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @return
      */
     public Stream<IntPair> pointsV(int fromColumnIndex, int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
@@ -399,7 +399,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points R.
      *
-     * @return the stream
+     * @return
      */
     public Stream<Stream<IntPair>> pointsR() {
         return pointsR(0, rows);
@@ -408,9 +408,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points R.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @return the stream
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @return
      */
     public Stream<Stream<IntPair>> pointsR(int fromRowIndex, int toRowIndex) {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
@@ -431,7 +431,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points C.
      *
-     * @return the stream
+     * @return
      */
     public Stream<Stream<IntPair>> pointsC() {
         return pointsR(0, cols);
@@ -440,9 +440,9 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Points C.
      *
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
-     * @return the stream
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @return
      */
     public Stream<Stream<IntPair>> pointsC(int fromColumnIndex, int toColumnIndex) {
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
@@ -463,102 +463,102 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Stream LU 2 RD.
      *
-     * @return the es
+     * @return
      */
     public abstract ES streamLU2RD();
 
     /**
      * Stream RU 2 LD.
      *
-     * @return the es
+     * @return
      */
     public abstract ES streamRU2LD();
 
     /**
      * Stream H.
      *
-     * @return the es
+     * @return
      */
     public abstract ES streamH();
 
     /**
      * Stream H.
      *
-     * @param rowIndex the row index
-     * @return the es
+     * @param rowIndex
+     * @return
      */
     public abstract ES streamH(final int rowIndex);
 
     /**
      * Stream H.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @return the es
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @return
      */
     public abstract ES streamH(final int fromRowIndex, final int toRowIndex);
 
     /**
      * Stream V.
      *
-     * @return the es
+     * @return
      */
     public abstract ES streamV();
 
     /**
      * Stream V.
      *
-     * @param columnIndex the column index
-     * @return the es
+     * @param columnIndex
+     * @return
      */
     public abstract ES streamV(final int columnIndex);
 
     /**
      * Stream V.
      *
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
-     * @return the es
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @return
      */
     public abstract ES streamV(final int fromColumnIndex, final int toColumnIndex);
 
     /**
      * Stream R.
      *
-     * @return the rs
+     * @return
      */
     public abstract RS streamR();
 
     /**
      * Stream R.
      *
-     * @param fromRowIndex the from row index
-     * @param toRowIndex the to row index
-     * @return the rs
+     * @param fromRowIndex
+     * @param toRowIndex
+     * @return
      */
     public abstract RS streamR(final int fromRowIndex, final int toRowIndex);
 
     /**
      * Stream C.
      *
-     * @return the rs
+     * @return
      */
     public abstract RS streamC();
 
     /**
      * Stream C.
      *
-     * @param fromColumnIndex the from column index
-     * @param toColumnIndex the to column index
-     * @return the rs
+     * @param fromColumnIndex
+     * @param toColumnIndex
+     * @return
      */
     public abstract RS streamC(final int fromColumnIndex, final int toColumnIndex);
 
     /**
      * Length.
      *
-     * @param a the a
-     * @return the int
+     * @param a
+     * @return
      */
     protected abstract int length(A a);
 
@@ -574,7 +574,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Checks if is parallelable.
      *
-     * @param bm the bm
+     * @param bm
      * @return true, if is parallelable
      */
     boolean isParallelable(final int bm) {
@@ -584,7 +584,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     /**
      * Check same shape.
      *
-     * @param x the x
+     * @param x
      */
     void checkSameShape(X x) {
         N.checkArgument(this.isSameShape(x), "Must be same shape");

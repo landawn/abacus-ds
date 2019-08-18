@@ -34,7 +34,7 @@ import org.apache.hadoop.hbase.security.visibility.CellVisibility;
 /**
  * It's a wrapper of <code>Mutation</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *
- * @param <MP> the generic type
+ * @param <MP>
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.Mutation
  * @since 1.7.13
@@ -47,7 +47,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     /**
      * Instantiates a new any mutation.
      *
-     * @param mutation the mutation
+     * @param mutation
      */
     protected AnyMutation(final Mutation mutation) {
         super(mutation);
@@ -58,7 +58,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     /**
      * Cell scanner.
      *
-     * @return the cell scanner
+     * @return
      */
     public CellScanner cellScanner() {
         return mutation.cellScanner();
@@ -78,7 +78,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     /**
      *  Get the current durability.
      *
-     * @return the durability
+     * @return
      */
     public Durability getDurability() {
         return mutation.getDurability();
@@ -87,8 +87,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     /**
      * Set the durability for this mutation.
      *
-     * @param d the d
-     * @return the mp
+     * @param d
+     * @return
      */
     public MP setDurability(Durability d) {
         mutation.setDurability(d);
@@ -108,8 +108,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     /**
      * Method for setting the mutation's familyMap.
      *
-     * @param map the map
-     * @return the mp
+     * @param map
+     * @return
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@link Mutation#Mutation(byte[], long, NavigableMap)} instead
      */
@@ -144,8 +144,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     /**
      * Set the timestamp of the delete.
      *
-     * @param timestamp the timestamp
-     * @return the mp
+     * @param timestamp
+     * @return
      */
     public MP setTimestamp(long timestamp) {
         mutation.setTimestamp(timestamp);
@@ -156,7 +156,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     /**
      * Gets the cluster ids.
      *
-     * @return the set of clusterIds that have consumed the mutation
+     * @return
      */
     public List<UUID> getClusterIds() {
         return mutation.getClusterIds();
@@ -166,7 +166,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      * Marks that the clusters with the given clusterIds have consumed the mutation.
      *
      * @param clusterIds of the clusters that have consumed the mutation
-     * @return the mp
+     * @return
      */
     public MP setClusterIds(List<UUID> clusterIds) {
         mutation.setClusterIds(clusterIds);
@@ -187,8 +187,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     /**
      * Sets the visibility expression associated with cells in this Mutation.
      *
-     * @param expression the expression
-     * @return the mp
+     * @param expression
+     * @return
      */
     public MP setCellVisibility(CellVisibility expression) {
         mutation.setCellVisibility(expression);
@@ -210,7 +210,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      *
      * @param user User short name
      * @param perms Permissions for the user
-     * @return the mp
+     * @return
      */
     public MP setACL(String user, Permission perms) {
         mutation.setACL(user, perms);
@@ -222,7 +222,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      * Sets the ACL.
      *
      * @param perms A map of permissions for a user or users
-     * @return the mp
+     * @return
      */
     public MP setACL(Map<String, Permission> perms) {
         mutation.setACL(perms);
@@ -232,7 +232,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
 
     /**
      * Return the TTL requested for the result of the mutation, in milliseconds.
-     * @return the TTL requested for the result of the mutation, in milliseconds,
+     * @return
      * or Long.MAX_VALUE if unset
      */
     public long getTTL() {
@@ -414,7 +414,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
 
     /**
      * Number of KeyValues carried by this Mutation.
-     * @return the total number of KeyValues
+     * @return
      */
     public int size() {
         return mutation.size();
@@ -423,7 +423,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     /**
      * Num families.
      *
-     * @return the number of different families
+     * @return
      */
     public int numFamilies() {
         return mutation.numFamilies();
@@ -441,8 +441,8 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     /**
      * Compare to.
      *
-     * @param d the d
-     * @return the int
+     * @param d
+     * @return
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@link Row#COMPARATOR} instead
      */

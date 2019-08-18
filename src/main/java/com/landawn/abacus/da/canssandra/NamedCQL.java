@@ -91,8 +91,8 @@ public final class NamedCQL {
     /**
      * Instantiates a new named CQL.
      *
-     * @param cql the cql
-     * @param attrs the attrs
+     * @param cql
+     * @param attrs
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
     private NamedCQL(String cql, Map<String, String> attrs) {
@@ -147,9 +147,9 @@ public final class NamedCQL {
     /**
      * Parses the.
      *
-     * @param cql the cql
-     * @param attrs the attrs
-     * @return the named CQL
+     * @param cql
+     * @param attrs
+     * @return
      */
     public static NamedCQL parse(String cql, Map<String, String> attrs) {
         NamedCQL result = null;
@@ -170,7 +170,7 @@ public final class NamedCQL {
     /**
      * Gets the named CQL.
      *
-     * @return the named CQL
+     * @return
      */
     public String getNamedCQL() {
         return namedCQL;
@@ -179,7 +179,7 @@ public final class NamedCQL {
     /**
      * Gets the pure CQL.
      *
-     * @return the pure CQL
+     * @return
      */
     public String getPureCQL() {
         return pureCQL;
@@ -188,8 +188,8 @@ public final class NamedCQL {
     /**
      * Gets the pure CQL.
      *
-     * @param isForCouchbase the is for couchbase
-     * @return the pure CQL
+     * @param isForCouchbase
+     * @return
      */
     public String getPureCQL(boolean isForCouchbase) {
         if (isForCouchbase) {
@@ -206,7 +206,7 @@ public final class NamedCQL {
     /**
      * Gets the named parameters.
      *
-     * @return the named parameters
+     * @return
      */
     public Map<Integer, String> getNamedParameters() {
         return namedParameters;
@@ -215,8 +215,8 @@ public final class NamedCQL {
     /**
      * Gets the named parameters.
      *
-     * @param isForCouchbase the is for couchbase
-     * @return the named parameters
+     * @param isForCouchbase
+     * @return
      */
     public Map<Integer, String> getNamedParameters(boolean isForCouchbase) {
         if (isForCouchbase) {
@@ -233,7 +233,7 @@ public final class NamedCQL {
     /**
      * Gets the attribes.
      *
-     * @return the attribes
+     * @return
      */
     public Map<String, String> getAttribes() {
         return attrs;
@@ -242,7 +242,7 @@ public final class NamedCQL {
     /**
      * Gets the parameter count.
      *
-     * @return the parameter count
+     * @return
      */
     public int getParameterCount() {
         return parameterCount;
@@ -251,8 +251,8 @@ public final class NamedCQL {
     /**
      * Gets the parameter count.
      *
-     * @param isForCouchbase the is for couchbase
-     * @return the parameter count
+     * @param isForCouchbase
+     * @return
      */
     public int getParameterCount(boolean isForCouchbase) {
         if (isForCouchbase) {
@@ -339,7 +339,7 @@ public final class NamedCQL {
     /**
      * Hash code.
      *
-     * @return the int
+     * @return
      */
     @Override
     public int hashCode() {
@@ -353,7 +353,7 @@ public final class NamedCQL {
     /**
      * Equals.
      *
-     * @param obj the obj
+     * @param obj
      * @return true, if successful
      */
     @Override
@@ -374,7 +374,7 @@ public final class NamedCQL {
     /**
      * To string.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String toString() {

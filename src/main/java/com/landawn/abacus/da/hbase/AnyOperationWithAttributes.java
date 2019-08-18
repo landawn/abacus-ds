@@ -22,7 +22,7 @@ import org.apache.hadoop.hbase.client.OperationWithAttributes;
 /**
  * It's a wrapper of <code>OperationWithAttributes</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *
- * @param <AP> the generic type
+ * @param <AP>
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.OperationWithAttributes
  * @since 1.7.13
@@ -35,7 +35,7 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
     /**
      * Instantiates a new any operation with attributes.
      *
-     * @param ap the ap
+     * @param ap
      */
     protected AnyOperationWithAttributes(final OperationWithAttributes ap) {
         super(ap);
@@ -45,8 +45,8 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
     /**
      * Gets the attribute.
      *
-     * @param name the name
-     * @return the attribute
+     * @param name
+     * @return
      */
     public byte[] getAttribute(String name) {
         return ap.getAttribute(name);
@@ -55,7 +55,7 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
     /**
      * Gets the attributes map.
      *
-     * @return the attributes map
+     * @return
      */
     public Map<String, byte[]> getAttributesMap() {
         return ap.getAttributesMap();
@@ -64,9 +64,9 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
     /**
      * Sets the attribute.
      *
-     * @param name the name
-     * @param value the value
-     * @return the ap
+     * @param name
+     * @param value
+     * @return
      */
     public AP setAttribute(final String name, final Object value) {
         ap.setAttribute(name, HBaseExecutor.toValueBytes(value));
@@ -77,7 +77,7 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
     /**
      * This method allows you to retrieve the identifier for the operation if one
      * was set.
-     * @return the id or null if not set
+     * @return
      */
     public String getId() {
         return ap.getId();
@@ -90,8 +90,8 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
      * this could be to put a class.method identifier in here to see where the
      * slow query is coming from.
      *
-     * @param id          id to set for the scan
-     * @return the ap
+     * @param id id to set for the scan
+     * @return
      */
     public AP setId(final String id) {
         ap.setId(id);
@@ -102,7 +102,7 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
     /**
      * Gets the priority.
      *
-     * @return the priority
+     * @return
      */
     public int getPriority() {
         return ap.getPriority();
@@ -111,8 +111,8 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
     /**
      * Sets the priority.
      *
-     * @param priority the priority
-     * @return the ap
+     * @param priority
+     * @return
      */
     public AP setPriority(final int priority) {
         ap.setPriority(priority);

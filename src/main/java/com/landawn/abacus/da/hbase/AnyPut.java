@@ -40,7 +40,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Instantiates a new any put.
      *
-     * @param row the row
+     * @param row
      */
     public AnyPut(final Object row) {
         super(new Put(toRowBytes(row)));
@@ -50,8 +50,8 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Instantiates a new any put.
      *
-     * @param row the row
-     * @param timestamp the timestamp
+     * @param row
+     * @param timestamp
      */
     public AnyPut(final Object row, final long timestamp) {
         super(new Put(toRowBytes(row), timestamp));
@@ -61,9 +61,9 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Instantiates a new any put.
      *
-     * @param row the row
-     * @param rowOffset the row offset
-     * @param rowLength the row length
+     * @param row
+     * @param rowOffset
+     * @param rowLength
      */
     public AnyPut(final Object row, final int rowOffset, final int rowLength) {
         super(new Put(toRowBytes(row), rowOffset, rowLength));
@@ -73,10 +73,10 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Instantiates a new any put.
      *
-     * @param row the row
-     * @param rowOffset the row offset
-     * @param rowLength the row length
-     * @param timestamp the timestamp
+     * @param row
+     * @param rowOffset
+     * @param rowLength
+     * @param timestamp
      */
     public AnyPut(final Object row, int rowOffset, int rowLength, final long timestamp) {
         super(new Put(toRowBytes(row), rowOffset, rowLength, timestamp));
@@ -86,8 +86,8 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Instantiates a new any put.
      *
-     * @param row the row
-     * @param rowIsImmutable the row is immutable
+     * @param row
+     * @param rowIsImmutable
      */
     public AnyPut(final Object row, final boolean rowIsImmutable) {
         super(new Put(toRowBytes(row), rowIsImmutable));
@@ -97,9 +97,9 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Instantiates a new any put.
      *
-     * @param row the row
-     * @param timestamp the timestamp
-     * @param rowIsImmutable the row is immutable
+     * @param row
+     * @param timestamp
+     * @param rowIsImmutable
      */
     public AnyPut(final Object row, final long timestamp, final boolean rowIsImmutable) {
         super(new Put(toRowBytes(row), timestamp, rowIsImmutable));
@@ -109,7 +109,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Instantiates a new any put.
      *
-     * @param row the row
+     * @param row
      */
     public AnyPut(final ByteBuffer row) {
         super(new Put(row));
@@ -119,8 +119,8 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Instantiates a new any put.
      *
-     * @param row the row
-     * @param timestamp the timestamp
+     * @param row
+     * @param timestamp
      */
     public AnyPut(final ByteBuffer row, final long timestamp) {
         super(new Put(row, timestamp));
@@ -130,7 +130,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Instantiates a new any put.
      *
-     * @param putToCopy the put to copy
+     * @param putToCopy
      */
     public AnyPut(final Put putToCopy) {
         super(new Put(putToCopy));
@@ -140,8 +140,8 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Of.
      *
-     * @param row the row
-     * @return the any put
+     * @param row
+     * @return
      */
     public static AnyPut of(final Object row) {
         return new AnyPut(row);
@@ -150,9 +150,9 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Of.
      *
-     * @param row the row
-     * @param timestamp the timestamp
-     * @return the any put
+     * @param row
+     * @param timestamp
+     * @return
      */
     public static AnyPut of(final Object row, final long timestamp) {
         return new AnyPut(row, timestamp);
@@ -161,10 +161,10 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Of.
      *
-     * @param row the row
-     * @param rowOffset the row offset
-     * @param rowLength the row length
-     * @return the any put
+     * @param row
+     * @param rowOffset
+     * @param rowLength
+     * @return
      */
     public static AnyPut of(final Object row, final int rowOffset, final int rowLength) {
         return new AnyPut(row, rowOffset, rowLength);
@@ -173,11 +173,11 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Of.
      *
-     * @param row the row
-     * @param rowOffset the row offset
-     * @param rowLength the row length
-     * @param timestamp the timestamp
-     * @return the any put
+     * @param row
+     * @param rowOffset
+     * @param rowLength
+     * @param timestamp
+     * @return
      */
     public static AnyPut of(final Object row, final int rowOffset, final int rowLength, final long timestamp) {
         return new AnyPut(row, rowOffset, rowLength, timestamp);
@@ -186,9 +186,9 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Of.
      *
-     * @param row the row
-     * @param rowIsImmutable the row is immutable
-     * @return the any put
+     * @param row
+     * @param rowIsImmutable
+     * @return
      */
     public static AnyPut of(final Object row, final boolean rowIsImmutable) {
         return new AnyPut(row, rowIsImmutable);
@@ -197,10 +197,10 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Of.
      *
-     * @param row the row
-     * @param timestamp the timestamp
-     * @param rowIsImmutable the row is immutable
-     * @return the any put
+     * @param row
+     * @param timestamp
+     * @param rowIsImmutable
+     * @return
      */
     public static AnyPut of(final Object row, final long timestamp, final boolean rowIsImmutable) {
         return new AnyPut(row, timestamp, rowIsImmutable);
@@ -209,8 +209,8 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Of.
      *
-     * @param row the row
-     * @return the any put
+     * @param row
+     * @return
      */
     public static AnyPut of(final ByteBuffer row) {
         return new AnyPut(row);
@@ -219,9 +219,9 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Of.
      *
-     * @param row the row
-     * @param timestamp the timestamp
-     * @return the any put
+     * @param row
+     * @param timestamp
+     * @return
      */
     public static AnyPut of(final ByteBuffer row, final long timestamp) {
         return new AnyPut(row, timestamp);
@@ -230,8 +230,8 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Of.
      *
-     * @param putToCopy the put to copy
-     * @return the any put
+     * @param putToCopy
+     * @return
      */
     public static AnyPut of(final Put putToCopy) {
         return new AnyPut(putToCopy);
@@ -240,7 +240,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Val.
      *
-     * @return the put
+     * @return
      */
     public Put val() {
         return put;
@@ -249,10 +249,10 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Adds the column.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param value the value
-     * @return the any put
+     * @param family
+     * @param qualifier
+     * @param value
+     * @return
      */
     public AnyPut addColumn(String family, String qualifier, Object value) {
         put.addColumn(toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), toValueBytes(value));
@@ -263,11 +263,11 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Adds the column.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param ts the ts
-     * @param value the value
-     * @return the any put
+     * @param family
+     * @param qualifier
+     * @param ts
+     * @param value
+     * @return
      */
     public AnyPut addColumn(String family, String qualifier, long ts, Object value) {
         put.addColumn(toFamilyQualifierBytes(family), toFamilyQualifierBytes(qualifier), ts, toValueBytes(value));
@@ -278,10 +278,10 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Adds the column.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param value the value
-     * @return the any put
+     * @param family
+     * @param qualifier
+     * @param value
+     * @return
      */
     public AnyPut addColumn(byte[] family, byte[] qualifier, byte[] value) {
         put.addColumn(family, qualifier, value);
@@ -292,11 +292,11 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Adds the column.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param ts the ts
-     * @param value the value
-     * @return the any put
+     * @param family
+     * @param qualifier
+     * @param ts
+     * @param value
+     * @return
      */
     public AnyPut addColumn(byte[] family, byte[] qualifier, long ts, byte[] value) {
         put.addColumn(family, qualifier, ts, value);
@@ -307,11 +307,11 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Adds the column.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param ts the ts
-     * @param value the value
-     * @return the any put
+     * @param family
+     * @param qualifier
+     * @param ts
+     * @param value
+     * @return
      */
     public AnyPut addColumn(byte[] family, ByteBuffer qualifier, long ts, ByteBuffer value) {
         put.addColumn(family, qualifier, ts, value);
@@ -324,10 +324,10 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * that the underlying arrays won't change. It's intended
      * for usage internal HBase to and for advanced client applications.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param value the value
-     * @return the any put
+     * @param family
+     * @param qualifier
+     * @param value
+     * @return
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@code add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
      */
@@ -343,11 +343,11 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * that the underlying arrays won't change. It's intended
      * for usage internal HBase to and for advanced client applications.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param ts the ts
-     * @param value the value
-     * @return the any put
+     * @param family
+     * @param qualifier
+     * @param ts
+     * @param value
+     * @return
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@code add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
      */
@@ -363,10 +363,10 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * that the underlying arrays won't change. It's intended
      * for usage internal HBase to and for advanced client applications.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param value the value
-     * @return the any put
+     * @param family
+     * @param qualifier
+     * @param value
+     * @return
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@code add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
      */
@@ -382,11 +382,11 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * that the underlying arrays won't change. It's intended
      * for usage internal HBase to and for advanced client applications.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param ts the ts
-     * @param value the value
-     * @return the any put
+     * @param family
+     * @param qualifier
+     * @param ts
+     * @param value
+     * @return
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@code add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
      */
@@ -402,11 +402,11 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * that the underlying arrays won't change. It's intended
      * for usage internal HBase to and for advanced client applications.
      *
-     * @param family the family
-     * @param qualifier the qualifier
-     * @param ts the ts
-     * @param value the value
-     * @return the any put
+     * @param family
+     * @param qualifier
+     * @param ts
+     * @param value
+     * @return
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@code add(Cell)} and {@link org.apache.hadoop.hbase.CellBuilder} instead
      */
@@ -420,8 +420,8 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Adds the.
      *
-     * @param kv the kv
-     * @return the any put
+     * @param kv
+     * @return
      * @throws IOException Signals that an I/O exception has occurred.
      */
     public AnyPut add(Cell kv) throws IOException {
@@ -433,7 +433,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Hash code.
      *
-     * @return the int
+     * @return
      */
     @Override
     public int hashCode() {
@@ -443,7 +443,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Equals.
      *
-     * @param obj the obj
+     * @param obj
      * @return true, if successful
      */
     @Override
@@ -464,7 +464,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * To string.
      *
-     * @return the string
+     * @return
      */
     @Override
     public String toString() {
