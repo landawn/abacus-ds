@@ -336,7 +336,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Update row.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param rowIndex
      * @param func
      * @throws E the e
@@ -350,7 +350,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Update column.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param columnIndex
      * @param func
      * @throws E the e
@@ -395,7 +395,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Update LU 2 RD.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -441,7 +441,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Update RU 2 LD.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -456,7 +456,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Update all.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -502,7 +502,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Update all elements based on points.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -547,7 +547,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Replace if.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param predicate
      * @param newValue
      * @throws E the e
@@ -593,7 +593,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
      *
-     * @param <E> the element type
+     * @param <E>
      * @param predicate
      * @param newValue
      * @throws E the e
@@ -639,7 +639,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Map.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -690,7 +690,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
      * Map to obj.
      *
      * @param <T>
-     * @param <E> the element type
+     * @param <E>
      * @param cls
      * @param func
      * @return
@@ -1196,7 +1196,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Flat op.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param op
      * @throws E the e
      */
@@ -1277,7 +1277,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Zip with.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param matrixB
      * @param zipFunction
      * @return
@@ -1332,7 +1332,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * Zip with.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param matrixB
      * @param matrixC
      * @param zipFunction
@@ -1841,7 +1841,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * For each.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param action
      * @throws E the e
      */
@@ -1852,7 +1852,7 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     /**
      * For each.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param fromRowIndex
      * @param toRowIndex
      * @param fromColumnIndex

@@ -37,7 +37,7 @@ import com.landawn.abacus.util.WD;
  * @author Haiyang Li
  * @param <R>
  * @param <C>
- * @param <E> the element type
+ * @param <E>
  * @since 0.8
  */
 public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {

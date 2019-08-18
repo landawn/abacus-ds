@@ -58,7 +58,7 @@ import com.landawn.abacus.util.stream.Stream;
  * @author Haiyang Li
  * @param <R>
  * @param <C>
- * @param <E> the element type
+ * @param <E>
  * @since 0.8
  */
 public final class Sheet<R, C, E> implements Cloneable {
@@ -151,7 +151,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      *
      * @param <R>
      * @param <C>
-     * @param <E> the element type
+     * @param <E>
      * @param rowKeySet
      * @param columnKeySet
      * @param rows
@@ -166,7 +166,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      *
      * @param <R>
      * @param <C>
-     * @param <E> the element type
+     * @param <E>
      * @param rowKeySet
      * @param columnKeySet
      * @param rows
@@ -213,7 +213,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      *
      * @param <R>
      * @param <C>
-     * @param <E> the element type
+     * @param <E>
      * @param rowKeySet
      * @param columnKeySet
      * @param columns
@@ -251,7 +251,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      *
      * @param <R>
      * @param <C>
-     * @param <E> the element type
+     * @param <E>
      * @param rowKeySet
      * @param columnKeySet
      * @param columns
@@ -3135,7 +3135,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      *
      * @param <R>
      * @param <C>
-     * @param <E> the element type
+     * @param <E>
      */
     static class CellImpl<R, C, E> implements Sheet.Cell<R, C, E> {
 
@@ -3241,7 +3241,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      *
      * @param <R>
      * @param <C>
-     * @param <E> the element type
+     * @param <E>
      */
     public static interface Cell<R, C, E> {
 

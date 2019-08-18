@@ -385,7 +385,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Update row.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param rowIndex
      * @param func
      * @throws E the e
@@ -399,7 +399,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Update column.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param columnIndex
      * @param func
      * @throws E the e
@@ -444,7 +444,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Update LU 2 RD.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -490,7 +490,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Update RU 2 LD.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -505,7 +505,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Update all.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -550,7 +550,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Update all elements based on points.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -595,7 +595,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Replace if.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param predicate
      * @param newValue
      * @throws E the e
@@ -641,7 +641,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
      *
-     * @param <E> the element type
+     * @param <E>
      * @param predicate
      * @param newValue
      * @throws E the e
@@ -687,7 +687,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Map.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -738,7 +738,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
      * Map to obj.
      *
      * @param <T>
-     * @param <E> the element type
+     * @param <E>
      * @param cls
      * @param func
      * @return
@@ -1244,7 +1244,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Flat op.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param op
      * @throws E the e
      */
@@ -1656,7 +1656,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Zip with.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param matrixB
      * @param zipFunction
      * @return
@@ -1710,7 +1710,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * Zip with.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param matrixB
      * @param matrixC
      * @param zipFunction
@@ -2212,7 +2212,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * For each.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param action
      * @throws E the e
      */
@@ -2223,7 +2223,7 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     /**
      * For each.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param fromRowIndex
      * @param toRowIndex
      * @param fromColumnIndex

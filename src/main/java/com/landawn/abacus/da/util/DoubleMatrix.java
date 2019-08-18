@@ -408,7 +408,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Update row.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param rowIndex
      * @param func
      * @throws E the e
@@ -422,7 +422,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Update column.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param columnIndex
      * @param func
      * @throws E the e
@@ -467,7 +467,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Update LU 2 RD.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -513,7 +513,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Update RU 2 LD.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -528,7 +528,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Update all.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -573,7 +573,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Update all elements based on points.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -618,7 +618,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Replace if.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param predicate
      * @param newValue
      * @throws E the e
@@ -664,7 +664,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
      *
-     * @param <E> the element type
+     * @param <E>
      * @param predicate
      * @param newValue
      * @throws E the e
@@ -710,7 +710,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Map.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -761,7 +761,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * Map to obj.
      *
      * @param <T>
-     * @param <E> the element type
+     * @param <E>
      * @param cls
      * @param func
      * @return
@@ -1267,7 +1267,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Flat op.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param op
      * @throws E the e
      */
@@ -1595,7 +1595,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Zip with.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param matrixB
      * @param zipFunction
      * @return
@@ -1649,7 +1649,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * Zip with.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param matrixB
      * @param matrixC
      * @param zipFunction
@@ -2151,7 +2151,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * For each.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param action
      * @throws E the e
      */
@@ -2162,7 +2162,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     /**
      * For each.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param fromRowIndex
      * @param toRowIndex
      * @param fromColumnIndex

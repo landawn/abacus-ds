@@ -251,7 +251,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * </code>
      * </pre>
      *
-     * @param <E> the element type
+     * @param <E>
      * @param op
      * @throws E the e
      */
@@ -268,7 +268,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * </code>
      * </pre>
      *
-     * @param <E> the element type
+     * @param <E>
      * @param action
      * @throws E the e
      */

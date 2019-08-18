@@ -408,7 +408,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Update row.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param rowIndex
      * @param func
      * @throws E the e
@@ -422,7 +422,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Update column.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param columnIndex
      * @param func
      * @throws E the e
@@ -467,7 +467,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Update LU 2 RD.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -513,7 +513,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Update RU 2 LD.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -528,7 +528,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Update all.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -573,7 +573,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Update all elements based on points.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -618,7 +618,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Replace if.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param predicate
      * @param newValue
      * @throws E the e
@@ -664,7 +664,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
      *
-     * @param <E> the element type
+     * @param <E>
      * @param predicate
      * @param newValue
      * @throws E the e
@@ -710,7 +710,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Map.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -761,7 +761,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
      * Map to obj.
      *
      * @param <T>
-     * @param <E> the element type
+     * @param <E>
      * @param cls
      * @param func
      * @return
@@ -1267,7 +1267,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Flat op.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param op
      * @throws E the e
      */
@@ -1629,7 +1629,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Zip with.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param matrixB
      * @param zipFunction
      * @return
@@ -1683,7 +1683,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * Zip with.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param matrixB
      * @param matrixC
      * @param zipFunction
@@ -2185,7 +2185,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * For each.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param action
      * @throws E the e
      */
@@ -2196,7 +2196,7 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     /**
      * For each.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param fromRowIndex
      * @param toRowIndex
      * @param fromColumnIndex

@@ -335,7 +335,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Update row.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param rowIndex
      * @param func
      * @throws E the e
@@ -349,7 +349,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Update column.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param columnIndex
      * @param func
      * @throws E the e
@@ -394,7 +394,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Update LU 2 RD.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -440,7 +440,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Update RU 2 LD.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -455,7 +455,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Update all.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -500,7 +500,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Update all elements based on points.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @throws E the e
      */
@@ -545,7 +545,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Replace if.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param predicate
      * @param newValue
      * @throws E the e
@@ -591,7 +591,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Replace elements by <code>Predicate.test(i, j)</code> based on points
      *
-     * @param <E> the element type
+     * @param <E>
      * @param predicate
      * @param newValue
      * @throws E the e
@@ -637,7 +637,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Map.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -650,7 +650,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Map.
      *
      * @param <R>
-     * @param <E> the element type
+     * @param <E>
      * @param cls
      * @param func
      * @return
@@ -705,7 +705,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Map to boolean.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -755,7 +755,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Map to byte.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -805,7 +805,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Map to char.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -855,7 +855,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Map to short.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -905,7 +905,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Map to int.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -955,7 +955,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Map to long.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -1005,7 +1005,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Map to float.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -1055,7 +1055,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Map to double.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param func
      * @return
      * @throws E the e
@@ -1581,7 +1581,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * Flat op.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param op
      * @throws E the e
      */
@@ -1638,7 +1638,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * Zip with.
      *
      * @param <B>
-     * @param <E> the element type
+     * @param <E>
      * @param matrixB
      * @param zipFunction
      * @return
@@ -1653,7 +1653,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <B>
      * @param <R>
-     * @param <E> the element type
+     * @param <E>
      * @param cls
      * @param matrixB
      * @param zipFunction
@@ -1716,7 +1716,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      *
      * @param <B>
      * @param <C>
-     * @param <E> the element type
+     * @param <E>
      * @param matrixB
      * @param matrixC
      * @param zipFunction
@@ -1734,7 +1734,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param <B>
      * @param <C>
      * @param <R>
-     * @param <E> the element type
+     * @param <E>
      * @param cls
      * @param matrixB
      * @param matrixC
@@ -2248,7 +2248,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * For each.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param action
      * @throws E the e
      */
@@ -2259,7 +2259,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     /**
      * For each.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param fromRowIndex
      * @param toRowIndex
      * @param fromColumnIndex

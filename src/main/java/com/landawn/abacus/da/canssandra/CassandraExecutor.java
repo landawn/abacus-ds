@@ -1568,7 +1568,7 @@ public final class CassandraExecutor implements Closeable {
      * Query for date.
      *
      * @param <T>
-     * @param <E> the element type
+     * @param <E>
      * @param targetClass
      * @param valueClass
      * @param propName
@@ -1773,7 +1773,7 @@ public final class CassandraExecutor implements Closeable {
     /**
      * Query for single result.
      *
-     * @param <E> the element type
+     * @param <E>
      * @param valueClass
      * @param query
      * @param parameters
@@ -2691,7 +2691,7 @@ public final class CassandraExecutor implements Closeable {
      * Async query for date.
      *
      * @param <T>
-     * @param <E> the element type
+     * @param <E>
      * @param targetClass
      * @param valueClass
      * @param propName
