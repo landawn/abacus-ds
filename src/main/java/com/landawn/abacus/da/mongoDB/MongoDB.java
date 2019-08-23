@@ -18,7 +18,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -286,7 +285,7 @@ public final class MongoDB {
             /*
             if (Map.class.isAssignableFrom(first.get().getClass())) {
                 if (N.isNullOrEmpty(selectPropNames)) {
-                    final Set<String> columnNames = new LinkedHashSet<>();
+                    final Set<String> columnNames = N.newLinkedHashSet();
                     @SuppressWarnings("rawtypes")
                     final List<Map<String, Object>> tmp = (List) rowList;
             
@@ -305,7 +304,7 @@ public final class MongoDB {
 
             if (Map.class.isAssignableFrom(targetClass) && Map.class.isAssignableFrom(first.get().getClass())) {
                 if (N.isNullOrEmpty(selectPropNames)) {
-                    final Set<String> columnNames = new LinkedHashSet<>();
+                    final Set<String> columnNames = N.newLinkedHashSet();
                     @SuppressWarnings("rawtypes")
                     final List<Map<String, Object>> tmp = (List) rowList;
 

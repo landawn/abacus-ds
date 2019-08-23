@@ -20,9 +20,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -109,7 +107,7 @@ public final class CouchbaseExecutor implements Closeable {
     static final int POOLABLE_LENGTH = 1024;
 
     /** The Constant supportedTypes. */
-    static final Set<Class<?>> supportedTypes = new HashSet<>();
+    static final Set<Class<?>> supportedTypes = N.newHashSet();
 
     static {
         supportedTypes.add(Boolean.class);
@@ -256,7 +254,7 @@ public final class CouchbaseExecutor implements Closeable {
             return N.newEmptyDataSet();
         }
 
-        final Set<String> columnNames = new LinkedHashSet<>();
+        final Set<String> columnNames = N.newLinkedHashSet();
 
         for (N1qlQueryRow row : allRows) {
             columnNames.addAll(row.value().getNames());

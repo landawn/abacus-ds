@@ -27,9 +27,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -329,7 +327,7 @@ public abstract class CQLBuilder {
     static void registerEntityPropColumnNameMap(final Class<?> entityClass) {
         N.checkArgNotNull(entityClass);
 
-        final Set<Field> allFields = new HashSet<>();
+        final Set<Field> allFields = N.newHashSet();
 
         for (Class<?> superClass : ClassUtil.getAllSuperclasses(entityClass)) {
             allFields.addAll(Array.asList(superClass.getDeclaredFields()));
@@ -521,19 +519,19 @@ public abstract class CQLBuilder {
 
         if (val == null) {
             synchronized (entityClass) {
-                final Set<String> entityPropNames = new LinkedHashSet<>(ClassUtil.getPropGetMethodList(entityClass).keySet());
+                final Set<String> entityPropNames = N.newLinkedHashSet(ClassUtil.getPropGetMethodList(entityClass).keySet());
 
                 val = new Set[4];
-                val[0] = new LinkedHashSet<>(entityPropNames);
-                val[1] = new LinkedHashSet<>(entityPropNames);
-                val[2] = new LinkedHashSet<>(entityPropNames);
-                val[3] = new LinkedHashSet<>(entityPropNames);
+                val[0] = N.newLinkedHashSet(entityPropNames);
+                val[1] = N.newLinkedHashSet(entityPropNames);
+                val[2] = N.newLinkedHashSet(entityPropNames);
+                val[3] = N.newLinkedHashSet(entityPropNames);
 
-                final Set<String> readOnlyPropNames = new HashSet<>();
-                final Set<String> nonUpdatablePropNames = new HashSet<>();
-                final Set<String> transientPropNames = new HashSet<>();
+                final Set<String> readOnlyPropNames = N.newHashSet();
+                final Set<String> nonUpdatablePropNames = N.newHashSet();
+                final Set<String> transientPropNames = N.newHashSet();
 
-                final Set<Field> allFields = new HashSet<>();
+                final Set<Field> allFields = N.newHashSet();
 
                 for (Class<?> superClass : ClassUtil.getAllSuperclasses(entityClass)) {
                     allFields.addAll(Array.asList(superClass.getDeclaredFields()));

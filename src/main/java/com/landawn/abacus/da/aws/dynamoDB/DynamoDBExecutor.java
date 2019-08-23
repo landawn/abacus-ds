@@ -23,7 +23,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -69,7 +68,7 @@ import com.landawn.abacus.util.NamingPolicy;
 import com.landawn.abacus.util.ObjIterator;
 import com.landawn.abacus.util.function.Function;
 import com.landawn.abacus.util.stream.Stream;
-
+ 
 // TODO: Auto-generated Javadoc
 /**
  * It's a simple wrapper of DynamoDB Java client.
@@ -452,7 +451,7 @@ public final class DynamoDBExecutor implements Closeable {
         }
 
         final int rowCount = N.min(count, items.size() - offset);
-        final Set<String> columnNames = new LinkedHashSet<>();
+        final Set<String> columnNames = N.newLinkedHashSet();
 
         for (int i = offset, to = offset + rowCount; i < to; i++) {
             columnNames.addAll(items.get(i).keySet());

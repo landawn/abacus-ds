@@ -27,7 +27,6 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -342,7 +341,7 @@ public final class CassandraExecutor implements Closeable {
     public static void registerKeys(Class<?> entityClass, Collection<String> keyNames) {
         N.checkArgument(N.notNullOrEmpty(keyNames), "'keyNames' can't be null or empty");
 
-        final Set<String> keyNameSet = new LinkedHashSet<>(N.initHashCapacity(keyNames.size()));
+        final Set<String> keyNameSet = N.newLinkedHashSet(N.initHashCapacity(keyNames.size()));
 
         for (String keyName : keyNames) {
             keyNameSet.add(ClassUtil.getPropNameByMethod(ClassUtil.getPropGetMethod(entityClass, keyName)));
