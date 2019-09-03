@@ -76,7 +76,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Coll executor.
      *
      * @return
      */
@@ -85,7 +84,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Exists.
      *
      * @param objectId
      * @return true, if successful
@@ -95,7 +93,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Exists.
      *
      * @param objectId
      * @return true, if successful
@@ -105,7 +102,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Exists.
      *
      * @param filter
      * @return true, if successful
@@ -115,7 +111,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Count.
      *
      * @return
      */
@@ -124,7 +119,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Count.
      *
      * @param filter
      * @return
@@ -134,7 +128,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Count.
      *
      * @param filter
      * @param options
@@ -145,7 +138,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Gets the.
      *
      * @param objectId
      * @return
@@ -155,7 +147,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Gets the.
      *
      * @param objectId
      * @return
@@ -165,7 +156,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Gets the.
      *
      * @param objectId
      * @param selectPropNames
@@ -176,7 +166,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Gets the.
      *
      * @param objectId
      * @param selectPropNames
@@ -229,7 +218,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Find first.
      *
      * @param filter
      * @return
@@ -239,7 +227,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Find first.
      *
      * @param selectPropNames
      * @param filter
@@ -250,7 +237,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Find first.
      *
      * @param selectPropNames
      * @param filter
@@ -262,7 +248,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Find first.
      *
      * @param filter
      * @param sort
@@ -274,7 +259,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * List.
      *
      * @param filter
      * @return
@@ -284,7 +268,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * List.
      *
      * @param selectPropNames
      * @param filter
@@ -295,7 +278,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * List.
      *
      * @param selectPropNames
      * @param filter
@@ -308,7 +290,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * List.
      *
      * @param selectPropNames
      * @param filter
@@ -320,7 +301,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * List.
      *
      * @param selectPropNames
      * @param filter
@@ -334,7 +314,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * List.
      *
      * @param filter
      * @param sort
@@ -346,7 +325,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * List.
      *
      * @param filter
      * @param sort
@@ -506,7 +484,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Query.
      *
      * @param filter
      * @return
@@ -516,7 +493,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Query.
      *
      * @param selectPropNames
      * @param filter
@@ -527,7 +503,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Query.
      *
      * @param selectPropNames
      * @param filter
@@ -540,7 +515,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Query.
      *
      * @param selectPropNames
      * @param filter
@@ -552,7 +526,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Query.
      *
      * @param selectPropNames
      * @param filter
@@ -566,7 +539,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Query.
      *
      * @param filter
      * @param sort
@@ -578,7 +550,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Query.
      *
      * @param filter
      * @param sort
@@ -592,7 +563,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Stream.
      *
      * @param filter
      * @return
@@ -602,7 +572,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Stream.
      *
      * @param selectPropNames
      * @param filter
@@ -613,7 +582,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Stream.
      *
      * @param selectPropNames
      * @param filter
@@ -626,7 +594,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Stream.
      *
      * @param selectPropNames
      * @param filter
@@ -638,7 +605,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Stream.
      *
      * @param selectPropNames
      * @param filter
@@ -652,7 +618,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Stream.
      *
      * @param filter
      * @param sort
@@ -664,7 +629,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Stream.
      *
      * @param filter
      * @param sort
@@ -678,7 +642,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Insert.
      *
      * @param obj
      */
@@ -687,7 +650,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Insert.
      *
      * @param obj
      * @param options
@@ -697,7 +659,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Insert all.
      *
      * @param objList
      */
@@ -706,7 +667,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Insert all.
      *
      * @param objList
      * @param options
@@ -716,7 +676,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Update.
      *
      * @param objectId
      * @param update
@@ -727,7 +686,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Update.
      *
      * @param objectId
      * @param update
@@ -738,7 +696,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Update one.
      *
      * @param filter
      * @param update
@@ -749,7 +706,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Update one.
      *
      * @param filter
      * @param update
@@ -761,7 +717,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Update all.
      *
      * @param filter
      * @param update
@@ -772,7 +727,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Update all.
      *
      * @param filter
      * @param update
@@ -784,7 +738,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Replace.
      *
      * @param objectId
      * @param replacement
@@ -795,7 +748,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Replace.
      *
      * @param objectId
      * @param replacement
@@ -806,7 +758,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Replace one.
      *
      * @param filter
      * @param replacement
@@ -817,7 +768,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Replace one.
      *
      * @param filter
      * @param replacement
@@ -829,7 +779,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Delete.
      *
      * @param objectId
      * @return
@@ -839,7 +788,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Delete.
      *
      * @param objectId
      * @return
@@ -849,7 +797,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Delete one.
      *
      * @param filter
      * @return
@@ -859,7 +806,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Delete one.
      *
      * @param filter
      * @param options
@@ -870,7 +816,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Delete all.
      *
      * @param filter
      * @return
@@ -880,7 +825,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Delete all.
      *
      * @param filter
      * @param options
@@ -891,7 +835,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Bulk insert.
      *
      * @param entities
      * @return
@@ -901,7 +844,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Bulk insert.
      *
      * @param entities
      * @param options
@@ -912,7 +854,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Bulk write.
      *
      * @param requests
      * @return
@@ -922,7 +863,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Bulk write.
      *
      * @param requests
      * @param options
@@ -933,7 +873,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Distinct.
      *
      * @param fieldName
      * @return
@@ -943,7 +882,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Distinct.
      *
      * @param fieldName
      * @param filter
@@ -954,7 +892,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Aggregate.
      *
      * @param pipeline
      * @return
@@ -964,7 +901,6 @@ public final class MongoCollectionMapper<T> {
     }
 
     /**
-     * Map reduce.
      *
      * @param mapFunction
      * @param reduceFunction

@@ -53,7 +53,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Empty.
      *
      * @return
      */
@@ -62,7 +61,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Of.
      *
      * @param a
      * @return
@@ -73,7 +71,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * From.
      *
      * @param a
      * @return
@@ -96,7 +93,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * From.
      *
      * @param a
      * @return
@@ -119,7 +115,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * From.
      *
      * @param a
      * @return
@@ -142,7 +137,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Random.
      *
      * @param len
      * @return
@@ -152,7 +146,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Repeat.
      *
      * @param val
      * @param len
@@ -183,7 +176,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Diagonal.
      *
      * @param leftUp2RighDownDiagonal
      * @param rightUp2LeftDownDiagonal
@@ -227,7 +219,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Gets the.
      *
      * @param i
      * @param j
@@ -238,7 +229,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Gets the.
      *
      * @param point
      * @return
@@ -248,7 +238,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the.
      *
      * @param i
      * @param j
@@ -259,7 +248,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Sets the.
      *
      * @param point
      * @param val
@@ -269,7 +257,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Up of.
      *
      * @param i
      * @param j
@@ -280,7 +267,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Down of.
      *
      * @param i
      * @param j
@@ -291,7 +277,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Left of.
      *
      * @param i
      * @param j
@@ -302,7 +287,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Right of.
      *
      * @param i
      * @param j
@@ -350,7 +334,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Row.
      *
      * @param rowIndex
      * @return
@@ -362,7 +345,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Column.
      *
      * @param columnIndex
      * @return
@@ -406,7 +388,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Update row.
      *
      * @param <E>
      * @param rowIndex
@@ -420,7 +401,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Update column.
      *
      * @param <E>
      * @param columnIndex
@@ -526,7 +506,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Update all.
      *
      * @param <E>
      * @param func
@@ -616,7 +595,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Replace if.
      *
      * @param <E>
      * @param predicate
@@ -708,7 +686,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Map.
      *
      * @param <E>
      * @param func
@@ -814,7 +791,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Fill.
      *
      * @param val
      */
@@ -825,7 +801,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Fill.
      *
      * @param b
      */
@@ -834,7 +809,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Fill.
      *
      * @param fromRowIndex
      * @param fromColumnIndex
@@ -850,7 +824,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Copy.
      *
      * @return
      */
@@ -866,7 +839,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -886,7 +858,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -909,7 +880,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -920,7 +890,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -954,7 +923,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -967,7 +935,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -1038,7 +1005,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Flip H.
      *
      * @return
      * @see IntMatrix#flipH()
@@ -1050,7 +1016,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Flip V.
      *
      * @return
      * @see IntMatrix#flipV()
@@ -1062,7 +1027,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Rotate 90.
      *
      * @return
      */
@@ -1088,7 +1052,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Rotate 180.
      *
      * @return
      */
@@ -1105,7 +1068,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Rotate 270.
      *
      * @return
      */
@@ -1131,7 +1093,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Transpose.
      *
      * @return
      */
@@ -1157,7 +1118,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Reshape.
      *
      * @param newRows
      * @param newCols
@@ -1249,7 +1209,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Flatten.
      *
      * @return
      */
@@ -1265,7 +1224,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Flat op.
      *
      * @param <E>
      * @param op
@@ -1277,7 +1235,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Vstack.
      *
      * @param b
      * @return
@@ -1301,7 +1258,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Hstack.
      *
      * @param b
      * @return
@@ -1321,7 +1277,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Adds the.
      *
      * @param b
      * @return
@@ -1371,7 +1326,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Subtract.
      *
      * @param b
      * @return
@@ -1421,7 +1375,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Multiply.
      *
      * @param b
      * @return
@@ -1568,7 +1521,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Boxed.
      *
      * @return
      */
@@ -1593,7 +1545,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1647,7 +1598,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1704,7 +1654,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Stream H.
      *
      * @return a stream based on the order of row.
      */
@@ -1804,7 +1753,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Stream H.
      *
      * @param rowIndex
      * @return
@@ -1815,7 +1763,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Stream H.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -1892,7 +1839,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Stream V.
      *
      * @return a stream based on the order of column.
      */
@@ -1903,7 +1849,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Stream V.
      *
      * @param columnIndex
      * @return
@@ -1914,7 +1859,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Stream V.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -1992,7 +1936,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Stream R.
      *
      * @return a row stream based on the order of row.
      */
@@ -2002,7 +1945,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Stream R.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -2049,7 +1991,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Stream C.
      *
      * @return a column stream based on the order of column.
      */
@@ -2060,7 +2001,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Stream C.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2138,7 +2078,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Length.
      *
      * @param a
      * @return
@@ -2149,7 +2088,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param action
@@ -2160,7 +2098,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param fromRowIndex
@@ -2191,7 +2128,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -2201,7 +2137,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -2222,7 +2157,6 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
     }
 
     /**
-     * To string.
      *
      * @return
      */

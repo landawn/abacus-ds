@@ -87,7 +87,6 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     }
 
     /**
-     * Declaring name.
      *
      * @return
      */
@@ -97,7 +96,6 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     }
 
     /**
-     * Clazz.
      *
      * @return
      */
@@ -137,7 +135,6 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     }
 
     /**
-     * String of.
      *
      * @param x
      * @return
@@ -163,7 +160,6 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     }
 
     /**
-     * Value of.
      *
      * @param str
      * @return

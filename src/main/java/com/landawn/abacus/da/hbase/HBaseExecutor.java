@@ -126,7 +126,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Admin.
      *
      * @return
      */
@@ -135,7 +134,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Connection.
      *
      * @return
      */
@@ -144,7 +142,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Async.
      *
      * @return
      */
@@ -207,7 +204,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * To list.
      *
      * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
@@ -219,7 +215,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * To list.
      *
      * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
@@ -255,7 +250,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * To list.
      *
      * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
@@ -278,7 +272,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * To entity.
      *
      * @param <T>
      * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
@@ -296,7 +289,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * To value.
      *
      * @param <T>
      * @param type
@@ -704,7 +696,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Format name.
      *
      * @param name
      * @param namingPolicy
@@ -757,7 +748,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * To put.
      *
      * @param objs <code>AnyPut</code> or entity with getter/setter methods
      * @return
@@ -773,7 +763,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * To put.
      *
      * @param objs <code>AnyPut</code> or entity with getter/setter methods
      * @param namingPolicy
@@ -790,7 +779,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * To get.
      *
      * @param anyGets
      * @return
@@ -806,7 +794,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * To delete.
      *
      * @param anyDeletes
      * @return
@@ -837,7 +824,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Close quietly.
      *
      * @param table
      */
@@ -847,7 +833,6 @@ public final class HBaseExecutor implements Closeable {
 
     // There is no too much benefit to add method for "Object rowKey"
     /**
-     * Exists.
      *
      * @param tableName
      * @param rowKey
@@ -860,7 +845,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Exists.
      *
      * @param tableName
      * @param get
@@ -880,7 +864,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Exists.
      *
      * @param tableName
      * @param gets
@@ -927,7 +910,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Exists.
      *
      * @param tableName
      * @param anyGet
@@ -939,7 +921,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Exists.
      *
      * @param tableName
      * @param anyGets
@@ -951,7 +932,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Exists all.
      *
      * @param tableName
      * @param anyGets
@@ -966,7 +946,6 @@ public final class HBaseExecutor implements Closeable {
 
     // There is no too much benefit to add method for "Object rowKey"
     /**
-     * Gets the.
      *
      * @param tableName
      * @param rowKey
@@ -979,7 +958,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param tableName
      * @param get
@@ -999,7 +977,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param tableName
      * @param gets
@@ -1019,7 +996,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param tableName
      * @param anyGet
@@ -1031,7 +1007,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param tableName
      * @param anyGets
@@ -1044,7 +1019,6 @@ public final class HBaseExecutor implements Closeable {
 
     // There is no too much benefit to add method for "Object rowKey"
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -1059,7 +1033,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -1073,7 +1046,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -1087,7 +1059,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -1101,7 +1072,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -1115,7 +1085,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param scan
@@ -1179,7 +1148,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param anyScan
@@ -1190,7 +1158,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param family
@@ -1201,7 +1168,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param family
@@ -1213,7 +1179,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param family
@@ -1224,7 +1189,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param family
@@ -1236,7 +1200,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -1249,7 +1212,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -1262,7 +1224,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -1275,7 +1236,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -1289,7 +1249,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -1302,7 +1261,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -1316,7 +1274,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * To entity.
      *
      * @param <T>
      * @param targetClass
@@ -1332,7 +1289,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Put.
      *
      * @param tableName
      * @param put
@@ -1351,7 +1307,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Put.
      *
      * @param tableName
      * @param puts
@@ -1370,7 +1325,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Put.
      *
      * @param tableName
      * @param anyPut
@@ -1381,7 +1335,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Put.
      *
      * @param tableName
      * @param anyPuts
@@ -1393,7 +1346,6 @@ public final class HBaseExecutor implements Closeable {
 
     // There is no too much benefit to add method for "Object rowKey"
     /**
-     * Delete.
      *
      * @param tableName
      * @param rowKey
@@ -1405,7 +1357,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Delete.
      *
      * @param tableName
      * @param delete
@@ -1424,7 +1375,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Delete.
      *
      * @param tableName
      * @param deletes
@@ -1443,7 +1393,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Delete.
      *
      * @param tableName
      * @param anyDelete
@@ -1454,7 +1403,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Delete.
      *
      * @param tableName
      * @param anyDeletes
@@ -1465,7 +1413,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Mutate row.
      *
      * @param tableName
      * @param rm
@@ -1484,7 +1431,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Append.
      *
      * @param tableName
      * @param append
@@ -1504,7 +1450,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Increment.
      *
      * @param tableName
      * @param increment
@@ -1606,7 +1551,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Coprocessor service.
      *
      * @param tableName
      * @param rowKey
@@ -1623,7 +1567,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Coprocessor service.
      *
      * @param <T>
      * @param <R>
@@ -1652,7 +1595,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Coprocessor service.
      *
      * @param <T>
      * @param <R>
@@ -1897,7 +1839,6 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * Close.
      *
      * @throws IOException Signals that an I/O exception has occurred.
      */

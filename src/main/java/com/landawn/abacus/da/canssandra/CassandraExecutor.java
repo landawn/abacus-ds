@@ -292,7 +292,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async executor.
      *
      * @return
      */
@@ -301,7 +300,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Cluster.
      *
      * @return
      */
@@ -310,7 +308,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Session.
      *
      * @return
      */
@@ -319,7 +316,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Mapper.
      *
      * @param <T>
      * @param targetClass
@@ -333,7 +329,6 @@ public final class CassandraExecutor implements Closeable {
     private static final Map<Class<?>, Tuple2<List<String>, Set<String>>> entityKeyNamesMap = new ConcurrentHashMap<>();
 
     /**
-     * Register keys.
      *
      * @param entityClass
      * @param keyNames
@@ -389,7 +384,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Extract data.
      *
      * @param resultSet
      * @return
@@ -399,7 +393,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Extract data.
      *
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
      * @param resultSet
@@ -444,7 +437,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Read row.
      *
      * @param rowClass
      * @param row
@@ -509,7 +501,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * To list.
      *
      * @param <T>
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
@@ -551,7 +542,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * To entity.
      *
      * @param <T>
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
@@ -569,7 +559,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * To entity.
      *
      * @param <T>
      * @param targetClass
@@ -712,7 +701,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -726,7 +714,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -742,7 +729,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -755,7 +741,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -836,7 +821,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Insert.
      *
      * @param entity
      * @return
@@ -848,7 +832,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Prepare insert.
      *
      * @param entity
      * @return
@@ -872,7 +855,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Insert.
      *
      * @param targetClass
      * @param props
@@ -885,7 +867,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Prepare insert.
      *
      * @param targetClass
      * @param props
@@ -908,7 +889,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Batch insert.
      *
      * @param entities
      * @param type
@@ -966,7 +946,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Batch insert.
      *
      * @param targetClass
      * @param propsList
@@ -1003,7 +982,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Update.
      *
      * @param entity
      * @return
@@ -1013,7 +991,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Update.
      *
      * @param entity
      * @param primaryKeyNames
@@ -1026,7 +1003,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Prepare update.
      *
      * @param entity
      * @param primaryKeyNames
@@ -1058,7 +1034,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Update.
      *
      * @param targetClass
      * @param props
@@ -1074,7 +1049,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Prepare update.
      *
      * @param targetClass
      * @param props
@@ -1098,7 +1072,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Batch update.
      *
      * @param entities
      * @param type
@@ -1111,7 +1084,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Batch update.
      *
      * @param entities
      * @param primaryKeyNames
@@ -1149,7 +1121,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Batch update.
      *
      * @param targetClass
      * @param propsList
@@ -1196,7 +1167,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Delete.
      *
      * @param entity
      * @return
@@ -1206,7 +1176,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Delete.
      *
      * @param entity
      * @param deletingPropNames
@@ -1217,7 +1186,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Delete.
      *
      * @param targetClass
      * @param ids
@@ -1242,7 +1210,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Delete.
      *
      * @param targetClass
      * @param whereCause
@@ -1267,7 +1234,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Prepare delete.
      *
      * @param targetClass
      * @param deletingPropNames
@@ -1303,7 +1269,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Exists.
      *
      * @param targetClass
      * @param ids
@@ -1315,7 +1280,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Exists.
      *
      * @param targetClass
      * @param whereCause
@@ -1330,7 +1294,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Count.
      *
      * @param targetClass
      * @param whereCause
@@ -1343,7 +1306,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Find first.
      *
      * @param <T>
      * @param targetClass
@@ -1355,7 +1317,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Find first.
      *
      * @param <T>
      * @param targetClass
@@ -1370,7 +1331,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * List.
      *
      * @param <T>
      * @param targetClass
@@ -1382,7 +1342,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * List.
      *
      * @param <T>
      * @param targetClass
@@ -1397,7 +1356,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Query.
      *
      * @param <T>
      * @param targetClass
@@ -1409,7 +1367,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Query.
      *
      * @param <T>
      * @param targetClass
@@ -1598,7 +1555,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Stream.
      *
      * @param <T>
      * @param targetClass
@@ -1610,7 +1566,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Stream.
      *
      * @param <T>
      * @param targetClass
@@ -1639,7 +1594,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Count.
      *
      * @param query
      * @param parameters
@@ -1787,7 +1741,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Find first.
      *
      * @param query
      * @param parameters
@@ -1799,7 +1752,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Find first.
      *
      * @param <T>
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
@@ -1816,7 +1768,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * List.
      *
      * @param query
      * @param parameters
@@ -1828,7 +1779,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * List.
      *
      * @param <T>
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
@@ -1842,7 +1792,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Query.
      *
      * @param query
      * @param parameters
@@ -1854,7 +1803,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Query.
      *
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
      * @param query
@@ -1867,7 +1815,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Stream.
      *
      * @param query
      * @param parameters
@@ -1904,7 +1851,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Stream.
      *
      * @param <T>
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
@@ -1923,7 +1869,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Stream.
      *
      * @param <T>
      * @param query
@@ -1950,7 +1895,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Prepare query.
      *
      * @param <T>
      * @param targetClass
@@ -1963,7 +1907,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Prepare query.
      *
      * @param <T>
      * @param targetClass
@@ -2015,7 +1958,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Execute.
      *
      * @param cp
      * @return
@@ -2025,7 +1967,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Execute.
      *
      * @param query
      * @return
@@ -2035,7 +1976,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Execute.
      *
      * @param query
      * @param parameters
@@ -2047,7 +1987,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Execute.
      *
      * @param statement
      * @return
@@ -2057,7 +1996,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async get.
      *
      * @param <T>
      * @param targetClass
@@ -2070,7 +2008,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async get.
      *
      * @param <T>
      * @param targetClass
@@ -2086,7 +2023,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async get.
      *
      * @param <T>
      * @param targetClass
@@ -2098,7 +2034,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async get.
      *
      * @param <T>
      * @param targetClass
@@ -2126,7 +2061,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async gett.
      *
      * @param <T>
      * @param targetClass
@@ -2139,7 +2073,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async gett.
      *
      * @param <T>
      * @param targetClass
@@ -2155,7 +2088,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async gett.
      *
      * @param <T>
      * @param targetClass
@@ -2167,7 +2099,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async gett.
      *
      * @param <T>
      * @param targetClass
@@ -2195,7 +2126,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async insert.
      *
      * @param entity
      * @return
@@ -2207,7 +2137,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async insert.
      *
      * @param targetClass
      * @param props
@@ -2248,7 +2177,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async update.
      *
      * @param entity
      * @return
@@ -2258,7 +2186,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async update.
      *
      * @param entity
      * @param primaryKeyNames
@@ -2271,7 +2198,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async update.
      *
      * @param targetClass
      * @param props
@@ -2329,7 +2255,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async delete.
      *
      * @param entity
      * @return
@@ -2339,7 +2264,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async delete.
      *
      * @param entity
      * @param deletingPropNames
@@ -2350,7 +2274,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async delete.
      *
      * @param targetClass
      * @param ids
@@ -2375,7 +2298,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async delete.
      *
      * @param targetClass
      * @param whereCause
@@ -2400,7 +2322,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async exists.
      *
      * @param targetClass
      * @param ids
@@ -2412,7 +2333,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async exists.
      *
      * @param targetClass
      * @param whereCause
@@ -2426,7 +2346,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async count.
      *
      * @param targetClass
      * @param whereCause
@@ -2439,7 +2358,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async list.
      *
      * @param <T>
      * @param targetClass
@@ -2451,7 +2369,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async list.
      *
      * @param <T>
      * @param targetClass
@@ -2466,7 +2383,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async query.
      *
      * @param <T>
      * @param targetClass
@@ -2478,7 +2394,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async query.
      *
      * @param <T>
      * @param targetClass
@@ -2748,7 +2663,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async stream.
      *
      * @param <T>
      * @param targetClass
@@ -2760,7 +2674,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async stream.
      *
      * @param <T>
      * @param targetClass
@@ -2803,7 +2716,6 @@ public final class CassandraExecutor implements Closeable {
     };
 
     /**
-     * Async count.
      *
      * @param query
      * @param parameters
@@ -2988,7 +2900,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async list.
      *
      * @param query
      * @param parameters
@@ -3000,7 +2911,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async list.
      *
      * @param <T>
      * @param targetClass
@@ -3019,7 +2929,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async query.
      *
      * @param query
      * @param parameters
@@ -3031,7 +2940,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async query.
      *
      * @param targetClass
      * @param query
@@ -3049,7 +2957,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async stream.
      *
      * @param query
      * @param parameters
@@ -3091,7 +2998,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async stream.
      *
      * @param <T>
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
@@ -3115,7 +3021,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async stream.
      *
      * @param <T>
      * @param query
@@ -3146,7 +3051,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async execute.
      *
      * @param cp
      * @return
@@ -3156,7 +3060,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async execute.
      *
      * @param query
      * @return
@@ -3166,7 +3069,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async execute.
      *
      * @param query
      * @param parameters
@@ -3178,7 +3080,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Async execute.
      *
      * @param statement
      * @return
@@ -3188,7 +3089,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Close.
      *
      * @throws IOException Signals that an I/O exception has occurred.
      */
@@ -3219,7 +3119,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Prepare statement.
      *
      * @param query
      * @return
@@ -3249,7 +3148,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Prepare statement.
      *
      * @param query
      * @param parameters
@@ -3374,7 +3272,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Prepare.
      *
      * @param query
      * @return
@@ -3406,7 +3303,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Bind.
      *
      * @param preStmt
      * @return
@@ -3422,7 +3318,6 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * Bind.
      *
      * @param preStmt
      * @param parameters
@@ -3530,7 +3425,6 @@ public final class CassandraExecutor implements Closeable {
         }
 
         /**
-         * Serialize.
          *
          * @param value
          * @param protocolVersion
@@ -3543,7 +3437,6 @@ public final class CassandraExecutor implements Closeable {
         }
 
         /**
-         * Deserialize.
          *
          * @param bytes
          * @param protocolVersion
@@ -3556,7 +3449,6 @@ public final class CassandraExecutor implements Closeable {
         }
 
         /**
-         * Parses the.
          *
          * @param value
          * @return
@@ -3568,7 +3460,6 @@ public final class CassandraExecutor implements Closeable {
         }
 
         /**
-         * Format.
          *
          * @param value
          * @return
@@ -3589,7 +3480,6 @@ public final class CassandraExecutor implements Closeable {
         }
 
         /**
-         * Serialize.
          *
          * @param value
          * @return
@@ -3597,7 +3487,6 @@ public final class CassandraExecutor implements Closeable {
         protected abstract UDTValue serialize(T value);
 
         /**
-         * Deserialize.
          *
          * @param value
          * @return
@@ -3649,7 +3538,6 @@ public final class CassandraExecutor implements Closeable {
         }
 
         /**
-         * Creates the.
          *
          * @return
          */
@@ -3763,7 +3651,6 @@ public final class CassandraExecutor implements Closeable {
         }
 
         /**
-         * Copy.
          *
          * @return
          */
@@ -3780,7 +3667,6 @@ public final class CassandraExecutor implements Closeable {
         }
 
         /**
-         * Hash code.
          *
          * @return
          */
@@ -3797,7 +3683,6 @@ public final class CassandraExecutor implements Closeable {
         }
 
         /**
-         * Equals.
          *
          * @param obj
          * @return true, if successful
@@ -3822,7 +3707,6 @@ public final class CassandraExecutor implements Closeable {
         }
 
         /**
-         * To string.
          *
          * @return
          */

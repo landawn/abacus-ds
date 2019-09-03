@@ -83,7 +83,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     }
 
     /**
-     * Of.
      *
      * @param rowKey
      * @return
@@ -93,7 +92,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     }
 
     /**
-     * Of.
      *
      * @param rowKey
      * @param rowOffset
@@ -105,7 +103,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     }
 
     /**
-     * Of.
      *
      * @param row
      * @return
@@ -115,7 +112,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     }
 
     /**
-     * Of.
      *
      * @param get
      * @return
@@ -125,7 +121,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     }
 
     /**
-     * Val.
      *
      * @return
      */
@@ -435,7 +430,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     }
 
     /**
-     * Num families.
      *
      * @return
      */
@@ -444,7 +438,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     }
 
     /**
-     * Family set.
      *
      * @return
      */
@@ -453,7 +446,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     }
 
     /**
-     * Compare to.
      *
      * @param other
      * @return
@@ -464,7 +456,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -474,7 +465,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -495,7 +485,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     }
 
     /**
-     * To string.
      *
      * @return
      */

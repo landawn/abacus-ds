@@ -68,7 +68,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Sync.
      *
      * @return
      */
@@ -77,7 +76,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Exists.
      *
      * @param tableName
      * @param get
@@ -93,7 +91,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Exists.
      *
      * @param tableName
      * @param gets
@@ -132,7 +129,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Exists.
      *
      * @param tableName
      * @param anyGet
@@ -148,7 +144,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Exists.
      *
      * @param tableName
      * @param anyGets
@@ -164,7 +159,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Exists all.
      *
      * @param tableName
      * @param anyGets
@@ -183,7 +177,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Gets the.
      *
      * @param tableName
      * @param get
@@ -199,7 +192,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Gets the.
      *
      * @param tableName
      * @param gets
@@ -215,7 +207,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Gets the.
      *
      * @param tableName
      * @param anyGet
@@ -231,7 +222,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Gets the.
      *
      * @param tableName
      * @param anyGets
@@ -247,7 +237,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -265,7 +254,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -283,7 +271,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -301,7 +288,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -319,7 +305,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param scan
@@ -335,7 +320,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param anyScan
@@ -351,7 +335,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param family
@@ -367,7 +350,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param family
@@ -384,7 +366,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param family
@@ -400,7 +381,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param family
@@ -417,7 +397,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -435,7 +414,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -453,7 +431,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -471,7 +448,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -490,7 +466,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -508,7 +483,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -527,7 +501,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Put.
      *
      * @param tableName
      * @param put
@@ -545,7 +518,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Put.
      *
      * @param tableName
      * @param puts
@@ -563,7 +535,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Put.
      *
      * @param tableName
      * @param anyPut
@@ -581,7 +552,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Put.
      *
      * @param tableName
      * @param anyPuts
@@ -599,7 +569,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Delete.
      *
      * @param tableName
      * @param delete
@@ -617,7 +586,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Delete.
      *
      * @param tableName
      * @param deletes
@@ -635,7 +603,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Delete.
      *
      * @param tableName
      * @param anyDelete
@@ -653,7 +620,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Delete.
      *
      * @param tableName
      * @param anyDeletes
@@ -671,7 +637,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Mutate row.
      *
      * @param tableName
      * @param rm
@@ -689,7 +654,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Append.
      *
      * @param tableName
      * @param append
@@ -705,7 +669,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Increment.
      *
      * @param tableName
      * @param increment
@@ -803,7 +766,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Coprocessor service.
      *
      * @param tableName
      * @param rowKey
@@ -819,7 +781,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Coprocessor service.
      *
      * @param <T>
      * @param <R>
@@ -842,7 +803,6 @@ public final class AsyncHBaseExecutor {
     }
 
     /**
-     * Coprocessor service.
      *
      * @param <T>
      * @param <R>

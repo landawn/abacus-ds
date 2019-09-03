@@ -53,7 +53,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Empty.
      *
      * @return
      */
@@ -62,7 +61,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Of.
      *
      * @param a
      * @return
@@ -73,7 +71,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Random.
      *
      * @param len
      * @return
@@ -83,7 +80,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Repeat.
      *
      * @param val
      * @param len
@@ -94,7 +90,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Range.
      *
      * @param startInclusive
      * @param endExclusive
@@ -105,7 +100,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Range.
      *
      * @param startInclusive
      * @param endExclusive
@@ -117,7 +111,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Range closed.
      *
      * @param startInclusive
      * @param endInclusive
@@ -128,7 +121,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Range closed.
      *
      * @param startInclusive
      * @param endInclusive
@@ -160,7 +152,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Diagonal.
      *
      * @param leftUp2RighDownDiagonal
      * @param rightUp2LeftDownDiagonal
@@ -204,7 +195,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Gets the.
      *
      * @param i
      * @param j
@@ -215,7 +205,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Gets the.
      *
      * @param point
      * @return
@@ -225,7 +214,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the.
      *
      * @param i
      * @param j
@@ -236,7 +224,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Sets the.
      *
      * @param point
      * @param val
@@ -246,7 +233,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Up of.
      *
      * @param i
      * @param j
@@ -257,7 +243,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Down of.
      *
      * @param i
      * @param j
@@ -268,7 +253,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Left of.
      *
      * @param i
      * @param j
@@ -279,7 +263,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Right of.
      *
      * @param i
      * @param j
@@ -327,7 +310,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Row.
      *
      * @param rowIndex
      * @return
@@ -339,7 +321,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Column.
      *
      * @param columnIndex
      * @return
@@ -383,7 +364,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Update row.
      *
      * @param <E>
      * @param rowIndex
@@ -397,7 +377,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Update column.
      *
      * @param <E>
      * @param columnIndex
@@ -503,7 +482,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Update all.
      *
      * @param <E>
      * @param func
@@ -593,7 +571,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Replace if.
      *
      * @param <E>
      * @param predicate
@@ -685,7 +662,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Map.
      *
      * @param <E>
      * @param func
@@ -791,7 +767,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Fill.
      *
      * @param val
      */
@@ -802,7 +777,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Fill.
      *
      * @param b
      */
@@ -811,7 +785,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Fill.
      *
      * @param fromRowIndex
      * @param fromColumnIndex
@@ -827,7 +800,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Copy.
      *
      * @return
      */
@@ -843,7 +815,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -863,7 +834,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -886,7 +856,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -897,7 +866,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -931,7 +899,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -944,7 +911,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -1015,7 +981,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Flip H.
      *
      * @return
      * @see IntMatrix#flipH()
@@ -1027,7 +992,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Flip V.
      *
      * @return
      * @see IntMatrix#flipV()
@@ -1039,7 +1003,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Rotate 90.
      *
      * @return
      */
@@ -1065,7 +1028,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Rotate 180.
      *
      * @return
      */
@@ -1082,7 +1044,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Rotate 270.
      *
      * @return
      */
@@ -1108,7 +1069,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Transpose.
      *
      * @return
      */
@@ -1134,7 +1094,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Reshape.
      *
      * @param newRows
      * @param newCols
@@ -1226,7 +1185,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Flatten.
      *
      * @return
      */
@@ -1242,7 +1200,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Flat op.
      *
      * @param <E>
      * @param op
@@ -1254,7 +1211,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Vstack.
      *
      * @param b
      * @return
@@ -1278,7 +1234,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Hstack.
      *
      * @param b
      * @return
@@ -1298,7 +1253,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Adds the.
      *
      * @param b
      * @return
@@ -1348,7 +1302,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Subtract.
      *
      * @param b
      * @return
@@ -1398,7 +1351,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Multiply.
      *
      * @param b
      * @return
@@ -1545,7 +1497,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Boxed.
      *
      * @return
      */
@@ -1654,7 +1605,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1708,7 +1658,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1855,7 +1804,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Stream H.
      *
      * @return a stream based on the order of row.
      */
@@ -1865,7 +1813,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Stream H.
      *
      * @param rowIndex
      * @return
@@ -1876,7 +1823,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Stream H.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -1953,7 +1899,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Stream V.
      *
      * @return a stream based on the order of column.
      */
@@ -1964,7 +1909,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Stream V.
      *
      * @param columnIndex
      * @return
@@ -1975,7 +1919,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Stream V.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2053,7 +1996,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Stream R.
      *
      * @return a row stream based on the order of row.
      */
@@ -2063,7 +2005,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Stream R.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -2110,7 +2051,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Stream C.
      *
      * @return a column stream based on the order of column.
      */
@@ -2121,7 +2061,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Stream C.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2199,7 +2138,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Length.
      *
      * @param a
      * @return
@@ -2210,7 +2148,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param action
@@ -2221,7 +2158,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param fromRowIndex
@@ -2252,7 +2188,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -2262,7 +2197,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -2283,7 +2217,6 @@ public final class CharMatrix extends AbstractMatrix<char[], CharList, CharStrea
     }
 
     /**
-     * To string.
      *
      * @return
      */

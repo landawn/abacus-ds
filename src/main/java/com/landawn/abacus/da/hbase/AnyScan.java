@@ -112,7 +112,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     }
 
     /**
-     * Creates the.
      *
      * @return
      */
@@ -159,7 +158,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     }
 
     /**
-     * Of.
      *
      * @param startRow
      * @param filter
@@ -172,7 +170,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     }
 
     /**
-     * Of.
      *
      * @param scan
      * @return
@@ -182,7 +179,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     }
 
     /**
-     * Of.
      *
      * @param get
      * @return
@@ -192,7 +188,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     }
 
     /**
-     * Val.
      *
      * @return
      */
@@ -219,7 +214,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     }
 
     /**
-     * Num families.
      *
      * @return
      */
@@ -572,7 +566,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     }
 
     /**
-     * Read versions.
      *
      * @param maxVersions
      * @return
@@ -964,7 +957,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -974,7 +966,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -995,7 +986,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     }
 
     /**
-     * To string.
      *
      * @return
      */

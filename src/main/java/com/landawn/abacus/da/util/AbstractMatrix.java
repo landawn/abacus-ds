@@ -105,7 +105,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Array.
      *
      * @return
      */
@@ -133,14 +132,12 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     //    public abstract PL column(int j);
 
     /**
-     * Copy.
      *
      * @return a new Matrix
      */
     public abstract X copy();
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -149,7 +146,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract X copy(int fromRowIndex, int toRowIndex);
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -181,14 +177,12 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract X rotate270();
 
     /**
-     * Transpose.
      *
      * @return
      */
     public abstract X transpose();
 
     /**
-     * Reshape.
      *
      * @param newCols
      * @return
@@ -198,7 +192,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Reshape.
      *
      * @param newRows
      * @param newCols
@@ -237,7 +230,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract X repmat(int rowRepeats, int colRepeats);
 
     /**
-     * Flatten.
      *
      * @return
      */
@@ -313,7 +305,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Points H.
      *
      * @return
      */
@@ -322,7 +313,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Points H.
      *
      * @param rowIndex
      * @return
@@ -332,7 +322,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Points H.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -355,7 +344,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Points V.
      *
      * @return
      */
@@ -364,7 +352,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Points V.
      *
      * @param columnIndex
      * @return
@@ -374,7 +361,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Points V.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -397,7 +383,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Points R.
      *
      * @return
      */
@@ -406,7 +391,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Points R.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -429,7 +413,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Points C.
      *
      * @return
      */
@@ -438,7 +421,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     }
 
     /**
-     * Points C.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -475,14 +457,12 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract ES streamRU2LD();
 
     /**
-     * Stream H.
      *
      * @return
      */
     public abstract ES streamH();
 
     /**
-     * Stream H.
      *
      * @param rowIndex
      * @return
@@ -490,7 +470,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract ES streamH(final int rowIndex);
 
     /**
-     * Stream H.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -499,14 +478,12 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract ES streamH(final int fromRowIndex, final int toRowIndex);
 
     /**
-     * Stream V.
      *
      * @return
      */
     public abstract ES streamV();
 
     /**
-     * Stream V.
      *
      * @param columnIndex
      * @return
@@ -514,7 +491,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract ES streamV(final int columnIndex);
 
     /**
-     * Stream V.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -523,14 +499,12 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract ES streamV(final int fromColumnIndex, final int toColumnIndex);
 
     /**
-     * Stream R.
      *
      * @return
      */
     public abstract RS streamR();
 
     /**
-     * Stream R.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -539,14 +513,12 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract RS streamR(final int fromRowIndex, final int toRowIndex);
 
     /**
-     * Stream C.
      *
      * @return
      */
     public abstract RS streamC();
 
     /**
-     * Stream C.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -555,7 +527,6 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
     public abstract RS streamC(final int fromColumnIndex, final int toColumnIndex);
 
     /**
-     * Length.
      *
      * @param a
      * @return

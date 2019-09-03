@@ -68,7 +68,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Sync.
      *
      * @return
      */
@@ -280,7 +279,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Put item.
      *
      * @param tableName
      * @param item
@@ -296,7 +294,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Put item.
      *
      * @param tableName
      * @param item
@@ -313,7 +310,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Put item.
      *
      * @param putItemRequest
      * @return
@@ -329,7 +325,6 @@ public final class AsyncDynamoDBExecutor {
 
     // There is no too much benefit to add method for "Object entity"
     /**
-     * Put item.
      *
      * @param tableName
      * @param entity
@@ -347,7 +342,6 @@ public final class AsyncDynamoDBExecutor {
 
     // There is no too much benefit to add method for "Object entity"
     /**
-     * Put item.
      *
      * @param tableName
      * @param entity
@@ -395,7 +389,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Update item.
      *
      * @param tableName
      * @param key
@@ -413,7 +406,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Update item.
      *
      * @param tableName
      * @param key
@@ -432,7 +424,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Update item.
      *
      * @param updateItemRequest
      * @return
@@ -447,7 +438,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Delete item.
      *
      * @param tableName
      * @param key
@@ -463,7 +453,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Delete item.
      *
      * @param tableName
      * @param key
@@ -480,7 +469,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Delete item.
      *
      * @param deleteItemRequest
      * @return
@@ -495,7 +483,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * List.
      *
      * @param queryRequest
      * @return
@@ -510,7 +497,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * List.
      *
      * @param <T>
      * @param targetClass
@@ -527,7 +513,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Query.
      *
      * @param queryRequest
      * @return
@@ -542,7 +527,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Query.
      *
      * @param <T>
      * @param targetClass
@@ -559,7 +543,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Stream.
      *
      * @param queryRequest
      * @return
@@ -574,7 +557,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Stream.
      *
      * @param <T>
      * @param targetClass
@@ -591,7 +573,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param attributesToGet
@@ -607,7 +588,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param scanFilter
@@ -623,7 +603,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param tableName
      * @param attributesToGet
@@ -641,7 +620,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param scanRequest
      * @return
@@ -656,7 +634,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -674,7 +651,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -692,7 +668,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass
@@ -712,7 +687,6 @@ public final class AsyncDynamoDBExecutor {
     }
 
     /**
-     * Scan.
      *
      * @param <T>
      * @param targetClass

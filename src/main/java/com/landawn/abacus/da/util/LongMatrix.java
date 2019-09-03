@@ -53,7 +53,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Empty.
      *
      * @return
      */
@@ -62,7 +61,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Of.
      *
      * @param a
      * @return
@@ -73,7 +71,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * From.
      *
      * @param a
      * @return
@@ -96,7 +93,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Random.
      *
      * @param len
      * @return
@@ -106,7 +102,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Repeat.
      *
      * @param val
      * @param len
@@ -117,7 +112,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Range.
      *
      * @param startInclusive
      * @param endExclusive
@@ -128,7 +122,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Range.
      *
      * @param startInclusive
      * @param endExclusive
@@ -140,7 +133,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Range closed.
      *
      * @param startInclusive
      * @param endInclusive
@@ -151,7 +143,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Range closed.
      *
      * @param startInclusive
      * @param endInclusive
@@ -183,7 +174,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Diagonal.
      *
      * @param leftUp2RighDownDiagonal
      * @param rightUp2LeftDownDiagonal
@@ -227,7 +217,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Gets the.
      *
      * @param i
      * @param j
@@ -238,7 +227,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Gets the.
      *
      * @param point
      * @return
@@ -248,7 +236,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Sets the.
      *
      * @param i
      * @param j
@@ -259,7 +246,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Sets the.
      *
      * @param point
      * @param val
@@ -269,7 +255,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Up of.
      *
      * @param i
      * @param j
@@ -280,7 +265,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Down of.
      *
      * @param i
      * @param j
@@ -291,7 +275,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Left of.
      *
      * @param i
      * @param j
@@ -302,7 +285,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Right of.
      *
      * @param i
      * @param j
@@ -350,7 +332,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Row.
      *
      * @param rowIndex
      * @return
@@ -362,7 +343,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Column.
      *
      * @param columnIndex
      * @return
@@ -406,7 +386,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Update row.
      *
      * @param <E>
      * @param rowIndex
@@ -420,7 +399,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Update column.
      *
      * @param <E>
      * @param columnIndex
@@ -526,7 +504,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Update all.
      *
      * @param <E>
      * @param func
@@ -616,7 +593,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Replace if.
      *
      * @param <E>
      * @param predicate
@@ -708,7 +684,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Map.
      *
      * @param <E>
      * @param func
@@ -814,7 +789,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Fill.
      *
      * @param val
      */
@@ -825,7 +799,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Fill.
      *
      * @param b
      */
@@ -834,7 +807,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Fill.
      *
      * @param fromRowIndex
      * @param fromColumnIndex
@@ -850,7 +822,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Copy.
      *
      * @return
      */
@@ -866,7 +837,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -886,7 +856,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -909,7 +878,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -920,7 +888,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -954,7 +921,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -967,7 +933,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -1038,7 +1003,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Flip H.
      *
      * @return
      * @see IntMatrix#flipH()
@@ -1050,7 +1014,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Flip V.
      *
      * @return
      * @see IntMatrix#flipV()
@@ -1062,7 +1025,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Rotate 90.
      *
      * @return
      */
@@ -1088,7 +1050,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Rotate 180.
      *
      * @return
      */
@@ -1105,7 +1066,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Rotate 270.
      *
      * @return
      */
@@ -1131,7 +1091,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Transpose.
      *
      * @return
      */
@@ -1157,7 +1116,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Reshape.
      *
      * @param newRows
      * @param newCols
@@ -1249,7 +1207,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Flatten.
      *
      * @return
      */
@@ -1265,7 +1222,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Flat op.
      *
      * @param <E>
      * @param op
@@ -1277,7 +1233,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Vstack.
      *
      * @param b
      * @return
@@ -1301,7 +1256,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Hstack.
      *
      * @param b
      * @return
@@ -1321,7 +1275,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Adds the.
      *
      * @param b
      * @return
@@ -1371,7 +1324,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Subtract.
      *
      * @param b
      * @return
@@ -1421,7 +1373,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Multiply.
      *
      * @param b
      * @return
@@ -1568,7 +1519,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Boxed.
      *
      * @return
      */
@@ -1627,7 +1577,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1681,7 +1630,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1828,7 +1776,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Stream H.
      *
      * @return a stream based on the order of row.
      */
@@ -1838,7 +1785,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Stream H.
      *
      * @param rowIndex
      * @return
@@ -1849,7 +1795,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Stream H.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -1926,7 +1871,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Stream V.
      *
      * @return a stream based on the order of column.
      */
@@ -1937,7 +1881,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Stream V.
      *
      * @param columnIndex
      * @return
@@ -1948,7 +1891,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Stream V.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2026,7 +1968,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Stream R.
      *
      * @return a row stream based on the order of row.
      */
@@ -2036,7 +1977,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Stream R.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -2083,7 +2023,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Stream C.
      *
      * @return a column stream based on the order of column.
      */
@@ -2094,7 +2033,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Stream C.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2172,7 +2110,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Length.
      *
      * @param a
      * @return
@@ -2183,7 +2120,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param action
@@ -2194,7 +2130,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param fromRowIndex
@@ -2225,7 +2160,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -2235,7 +2169,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -2256,7 +2189,6 @@ public final class LongMatrix extends AbstractMatrix<long[], LongList, LongStrea
     }
 
     /**
-     * To string.
      *
      * @return
      */

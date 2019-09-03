@@ -53,7 +53,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Empty.
      *
      * @return
      */
@@ -62,7 +61,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Of.
      *
      * @param a
      * @return
@@ -73,7 +71,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Random.
      *
      * @param len
      * @return
@@ -83,7 +80,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Repeat.
      *
      * @param val
      * @param len
@@ -94,7 +90,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Range.
      *
      * @param startInclusive
      * @param endExclusive
@@ -105,7 +100,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Range.
      *
      * @param startInclusive
      * @param endExclusive
@@ -117,7 +111,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Range closed.
      *
      * @param startInclusive
      * @param endInclusive
@@ -128,7 +121,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Range closed.
      *
      * @param startInclusive
      * @param endInclusive
@@ -160,7 +152,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Diagonal.
      *
      * @param leftUp2RighDownDiagonal
      * @param rightUp2LeftDownDiagonal
@@ -204,7 +195,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Gets the.
      *
      * @param i
      * @param j
@@ -215,7 +205,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Gets the.
      *
      * @param point
      * @return
@@ -225,7 +214,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the.
      *
      * @param i
      * @param j
@@ -236,7 +224,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Sets the.
      *
      * @param point
      * @param val
@@ -246,7 +233,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Up of.
      *
      * @param i
      * @param j
@@ -257,7 +243,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Down of.
      *
      * @param i
      * @param j
@@ -268,7 +253,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Left of.
      *
      * @param i
      * @param j
@@ -279,7 +263,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Right of.
      *
      * @param i
      * @param j
@@ -327,7 +310,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Row.
      *
      * @param rowIndex
      * @return
@@ -339,7 +321,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Column.
      *
      * @param columnIndex
      * @return
@@ -383,7 +364,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Update row.
      *
      * @param <E>
      * @param rowIndex
@@ -397,7 +377,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Update column.
      *
      * @param <E>
      * @param columnIndex
@@ -503,7 +482,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Update all.
      *
      * @param <E>
      * @param func
@@ -595,7 +573,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Replace if.
      *
      * @param <E>
      * @param predicate
@@ -689,7 +666,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Map.
      *
      * @param <E>
      * @param func
@@ -797,7 +773,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Fill.
      *
      * @param val
      */
@@ -808,7 +783,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Fill.
      *
      * @param b
      */
@@ -817,7 +791,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Fill.
      *
      * @param fromRowIndex
      * @param fromColumnIndex
@@ -833,7 +806,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Copy.
      *
      * @return
      */
@@ -849,7 +821,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -869,7 +840,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -892,7 +862,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -903,7 +872,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -937,7 +905,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -950,7 +917,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -1021,7 +987,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Flip H.
      *
      * @return
      * @see IntMatrix#flipH()
@@ -1033,7 +998,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Flip V.
      *
      * @return
      * @see IntMatrix#flipV()
@@ -1045,7 +1009,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Rotate 90.
      *
      * @return
      */
@@ -1071,7 +1034,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Rotate 180.
      *
      * @return
      */
@@ -1088,7 +1050,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Rotate 270.
      *
      * @return
      */
@@ -1114,7 +1075,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Transpose.
      *
      * @return
      */
@@ -1140,7 +1100,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Reshape.
      *
      * @param newRows
      * @param newCols
@@ -1232,7 +1191,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Flatten.
      *
      * @return
      */
@@ -1248,7 +1206,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Flat op.
      *
      * @param <E>
      * @param op
@@ -1260,7 +1217,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Vstack.
      *
      * @param b
      * @return
@@ -1284,7 +1240,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Hstack.
      *
      * @param b
      * @return
@@ -1304,7 +1259,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Adds the.
      *
      * @param b
      * @return
@@ -1355,7 +1309,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Subtract.
      *
      * @param b
      * @return
@@ -1406,7 +1359,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Multiply.
      *
      * @param b
      * @return
@@ -1557,7 +1509,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Boxed.
      *
      * @return
      */
@@ -1666,7 +1617,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1721,7 +1671,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1869,7 +1818,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Stream H.
      *
      * @return a stream based on the order of row.
      */
@@ -1879,7 +1827,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Stream H.
      *
      * @param rowIndex
      * @return
@@ -1890,7 +1837,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Stream H.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -1967,7 +1913,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Stream V.
      *
      * @return a stream based on the order of column.
      */
@@ -1978,7 +1923,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Stream V.
      *
      * @param columnIndex
      * @return
@@ -1989,7 +1933,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Stream V.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2066,7 +2009,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Stream R.
      *
      * @return a row stream based on the order of row.
      */
@@ -2076,7 +2018,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Stream R.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -2123,7 +2064,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Stream C.
      *
      * @return a column stream based on the order of column.
      */
@@ -2134,7 +2074,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Stream C.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2212,7 +2151,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Length.
      *
      * @param a
      * @return
@@ -2223,7 +2161,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param action
@@ -2234,7 +2171,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param fromRowIndex
@@ -2265,7 +2201,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -2275,7 +2210,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -2296,7 +2230,6 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
     }
 
     /**
-     * To string.
      *
      * @return
      */

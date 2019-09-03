@@ -56,7 +56,6 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
-     * Cell scanner.
      *
      * @return
      */
@@ -421,7 +420,6 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
-     * Num families.
      *
      * @return
      */
@@ -430,7 +428,6 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
-     * Heap size.
      *
      * @return Calculate what Mutation adds to class heap size.
      */
@@ -439,7 +436,6 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
     }
 
     /**
-     * Compare to.
      *
      * @param d
      * @return

@@ -128,7 +128,6 @@ public final class MongoDB {
     }
 
     /**
-     * Db.
      *
      * @return
      */
@@ -137,7 +136,6 @@ public final class MongoDB {
     }
 
     /**
-     * Collection.
      *
      * @param collectionName
      * @return
@@ -147,7 +145,6 @@ public final class MongoDB {
     }
 
     /**
-     * Collection.
      *
      * @param <T>
      * @param targetClass
@@ -159,7 +156,6 @@ public final class MongoDB {
     }
 
     /**
-     * Coll executor.
      *
      * @param collectionName
      * @return
@@ -183,7 +179,6 @@ public final class MongoDB {
     }
 
     /**
-     * Coll mapper.
      *
      * @param <T>
      * @param targetClass
@@ -194,7 +189,6 @@ public final class MongoDB {
     }
 
     /**
-     * Coll mapper.
      *
      * @param <T>
      * @param targetClass
@@ -247,7 +241,6 @@ public final class MongoDB {
     }
 
     /**
-     * Extract data.
      *
      * @param findIterable
      * @return
@@ -257,7 +250,6 @@ public final class MongoDB {
     }
 
     /**
-     * Extract data.
      *
      * @param targetClass an entity class with getter/setter method or <code>Map.class/Document.class</code>
      * @param findIterable
@@ -268,7 +260,6 @@ public final class MongoDB {
     }
 
     /**
-     * Extract data.
      *
      * @param targetClass an entity class with getter/setter method or <code>Map.class/Document.class</code>
      * @param selectPropNames
@@ -333,7 +324,6 @@ public final class MongoDB {
     }
 
     /**
-     * To list.
      *
      * @param <T>
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
@@ -500,7 +490,6 @@ public final class MongoDB {
     }
 
     /**
-     * To JSON.
      *
      * @param bson
      * @return
@@ -510,7 +499,6 @@ public final class MongoDB {
     }
 
     /**
-     * To JSON.
      *
      * @param bsonObject
      * @return
@@ -520,7 +508,6 @@ public final class MongoDB {
     }
 
     /**
-     * To JSON.
      *
      * @param bsonObject
      * @return
@@ -556,7 +543,6 @@ public final class MongoDB {
     }
 
     /**
-     * To bson.
      *
      * @param obj an array of pairs of property name and value/Map<String, Object> or an entity with getter/setter methods.
      * @return
@@ -577,7 +563,6 @@ public final class MongoDB {
     }
 
     /**
-     * To document.
      *
      * @param obj an array of pairs of property name and value/Map<String, Object> or an entity with getter/setter methods.
      * @return
@@ -602,7 +587,6 @@ public final class MongoDB {
     }
 
     /**
-     * To document.
      *
      * @param obj
      * @param isForUpdate
@@ -819,7 +803,6 @@ public final class MongoDB {
         private static final Map<Class<?>, Codec<?>> pool = new ObjectPool<Class<?>, Codec<?>>(128);
 
         /**
-         * Gets the.
          *
          * @param <T>
          * @param clazz
@@ -866,7 +849,6 @@ public final class MongoDB {
         }
 
         /**
-         * Encode.
          *
          * @param writer
          * @param value
@@ -882,7 +864,6 @@ public final class MongoDB {
         }
 
         /**
-         * Decode.
          *
          * @param reader
          * @param decoderContext

@@ -102,7 +102,6 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     }
 
     /**
-     * Inits the.
      *
      * @throws ServletException the servlet exception
      */
@@ -112,7 +111,6 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     }
 
     /**
-     * Do post.
      *
      * @param request
      * @param response
@@ -124,7 +122,6 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     }
 
     /**
-     * Execute.
      *
      * @param request
      * @param response
@@ -220,7 +217,6 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     }
 
     /**
-     * Define class.
      *
      * @param <T>
      * @param classLoader
@@ -275,7 +271,6 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     }
 
     /**
-     * New instance.
      *
      * @param <T>
      * @param cls
@@ -316,7 +311,6 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     }
 
     /**
-     * Invoke.
      *
      * @param <T>
      * @param instance
@@ -338,7 +332,6 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     }
 
     /**
-     * Invoke.
      *
      * @param <T>
      * @param c

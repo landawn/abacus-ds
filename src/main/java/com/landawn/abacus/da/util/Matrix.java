@@ -57,7 +57,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Of.
      *
      * @param <T>
      * @param a
@@ -69,7 +68,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Repeat.
      *
      * @param <T>
      * @param val
@@ -105,7 +103,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Diagonal.
      *
      * @param <T>
      * @param leftUp2RighDownDiagonal
@@ -154,7 +151,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Gets the.
      *
      * @param i
      * @param j
@@ -165,7 +161,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Gets the.
      *
      * @param point
      * @return
@@ -175,7 +170,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the.
      *
      * @param i
      * @param j
@@ -186,7 +180,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Sets the.
      *
      * @param point
      * @param val
@@ -196,7 +189,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Up of.
      *
      * @param i
      * @param j
@@ -207,7 +199,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Down of.
      *
      * @param i
      * @param j
@@ -218,7 +209,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Left of.
      *
      * @param i
      * @param j
@@ -229,7 +219,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Right of.
      *
      * @param i
      * @param j
@@ -277,7 +266,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Row.
      *
      * @param rowIndex
      * @return
@@ -289,7 +277,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Column.
      *
      * @param columnIndex
      * @return
@@ -333,7 +320,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Update row.
      *
      * @param <E>
      * @param rowIndex
@@ -347,7 +333,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Update column.
      *
      * @param <E>
      * @param columnIndex
@@ -453,7 +438,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Update all.
      *
      * @param <E>
      * @param func
@@ -543,7 +527,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Replace if.
      *
      * @param <E>
      * @param predicate
@@ -635,7 +618,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Map.
      *
      * @param <E>
      * @param func
@@ -647,7 +629,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Map.
      *
      * @param <R>
      * @param <E>
@@ -1103,7 +1084,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Fill.
      *
      * @param val
      */
@@ -1114,7 +1094,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Fill.
      *
      * @param b
      */
@@ -1123,7 +1102,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Fill.
      *
      * @param fromRowIndex
      * @param fromColumnIndex
@@ -1139,7 +1117,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Copy.
      *
      * @return
      */
@@ -1155,7 +1132,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -1175,7 +1151,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -1198,7 +1173,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -1209,7 +1183,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -1243,7 +1216,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -1256,7 +1228,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -1329,7 +1300,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Flip H.
      *
      * @return
      * @see IntMatrix#flipH()
@@ -1341,7 +1311,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Flip V.
      *
      * @return
      * @see IntMatrix#flipV()
@@ -1353,7 +1322,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Rotate 90.
      *
      * @return
      */
@@ -1383,7 +1351,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Rotate 180.
      *
      * @return
      */
@@ -1400,7 +1367,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Rotate 270.
      *
      * @return
      */
@@ -1430,7 +1396,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Transpose.
      *
      * @return
      */
@@ -1459,7 +1424,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Reshape.
      *
      * @param newRows
      * @param newCols
@@ -1563,7 +1527,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Flatten.
      *
      * @return
      */
@@ -1579,7 +1542,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Flat op.
      *
      * @param <E>
      * @param op
@@ -1591,7 +1553,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Vstack.
      *
      * @param b
      * @return
@@ -1615,7 +1576,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Hstack.
      *
      * @param b
      * @return
@@ -1635,7 +1595,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Zip with.
      *
      * @param <B>
      * @param <E>
@@ -1649,7 +1608,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Zip with.
      *
      * @param <B>
      * @param <R>
@@ -1712,7 +1670,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Zip with.
      *
      * @param <B>
      * @param <C>
@@ -1729,7 +1686,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Zip with.
      *
      * @param <B>
      * @param <C>
@@ -1885,7 +1841,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Stream H.
      *
      * @return a stream based on the order of row.
      */
@@ -1895,7 +1850,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Stream H.
      *
      * @param rowIndex
      * @return
@@ -1906,7 +1860,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Stream H.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -1986,7 +1939,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Stream V.
      *
      * @return a stream based on the order of column.
      */
@@ -1997,7 +1949,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Stream V.
      *
      * @param columnIndex
      * @return
@@ -2008,7 +1959,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Stream V.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2089,7 +2039,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Stream R.
      *
      * @return a row stream based on the order of row.
      */
@@ -2099,7 +2048,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Stream R.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -2146,7 +2094,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Stream C.
      *
      * @return a column stream based on the order of column.
      */
@@ -2157,7 +2104,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Stream C.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2235,7 +2181,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Length.
      *
      * @param a
      * @return
@@ -2246,7 +2191,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param action
@@ -2257,7 +2201,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param fromRowIndex
@@ -2288,7 +2231,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -2298,7 +2240,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -2319,7 +2260,6 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
     }
 
     /**
-     * To string.
      *
      * @return
      */

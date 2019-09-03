@@ -145,7 +145,6 @@ public final class NamedCQL {
     }
 
     /**
-     * Parses the.
      *
      * @param cql
      * @param attrs
@@ -337,7 +336,6 @@ public final class NamedCQL {
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -351,7 +349,6 @@ public final class NamedCQL {
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -372,7 +369,6 @@ public final class NamedCQL {
     }
 
     /**
-     * To string.
      *
      * @return
      */

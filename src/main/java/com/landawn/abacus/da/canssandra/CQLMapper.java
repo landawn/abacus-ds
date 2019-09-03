@@ -87,7 +87,6 @@ public final class CQLMapper {
     }
 
     /**
-     * Load from.
      *
      * @param filePath it could be multiple file paths separated by ',' or ';'
      * @throws UncheckedIOException the unchecked IO exception
@@ -132,7 +131,6 @@ public final class CQLMapper {
     }
 
     /**
-     * Key set.
      *
      * @return
      */
@@ -141,7 +139,6 @@ public final class CQLMapper {
     }
 
     /**
-     * Gets the.
      *
      * @param id
      * @return
@@ -151,7 +148,6 @@ public final class CQLMapper {
     }
 
     /**
-     * Adds the.
      *
      * @param id
      * @param namedCQL
@@ -162,7 +158,6 @@ public final class CQLMapper {
     }
 
     /**
-     * Adds the.
      *
      * @param id
      * @param cql
@@ -177,7 +172,6 @@ public final class CQLMapper {
     }
 
     /**
-     * Removes the.
      *
      * @param id
      */
@@ -186,7 +180,6 @@ public final class CQLMapper {
     }
 
     /**
-     * Save to.
      *
      * @param file
      * @throws UncheckedIOException the unchecked IO exception
@@ -237,7 +230,6 @@ public final class CQLMapper {
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -247,7 +239,6 @@ public final class CQLMapper {
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -258,7 +249,6 @@ public final class CQLMapper {
     }
 
     /**
-     * To string.
      *
      * @return
      */

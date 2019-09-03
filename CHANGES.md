@@ -1,3 +1,8 @@
+### 0.9.6
+
+* Improve Java Docs.
+
+
 ### 0.9.5
 
 * Improve Java Docs.

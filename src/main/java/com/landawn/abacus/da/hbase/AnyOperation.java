@@ -52,7 +52,6 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     }
 
     /**
-     * To map.
      *
      * @return
      */
@@ -61,7 +60,6 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     }
 
     /**
-     * To map.
      *
      * @param maxCols
      * @return
@@ -71,7 +69,6 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     }
 
     /**
-     * To JSON.
      *
      * @return
      * @throws IOException Signals that an I/O exception has occurred.
@@ -81,7 +78,6 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     }
 
     /**
-     * To JSON.
      *
      * @param maxCols
      * @return
@@ -92,7 +88,6 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     }
 
     /**
-     * To string.
      *
      * @return
      */
@@ -102,7 +97,6 @@ abstract class AnyOperation<AP extends AnyOperation<?>> {
     }
 
     /**
-     * To string.
      *
      * @param maxCols
      * @return

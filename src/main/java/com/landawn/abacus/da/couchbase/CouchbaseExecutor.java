@@ -187,7 +187,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Cluster.
      *
      * @return
      */
@@ -196,7 +195,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Bucket.
      *
      * @return
      */
@@ -228,7 +226,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Extract data.
      *
      * @param resultSet
      * @return
@@ -238,7 +235,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Extract data.
      *
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
      * @param resultSet
@@ -303,7 +299,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * To list.
      *
      * @param <T>
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
@@ -355,7 +350,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * To entity.
      *
      * @param <T>
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
@@ -440,7 +434,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * To entity.
      *
      * @param <T>
      * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
@@ -518,7 +511,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * To JSON.
      *
      * @param jsonArray
      * @return
@@ -528,7 +520,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * To JSON.
      *
      * @param jsonObject
      * @return
@@ -538,7 +529,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * To JSON.
      *
      * @param jsonDocument
      * @return
@@ -761,7 +751,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param id
      * @return
@@ -772,7 +761,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param id
      * @param timeout
@@ -785,7 +773,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -798,7 +785,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Gets the.
      *
      * @param <T>
      * @param targetClass
@@ -885,7 +871,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Find first.
      *
      * @param <T>
      * @param targetClass
@@ -907,7 +892,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * List.
      *
      * @param <T>
      * @param targetClass an entity class with getter/setter method, <code>Map.class</code> or basic single value type(Primitive/String/Date...)
@@ -937,7 +921,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Count.
      *
      * @param query
      * @param parameters
@@ -1118,7 +1101,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Query.
      *
      * @param query
      * @param parameters
@@ -1130,7 +1112,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Query.
      *
      * @param targetClass
      * @param query
@@ -1143,7 +1124,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Query.
      *
      * @param query
      * @return
@@ -1153,7 +1133,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Query.
      *
      * @param targetClass
      * @param query
@@ -1164,7 +1143,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Query.
      *
      * @param query
      * @param timeout
@@ -1176,7 +1154,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Query.
      *
      * @param targetClass
      * @param query
@@ -1189,7 +1166,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Stream.
      *
      * @param query
      * @param parameters
@@ -1206,7 +1182,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Stream.
      *
      * @param <T>
      * @param targetClass
@@ -1225,7 +1200,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Stream.
      *
      * @param query
      * @return
@@ -1240,7 +1214,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Stream.
      *
      * @param <T>
      * @param targetClass
@@ -1257,7 +1230,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Stream.
      *
      * @param query
      * @param timeout
@@ -1274,7 +1246,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Stream.
      *
      * @param <T>
      * @param targetClass
@@ -1293,7 +1264,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Insert.
      *
      * @param <T>
      * @param document
@@ -1305,7 +1275,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Insert.
      *
      * @param <T>
      * @param document
@@ -1345,7 +1314,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Replace.
      *
      * @param <T>
      * @param document
@@ -1357,7 +1325,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Replace.
      *
      * @param <T>
      * @param document
@@ -1371,7 +1338,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * To document.
      *
      * @param <T>
      * @param obj
@@ -1404,7 +1370,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Removes the.
      *
      * @param id
      * @return
@@ -1415,7 +1380,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Removes the.
      *
      * @param id
      * @param timeout
@@ -1428,7 +1392,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Removes the.
      *
      * @param <T>
      * @param targetClass
@@ -1441,7 +1404,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Removes the.
      *
      * @param <T>
      * @param targetClass
@@ -1456,7 +1418,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Removes the.
      *
      * @param <T>
      * @param document
@@ -1468,7 +1429,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Removes the.
      *
      * @param <T>
      * @param document
@@ -1482,7 +1442,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Execute.
      *
      * @param query
      * @return
@@ -1492,7 +1451,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Execute.
      *
      * @param query
      * @param parameters
@@ -1504,7 +1462,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Execute.
      *
      * @param query
      * @return
@@ -1518,7 +1475,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Execute.
      *
      * @param query
      * @param timeout
@@ -1534,7 +1490,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async get.
      *
      * @param id
      * @return
@@ -1549,7 +1504,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async get.
      *
      * @param id
      * @param timeout
@@ -1566,7 +1520,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async get.
      *
      * @param <T>
      * @param targetClass
@@ -1583,7 +1536,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async get.
      *
      * @param <T>
      * @param targetClass
@@ -1602,7 +1554,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async gett.
      *
      * @param id
      * @return
@@ -1617,7 +1568,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async gett.
      *
      * @param id
      * @param timeout
@@ -1634,7 +1584,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async gett.
      *
      * @param <T>
      * @param targetClass
@@ -1651,7 +1600,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async gett.
      *
      * @param <T>
      * @param targetClass
@@ -1687,7 +1635,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async count.
      *
      * @param query
      * @param parameters
@@ -1933,7 +1880,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async list.
      *
      * @param <T>
      * @param targetClass
@@ -1952,7 +1898,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async query.
      *
      * @param query
      * @param parameters
@@ -1969,7 +1914,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async query.
      *
      * @param targetClass
      * @param query
@@ -1987,7 +1931,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async query.
      *
      * @param query
      * @return
@@ -2002,7 +1945,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async query.
      *
      * @param targetClass
      * @param query
@@ -2018,7 +1960,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async query.
      *
      * @param query
      * @param timeout
@@ -2036,7 +1977,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async query.
      *
      * @param targetClass
      * @param query
@@ -2054,7 +1994,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async stream.
      *
      * @param query
      * @param parameters
@@ -2071,7 +2010,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async stream.
      *
      * @param <T>
      * @param targetClass
@@ -2090,7 +2028,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async stream.
      *
      * @param query
      * @return
@@ -2105,7 +2042,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async stream.
      *
      * @param <T>
      * @param targetClass
@@ -2122,7 +2058,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async stream.
      *
      * @param query
      * @param timeout
@@ -2140,7 +2075,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async stream.
      *
      * @param <T>
      * @param targetClass
@@ -2159,7 +2093,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async insert.
      *
      * @param <T>
      * @param document
@@ -2175,7 +2108,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async insert.
      *
      * @param <T>
      * @param document
@@ -2193,7 +2125,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async upsert.
      *
      * @param <T>
      * @param document
@@ -2209,7 +2140,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async upsert.
      *
      * @param <T>
      * @param document
@@ -2227,7 +2157,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async replace.
      *
      * @param <T>
      * @param document
@@ -2243,7 +2172,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async replace.
      *
      * @param <T>
      * @param document
@@ -2261,7 +2189,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async remove.
      *
      * @param id
      * @return
@@ -2276,7 +2203,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async remove.
      *
      * @param id
      * @param timeout
@@ -2293,7 +2219,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async remove.
      *
      * @param <T>
      * @param targetClass
@@ -2310,7 +2235,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async remove.
      *
      * @param <T>
      * @param targetClass
@@ -2329,7 +2253,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async remove.
      *
      * @param <T>
      * @param document
@@ -2345,7 +2268,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async remove.
      *
      * @param <T>
      * @param document
@@ -2363,7 +2285,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async execute.
      *
      * @param query
      * @return
@@ -2378,7 +2299,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async execute.
      *
      * @param query
      * @param parameters
@@ -2395,7 +2315,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async execute.
      *
      * @param query
      * @return
@@ -2410,7 +2329,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Async execute.
      *
      * @param query
      * @param timeout
@@ -2616,7 +2534,6 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     /**
-     * Close.
      *
      * @throws IOException Signals that an I/O exception has occurred.
      */

@@ -581,7 +581,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Named.
      *
      * @param propNames
      * @return
@@ -598,7 +597,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Named.
      *
      * @param propNames
      * @return
@@ -615,7 +613,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Repeat QM.
      *
      * @param n
      * @return
@@ -625,7 +622,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Into.
      *
      * @param tableName
      * @return
@@ -775,7 +771,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Into.
      *
      * @param entityClass
      * @return
@@ -787,7 +782,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * From.
      *
      * @param expr
      * @return
@@ -804,7 +798,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * From.
      *
      * @param tableNames
      * @return
@@ -825,7 +818,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * From.
      *
      * @param tableNames
      * @return
@@ -841,7 +833,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * From.
      *
      * @param tableAliases
      * @return
@@ -868,7 +859,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * From.
      *
      * @param tableName
      * @param fromCause
@@ -1004,7 +994,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * From.
      *
      * @param entityClass
      * @return
@@ -1016,7 +1005,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Where.
      *
      * @param expr
      * @return
@@ -1032,7 +1020,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Where.
      *
      * @param cond any literal written in <code>Expression</code> condition won't be formalized
      * @return
@@ -1071,7 +1058,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Order by.
      *
      * @param expr
      * @return
@@ -1090,7 +1076,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Order by.
      *
      * @param columnNames
      * @return
@@ -1122,7 +1107,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Order by.
      *
      * @param columnName
      * @param direction
@@ -1138,7 +1122,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Order by.
      *
      * @param columnNames
      * @return
@@ -1160,7 +1143,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Order by.
      *
      * @param columnNames
      * @param direction
@@ -1176,7 +1158,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Order by.
      *
      * @param orders
      * @return
@@ -1201,7 +1182,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Limit.
      *
      * @param count
      * @return
@@ -1215,7 +1195,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Sets the.
      *
      * @param expr
      * @return
@@ -1225,7 +1204,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Sets the.
      *
      * @param columnNames
      * @return
@@ -1287,7 +1265,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Sets the.
      *
      * @param columnNames
      * @return
@@ -1346,7 +1323,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Sets the.
      *
      * @param props
      * @return
@@ -1465,7 +1441,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Sets the.
      *
      * @param entityClass
      * @return
@@ -1475,7 +1450,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Sets the.
      *
      * @param entityClass
      * @param excludedPropNames
@@ -1488,7 +1462,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Using.
      *
      * @param options
      * @return
@@ -1510,7 +1483,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Using TTL.
      *
      * @param timestamp
      * @return
@@ -1520,7 +1492,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Using TTL.
      *
      * @param timestamp
      * @return
@@ -1535,7 +1506,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Using timestamp.
      *
      * @param timestamp
      * @return
@@ -1545,7 +1515,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Using timestamp.
      *
      * @param timestamp
      * @return
@@ -1555,7 +1524,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Using timestamp.
      *
      * @param timestamp
      * @return
@@ -1570,7 +1538,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * I F.
      *
      * @param expr
      * @return
@@ -1586,7 +1553,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * I F.
      *
      * @param cond any literal written in <code>Expression</code> condition won't be formalized
      * @return
@@ -1602,7 +1568,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * If exists.
      *
      * @return
      */
@@ -1628,7 +1593,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Allow filtering.
      *
      * @return
      */
@@ -1673,7 +1637,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Parameters.
      *
      * @return
      */
@@ -1691,7 +1654,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Inits the.
      *
      * @param setForUpdate
      */
@@ -1870,7 +1832,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Append condition.
      *
      * @param cond
      */
@@ -2074,7 +2035,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Apply.
      *
      * @param <T>
      * @param <EX>
@@ -2087,7 +2047,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Accept.
      *
      * @param <EX>
      * @param consumer
@@ -2118,7 +2077,6 @@ public abstract class CQLBuilder {
     //    }
 
     /**
-     * To string.
      *
      * @return
      */
@@ -2202,7 +2160,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param expr
          * @return
@@ -2212,7 +2169,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -2228,7 +2184,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -2243,7 +2198,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param props
          * @return
@@ -2258,7 +2212,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @return
@@ -2268,7 +2221,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @param excludedPropNames
@@ -2286,7 +2238,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @return
@@ -2296,7 +2247,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2313,7 +2263,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @return
@@ -2323,7 +2272,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2334,7 +2282,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr
          * @return
@@ -2344,7 +2291,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -2360,7 +2306,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -2375,7 +2320,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnNames
@@ -2392,7 +2336,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnAliases
          * @return
@@ -2407,7 +2350,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnAliases
@@ -2424,7 +2366,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @return
@@ -2434,7 +2375,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2451,7 +2391,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @return
@@ -2461,7 +2400,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2472,7 +2410,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param tableName
          * @return
@@ -2487,7 +2424,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @return
@@ -2497,7 +2433,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2515,7 +2450,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param expr
          * @return
@@ -2525,7 +2459,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -2541,7 +2474,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -2556,7 +2488,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @return
@@ -2566,7 +2497,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2583,7 +2513,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param tableName
          * @return
@@ -2598,7 +2527,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @return
@@ -2608,7 +2536,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2652,7 +2579,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param expr
          * @return
@@ -2662,7 +2588,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -2678,7 +2603,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -2693,7 +2617,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param props
          * @return
@@ -2708,7 +2631,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @return
@@ -2718,7 +2640,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @param excludedPropNames
@@ -2736,7 +2657,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @return
@@ -2746,7 +2666,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2763,7 +2682,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @return
@@ -2773,7 +2691,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2784,7 +2701,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr
          * @return
@@ -2794,7 +2710,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -2810,7 +2725,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -2825,7 +2739,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnNames
@@ -2842,7 +2755,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnAliases
          * @return
@@ -2857,7 +2769,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnAliases
@@ -2874,7 +2785,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @return
@@ -2884,7 +2794,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2901,7 +2810,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @return
@@ -2911,7 +2819,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2922,7 +2829,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param tableName
          * @return
@@ -2937,7 +2843,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @return
@@ -2947,7 +2852,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -2965,7 +2869,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param expr
          * @return
@@ -2975,7 +2878,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -2991,7 +2893,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -3006,7 +2907,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @return
@@ -3016,7 +2916,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3033,7 +2932,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param tableName
          * @return
@@ -3048,7 +2946,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @return
@@ -3058,7 +2955,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3102,7 +2998,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param expr
          * @return
@@ -3112,7 +3007,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -3128,7 +3022,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -3143,7 +3036,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param props
          * @return
@@ -3158,7 +3050,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @return
@@ -3168,7 +3059,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @param excludedPropNames
@@ -3186,7 +3076,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @return
@@ -3196,7 +3085,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3213,7 +3101,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @return
@@ -3223,7 +3110,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3234,7 +3120,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr
          * @return
@@ -3244,7 +3129,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -3260,7 +3144,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -3275,7 +3158,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnNames
@@ -3292,7 +3174,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnAliases
          * @return
@@ -3307,7 +3188,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnAliases
@@ -3324,7 +3204,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @return
@@ -3334,7 +3213,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3351,7 +3229,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @return
@@ -3361,7 +3238,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3372,7 +3248,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param tableName
          * @return
@@ -3387,7 +3262,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @return
@@ -3397,7 +3271,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3415,7 +3288,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param expr
          * @return
@@ -3425,7 +3297,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -3441,7 +3312,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -3456,7 +3326,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @return
@@ -3466,7 +3335,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3483,7 +3351,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param tableName
          * @return
@@ -3498,7 +3365,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @return
@@ -3508,7 +3374,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3549,7 +3414,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param expr
          * @return
@@ -3559,7 +3423,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -3575,7 +3438,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -3590,7 +3452,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param props
          * @return
@@ -3605,7 +3466,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @return
@@ -3615,7 +3475,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @param excludedPropNames
@@ -3633,7 +3492,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @return
@@ -3643,7 +3501,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3660,7 +3517,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @return
@@ -3670,7 +3526,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3681,7 +3536,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr
          * @return
@@ -3691,7 +3545,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -3707,7 +3560,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -3722,7 +3574,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnNames
@@ -3739,7 +3590,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnAliases
          * @return
@@ -3754,7 +3604,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnAliases
@@ -3771,7 +3620,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @return
@@ -3781,7 +3629,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3798,7 +3645,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @return
@@ -3808,7 +3654,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3819,7 +3664,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param tableName
          * @return
@@ -3834,7 +3678,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @return
@@ -3844,7 +3687,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3862,7 +3704,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param expr
          * @return
@@ -3872,7 +3713,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -3888,7 +3728,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -3903,7 +3742,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @return
@@ -3913,7 +3751,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3930,7 +3767,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param tableName
          * @return
@@ -3945,7 +3781,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @return
@@ -3955,7 +3790,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -3996,7 +3830,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param expr
          * @return
@@ -4006,7 +3839,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -4022,7 +3854,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -4037,7 +3868,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param props
          * @return
@@ -4052,7 +3882,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @return
@@ -4062,7 +3891,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @param excludedPropNames
@@ -4080,7 +3908,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @return
@@ -4090,7 +3917,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4107,7 +3933,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @return
@@ -4117,7 +3942,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4128,7 +3952,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr
          * @return
@@ -4138,7 +3961,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -4154,7 +3976,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -4169,7 +3990,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnNames
@@ -4186,7 +4006,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnAliases
          * @return
@@ -4201,7 +4020,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnAliases
@@ -4218,7 +4036,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @return
@@ -4228,7 +4045,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4245,7 +4061,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @return
@@ -4255,7 +4070,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4266,7 +4080,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param tableName
          * @return
@@ -4281,7 +4094,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @return
@@ -4291,7 +4103,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4309,7 +4120,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param expr
          * @return
@@ -4319,7 +4129,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -4335,7 +4144,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -4350,7 +4158,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @return
@@ -4360,7 +4167,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4377,7 +4183,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param tableName
          * @return
@@ -4392,7 +4197,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @return
@@ -4402,7 +4206,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4443,7 +4246,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param expr
          * @return
@@ -4453,7 +4255,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -4469,7 +4270,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -4484,7 +4284,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param props
          * @return
@@ -4499,7 +4298,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @return
@@ -4509,7 +4307,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @param excludedPropNames
@@ -4527,7 +4324,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @return
@@ -4537,7 +4333,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4554,7 +4349,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @return
@@ -4564,7 +4358,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4575,7 +4368,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr
          * @return
@@ -4585,7 +4377,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -4601,7 +4392,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -4616,7 +4406,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnNames
@@ -4633,7 +4422,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnAliases
          * @return
@@ -4648,7 +4436,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnAliases
@@ -4665,7 +4452,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @return
@@ -4675,7 +4461,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4692,7 +4477,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @return
@@ -4702,7 +4486,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4713,7 +4496,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param tableName
          * @return
@@ -4728,7 +4510,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @return
@@ -4738,7 +4519,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4756,7 +4536,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param expr
          * @return
@@ -4766,7 +4545,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -4782,7 +4560,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -4797,7 +4574,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @return
@@ -4807,7 +4583,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4824,7 +4599,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param tableName
          * @return
@@ -4839,7 +4613,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @return
@@ -4849,7 +4622,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -4890,7 +4662,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param expr
          * @return
@@ -4900,7 +4671,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -4916,7 +4686,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -4931,7 +4700,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param props
          * @return
@@ -4946,7 +4714,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @return
@@ -4956,7 +4723,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @param excludedPropNames
@@ -4974,7 +4740,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @return
@@ -4984,7 +4749,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5001,7 +4765,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @return
@@ -5011,7 +4774,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5022,7 +4784,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr
          * @return
@@ -5032,7 +4793,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -5048,7 +4808,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -5063,7 +4822,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnNames
@@ -5080,7 +4838,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnAliases
          * @return
@@ -5095,7 +4852,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnAliases
@@ -5112,7 +4868,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @return
@@ -5122,7 +4877,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5139,7 +4893,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @return
@@ -5149,7 +4902,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5160,7 +4912,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param tableName
          * @return
@@ -5175,7 +4926,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @return
@@ -5185,7 +4935,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5203,7 +4952,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param expr
          * @return
@@ -5213,7 +4961,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -5229,7 +4976,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -5244,7 +4990,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @return
@@ -5254,7 +4999,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5271,7 +5015,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param tableName
          * @return
@@ -5286,7 +5029,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @return
@@ -5296,7 +5038,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5337,7 +5078,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param expr
          * @return
@@ -5347,7 +5087,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -5363,7 +5102,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -5378,7 +5116,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param props
          * @return
@@ -5393,7 +5130,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @return
@@ -5403,7 +5139,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @param excludedPropNames
@@ -5421,7 +5156,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @return
@@ -5431,7 +5165,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5448,7 +5181,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @return
@@ -5458,7 +5190,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5469,7 +5200,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr
          * @return
@@ -5479,7 +5209,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -5495,7 +5224,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -5510,7 +5238,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnNames
@@ -5527,7 +5254,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnAliases
          * @return
@@ -5542,7 +5268,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnAliases
@@ -5559,7 +5284,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @return
@@ -5569,7 +5293,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5586,7 +5309,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @return
@@ -5596,7 +5318,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5607,7 +5328,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param tableName
          * @return
@@ -5622,7 +5342,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @return
@@ -5632,7 +5351,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5650,7 +5368,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param expr
          * @return
@@ -5660,7 +5377,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -5676,7 +5392,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -5691,7 +5406,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @return
@@ -5701,7 +5415,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5718,7 +5431,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param tableName
          * @return
@@ -5733,7 +5445,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @return
@@ -5743,7 +5454,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5784,7 +5494,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param expr
          * @return
@@ -5794,7 +5503,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -5810,7 +5518,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param columnNames
          * @return
@@ -5825,7 +5532,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param props
          * @return
@@ -5840,7 +5546,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @return
@@ -5850,7 +5555,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entity
          * @param excludedPropNames
@@ -5868,7 +5572,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @return
@@ -5878,7 +5581,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5895,7 +5597,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @return
@@ -5905,7 +5606,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Insert into.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -5916,7 +5616,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr
          * @return
@@ -5926,7 +5625,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -5942,7 +5640,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnNames
          * @return
@@ -5957,7 +5654,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnNames
@@ -5974,7 +5670,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param columnAliases
          * @return
@@ -5989,7 +5684,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
          * @param columnAliases
@@ -6006,7 +5700,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @return
@@ -6016,7 +5709,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -6033,7 +5725,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @return
@@ -6043,7 +5734,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Select from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -6054,7 +5744,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param tableName
          * @return
@@ -6069,7 +5758,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @return
@@ -6079,7 +5767,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Update.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -6097,7 +5784,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param expr
          * @return
@@ -6107,7 +5793,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -6123,7 +5808,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param columnNames
          * @return
@@ -6138,7 +5822,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @return
@@ -6148,7 +5831,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -6165,7 +5847,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param tableName
          * @return
@@ -6180,7 +5861,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @return
@@ -6190,7 +5870,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Delete from.
          *
          * @param entityClass
          * @param excludedPropNames
@@ -6224,7 +5903,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * .
          *
          * @return
          */
@@ -6233,7 +5911,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Hash code.
          *
          * @return
          */
@@ -6243,7 +5920,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * Equals.
          *
          * @param obj
          * @return true, if successful
@@ -6264,7 +5940,6 @@ public abstract class CQLBuilder {
         }
 
         /**
-         * To string.
          *
          * @return
          */

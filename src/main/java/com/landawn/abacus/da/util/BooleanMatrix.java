@@ -50,7 +50,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Empty.
      *
      * @return
      */
@@ -59,7 +58,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Of.
      *
      * @param a
      * @return
@@ -70,7 +68,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Random.
      *
      * @param len
      * @return
@@ -80,7 +77,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Repeat.
      *
      * @param val
      * @param len
@@ -111,7 +107,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Diagonal.
      *
      * @param leftUp2RighDownDiagonal
      * @param rightUp2LeftDownDiagonal
@@ -155,7 +150,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Gets the.
      *
      * @param i
      * @param j
@@ -166,7 +160,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Gets the.
      *
      * @param point
      * @return true, if successful
@@ -176,7 +169,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the.
      *
      * @param i
      * @param j
@@ -187,7 +179,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Sets the.
      *
      * @param point
      * @param val
@@ -197,7 +188,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Up of.
      *
      * @param i
      * @param j
@@ -208,7 +198,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Down of.
      *
      * @param i
      * @param j
@@ -219,7 +208,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Left of.
      *
      * @param i
      * @param j
@@ -230,7 +218,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Right of.
      *
      * @param i
      * @param j
@@ -278,7 +265,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Row.
      *
      * @param rowIndex
      * @return
@@ -290,7 +276,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Column.
      *
      * @param columnIndex
      * @return
@@ -334,7 +319,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Update row.
      *
      * @param <E>
      * @param rowIndex
@@ -348,7 +332,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Update column.
      *
      * @param <E>
      * @param columnIndex
@@ -454,7 +437,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Update all.
      *
      * @param <E>
      * @param func
@@ -545,7 +527,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Replace if.
      *
      * @param <E>
      * @param predicate
@@ -637,7 +618,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Map.
      *
      * @param <E>
      * @param func
@@ -743,7 +723,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Fill.
      *
      * @param val
      */
@@ -754,7 +733,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Fill.
      *
      * @param b
      */
@@ -763,7 +741,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Fill.
      *
      * @param fromRowIndex
      * @param fromColumnIndex
@@ -779,7 +756,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Copy.
      *
      * @return
      */
@@ -795,7 +771,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -815,7 +790,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -838,7 +812,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -849,7 +822,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -883,7 +855,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -896,7 +867,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -967,7 +937,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Flip H.
      *
      * @return
      * @see IntMatrix#flipH()
@@ -979,7 +948,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Flip V.
      *
      * @return
      * @see IntMatrix#flipV()
@@ -991,7 +959,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Rotate 90.
      *
      * @return
      */
@@ -1017,7 +984,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Rotate 180.
      *
      * @return
      */
@@ -1034,7 +1000,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Rotate 270.
      *
      * @return
      */
@@ -1060,7 +1025,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Transpose.
      *
      * @return
      */
@@ -1086,7 +1050,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Reshape.
      *
      * @param newRows
      * @param newCols
@@ -1178,7 +1141,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Flatten.
      *
      * @return
      */
@@ -1194,7 +1156,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Flat op.
      *
      * @param <E>
      * @param op
@@ -1206,7 +1167,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Vstack.
      *
      * @param b
      * @return
@@ -1230,7 +1190,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Hstack.
      *
      * @param b
      * @return
@@ -1250,7 +1209,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Boxed.
      *
      * @return
      */
@@ -1275,7 +1233,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1330,7 +1287,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1478,7 +1434,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Stream H.
      *
      * @return a stream based on the order of row.
      */
@@ -1488,7 +1443,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Stream H.
      *
      * @param rowIndex
      * @return
@@ -1499,7 +1453,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Stream H.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -1579,7 +1532,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Stream V.
      *
      * @return a stream based on the order of column.
      */
@@ -1590,7 +1542,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Stream V.
      *
      * @param columnIndex
      * @return
@@ -1601,7 +1552,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Stream V.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -1682,7 +1632,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Stream R.
      *
      * @return a row stream based on the order of row.
      */
@@ -1692,7 +1641,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Stream R.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -1739,7 +1687,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Stream C.
      *
      * @return a column stream based on the order of column.
      */
@@ -1750,7 +1697,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Stream C.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -1828,7 +1774,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Length.
      *
      * @param a
      * @return
@@ -1839,7 +1784,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param action
@@ -1850,7 +1794,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param fromRowIndex
@@ -1881,7 +1824,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -1891,7 +1833,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -1912,7 +1853,6 @@ public final class BooleanMatrix extends AbstractMatrix<boolean[], BooleanList, 
     }
 
     /**
-     * To string.
      *
      * @return
      */

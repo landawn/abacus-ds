@@ -53,7 +53,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Empty.
      *
      * @return
      */
@@ -62,7 +61,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Of.
      *
      * @param a
      * @return
@@ -73,7 +71,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * From.
      *
      * @param a
      * @return
@@ -96,7 +93,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Random.
      *
      * @param len
      * @return
@@ -106,7 +102,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Repeat.
      *
      * @param val
      * @param len
@@ -137,7 +132,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Diagonal.
      *
      * @param leftUp2RighDownDiagonal
      * @param rightUp2LeftDownDiagonal
@@ -181,7 +175,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Gets the.
      *
      * @param i
      * @param j
@@ -192,7 +185,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Gets the.
      *
      * @param point
      * @return
@@ -202,7 +194,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Sets the.
      *
      * @param i
      * @param j
@@ -213,7 +204,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Sets the.
      *
      * @param point
      * @param val
@@ -223,7 +213,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Up of.
      *
      * @param i
      * @param j
@@ -234,7 +223,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Down of.
      *
      * @param i
      * @param j
@@ -245,7 +233,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Left of.
      *
      * @param i
      * @param j
@@ -256,7 +243,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Right of.
      *
      * @param i
      * @param j
@@ -304,7 +290,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Row.
      *
      * @param rowIndex
      * @return
@@ -316,7 +301,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Column.
      *
      * @param columnIndex
      * @return
@@ -360,7 +344,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Update row.
      *
      * @param <E>
      * @param rowIndex
@@ -374,7 +357,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Update column.
      *
      * @param <E>
      * @param columnIndex
@@ -480,7 +462,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Update all.
      *
      * @param <E>
      * @param func
@@ -570,7 +551,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Replace if.
      *
      * @param <E>
      * @param predicate
@@ -662,7 +642,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Map.
      *
      * @param <E>
      * @param func
@@ -768,7 +747,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Fill.
      *
      * @param val
      */
@@ -779,7 +757,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Fill.
      *
      * @param b
      */
@@ -788,7 +765,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Fill.
      *
      * @param fromRowIndex
      * @param fromColumnIndex
@@ -804,7 +780,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Copy.
      *
      * @return
      */
@@ -820,7 +795,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -840,7 +814,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -863,7 +836,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -874,7 +846,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -908,7 +879,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -921,7 +891,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -992,7 +961,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Flip H.
      *
      * @return
      * @see IntMatrix#flipH()
@@ -1004,7 +972,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Flip V.
      *
      * @return
      * @see IntMatrix#flipV()
@@ -1016,7 +983,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Rotate 90.
      *
      * @return
      */
@@ -1042,7 +1008,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Rotate 180.
      *
      * @return
      */
@@ -1059,7 +1024,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Rotate 270.
      *
      * @return
      */
@@ -1085,7 +1049,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Transpose.
      *
      * @return
      */
@@ -1111,7 +1074,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Reshape.
      *
      * @param newRows
      * @param newCols
@@ -1203,7 +1165,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Flatten.
      *
      * @return
      */
@@ -1219,7 +1180,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Flat op.
      *
      * @param <E>
      * @param op
@@ -1231,7 +1191,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Vstack.
      *
      * @param b
      * @return
@@ -1255,7 +1214,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Hstack.
      *
      * @param b
      * @return
@@ -1275,7 +1233,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Adds the.
      *
      * @param b
      * @return
@@ -1325,7 +1282,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Subtract.
      *
      * @param b
      * @return
@@ -1375,7 +1331,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Multiply.
      *
      * @param b
      * @return
@@ -1522,7 +1477,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Boxed.
      *
      * @return
      */
@@ -1556,7 +1510,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1610,7 +1563,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1757,7 +1709,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Stream H.
      *
      * @return a stream based on the order of row.
      */
@@ -1767,7 +1718,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Stream H.
      *
      * @param rowIndex
      * @return
@@ -1778,7 +1728,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Stream H.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -1855,7 +1804,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Stream V.
      *
      * @return a stream based on the order of column.
      */
@@ -1866,7 +1814,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Stream V.
      *
      * @param columnIndex
      * @return
@@ -1877,7 +1824,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Stream V.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -1955,7 +1901,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Stream R.
      *
      * @return a row stream based on the order of row.
      */
@@ -1965,7 +1910,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Stream R.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -2012,7 +1956,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Stream C.
      *
      * @return a column stream based on the order of column.
      */
@@ -2023,7 +1966,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Stream C.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2101,7 +2043,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Length.
      *
      * @param a
      * @return
@@ -2112,7 +2053,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param action
@@ -2123,7 +2063,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param fromRowIndex
@@ -2154,7 +2093,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -2164,7 +2102,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -2185,7 +2122,6 @@ public final class FloatMatrix extends AbstractMatrix<float[], FloatList, FloatS
     }
 
     /**
-     * To string.
      *
      * @return
      */

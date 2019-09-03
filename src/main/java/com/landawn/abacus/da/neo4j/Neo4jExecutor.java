@@ -54,7 +54,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Session factory.
      *
      * @return
      */
@@ -63,7 +62,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Open session.
      *
      * @return
      */
@@ -72,7 +70,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load.
      *
      * @param <T>
      * @param targetClass
@@ -90,7 +87,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load.
      *
      * @param <T>
      * @param targetClass
@@ -109,7 +105,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -127,7 +122,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -146,7 +140,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -165,7 +158,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -185,7 +177,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -204,7 +195,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -224,7 +214,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -244,7 +233,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -265,7 +253,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param objects
@@ -282,7 +269,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param objects
@@ -300,7 +286,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param objects
@@ -318,7 +303,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param objects
@@ -337,7 +321,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param objects
@@ -355,7 +338,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param objects
@@ -374,7 +356,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param objects
@@ -393,7 +374,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param objects
@@ -413,7 +393,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -430,7 +409,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -448,7 +426,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -466,7 +443,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -485,7 +461,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -503,7 +478,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -522,7 +496,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -541,7 +514,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -561,7 +533,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -579,7 +550,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -598,7 +568,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -617,7 +586,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -637,7 +605,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -656,7 +623,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -676,7 +642,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -696,7 +661,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -717,7 +681,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -735,7 +698,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -754,7 +716,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -773,7 +734,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -793,7 +753,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -812,7 +771,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -832,7 +790,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -852,7 +809,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Load all.
      *
      * @param <T>
      * @param targetClass
@@ -873,7 +829,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Save.
      *
      * @param <T>
      * @param object
@@ -889,7 +844,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Save.
      *
      * @param <T>
      * @param object
@@ -906,7 +860,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Delete.
      *
      * @param <T>
      * @param object
@@ -922,7 +875,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Delete all.
      *
      * @param <T>
      * @param targetClass
@@ -958,7 +910,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Query.
      *
      * @param cypher
      * @param parameters
@@ -971,7 +922,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Query.
      *
      * @param cypher
      * @param parameters
@@ -985,7 +935,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Query.
      *
      * @param <T>
      * @param objectType
@@ -1068,7 +1017,6 @@ public final class Neo4jExecutor {
     }
 
     /**
-     * Close session.
      *
      * @param session
      */

@@ -52,7 +52,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Empty.
      *
      * @return
      */
@@ -61,7 +60,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Of.
      *
      * @param a
      * @return
@@ -72,7 +70,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * From.
      *
      * @param a
      * @return
@@ -95,7 +92,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * From.
      *
      * @param a
      * @return
@@ -118,7 +114,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * From.
      *
      * @param a
      * @return
@@ -141,7 +136,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Random.
      *
      * @param len
      * @return
@@ -151,7 +145,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Repeat.
      *
      * @param val
      * @param len
@@ -162,7 +155,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Range.
      *
      * @param startInclusive
      * @param endExclusive
@@ -173,7 +165,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Range.
      *
      * @param startInclusive
      * @param endExclusive
@@ -185,7 +176,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Range closed.
      *
      * @param startInclusive
      * @param endInclusive
@@ -196,7 +186,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Range closed.
      *
      * @param startInclusive
      * @param endInclusive
@@ -228,7 +217,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Diagonal.
      *
      * @param leftUp2RighDownDiagonal
      * @param rightUp2LeftDownDiagonal
@@ -272,7 +260,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Gets the.
      *
      * @param i
      * @param j
@@ -283,7 +270,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Gets the.
      *
      * @param point
      * @return
@@ -293,7 +279,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the.
      *
      * @param i
      * @param j
@@ -304,7 +289,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Sets the.
      *
      * @param point
      * @param val
@@ -314,7 +298,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Up of.
      *
      * @param i
      * @param j
@@ -325,7 +308,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Down of.
      *
      * @param i
      * @param j
@@ -336,7 +318,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Left of.
      *
      * @param i
      * @param j
@@ -347,7 +328,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Right of.
      *
      * @param i
      * @param j
@@ -395,7 +375,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Row.
      *
      * @param rowIndex
      * @return
@@ -407,7 +386,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Column.
      *
      * @param columnIndex
      * @return
@@ -451,7 +429,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Update row.
      *
      * @param <E>
      * @param rowIndex
@@ -465,7 +442,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Update column.
      *
      * @param <E>
      * @param columnIndex
@@ -571,7 +547,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Update all.
      *
      * @param <E>
      * @param func
@@ -661,7 +636,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Replace if.
      *
      * @param <E>
      * @param predicate
@@ -753,7 +727,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Map.
      *
      * @param <E>
      * @param func
@@ -859,7 +832,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Fill.
      *
      * @param val
      */
@@ -870,7 +842,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Fill.
      *
      * @param b
      */
@@ -879,7 +850,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Fill.
      *
      * @param fromRowIndex
      * @param fromColumnIndex
@@ -895,7 +865,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Copy.
      *
      * @return
      */
@@ -911,7 +880,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -931,7 +899,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Copy.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -954,7 +921,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -965,7 +931,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Extend.
      *
      * @param newRows
      * @param newCols
@@ -999,7 +964,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -1012,7 +976,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Extend.
      *
      * @param toUp
      * @param toDown
@@ -1083,7 +1046,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Flip H.
      *
      * @return
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
@@ -1095,7 +1057,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Flip V.
      *
      * @return
      * @see <a href="https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1">https://www.mathworks.com/help/matlab/ref/flip.html#btz149s-1</a>
@@ -1107,7 +1068,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Rotate 90.
      *
      * @return
      */
@@ -1133,7 +1093,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Rotate 180.
      *
      * @return
      */
@@ -1150,7 +1109,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Rotate 270.
      *
      * @return
      */
@@ -1176,7 +1134,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Transpose.
      *
      * @return
      */
@@ -1202,7 +1159,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Reshape.
      *
      * @param newRows
      * @param newCols
@@ -1294,7 +1250,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Flatten.
      *
      * @return
      */
@@ -1310,7 +1265,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Flat op.
      *
      * @param <E>
      * @param op
@@ -1388,7 +1342,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Adds the.
      *
      * @param b
      * @return
@@ -1438,7 +1391,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Subtract.
      *
      * @param b
      * @return
@@ -1488,7 +1440,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Multiply.
      *
      * @param b
      * @return
@@ -1635,7 +1586,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Boxed.
      *
      * @return
      */
@@ -1687,7 +1637,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1741,7 +1690,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Zip with.
      *
      * @param <E>
      * @param matrixB
@@ -1888,7 +1836,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream H.
      *
      * @return a stream based on the order of row.
      */
@@ -1898,7 +1845,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream H.
      *
      * @param rowIndex
      * @return
@@ -1909,7 +1855,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream H.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -1986,7 +1931,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream V.
      *
      * @return a stream based on the order of column.
      */
@@ -1997,7 +1941,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream V.
      *
      * @param columnIndex
      * @return
@@ -2008,7 +1951,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream V.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2086,7 +2028,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream R.
      *
      * @return a row stream based on the order of row.
      */
@@ -2096,7 +2037,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream R.
      *
      * @param fromRowIndex
      * @param toRowIndex
@@ -2143,7 +2083,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream C.
      *
      * @return a column stream based on the order of column.
      */
@@ -2154,7 +2093,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Stream C.
      *
      * @param fromColumnIndex
      * @param toColumnIndex
@@ -2232,7 +2170,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Length.
      *
      * @param a
      * @return
@@ -2243,7 +2180,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param action
@@ -2254,7 +2190,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * For each.
      *
      * @param <E>
      * @param fromRowIndex
@@ -2285,7 +2220,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Hash code.
      *
      * @return
      */
@@ -2295,7 +2229,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * Equals.
      *
      * @param obj
      * @return true, if successful
@@ -2316,7 +2249,6 @@ public final class IntMatrix extends AbstractMatrix<int[], IntList, IntStream, S
     }
 
     /**
-     * To string.
      *
      * @return
      */
