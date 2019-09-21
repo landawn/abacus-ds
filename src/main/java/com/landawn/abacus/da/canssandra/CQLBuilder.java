@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2016, Haiyang Li.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -76,21 +76,21 @@ import com.landawn.abacus.util.WD;
 
 // TODO: Auto-generated Javadoc
 /**
- * It's easier to write/maintain the CQL by <code>CQLBuilder</code> and more efficient, comparing to write Cassandra CQL in plain text. 
+ * It's easier to write/maintain the CQL by <code>CQLBuilder</code> and more efficient, comparing to write Cassandra CQL in plain text.
  * <br>The <code>cql()</code> or <code>pair()</code> method must be called to release resources.
  * <br />Here is a sample:
  * <p>
  * String cql = NE.insert("gui", "firstName", "lastName").into("account").cql();
  * <br />// CQL: INSERT INTO account (gui, first_name, last_name) VALUES (:gui, :firstName, :lastName)
  * </p>
- * 
+ *
  * The {@code tableName} will NOT be formalized.
  * <li>{@code select(...).from(String tableName).where(...)}</li>
  * <li>{@code insert(...).into(String tableName).values(...)}</li>
  * <li>{@code update(String tableName).set(...).where(...)}</li>
  * <li>{@code deleteFrom(String tableName).where(...)}</li>
- * 
- * <br /> 
+ *
+ * <br />
  *
  * @author Haiyang Li
  * @since 0.8
@@ -1646,7 +1646,7 @@ public abstract class CQLBuilder {
 
     /**
      *  This CQLBuilder will be closed after <code>pair()</code> is called.
-     *  
+     *
      * @return
      */
     public CP pair() {
@@ -2117,7 +2117,7 @@ public abstract class CQLBuilder {
     /**
      * The Enum CQLPolicy.
      */
-    static enum CQLPolicy {
+    enum CQLPolicy {
 
         /** The cql. */
         CQL,
@@ -2129,15 +2129,15 @@ public abstract class CQLBuilder {
 
     /**
      * Un-parameterized CQL builder with snake case (lower case with underscore) field/column naming strategy.
-     * 
+     *
      * For example:
      * <pre>
      * <code>
      * SCCB.select("firstName", "lastName").from("account").where(L.eq("id", 1)).sql();
-     * // Output: SELECT first_name AS 'firstName', last_name AS 'lastName' FROM account WHERE id = 1
+     * // Output: SELECT first_name AS "firstName", last_name AS "lastName" FROM account WHERE id = 1
      * </code>
      * </pre>
-     * 
+     *
      * @deprecated {@code PSC or NSC} is preferred.
      */
     @Deprecated
@@ -2548,15 +2548,15 @@ public abstract class CQLBuilder {
 
     /**
      * Un-parameterized CQL builder with all capitals case (upper case with underscore) field/column naming strategy.
-     * 
+     *
      * For example:
      * <pre>
      * <code>
      * N.println(ACCB.select("firstName", "lastName").from("account").where(L.eq("id", 1)).sql());
-     * // Output: SELECT FIRST_NAME AS 'firstName', LAST_NAME AS 'lastName' FROM ACCOUNT WHERE ID = 1
+     * // Output: SELECT FIRST_NAME AS "firstName", LAST_NAME AS "lastName" FROM ACCOUNT WHERE ID = 1
      * </code>
      * </pre>
-     * 
+     *
      * @deprecated {@code PAC or NAC} is preferred.
      */
     @Deprecated
@@ -2967,7 +2967,7 @@ public abstract class CQLBuilder {
 
     /**
      * Un-parameterized CQL builder with lower camel case field/column naming strategy.
-     * 
+     *
      * For example:
      * <pre>
      * <code>
@@ -2975,7 +2975,7 @@ public abstract class CQLBuilder {
      * // SELECT firstName, lastName FROM account WHERE id = 1
      * </code>
      * </pre>
-     * 
+     *
      * @deprecated {@code PLC or NLC} is preferred.
      */
     @Deprecated
@@ -3386,12 +3386,12 @@ public abstract class CQLBuilder {
 
     /**
      * Parameterized('?') CQL builder with snake case (lower case with underscore) field/column naming strategy.
-     * 
+     *
      * For example:
      * <pre>
      * <code>
      * N.println(PSC.select("firstName", "lastName").from("account").where(L.eq("id", 1)).sql());
-     * // SELECT first_name AS 'firstName', last_name AS 'lastName' FROM account WHERE id = ?
+     * // SELECT first_name AS "firstName", last_name AS "lastName" FROM account WHERE id = ?
      * </code>
      * </pre>
      */
@@ -3802,12 +3802,12 @@ public abstract class CQLBuilder {
 
     /**
      * Parameterized('?') CQL builder with all capitals case (upper case with underscore) field/column naming strategy.
-     * 
+     *
      * For example:
      * <pre>
      * <code>
      * N.println(PAC.select("firstName", "lastName").from("account").where(L.eq("id", 1)).sql());
-     * // SELECT FIRST_NAME AS 'firstName', LAST_NAME AS 'lastName' FROM ACCOUNT WHERE ID = ?
+     * // SELECT FIRST_NAME AS "firstName", LAST_NAME AS "lastName" FROM ACCOUNT WHERE ID = ?
      * </code>
      * </pre>
      */
@@ -4218,7 +4218,7 @@ public abstract class CQLBuilder {
 
     /**
      * Parameterized('?') CQL builder with lower camel case field/column naming strategy.
-     * 
+     *
      * For example:
      * <pre>
      * <code>
@@ -4634,12 +4634,12 @@ public abstract class CQLBuilder {
 
     /**
      * Named CQL builder with snake case (lower case with underscore) field/column naming strategy.
-     * 
+     *
      * For example:
      * <pre>
      * <code>
      * N.println(NSC.select("firstName", "lastName").from("account").where(L.eq("id", 1)).sql());
-     * // SELECT first_name AS 'firstName', last_name AS 'lastName' FROM account WHERE id = :id
+     * // SELECT first_name AS "firstName", last_name AS "lastName" FROM account WHERE id = :id
      * </code>
      * </pre>
      */
@@ -5050,12 +5050,12 @@ public abstract class CQLBuilder {
 
     /**
      * Named CQL builder with all capitals case (upper case with underscore) field/column naming strategy.
-     * 
+     *
      * For example:
      * <pre>
      * <code>
      * N.println(NAC.select("firstName", "lastName").from("account").where(L.eq("id", 1)).sql());
-     * // SELECT FIRST_NAME AS 'firstName', LAST_NAME AS 'lastName' FROM ACCOUNT WHERE ID = :id
+     * // SELECT FIRST_NAME AS "firstName", LAST_NAME AS "lastName" FROM ACCOUNT WHERE ID = :id
      * </code>
      * </pre>
      */
@@ -5466,7 +5466,7 @@ public abstract class CQLBuilder {
 
     /**
      * Named SQL builder with lower camel case field/column naming strategy.
-     * 
+     *
      * For example:
      * <pre>
      * <code>
