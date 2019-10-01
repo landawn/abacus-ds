@@ -1,3 +1,8 @@
+### 1.9.0
+
+* Introduce new project: https://github.com/landawn/abacus-jdbc
+
+
 ### 0.9.6
 
 * Improve Java Docs.
