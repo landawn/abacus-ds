@@ -5,7 +5,7 @@
 
 	<groupId>com.landawn</groupId>
 	<artifactId>abacus-da</artifactId>
-	<version>1.9.0</version>
+	<version>1.9.1</version>
 	<packaging>jar</packaging>
 
 	<name>abacus-da</name>
