@@ -1,3 +1,8 @@
+### 1.9.1
+
+* Introduce new project: https://github.com/landawn/abacus-jdbc
+
+
 ### 1.9.0
 
 * Introduce new project: https://github.com/landawn/abacus-jdbc
