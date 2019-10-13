@@ -810,7 +810,7 @@ public final class RemoteExecutor {
             int lastIndex = clsName.lastIndexOf('.');
             is = cls.getResourceAsStream((lastIndex < 0 ? clsName : clsName.substring(lastIndex + 1)) + ".class");
 
-            return IOUtil.readBytes(is);
+            return IOUtil.readAllBytes(is);
         } finally {
             IOUtil.close(is);
         }

@@ -22,14 +22,10 @@ import org.junit.Test;
 import com.landawn.abacus.DataSet;
 import com.landawn.abacus.da.AbstractNoSQLTest;
 import com.landawn.abacus.da.Account;
-import com.landawn.abacus.da.mongoDB.AsyncMongoCollectionExecutor;
-import com.landawn.abacus.da.mongoDB.MongoCollectionExecutor;
-import com.landawn.abacus.da.mongoDB.MongoDB;
 import com.landawn.abacus.util.Clazz;
 import com.landawn.abacus.util.Fn;
 import com.landawn.abacus.util.Maps;
 import com.landawn.abacus.util.N;
-import com.landawn.abacus.util.Seq;
 import com.mongodb.BasicDBObject;
 import com.mongodb.Block;
 import com.mongodb.MongoClient;
@@ -42,7 +38,7 @@ import com.mongodb.client.model.Projections;
 /**
  *
  * @since 0.8
- * 
+ *
  * @author Haiyang Li
  */
 public class MongoDBExecutorTest extends AbstractNoSQLTest {
@@ -300,7 +296,7 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
 
         docList = collExecutor.list(Document.class, N.asList("lastName"), filter);
 
-        Seq.of(collExecutor.list(String.class, N.asList("lastName"), filter)).foreach(Fn.println());
+        collExecutor.list(String.class, N.asList("lastName"), filter).forEach(Fn.println());
 
         assertNull(docList.get(0).get("firstName"));
         assertEquals(account.getLastName(), docList.get(0).get("lastName"));
@@ -404,7 +400,7 @@ public class MongoDBExecutorTest extends AbstractNoSQLTest {
 
         docList = asyncCollExecutor.list(Document.class, N.asList("lastName"), filter).get();
 
-        Seq.of(asyncCollExecutor.list(String.class, N.asList("lastName"), filter).get()).foreach(Fn.println());
+        asyncCollExecutor.list(String.class, N.asList("lastName"), filter).get().forEach(Fn.println());
 
         assertNull(docList.get(0).get("firstName"));
         assertEquals(account.getLastName(), docList.get(0).get("lastName"));
