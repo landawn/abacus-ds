@@ -1,3 +1,8 @@
+### 1.9.2
+
+* Improvements and bug fix.
+
+
 ### 1.9.1
 
 * Introduce new project: https://github.com/landawn/abacus-jdbc
