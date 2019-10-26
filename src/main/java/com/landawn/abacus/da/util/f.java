@@ -23727,6 +23727,126 @@ public final class f {
      * @param a
      * @return
      */
+    public static int[] toInt(final float[] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final int[] result = new int[len];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = (int) a[i];
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    public static int[][] toInt(final float[][] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final int[][] result = new int[len][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = toInt(a[i]);
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    public static int[][][] toInt(final float[][][] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final int[][][] result = new int[len][][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = toInt(a[i]);
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    public static int[] toInt(final double[] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final int[] result = new int[len];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = (int) a[i];
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    public static int[][] toInt(final double[][] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final int[][] result = new int[len][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = toInt(a[i]);
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    public static int[][][] toInt(final double[][][] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final int[][][] result = new int[len][][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = toInt(a[i]);
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
     public static long[] toLong(final byte[] a) {
         if (a == null) {
             return null;
@@ -23888,6 +24008,126 @@ public final class f {
      * @return
      */
     public static long[][][] toLong(final int[][][] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final long[][][] result = new long[len][][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = toLong(a[i]);
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    public static long[] toLong(final float[] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final long[] result = new long[len];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = (long) a[i];
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    public static long[][] toLong(final float[][] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final long[][] result = new long[len][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = toLong(a[i]);
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    public static long[][][] toLong(final float[][][] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final long[][][] result = new long[len][][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = toLong(a[i]);
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    public static long[] toLong(final double[] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final long[] result = new long[len];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = (long) a[i];
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    public static long[][] toLong(final double[][] a) {
+        if (a == null) {
+            return null;
+        }
+
+        final int len = N.len(a);
+        final long[][] result = new long[len][];
+
+        for (int i = 0; i < len; i++) {
+            result[i] = toLong(a[i]);
+        }
+
+        return result;
+    }
+
+    /**
+     *
+     * @param a
+     * @return
+     */
+    public static long[][][] toLong(final double[][][] a) {
         if (a == null) {
             return null;
         }
