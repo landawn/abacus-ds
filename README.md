@@ -60,7 +60,7 @@ compile 'com.landawn:abacus-da:1.9.2'
 Please refer to [Wiki](https://github.com/landawn/abacus-da/wiki)
 
 
-## Also See: [abacus-util](https://github.com/landawn/abacus-util).
+## Also See: [abacus-util](https://github.com/landawn/abacus-util), [abacus-jdbc](https://github.com/landawn/abacus-jdbc).
 
 
 ## Recommended Java programming libraries/frameworks:
