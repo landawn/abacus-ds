@@ -28,6 +28,7 @@ import com.landawn.abacus.type.Type;
 import com.landawn.abacus.type.TypeFactory;
 import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.N;
+import com.landawn.abacus.util.TypeAttrParser;
 import com.landawn.abacus.util.WD;
 
 // TODO: Auto-generated Javadoc
@@ -63,21 +64,28 @@ public class SheetType<R, C, E> extends AbstractType<Sheet<R, C, E>> {
     /** The jdc. */
     private final JSONDeserializationConfig jdc;
 
+    public SheetType(String typeName) {
+        this(TypeAttrParser.parse(typeName).getTypeParameters());
+    }
+
+    SheetType(String[] typeParameters) {
+        this(typeParameters[0], typeParameters[1], typeParameters[2]);
+    }
+
     /**
      * Instantiates a new sheet type.
      *
-     * @param typeClass
      * @param rowKeyTypeName
      * @param columnKeyTypeName
      * @param elementTypeName
      */
-    @SuppressWarnings("unchecked")
-    public SheetType(Class<Sheet<R, C, E>> typeClass, String rowKeyTypeName, String columnKeyTypeName, String elementTypeName) {
-        super(getTypeName(typeClass, rowKeyTypeName, columnKeyTypeName, elementTypeName, false));
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public SheetType(String rowKeyTypeName, String columnKeyTypeName, String elementTypeName) {
+        super(getTypeName(Sheet.class, rowKeyTypeName, columnKeyTypeName, elementTypeName, false));
 
-        this.declaringName = getTypeName(typeClass.isInterface() ? typeClass : Sheet.class, rowKeyTypeName, columnKeyTypeName, elementTypeName, true);
+        this.declaringName = getTypeName(Sheet.class, rowKeyTypeName, columnKeyTypeName, elementTypeName, true);
 
-        this.typeClass = typeClass;
+        this.typeClass = (Class) Sheet.class;
         this.parameterTypes = new Type[] { TypeFactory.getType(rowKeyTypeName), TypeFactory.getType(columnKeyTypeName), TypeFactory.getType(elementTypeName) };
 
         final Type<?> rowKeyListType = TypeFactory.getType("List<" + rowKeyTypeName + ">");

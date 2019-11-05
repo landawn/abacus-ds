@@ -35,7 +35,7 @@ import junit.framework.TestCase;
 public class SheetTest extends TestCase {
 
     static {
-        TypeFactory.registerType(Sheet.class, new SheetType(Sheet.class, "Object", "Object", "Object"));
+        TypeFactory.registerType(Sheet.class, new SheetType("Object", "Object", "Object"));
         // TypeFactory.registerClass(Sheet.class, "Sheet");
     }
 
