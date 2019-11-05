@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2015, Haiyang Li.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -34,7 +34,6 @@ import com.landawn.abacus.core.RowDataSet;
 import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.parser.KryoParser;
 import com.landawn.abacus.parser.ParserFactory;
-import com.landawn.abacus.type.Type;
 import com.landawn.abacus.util.BiMap;
 import com.landawn.abacus.util.BufferedWriter;
 import com.landawn.abacus.util.IOUtil;
@@ -64,7 +63,7 @@ import com.landawn.abacus.util.stream.Stream;
 public final class Sheet<R, C, E> implements Cloneable {
 
     /** The Constant ELEMENT_SEPARATOR_CHAR_ARRAY. */
-    static final char[] ELEMENT_SEPARATOR_CHAR_ARRAY = Type.ELEMENT_SEPARATOR_CHAR_ARRAY;
+    static final char[] ELEMENT_SEPARATOR_CHAR_ARRAY = N.ELEMENT_SEPARATOR_CHAR_ARRAY;
 
     /** The Constant kryoParser. */
     static final KryoParser kryoParser = ParserFactory.isKryoAvailable() ? ParserFactory.createKryoParser() : null;

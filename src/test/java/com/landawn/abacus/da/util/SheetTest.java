@@ -14,29 +14,29 @@ import org.junit.Test;
 import com.landawn.abacus.DataSet;
 import com.landawn.abacus.da.Account;
 import com.landawn.abacus.da.type.SheetType;
-import com.landawn.abacus.da.util.Sheet;
 import com.landawn.abacus.type.Type;
 import com.landawn.abacus.type.TypeFactory;
 import com.landawn.abacus.util.IntList;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.StringUtil;
 import com.landawn.abacus.util.StringWriter;
+import com.landawn.abacus.util.TypeReference;
 import com.landawn.abacus.util.function.BiFunction;
 import com.landawn.abacus.util.function.Function;
 
 import junit.framework.TestCase;
 
 /**
- * 
+ *
  * @since 0.8
- * 
+ *
  * @author Haiyang Li
  */
 public class SheetTest extends TestCase {
 
     static {
         TypeFactory.registerType(Sheet.class, new SheetType(Sheet.class, "Object", "Object", "Object"));
-        TypeFactory.registerClass(Sheet.class, "Sheet");
+        // TypeFactory.registerClass(Sheet.class, "Sheet");
     }
 
     public void test_print() throws Exception {
@@ -569,7 +569,8 @@ public class SheetTest extends TestCase {
 
     @Test
     public void test_stringOf_2() {
-        Type<Sheet<String, String, Integer>> type = N.typeOf("Sheet<String, String, Integer>");
+        Type<Sheet<String, String, Integer>> type = new TypeReference<Sheet<String, String, Integer>>() {
+        }.type();
 
         Set<String> rowKeySet = N.asLinkedHashSet("R1");
         Set<String> columnKeySet = N.asLinkedHashSet("C1");
@@ -605,7 +606,8 @@ public class SheetTest extends TestCase {
 
     @Test
     public void test_stringOf_3() {
-        Type<Sheet<String, Float, Float>> type = N.typeOf("Sheet<String, Float, Float>");
+        Type<Sheet<String, Float, Float>> type = new TypeReference<Sheet<String, Float, Float>>() {
+        }.type();
 
         Set<String> rowKeySet = N.asLinkedHashSet("R1");
         Set<Float> columnKeySet = N.asLinkedHashSet(1.11f);

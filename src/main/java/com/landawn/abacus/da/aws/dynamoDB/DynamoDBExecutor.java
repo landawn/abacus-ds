@@ -68,7 +68,7 @@ import com.landawn.abacus.util.NamingPolicy;
 import com.landawn.abacus.util.ObjIterator;
 import com.landawn.abacus.util.function.Function;
 import com.landawn.abacus.util.stream.Stream;
- 
+
 // TODO: Auto-generated Javadoc
 /**
  * It's a simple wrapper of DynamoDB Java client.
@@ -157,11 +157,11 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     /**
-     * Set value to <code>null</code> by <code>withNULL(Boolean.TRUE)</code> if the specified value is null, 
+     * Set value to <code>null</code> by <code>withNULL(Boolean.TRUE)</code> if the specified value is null,
      * or set it to <code>Boolean</code> by <code>setBOOL((Boolean) value)</code> if it's <code>Boolean</code>,
-     * or set it to <code>ByteBuffer</code> by <code>setB((ByteBuffer) value)</code> if it's <code>ByteBuffer</code>, 
-     * otherwise, set it to String by <code>setS(N.stringOf(value))</code> for other types. 
-     * That's to say all the types except Number/Boolean/ByteBuffer are defined to String. 
+     * or set it to <code>ByteBuffer</code> by <code>setB((ByteBuffer) value)</code> if it's <code>ByteBuffer</code>,
+     * otherwise, set it to String by <code>setS(N.stringOf(value))</code> for other types.
+     * That's to say all the types except Number/Boolean/ByteBuffer are defined to String.
      *
      * @param value
      * @return
@@ -670,8 +670,8 @@ public final class DynamoDBExecutor implements Closeable {
             return (T) tmp;
         } else if (N.notNullOrEmpty(x.getM())) {
             final Map<String, AttributeValue> attrMap = x.getM();
-            final Map<String, Object> tmp = attrMap instanceof HashMap ? new HashMap<String, Object>(N.initHashCapacity(attrMap.size()))
-                    : new LinkedHashMap<String, Object>(N.initHashCapacity(attrMap.size()));
+            final Map<String, Object> tmp = attrMap instanceof HashMap ? new HashMap<>(N.initHashCapacity(attrMap.size()))
+                    : new LinkedHashMap<>(N.initHashCapacity(attrMap.size()));
 
             for (Map.Entry<String, AttributeValue> entry : attrMap.entrySet()) {
                 tmp.put(entry.getKey(), toValue(entry.getValue()));
@@ -728,139 +728,51 @@ public final class DynamoDBExecutor implements Closeable {
      * @return
      */
     public static Map<String, AttributeValue> toItem(final Object entity, NamingPolicy namingPolicy) {
+        final boolean isLowerCamelCase = namingPolicy == NamingPolicy.LOWER_CAMEL_CASE;
         final Map<String, AttributeValue> attrs = new LinkedHashMap<>();
         final Class<?> cls = entity.getClass();
 
         if (ClassUtil.isEntity(cls)) {
             if (DirtyMarkerUtil.isDirtyMarker(cls)) {
+
                 @SuppressWarnings("deprecation")
-                Set<String> signedPropNames = ((DirtyMarker) entity).signedPropNames();
+                final Set<String> signedPropNames = ((DirtyMarker) entity).signedPropNames();
                 Method propGetMethod = null;
                 Object propValue = null;
 
-                switch (namingPolicy) {
-                    case LOWER_CAMEL_CASE: {
-                        for (String propName : signedPropNames) {
-                            propGetMethod = ClassUtil.getPropGetMethod(cls, propName);
-                            propName = ClassUtil.getPropNameByMethod(propGetMethod);
-                            propValue = ClassUtil.getPropValue(entity, propGetMethod);
+                for (String propName : signedPropNames) {
+                    propGetMethod = ClassUtil.getPropGetMethod(cls, propName);
+                    propName = ClassUtil.getPropNameByMethod(propGetMethod);
+                    propValue = ClassUtil.getPropValue(entity, propGetMethod);
 
-                            attrs.put(propName, attrValueOf(propValue));
-                        }
-
-                        break;
-                    }
-
-                    case LOWER_CASE_WITH_UNDERSCORE: {
-                        for (String propName : signedPropNames) {
-                            propGetMethod = ClassUtil.getPropGetMethod(cls, propName);
-                            propName = ClassUtil.getPropNameByMethod(propGetMethod);
-                            propValue = ClassUtil.getPropValue(entity, propGetMethod);
-
-                            attrs.put(ClassUtil.toLowerCaseWithUnderscore(propName), attrValueOf(propValue));
-                        }
-
-                        break;
-                    }
-
-                    case UPPER_CASE_WITH_UNDERSCORE: {
-                        for (String propName : signedPropNames) {
-                            propGetMethod = ClassUtil.getPropGetMethod(cls, propName);
-                            propName = ClassUtil.getPropNameByMethod(propGetMethod);
-                            propValue = ClassUtil.getPropValue(entity, propGetMethod);
-
-                            attrs.put(ClassUtil.toUpperCaseWithUnderscore(propName), attrValueOf(propValue));
-                        }
-
-                        break;
-                    }
-
-                    default:
-                        throw new IllegalArgumentException("Unsupported naming policy: " + namingPolicy);
+                    attrs.put(isLowerCamelCase ? propName : namingPolicy.convert(propName), attrValueOf(propValue));
                 }
-
             } else {
                 final Map<String, Method> getMethodMap = ClassUtil.getPropGetMethodList(cls);
                 Object propValue = null;
 
-                switch (namingPolicy) {
-                    case LOWER_CAMEL_CASE: {
-                        for (Map.Entry<String, Method> entry : getMethodMap.entrySet()) {
-                            propValue = ClassUtil.getPropValue(entity, entry.getValue());
+                for (Map.Entry<String, Method> entry : getMethodMap.entrySet()) {
+                    propValue = ClassUtil.getPropValue(entity, entry.getValue());
 
-                            if (propValue == null) {
-                                continue;
-                            }
-
-                            attrs.put(entry.getKey(), attrValueOf(propValue));
-                        }
-
-                        break;
+                    if (propValue == null) {
+                        continue;
                     }
 
-                    case LOWER_CASE_WITH_UNDERSCORE: {
-                        for (Map.Entry<String, Method> entry : getMethodMap.entrySet()) {
-                            propValue = ClassUtil.getPropValue(entity, entry.getValue());
-
-                            if (propValue == null) {
-                                continue;
-                            }
-
-                            attrs.put(ClassUtil.toLowerCaseWithUnderscore(entry.getKey()), attrValueOf(propValue));
-                        }
-
-                        break;
-                    }
-
-                    case UPPER_CASE_WITH_UNDERSCORE: {
-                        for (Map.Entry<String, Method> entry : getMethodMap.entrySet()) {
-                            propValue = ClassUtil.getPropValue(entity, entry.getValue());
-
-                            if (propValue == null) {
-                                continue;
-                            }
-
-                            attrs.put(ClassUtil.toUpperCaseWithUnderscore(entry.getKey()), attrValueOf(propValue));
-                        }
-
-                        break;
-                    }
-
-                    default:
-                        throw new IllegalArgumentException("Unsupported naming policy: " + namingPolicy);
+                    attrs.put(isLowerCamelCase ? entry.getKey() : namingPolicy.convert(entry.getKey()), attrValueOf(propValue));
                 }
             }
 
         } else if (Map.class.isAssignableFrom(cls)) {
             final Map<String, Object> map = (Map<String, Object>) entity;
 
-            switch (namingPolicy) {
-                case LOWER_CAMEL_CASE: {
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        attrs.put(entry.getKey(), attrValueOf(entry.getValue()));
-                    }
-
-                    break;
+            if (isLowerCamelCase) {
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    attrs.put(entry.getKey(), attrValueOf(entry.getValue()));
                 }
-
-                case LOWER_CASE_WITH_UNDERSCORE: {
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        attrs.put(ClassUtil.toLowerCaseWithUnderscore(entry.getKey()), attrValueOf(entry.getValue()));
-                    }
-
-                    break;
+            } else {
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    attrs.put(namingPolicy.convert(entry.getKey()), attrValueOf(entry.getValue()));
                 }
-
-                case UPPER_CASE_WITH_UNDERSCORE: {
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        attrs.put(ClassUtil.toUpperCaseWithUnderscore(entry.getKey()), attrValueOf(entry.getValue()));
-                    }
-
-                    break;
-                }
-
-                default:
-                    throw new IllegalArgumentException("Unsupported naming policy: " + namingPolicy);
             }
         } else if (entity instanceof Object[]) {
             return toItem(N.asProps(entity), namingPolicy);
@@ -915,139 +827,51 @@ public final class DynamoDBExecutor implements Closeable {
      * @return
      */
     public static Map<String, AttributeValueUpdate> toUpdateItem(final Object entity, NamingPolicy namingPolicy) {
+        final boolean isLowerCamelCase = namingPolicy == NamingPolicy.LOWER_CAMEL_CASE;
         final Map<String, AttributeValueUpdate> attrs = new LinkedHashMap<>();
         final Class<?> cls = entity.getClass();
 
         if (ClassUtil.isEntity(cls)) {
             if (DirtyMarkerUtil.isDirtyMarker(cls)) {
+
                 @SuppressWarnings("deprecation")
                 final Set<String> dirtyPropNames = ((DirtyMarker) entity).dirtyPropNames();
                 Method propGetMethod = null;
                 Object propValue = null;
 
-                switch (namingPolicy) {
-                    case LOWER_CAMEL_CASE: {
-                        for (String propName : dirtyPropNames) {
-                            propGetMethod = ClassUtil.getPropGetMethod(cls, propName);
-                            propName = ClassUtil.getPropNameByMethod(propGetMethod);
-                            propValue = ClassUtil.getPropValue(entity, propGetMethod);
+                for (String propName : dirtyPropNames) {
+                    propGetMethod = ClassUtil.getPropGetMethod(cls, propName);
+                    propName = ClassUtil.getPropNameByMethod(propGetMethod);
+                    propValue = ClassUtil.getPropValue(entity, propGetMethod);
 
-                            attrs.put(propName, attrValueUpdateOf(propValue));
-                        }
-
-                        break;
-                    }
-
-                    case LOWER_CASE_WITH_UNDERSCORE: {
-                        for (String propName : dirtyPropNames) {
-                            propGetMethod = ClassUtil.getPropGetMethod(cls, propName);
-                            propName = ClassUtil.getPropNameByMethod(propGetMethod);
-                            propValue = ClassUtil.getPropValue(entity, propGetMethod);
-
-                            attrs.put(ClassUtil.toLowerCaseWithUnderscore(propName), attrValueUpdateOf(propValue));
-                        }
-
-                        break;
-                    }
-
-                    case UPPER_CASE_WITH_UNDERSCORE: {
-                        for (String propName : dirtyPropNames) {
-                            propGetMethod = ClassUtil.getPropGetMethod(cls, propName);
-                            propName = ClassUtil.getPropNameByMethod(propGetMethod);
-                            propValue = ClassUtil.getPropValue(entity, propGetMethod);
-
-                            attrs.put(ClassUtil.toUpperCaseWithUnderscore(propName), attrValueUpdateOf(propValue));
-                        }
-
-                        break;
-                    }
-
-                    default:
-                        throw new IllegalArgumentException("Unsupported naming policy: " + namingPolicy);
+                    attrs.put(isLowerCamelCase ? propName : namingPolicy.convert(propName), attrValueUpdateOf(propValue));
                 }
 
             } else {
                 final Map<String, Method> getMethodMap = ClassUtil.getPropGetMethodList(cls);
                 Object propValue = null;
 
-                switch (namingPolicy) {
-                    case LOWER_CAMEL_CASE: {
-                        for (Map.Entry<String, Method> entry : getMethodMap.entrySet()) {
-                            propValue = ClassUtil.getPropValue(entity, entry.getValue());
+                for (Map.Entry<String, Method> entry : getMethodMap.entrySet()) {
+                    propValue = ClassUtil.getPropValue(entity, entry.getValue());
 
-                            if (propValue == null) {
-                                continue;
-                            }
-
-                            attrs.put(entry.getKey(), attrValueUpdateOf(propValue));
-                        }
-
-                        break;
+                    if (propValue == null) {
+                        continue;
                     }
 
-                    case LOWER_CASE_WITH_UNDERSCORE: {
-                        for (Map.Entry<String, Method> entry : getMethodMap.entrySet()) {
-                            propValue = ClassUtil.getPropValue(entity, entry.getValue());
-
-                            if (propValue == null) {
-                                continue;
-                            }
-
-                            attrs.put(ClassUtil.toLowerCaseWithUnderscore(entry.getKey()), attrValueUpdateOf(propValue));
-                        }
-
-                        break;
-                    }
-
-                    case UPPER_CASE_WITH_UNDERSCORE: {
-                        for (Map.Entry<String, Method> entry : getMethodMap.entrySet()) {
-                            propValue = ClassUtil.getPropValue(entity, entry.getValue());
-
-                            if (propValue == null) {
-                                continue;
-                            }
-
-                            attrs.put(ClassUtil.toUpperCaseWithUnderscore(entry.getKey()), attrValueUpdateOf(propValue));
-                        }
-
-                        break;
-                    }
-
-                    default:
-                        throw new IllegalArgumentException("Unsupported naming policy: " + namingPolicy);
+                    attrs.put(isLowerCamelCase ? entry.getKey() : namingPolicy.convert(entry.getKey()), attrValueUpdateOf(propValue));
                 }
             }
-
         } else if (Map.class.isAssignableFrom(cls)) {
             final Map<String, Object> map = (Map<String, Object>) entity;
 
-            switch (namingPolicy) {
-                case LOWER_CAMEL_CASE: {
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        attrs.put(entry.getKey(), attrValueUpdateOf(entry.getValue()));
-                    }
-
-                    break;
+            if (isLowerCamelCase) {
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    attrs.put(entry.getKey(), attrValueUpdateOf(entry.getValue()));
                 }
-
-                case LOWER_CASE_WITH_UNDERSCORE: {
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        attrs.put(ClassUtil.toLowerCaseWithUnderscore(entry.getKey()), attrValueUpdateOf(entry.getValue()));
-                    }
-
-                    break;
+            } else {
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    attrs.put(namingPolicy.convert(entry.getKey()), attrValueUpdateOf(entry.getValue()));
                 }
-
-                case UPPER_CASE_WITH_UNDERSCORE: {
-                    for (Map.Entry<String, Object> entry : map.entrySet()) {
-                        attrs.put(ClassUtil.toUpperCaseWithUnderscore(entry.getKey()), attrValueUpdateOf(entry.getValue()));
-                    }
-
-                    break;
-                }
-
-                default:
-                    throw new IllegalArgumentException("Unsupported naming policy: " + namingPolicy);
             }
         } else if (entity instanceof Object[]) {
             return toUpdateItem(N.asProps(entity), namingPolicy);
@@ -1267,7 +1091,7 @@ public final class DynamoDBExecutor implements Closeable {
      * @param entity
      * @return
      */
-    // And it may cause error because the "Object" is ambiguous to any type. 
+    // And it may cause error because the "Object" is ambiguous to any type.
     PutItemResult putItem(final String tableName, final Object entity) {
         return putItem(tableName, toItem(entity));
     }
@@ -1403,7 +1227,7 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     //    /**
-    //     * 
+    //     *
     //     * @param targetClass <code>Map</code> or entity class with getter/setter method.
     //     * @param queryRequest
     //     * @param pageOffset
@@ -1489,7 +1313,7 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     //    /**
-    //     * 
+    //     *
     //     * @param targetClass
     //     * @param queryRequest
     //     * @param pageOffset
