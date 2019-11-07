@@ -6,12 +6,6 @@ package com.landawn.abacus.da.util;
 
 import org.junit.Test;
 
-import com.landawn.abacus.da.util.BooleanMatrix;
-import com.landawn.abacus.da.util.ByteMatrix;
-import com.landawn.abacus.da.util.CharMatrix;
-import com.landawn.abacus.da.util.DoubleMatrix;
-import com.landawn.abacus.da.util.IntMatrix;
-import com.landawn.abacus.da.util.Matrix;
 import com.landawn.abacus.util.Array;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.Profiler;
@@ -25,15 +19,22 @@ import com.landawn.abacus.util.stream.CharStream;
 import junit.framework.TestCase;
 
 /**
- * 
+ *
  * @since 0.8
- * 
+ *
  * @author Haiyang Li
  */
 public class MatrixTest extends TestCase {
 
     @Test
     public void test_extend() {
+
+        Matrix.repeat(null, 10).println();
+
+        Matrix.repeat("a", 10).println();
+
+        Matrix.repeat(1, 10).println();
+
         ByteMatrix matrix = ByteMatrix.repeat((byte) 3, 6).reshape(2, 3);
         matrix.println();
 
