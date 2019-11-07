@@ -395,7 +395,7 @@ public final class HBaseExecutor implements Closeable {
                     if (propEntity == null) {
                         propEntity = N.newInstance(propEntityClass);
 
-                        ClassUtil.setPropValue(entity, familyPropInfo.setMethod, propEntity);
+                        familyPropInfo.setPropValue(entity, propEntity);
                     }
 
                     columnPropInfo = propEntityInfo.getPropInfo(qualifier);
@@ -448,9 +448,9 @@ public final class HBaseExecutor implements Closeable {
 
                         column = HBaseColumn.valueOf(columnValueType.valueOf(getValueString(cell)), cell.getTimestamp());
 
-                        ClassUtil.setPropValue(propEntity, columnPropInfo.setMethod, column);
+                        columnPropInfo.setPropValue(propEntity, column);
                     } else {
-                        ClassUtil.setPropValue(propEntity, columnPropInfo.setMethod, columnPropInfo.jsonXmlType.valueOf(getValueString(cell)));
+                        columnPropInfo.setPropValue(propEntity, columnPropInfo.jsonXmlType.valueOf(getValueString(cell)));
                     }
 
                 } else if (familyPropInfo.jsonXmlType.isMap() && familyPropInfo.jsonXmlType.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
@@ -495,9 +495,9 @@ public final class HBaseExecutor implements Closeable {
 
                     column = HBaseColumn.valueOf(columnValueType.valueOf(getValueString(cell)), cell.getTimestamp());
 
-                    ClassUtil.setPropValue(entity, familyPropInfo.setMethod, column);
+                    familyPropInfo.setPropValue(entity, column);
                 } else {
-                    ClassUtil.setPropValue(entity, familyPropInfo.setMethod, familyPropInfo.jsonXmlType.valueOf(getValueString(cell)));
+                    familyPropInfo.setPropValue(entity, familyPropInfo.jsonXmlType.valueOf(getValueString(cell)));
                 }
             }
 
@@ -544,7 +544,7 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     *  
+     *
      *
      * @param obj entity with getter/setter methods
      * @return
@@ -642,7 +642,7 @@ public final class HBaseExecutor implements Closeable {
                     columnPropInfo = propEntityInfo.getPropInfo(columnGetMethodEntry.getKey());
                     columnName = formatName(columnGetMethodEntry.getKey(), namingPolicy);
 
-                    propValue = ClassUtil.getPropValue(propEntity, columnPropInfo.getMethod);
+                    propValue = columnPropInfo.getPropValue(propEntity);
 
                     if (propValue == null) {
                         continue;
@@ -839,7 +839,7 @@ public final class HBaseExecutor implements Closeable {
      * @return true, if successful
      * @throws UncheckedIOException the unchecked IO exception
      */
-    // And it may cause error because the "Object" is ambiguous to any type. 
+    // And it may cause error because the "Object" is ambiguous to any type.
     boolean exists(final String tableName, final Object rowKey) throws UncheckedIOException {
         return exists(tableName, AnyGet.of(rowKey));
     }
@@ -952,7 +952,7 @@ public final class HBaseExecutor implements Closeable {
      * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
-    // And it may cause error because the "Object" is ambiguous to any type. 
+    // And it may cause error because the "Object" is ambiguous to any type.
     Result get(final String tableName, final Object rowKey) throws UncheckedIOException {
         return get(tableName, AnyGet.of(rowKey));
     }
@@ -1027,7 +1027,7 @@ public final class HBaseExecutor implements Closeable {
      * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
-    // And it may cause error because the "Object" is ambiguous to any type. 
+    // And it may cause error because the "Object" is ambiguous to any type.
     <T> T get(final Class<T> targetClass, final String tableName, final Object rowKey) throws UncheckedIOException {
         return get(targetClass, tableName, AnyGet.of(rowKey));
     }
@@ -1351,7 +1351,7 @@ public final class HBaseExecutor implements Closeable {
      * @param rowKey
      * @throws UncheckedIOException the unchecked IO exception
      */
-    // And it may cause error because the "Object" is ambiguous to any type. 
+    // And it may cause error because the "Object" is ambiguous to any type.
     void delete(final String tableName, final Object rowKey) throws UncheckedIOException {
         delete(tableName, AnyDelete.of(rowKey));
     }

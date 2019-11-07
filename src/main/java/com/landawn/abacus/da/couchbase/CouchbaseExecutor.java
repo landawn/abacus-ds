@@ -43,6 +43,9 @@ import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.core.RowDataSet;
 import com.landawn.abacus.exception.AbacusException;
+import com.landawn.abacus.parser.ParserUtil;
+import com.landawn.abacus.parser.ParserUtil.EntityInfo;
+import com.landawn.abacus.parser.ParserUtil.PropInfo;
 import com.landawn.abacus.pool.KeyedObjectPool;
 import com.landawn.abacus.pool.PoolFactory;
 import com.landawn.abacus.pool.PoolableWrapper;
@@ -84,7 +87,7 @@ import com.landawn.abacus.util.stream.Stream;
  * <li> row parameterized sql with question mark: <code>SELECT * FROM account WHERE accountId = ?</li>.
  * <li> ibatis/myBatis parameterized sql with named parameter: <code>SELECT * FROM account WHERE accountId = #{accountId}</li>.
  * <li> Couchbase parameterized sql with named parameter: <code>SELECT * FROM account WHERE accountId = $accountId</code> or <code>SELECT * FROM account WHERE accountId = $1</li>.
- * 
+ *
  * <br>
  * <br>We recommend to define "id" property in java entity/bean as the object id in Couchbase to keep things as simple as possible.</br>
  * <br>
@@ -460,38 +463,39 @@ public final class CouchbaseExecutor implements Closeable {
         } else if (ClassUtil.isEntity(targetClass)) {
             final T entity = N.newInstance(targetClass);
             final List<String> columnNameList = new ArrayList<>(jsonObject.getNames());
-            Method propSetMethod = null;
+            final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
+            PropInfo propInfo = null;
             Class<?> parameterType = null;
             Object propValue = null;
 
             for (String propName : columnNameList) {
-                propSetMethod = ClassUtil.getPropSetMethod(targetClass, propName);
+                propInfo = entityInfo.getPropInfo(propName);
 
-                if (propSetMethod == null) {
+                if (propInfo == null) {
                     continue;
                 }
 
-                parameterType = propSetMethod.getParameterTypes()[0];
+                parameterType = propInfo.clazz;
                 propValue = jsonObject.get(propName);
 
                 if (propValue != null && !parameterType.isAssignableFrom(propValue.getClass())) {
                     if (propValue instanceof JsonObject) {
                         if (Map.class.isAssignableFrom(parameterType) || ClassUtil.isEntity(parameterType)) {
-                            ClassUtil.setPropValue(entity, propSetMethod, toEntity(parameterType, (JsonObject) propValue));
+                            propInfo.setPropValue(entity, toEntity(parameterType, (JsonObject) propValue));
                         } else {
-                            ClassUtil.setPropValue(entity, propSetMethod, N.valueOf(parameterType, N.stringOf(toEntity(Map.class, (JsonObject) propValue))));
+                            propInfo.setPropValue(entity, N.valueOf(parameterType, N.stringOf(toEntity(Map.class, (JsonObject) propValue))));
                         }
                     } else if (propValue instanceof JsonArray) {
                         if (List.class.isAssignableFrom(parameterType)) {
-                            ClassUtil.setPropValue(entity, propSetMethod, ((JsonArray) propValue).toList());
+                            propInfo.setPropValue(entity, ((JsonArray) propValue).toList());
                         } else {
-                            ClassUtil.setPropValue(entity, propSetMethod, N.valueOf(parameterType, N.stringOf(((JsonArray) propValue).toList())));
+                            propInfo.setPropValue(entity, N.valueOf(parameterType, N.stringOf(((JsonArray) propValue).toList())));
                         }
                     } else {
-                        ClassUtil.setPropValue(entity, propSetMethod, propValue);
+                        propInfo.setPropValue(entity, propValue);
                     }
                 } else {
-                    ClassUtil.setPropValue(entity, propSetMethod, propValue);
+                    propInfo.setPropValue(entity, propValue);
                 }
             }
 

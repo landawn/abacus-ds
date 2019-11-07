@@ -74,6 +74,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      * @param len
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static <T> Matrix<T> repeat(final T val, final int len) {
         final T[][] c = N.newArray(N.newArray(val.getClass(), 0).getClass(), 1);
         c[0] = Array.repeat(val, len);
@@ -1211,7 +1212,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 }
             }
 
-            return new Matrix<T>(b);
+            return new Matrix<>(b);
         }
     }
 
@@ -1272,7 +1273,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
                 }
             }
 
-            return new Matrix<T>(b);
+            return new Matrix<>(b);
         }
     }
 
@@ -1482,7 +1483,8 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             final T[] fr = c[i * rowRepeats];
 
             for (int j = 0; j < cols; j++) {
-                N.copy(Array.repeat(a[i][j], colRepeats), 0, fr, j * colRepeats, colRepeats);
+                // N.copy(Array.repeat(a[i][j], colRepeats), 0, fr, j * colRepeats, colRepeats);
+                N.fill(fr, j * colRepeats, j * colRepeats + colRepeats, a[i][j]);
             }
 
             for (int k = 1; k < rowRepeats; k++) {
@@ -1490,7 +1492,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<T>(c);
+        return new Matrix<>(c);
     }
 
     /**
@@ -1523,7 +1525,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
             }
         }
 
-        return new Matrix<T>(c);
+        return new Matrix<>(c);
     }
 
     /**

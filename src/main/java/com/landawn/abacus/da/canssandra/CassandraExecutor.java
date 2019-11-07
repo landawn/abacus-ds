@@ -68,6 +68,9 @@ import com.landawn.abacus.da.canssandra.CQLBuilder.NAC;
 import com.landawn.abacus.da.canssandra.CQLBuilder.NLC;
 import com.landawn.abacus.da.canssandra.CQLBuilder.NSC;
 import com.landawn.abacus.exception.DuplicatedResultException;
+import com.landawn.abacus.parser.ParserUtil;
+import com.landawn.abacus.parser.ParserUtil.EntityInfo;
+import com.landawn.abacus.parser.ParserUtil.PropInfo;
 import com.landawn.abacus.pool.KeyedObjectPool;
 import com.landawn.abacus.pool.PoolFactory;
 import com.landawn.abacus.pool.PoolableWrapper;
@@ -113,7 +116,7 @@ import com.landawn.abacus.util.stream.Stream;
  * Raw/parameterized cql are supported. The parameters can be array/list/map/entity:
  * <li> row parameterized cql with question mark: <code>SELECT * FROM account WHERE id = ?</code></li>
  * <li> Parameterized cql with named parameter: <code>SELECT * FROM account WHERE id = :id</code></li>
- * 
+ *
  * <br />
  * <code>CQLBuilder</code> is designed to build CQL.
  *
@@ -135,7 +138,7 @@ public final class CassandraExecutor implements Closeable {
     static final int POOLABLE_LENGTH = 1024;
 
     /** The Constant namedDataType. */
-    private static final Map<String, Class<?>> namedDataType = new HashMap<String, Class<?>>();
+    private static final Map<String, Class<?>> namedDataType = new HashMap<>();
 
     static {
         namedDataType.put("BOOLEAN", Boolean.class);
@@ -589,38 +592,40 @@ public final class CassandraExecutor implements Closeable {
             return (T) map;
         } else if (ClassUtil.isEntity(targetClass)) {
             final T entity = N.newInstance(targetClass);
-
+            final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
+            PropInfo propInfo = null;
             String propName = null;
             Object propValue = null;
-            Method propSetMethod = null;
             Class<?> parameterType = null;
 
             for (int i = 0; i < columnCount; i++) {
                 propName = columnDefinitions.getName(i);
-                propSetMethod = ClassUtil.getPropSetMethod(targetClass, propName);
+                entityInfo.setPropValue(entity, propName, propValue);
 
-                if (propSetMethod == null) {
+                propInfo = entityInfo.getPropInfo(propName);
+
+                if (propInfo == null) {
                     if (propName.indexOf(WD._PERIOD) > 0) {
-                        ClassUtil.setPropValue(entity, propName, row.getObject(i), true);
+                        entityInfo.setPropValue(entity, propName, row.getObject(i), true);
                     }
 
                     continue;
                 }
 
-                parameterType = propSetMethod.getParameterTypes()[0];
+                parameterType = propInfo.clazz;
                 propValue = row.getObject(i);
 
                 if (propValue == null || parameterType.isAssignableFrom(propValue.getClass())) {
-                    ClassUtil.setPropValue(entity, propSetMethod, propValue);
+                    propInfo.setPropValue(entity, propValue);
                 } else {
                     if (propValue instanceof Row) {
                         if (Map.class.isAssignableFrom(parameterType) || ClassUtil.isEntity(parameterType)) {
-                            ClassUtil.setPropValue(entity, propSetMethod, toEntity(parameterType, (Row) propValue));
+                            propInfo.setPropValue(entity, toEntity(parameterType, (Row) propValue));
                         } else {
-                            ClassUtil.setPropValue(entity, propSetMethod, N.valueOf(parameterType, N.stringOf(toEntity(Map.class, (Row) propValue))));
+                            propInfo.setPropValue(entity, N.valueOf(parameterType, N.stringOf(toEntity(Map.class, (Row) propValue))));
                         }
                     } else {
-                        ClassUtil.setPropValue(entity, propSetMethod, propValue);
+                        propInfo.setPropValue(entity, propValue);
                     }
                 }
             }
@@ -689,7 +694,7 @@ public final class CassandraExecutor implements Closeable {
                     break;
                 }
 
-                and.add(CF.eq(keyName, ClassUtil.getPropValue(entity, keyName)));
+                and.add(CF.eq(keyName, propVal));
             }
 
             if (N.isNullOrEmpty(and.getConditions())) {
@@ -1012,10 +1017,11 @@ public final class CassandraExecutor implements Closeable {
         N.checkArgument(N.notNullOrEmpty(primaryKeyNames), "'primaryKeyNames' can't be null or empty.");
 
         final Class<?> targetClass = entity.getClass();
+        final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
         final And and = new And();
 
         for (String keyName : primaryKeyNames) {
-            and.add(CF.eq(keyName, ClassUtil.getPropValue(entity, keyName)));
+            and.add(CF.eq(keyName, entityInfo.getPropValue(entity, keyName)));
         }
 
         switch (namingPolicy) {
@@ -3356,11 +3362,11 @@ public final class CassandraExecutor implements Closeable {
     /**
      * <pre>
      * <code>   static final CassandraExecutor cassandraExecutor;
-     *     
+     *
      *     static {
      *         final CodecRegistry codecRegistry = new CodecRegistry();
      *         final Cluster cluster = Cluster.builder().withCodecRegistry(codecRegistry).addContactPoint("127.0.0.1").build();
-     *     
+     *
      *         codecRegistry.register(new UDTCodec&lt;Address&gt;(cluster, "simplex", "address", Address.class) {
      *             protected Address deserialize(UDTValue value) {
      *                 if (value == null) {
@@ -3372,14 +3378,14 @@ public final class CassandraExecutor implements Closeable {
      *                 address.setZipCode(value.getInt("zipCode"));
      *                 return address;
      *             }
-     *     
+     *
      *             protected UDTValue serialize(Address value) {
      *                 return value == null ? null
      *                         : newUDTValue().setString("street", value.getStreet()).setInt("zipcode", value.getZipCode());
      *             }
      *         });
-     *     
-     *     
+     *
+     *
      *         cassandraExecutor = new CassandraExecutor(cluster);
      *     }
      * </code>

@@ -16,7 +16,6 @@ package com.landawn.abacus.da.aws.dynamoDB;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -605,19 +604,16 @@ public final class DynamoDBExecutor implements Closeable {
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
             final T entity = N.newInstance(targetClass);
 
-            Method propSetMethod = null;
             PropInfo propInfo = null;
 
             for (Map.Entry<String, AttributeValue> entry : item.entrySet()) {
-                propSetMethod = ClassUtil.getPropSetMethod(targetClass, entry.getKey());
+                propInfo = entityInfo.getPropInfo(entry.getKey());
 
-                if (propSetMethod == null) {
+                if (propInfo == null) {
                     continue;
                 }
 
-                propInfo = entityInfo.getPropInfo(entry.getKey());
-
-                ClassUtil.setPropValue(entity, propSetMethod, propInfo.jsonXmlType.valueOf(attrValueType.stringOf(entry.getValue())));
+                propInfo.setPropValue(entity, propInfo.jsonXmlType.valueOf(attrValueType.stringOf(entry.getValue())));
             }
 
             if (DirtyMarkerUtil.isDirtyMarker(entity.getClass())) {
@@ -737,28 +733,26 @@ public final class DynamoDBExecutor implements Closeable {
 
                 @SuppressWarnings("deprecation")
                 final Set<String> signedPropNames = ((DirtyMarker) entity).signedPropNames();
-                Method propGetMethod = null;
-                Object propValue = null;
+                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
+                PropInfo propInfo = null;
 
                 for (String propName : signedPropNames) {
-                    propGetMethod = ClassUtil.getPropGetMethod(cls, propName);
-                    propName = ClassUtil.getPropNameByMethod(propGetMethod);
-                    propValue = ClassUtil.getPropValue(entity, propGetMethod);
+                    propInfo = entityInfo.getPropInfo(propName);
 
-                    attrs.put(isLowerCamelCase ? propName : namingPolicy.convert(propName), attrValueOf(propValue));
+                    attrs.put(isLowerCamelCase ? propInfo.name : namingPolicy.convert(propInfo.name), attrValueOf(propInfo.getPropValue(entity)));
                 }
             } else {
-                final Map<String, Method> getMethodMap = ClassUtil.getPropGetMethodList(cls);
+                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
                 Object propValue = null;
 
-                for (Map.Entry<String, Method> entry : getMethodMap.entrySet()) {
-                    propValue = ClassUtil.getPropValue(entity, entry.getValue());
+                for (PropInfo propInfo : entityInfo.propInfoList) {
+                    propValue = propInfo.getPropValue(entity);
 
                     if (propValue == null) {
                         continue;
                     }
 
-                    attrs.put(isLowerCamelCase ? entry.getKey() : namingPolicy.convert(entry.getKey()), attrValueOf(propValue));
+                    attrs.put(isLowerCamelCase ? propInfo.name : namingPolicy.convert(propInfo.name), attrValueOf(propValue));
                 }
             }
 
@@ -836,29 +830,27 @@ public final class DynamoDBExecutor implements Closeable {
 
                 @SuppressWarnings("deprecation")
                 final Set<String> dirtyPropNames = ((DirtyMarker) entity).dirtyPropNames();
-                Method propGetMethod = null;
-                Object propValue = null;
+                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
+                PropInfo propInfo = null;
 
                 for (String propName : dirtyPropNames) {
-                    propGetMethod = ClassUtil.getPropGetMethod(cls, propName);
-                    propName = ClassUtil.getPropNameByMethod(propGetMethod);
-                    propValue = ClassUtil.getPropValue(entity, propGetMethod);
+                    propInfo = entityInfo.getPropInfo(propName);
 
-                    attrs.put(isLowerCamelCase ? propName : namingPolicy.convert(propName), attrValueUpdateOf(propValue));
+                    attrs.put(isLowerCamelCase ? propInfo.name : namingPolicy.convert(propInfo.name), attrValueUpdateOf(propInfo.getPropValue(entity)));
                 }
 
             } else {
-                final Map<String, Method> getMethodMap = ClassUtil.getPropGetMethodList(cls);
+                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
                 Object propValue = null;
 
-                for (Map.Entry<String, Method> entry : getMethodMap.entrySet()) {
-                    propValue = ClassUtil.getPropValue(entity, entry.getValue());
+                for (PropInfo propInfo : entityInfo.propInfoList) {
+                    propValue = propInfo.getPropValue(entity);
 
                     if (propValue == null) {
                         continue;
                     }
 
-                    attrs.put(isLowerCamelCase ? entry.getKey() : namingPolicy.convert(entry.getKey()), attrValueUpdateOf(propValue));
+                    attrs.put(isLowerCamelCase ? propInfo.name : namingPolicy.convert(propInfo.name), attrValueUpdateOf(propValue));
                 }
             }
         } else if (Map.class.isAssignableFrom(cls)) {

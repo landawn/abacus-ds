@@ -55,6 +55,8 @@ import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.exception.AbacusException;
 import com.landawn.abacus.logging.Logger;
 import com.landawn.abacus.logging.LoggerFactory;
+import com.landawn.abacus.parser.ParserUtil;
+import com.landawn.abacus.parser.ParserUtil.EntityInfo;
 import com.landawn.abacus.util.Array;
 import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.ImmutableList;
@@ -1429,10 +1431,11 @@ public abstract class CQLBuilder {
             final Collection<String> propNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
             final Set<String> dirtyPropNames = DirtyMarkerUtil.isDirtyMarker(entityClass) ? ((DirtyMarker) entity).dirtyPropNames() : null;
             final Map<String, Object> props = N.newHashMap(N.initHashCapacity(N.isNullOrEmpty(dirtyPropNames) ? propNames.size() : dirtyPropNames.size()));
+            final EntityInfo entityInfo = ParserUtil.getEntityInfo(entityClass);
 
             for (String propName : propNames) {
                 if (dirtyPropNames == null || dirtyPropNames.contains(propName)) {
-                    props.put(propName, ClassUtil.getPropValue(entity, propName));
+                    props.put(propName, entityInfo.getPropValue(entity, propName));
                 }
             }
 
@@ -2103,11 +2106,13 @@ public abstract class CQLBuilder {
                 Maps.removeKeys(instance.props, excludedPropNames);
             }
         } else {
-            final Collection<String> propNames = getInsertPropNamesByClass(entity.getClass(), excludedPropNames);
+            final Class<?> entityClass = entity.getClass();
+            final Collection<String> propNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
             final Map<String, Object> map = N.newHashMap(N.initHashCapacity(propNames.size()));
+            final EntityInfo entityInfo = ParserUtil.getEntityInfo(entityClass);
 
             for (String propName : propNames) {
-                map.put(propName, ClassUtil.getPropValue(entity, propName));
+                map.put(propName, entityInfo.getPropValue(entity, propName));
             }
 
             instance.props = map;

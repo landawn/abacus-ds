@@ -44,6 +44,9 @@ import com.landawn.abacus.DirtyMarker;
 import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.parser.JSONParser;
 import com.landawn.abacus.parser.ParserFactory;
+import com.landawn.abacus.parser.ParserUtil;
+import com.landawn.abacus.parser.ParserUtil.EntityInfo;
+import com.landawn.abacus.parser.ParserUtil.PropInfo;
 import com.landawn.abacus.type.Type;
 import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
@@ -62,9 +65,9 @@ import com.mongodb.client.MongoIterable;
 // TODO: Auto-generated Javadoc
 /**
  * It's a simple wrapper of MongoDB Java client.
- * 
+ *
  * <br>We recommend to define "id" property in java entity/bean as the object "_id" in MongoDB to keep things as simple as possible.</br>
- *  
+ *
  *
  * @author Haiyang Li
  * @see <a href="http://api.mongodb.org/java/3.1/?com/mongodb/client/model/Filters.html">com.mongodb.client.model.Filters</a>
@@ -279,15 +282,15 @@ public final class MongoDB {
                     final Set<String> columnNames = N.newLinkedHashSet();
                     @SuppressWarnings("rawtypes")
                     final List<Map<String, Object>> tmp = (List) rowList;
-            
+
                     for (Map<String, Object> row : tmp) {
                         columnNames.addAll(row.keySet());
                     }
-            
+
                     return N.newDataSet(columnNames, rowList);
                 } else {
                     return N.newDataSet(selectPropNames, rowList);
-                }                
+                }
             } else {
                 return N.newDataSet(rowList);
             }
@@ -606,14 +609,13 @@ public final class MongoDB {
                 if (propNamesToUpdate.size() == 0) {
                     // logger.warn("No property is signed/updated in the specified source entity: " + N.toString(obj));
                 } else {
-                    Method propGetMethod = null;
-                    Object propValue = null;
-                    for (String propName : propNamesToUpdate) {
-                        propGetMethod = ClassUtil.getPropGetMethod(srCls, propName);
-                        propName = ClassUtil.getPropNameByMethod(propGetMethod);
-                        propValue = ClassUtil.getPropValue(obj, propGetMethod);
+                    final EntityInfo entityInfo = ParserUtil.getEntityInfo(srCls);
+                    PropInfo propInfo = null;
 
-                        result.put(propName, propValue);
+                    for (String propName : propNamesToUpdate) {
+                        propInfo = entityInfo.getPropInfo(propName);
+
+                        result.put(propInfo.name, propInfo.getPropValue(obj));
                     }
                 }
             } else {
@@ -800,7 +802,7 @@ public final class MongoDB {
     private static class GeneralCodecRegistry implements CodecRegistry {
 
         /** The Constant pool. */
-        private static final Map<Class<?>, Codec<?>> pool = new ObjectPool<Class<?>, Codec<?>>(128);
+        private static final Map<Class<?>, Codec<?>> pool = new ObjectPool<>(128);
 
         /**
          *
@@ -813,7 +815,7 @@ public final class MongoDB {
             Codec<?> codec = pool.get(clazz);
 
             if (codec == null) {
-                codec = new GeneralCodec<T>(clazz);
+                codec = new GeneralCodec<>(clazz);
 
                 pool.put(clazz, codec);
             }

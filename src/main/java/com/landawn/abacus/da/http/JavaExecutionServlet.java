@@ -42,13 +42,14 @@ import com.landawn.abacus.parser.JSONParser;
 import com.landawn.abacus.parser.KryoParser;
 import com.landawn.abacus.parser.ParserFactory;
 import com.landawn.abacus.parser.XMLParser;
+import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.N;
 
 // TODO: Auto-generated Javadoc
 /**
  * Deploy <code>JavaExecutionServlet</code> under Tomcat.
- * 
+ *
  * <pre>
  *  {@code
  *     <servlet>
@@ -57,7 +58,7 @@ import com.landawn.abacus.util.N;
  *         <servlet-name>javaExecution</servlet-name>
  *         <servlet-class>com.landawn.abacus.da.http.JavaExecutionServlet</servlet-class>
  *     </servlet>
- * 
+ *
  *     <servlet-mapping>
  *         <servlet-name>javaExecution</servlet-name>
  *         <url-pattern>/javaExecution/*</url-pattern>
@@ -321,9 +322,7 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     @SuppressWarnings("unchecked")
     private static <T> T invoke(final Object instance, final Method method, final Object... args) {
         try {
-            if (method.isAccessible() == false) {
-                method.setAccessible(true);
-            }
+            ClassUtil.setAccessible(method, true);
 
             return (T) method.invoke(instance, args);
         } catch (IllegalAccessException | InvocationTargetException e) {
@@ -341,9 +340,7 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
     @SuppressWarnings("unchecked")
     private static <T> T invoke(final Constructor<T> c, final Object... args) {
         try {
-            if (c.isAccessible() == false) {
-                c.setAccessible(true);
-            }
+            ClassUtil.setAccessible(c, true);
 
             return c.newInstance(args);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
