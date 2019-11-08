@@ -19,7 +19,6 @@ import java.util.NoSuchElementException;
 
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.da.util.f.ff;
-import com.landawn.abacus.util.Array;
 import com.landawn.abacus.util.IntPair;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.Try;
@@ -78,9 +77,7 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
      */
     @Deprecated
     public static <T> Matrix<T> repeat(final T element, final int len) throws NullPointerException {
-        final T[][] c = N.newArray(N.newArray(element.getClass(), 0).getClass(), 1);
-        c[0] = Array.repeat(element, len);
-        return new Matrix<>(c);
+        return repeat((Class<T>) element.getClass(), element, len);
     }
 
     /**
@@ -97,6 +94,20 @@ public final class Matrix<T> extends AbstractMatrix<T[], List<T>, Stream<T>, Str
         c[0] = N.newArray(elementClass, len);
         N.fill(c[0], element);
         return new Matrix<>(c);
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param element
+     * @param len
+     * @return
+     * @throws IllegalArgumentException if the specified {@code element} is null.
+     */
+    public static <T> Matrix<T> repeatNonNull(final T element, final int len) throws IllegalArgumentException {
+        N.checkArgNotNull(element, "element");
+
+        return repeat((Class<T>) element.getClass(), element, len);
     }
 
     /**
