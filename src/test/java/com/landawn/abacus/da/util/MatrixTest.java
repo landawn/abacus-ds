@@ -4,6 +4,8 @@
 
 package com.landawn.abacus.da.util;
 
+import java.sql.Date;
+
 import org.junit.Test;
 
 import com.landawn.abacus.util.Array;
@@ -29,7 +31,7 @@ public class MatrixTest extends TestCase {
     @Test
     public void test_extend() {
 
-        Matrix.repeat(null, 10).println();
+        Matrix.repeat(Date.class, null, 10).println();
 
         Matrix.repeat("a", 10).println();
 
