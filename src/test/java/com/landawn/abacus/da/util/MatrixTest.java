@@ -320,9 +320,9 @@ public class MatrixTest extends TestCase {
 
     public void test_map() {
 
-        N.asList("a", "b", "c").stream().toArray(s -> new String[0]);
+        N.asList("a", "b", "c").stream().toArray(s -> new String[s]);
 
-        Matrix<String> m = Matrix.of(CharStream.range('a', 'z').mapToObj(String::valueOf).<String> toArray(s -> new String[0]));
+        Matrix<String> m = Matrix.of(CharStream.range('a', 'z').mapToObj(String::valueOf).<String> toArray(s -> new String[s]));
 
         m = m.reshape(2, 3);
 
