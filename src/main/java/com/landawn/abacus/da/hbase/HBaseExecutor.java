@@ -606,7 +606,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         final AnyPut anyPut = outputAnyPut == null ? new AnyPut(ClassUtil.<Object> getPropValue(obj, rowKeyGetMethod)) : outputAnyPut;
-        final Map<String, Method> familyGetMethodMap = ClassUtil.getPropGetMethodList(cls);
+        final Map<String, Method> familyGetMethodMap = ClassUtil.getPropGetMethods(cls);
 
         String familyName = null;
         PropInfo familyPropInfo = null;
@@ -636,7 +636,7 @@ public final class HBaseExecutor implements Closeable {
                 final EntityInfo propEntityInfo = ParserUtil.getEntityInfo(propEntityClass);
                 final Object propEntity = propValue;
 
-                final Map<String, Method> columnGetMethodMap = ClassUtil.getPropGetMethodList(propEntityClass);
+                final Map<String, Method> columnGetMethodMap = ClassUtil.getPropGetMethods(propEntityClass);
 
                 for (Map.Entry<String, Method> columnGetMethodEntry : columnGetMethodMap.entrySet()) {
                     columnPropInfo = propEntityInfo.getPropInfo(columnGetMethodEntry.getKey());

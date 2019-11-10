@@ -51,7 +51,6 @@ import com.landawn.abacus.type.Type;
 import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.Fn;
-import com.landawn.abacus.util.Iterables;
 import com.landawn.abacus.util.Maps;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.ObjectPool;
@@ -282,11 +281,11 @@ public final class MongoDB {
                     final Set<String> columnNames = N.newLinkedHashSet();
                     @SuppressWarnings("rawtypes")
                     final List<Map<String, Object>> tmp = (List) rowList;
-
+            
                     for (Map<String, Object> row : tmp) {
                         columnNames.addAll(row.keySet());
                     }
-
+            
                     return N.newDataSet(columnNames, rowList);
                 } else {
                     return N.newDataSet(selectPropNames, rowList);
@@ -361,7 +360,7 @@ public final class MongoDB {
                     }
                 } else if (first.get() instanceof Map && ((Map<String, Object>) first.get()).size() <= 2) {
                     final Map<String, Object> m = (Map<String, Object>) first.get();
-                    final String propName = Iterables.findFirst(m.keySet(), Fn.notEqual(_ID)).orElse(_ID);
+                    final String propName = N.findFirst(m.keySet(), Fn.notEqual(_ID)).orElse(_ID);
 
                     if (m.get(propName) != null && targetClass.isAssignableFrom(m.get(propName).getClass())) {
                         for (Object row : rowList) {
@@ -434,7 +433,7 @@ public final class MongoDB {
 
             return entity;
         } else if (doc.size() <= 2) {
-            final String propName = Iterables.findFirst(doc.keySet(), Fn.notEqual(_ID)).orElse(_ID);
+            final String propName = N.findFirst(doc.keySet(), Fn.notEqual(_ID)).orElse(_ID);
 
             return N.convert(doc.get(propName), targetClass);
         } else {
@@ -619,7 +618,7 @@ public final class MongoDB {
                     }
                 }
             } else {
-                final Map<String, Method> getterMethodList = ClassUtil.getPropGetMethodList(obj.getClass());
+                final Map<String, Method> getterMethodList = ClassUtil.getPropGetMethods(obj.getClass());
 
                 if (getterMethodList.size() == 0) {
                     throw new IllegalArgumentException("No property getter/setter method found in the specified entity: " + obj.getClass().getCanonicalName());

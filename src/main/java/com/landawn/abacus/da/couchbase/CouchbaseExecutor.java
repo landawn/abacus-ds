@@ -54,7 +54,6 @@ import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.ContinuableFuture;
 import com.landawn.abacus.util.Fn;
-import com.landawn.abacus.util.Iterables;
 import com.landawn.abacus.util.Maps;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamedSQL;
@@ -332,7 +331,7 @@ public final class CouchbaseExecutor implements Closeable {
             final JsonObject first = rowList.get(0).value();
 
             if (first.getNames().size() <= 2) {
-                final String propName = Iterables.findFirst(first.getNames(), Fn.notEqual(_ID)).orElse(_ID);
+                final String propName = N.findFirst(first.getNames(), Fn.notEqual(_ID)).orElse(_ID);
 
                 if (first.get(propName) != null && targetClass.isAssignableFrom(first.get(propName).getClass())) {
                     for (N1qlQueryRow row : rowList) {
@@ -505,7 +504,7 @@ public final class CouchbaseExecutor implements Closeable {
 
             return entity;
         } else if (jsonObject.size() <= 2) {
-            final String propName = Iterables.findFirst(jsonObject.getNames(), Fn.notEqual(_ID)).orElse(_ID);
+            final String propName = N.findFirst(jsonObject.getNames(), Fn.notEqual(_ID)).orElse(_ID);
 
             return N.convert(jsonObject.getObject(propName), targetClass);
         } else {

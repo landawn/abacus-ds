@@ -521,7 +521,7 @@ public abstract class CQLBuilder {
 
         if (val == null) {
             synchronized (entityClass) {
-                final Set<String> entityPropNames = N.newLinkedHashSet(ClassUtil.getPropGetMethodList(entityClass).keySet());
+                final Set<String> entityPropNames = N.newLinkedHashSet(ClassUtil.getPropNameList(entityClass));
 
                 val = new Set[4];
                 val[0] = N.newLinkedHashSet(entityPropNames);

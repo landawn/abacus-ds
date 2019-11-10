@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.landawn.abacus.da.TestUtil;
 import com.landawn.abacus.exception.AbacusException;
 import com.landawn.abacus.logging.Logger;
 import com.landawn.abacus.logging.LoggerFactory;
@@ -26,9 +25,9 @@ import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.N;
 
 /**
- * 
+ *
  * @since 0.8
- * 
+ *
  * @author Haiyang Li
  */
 public final class TestUtil {
@@ -72,14 +71,14 @@ public final class TestUtil {
     }
 
     public static <T> T createEntity(Class<T> entityClass, boolean withFixedValues) {
-        if (!N.isEntity(entityClass)) {
+        if (!ClassUtil.isEntity(entityClass)) {
             throw new AbacusException(entityClass.getCanonicalName() + " is not a valid entity class with property getter/setter method");
         }
 
         T entity = N.newInstance(entityClass);
 
         if (withFixedValues) {
-            for (Method method : ClassUtil.getPropSetMethodList(entityClass).values()) {
+            for (Method method : ClassUtil.getPropSetMethods(entityClass).values()) {
                 ClassUtil.setPropValue(entity, method, typeValues.get(method.getParameterTypes()[0]));
             }
         } else {

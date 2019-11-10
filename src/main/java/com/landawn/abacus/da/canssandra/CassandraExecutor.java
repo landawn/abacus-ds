@@ -129,10 +129,10 @@ import com.landawn.abacus.util.stream.Stream;
 public final class CassandraExecutor implements Closeable {
 
     /** The Constant EXISTS_SELECT_PROP_NAMES. */
-    static final List<String> EXISTS_SELECT_PROP_NAMES = ImmutableList.of("1");
+    static final ImmutableList<String> EXISTS_SELECT_PROP_NAMES = ImmutableList.of("1");
 
     /** The Constant COUNT_SELECT_PROP_NAMES. */
-    static final List<String> COUNT_SELECT_PROP_NAMES = ImmutableList.of(NSC.COUNT_ALL);
+    static final ImmutableList<String> COUNT_SELECT_PROP_NAMES = ImmutableList.of(NSC.COUNT_ALL);
 
     /** The Constant POOLABLE_LENGTH. */
     static final int POOLABLE_LENGTH = 1024;
@@ -329,7 +329,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /** The Constant entityKeyNamesMap. */
-    private static final Map<Class<?>, Tuple2<List<String>, Set<String>>> entityKeyNamesMap = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, Tuple2<ImmutableList<String>, ImmutableSet<String>>> entityKeyNamesMap = new ConcurrentHashMap<>();
 
     /**
      *
@@ -345,7 +345,8 @@ public final class CassandraExecutor implements Closeable {
             keyNameSet.add(ClassUtil.getPropNameByMethod(ClassUtil.getPropGetMethod(entityClass, keyName)));
         }
 
-        entityKeyNamesMap.put(entityClass, Tuple.<List<String>, Set<String>> of(ImmutableList.copyOf(keyNameSet), ImmutableSet.of(keyNameSet)));
+        entityKeyNamesMap.put(entityClass,
+                Tuple.<ImmutableList<String>, ImmutableSet<String>> of(ImmutableList.copyOf(keyNameSet), ImmutableSet.of(keyNameSet)));
     }
 
     /**
@@ -355,12 +356,12 @@ public final class CassandraExecutor implements Closeable {
      * @return
      */
     private static List<String> getKeyNames(final Class<?> entityClass) {
-        Tuple2<List<String>, Set<String>> tp = entityKeyNamesMap.get(entityClass);
+        Tuple2<ImmutableList<String>, ImmutableSet<String>> tp = entityKeyNamesMap.get(entityClass);
 
         if (tp == null) {
             @SuppressWarnings("deprecation")
             List<String> idPropNames = ClassUtil.getIdFieldNames(entityClass);
-            tp = Tuple.<List<String>, Set<String>> of(ImmutableList.copyOf(idPropNames), ImmutableSet.copyOf(idPropNames));
+            tp = Tuple.<ImmutableList<String>, ImmutableSet<String>> of(ImmutableList.copyOf(idPropNames), ImmutableSet.copyOf(idPropNames));
             entityKeyNamesMap.put(entityClass, tp);
         }
 
@@ -374,12 +375,12 @@ public final class CassandraExecutor implements Closeable {
      * @return
      */
     private static Set<String> getKeyNameSet(final Class<?> entityClass) {
-        Tuple2<List<String>, Set<String>> tp = entityKeyNamesMap.get(entityClass);
+        Tuple2<ImmutableList<String>, ImmutableSet<String>> tp = entityKeyNamesMap.get(entityClass);
 
         if (tp == null) {
             @SuppressWarnings("deprecation")
             final List<String> idPropNames = ClassUtil.getIdFieldNames(entityClass);
-            tp = Tuple.<List<String>, Set<String>> of(ImmutableList.copyOf(idPropNames), ImmutableSet.copyOf(idPropNames));
+            tp = Tuple.<ImmutableList<String>, ImmutableSet<String>> of(ImmutableList.copyOf(idPropNames), ImmutableSet.copyOf(idPropNames));
             entityKeyNamesMap.put(entityClass, tp);
         }
 
