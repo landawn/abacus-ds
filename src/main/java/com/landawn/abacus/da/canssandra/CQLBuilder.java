@@ -20,12 +20,11 @@ import static com.landawn.abacus.util.WD._PARENTHESES_L;
 import static com.landawn.abacus.util.WD._PARENTHESES_R;
 import static com.landawn.abacus.util.WD._SPACE;
 
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -57,6 +56,8 @@ import com.landawn.abacus.logging.Logger;
 import com.landawn.abacus.logging.LoggerFactory;
 import com.landawn.abacus.parser.ParserUtil;
 import com.landawn.abacus.parser.ParserUtil.EntityInfo;
+import com.landawn.abacus.parser.ParserUtil.PropInfo;
+import com.landawn.abacus.type.Type;
 import com.landawn.abacus.util.Array;
 import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.ImmutableList;
@@ -114,11 +115,23 @@ public abstract class CQLBuilder {
     /** The Constant COUNT_ALL. */
     public static final String COUNT_ALL = "count(*)";
 
+    /** The Constant POOL_SIZE. */
+    static final int POOL_SIZE;
+
+    static {
+        int multi = (int) (Runtime.getRuntime().maxMemory() / ((1024 * 1024) * 256));
+
+        POOL_SIZE = Math.max(1000, Math.min(1000 * multi, 8192));
+    }
+
     /** The Constant entityTablePropColumnNameMap. */
-    private static final Map<Class<?>, Map<String, String>> entityTablePropColumnNameMap = new ObjectPool<>(1024);
+    private static final Map<Class<?>, Map<NamingPolicy, Map<String, String>>> entityTablePropColumnNameMap = new ObjectPool<>(POOL_SIZE);
 
     /** The Constant defaultPropNamesPool. */
-    private static final Map<Class<?>, Set<String>[]> defaultPropNamesPool = new ObjectPool<>(1024);
+    private static final Map<Class<?>, Set<String>[]> defaultPropNamesPool = new ObjectPool<>(POOL_SIZE);
+
+    /** The Constant classTableNameMap. */
+    private static final Map<Class<?>, String[]> classTableNameMap = new ConcurrentHashMap<>();
 
     /** The Constant tableDeleteFrom. */
     private static final Map<String, char[]> tableDeleteFrom = new ConcurrentHashMap<>();
@@ -322,65 +335,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Register entity prop column name map.
-     *
-     * @param entityClass annotated with @Table, @Column
-     */
-    static void registerEntityPropColumnNameMap(final Class<?> entityClass) {
-        N.checkArgNotNull(entityClass);
-
-        final Set<Field> allFields = N.newHashSet();
-
-        for (Class<?> superClass : ClassUtil.getAllSuperclasses(entityClass)) {
-            allFields.addAll(Array.asList(superClass.getDeclaredFields()));
-        }
-
-        allFields.addAll(Array.asList(entityClass.getDeclaredFields()));
-
-        final Map<String, String> propColumnNameMap = new HashMap<>();
-        Method getterMethod = null;
-
-        for (Field field : allFields) {
-            getterMethod = ClassUtil.getPropGetMethod(entityClass, field.getName());
-
-            if (getterMethod != null) {
-                String columnName = null;
-
-                if (field.isAnnotationPresent(Column.class)) {
-                    columnName = field.getAnnotation(Column.class).value();
-                } else {
-                    try {
-                        if (field.isAnnotationPresent(javax.persistence.Column.class)) {
-                            columnName = field.getAnnotation(javax.persistence.Column.class).name();
-                        }
-                    } catch (Throwable e) {
-                        // ignore
-                    }
-                }
-
-                if (N.notNullOrEmpty(columnName)) {
-                    propColumnNameMap.put(ClassUtil.getPropNameByMethod(getterMethod), columnName);
-                }
-            }
-        }
-
-        final Map<String, String> tmp = entityTablePropColumnNameMap.get(entityClass);
-
-        if (N.notNullOrEmpty(tmp)) {
-            propColumnNameMap.putAll(tmp);
-        }
-
-        if (N.isNullOrEmpty(propColumnNameMap)) {
-            entityTablePropColumnNameMap.put(entityClass, N.<String, String> emptyMap());
-        } else {
-            entityTablePropColumnNameMap.put(entityClass, propColumnNameMap);
-        }
-    }
-
-    /** The Constant classTableNameMap. */
-    private static final Map<Class<?>, String[]> classTableNameMap = new ConcurrentHashMap<>();
-
-    /**
      * Gets the table name.
      *
      * @param entityClass
@@ -522,6 +476,7 @@ public abstract class CQLBuilder {
         if (val == null) {
             synchronized (entityClass) {
                 final Set<String> entityPropNames = N.newLinkedHashSet(ClassUtil.getPropNameList(entityClass));
+                final EntityInfo entityInfo = ParserUtil.getEntityInfo(entityClass);
 
                 val = new Set[4];
                 val[0] = N.newLinkedHashSet(entityPropNames);
@@ -533,33 +488,18 @@ public abstract class CQLBuilder {
                 final Set<String> nonUpdatablePropNames = N.newHashSet();
                 final Set<String> transientPropNames = N.newHashSet();
 
-                final Set<Field> allFields = N.newHashSet();
-
-                for (Class<?> superClass : ClassUtil.getAllSuperclasses(entityClass)) {
-                    allFields.addAll(Array.asList(superClass.getDeclaredFields()));
-                }
-
-                allFields.addAll(Array.asList(entityClass.getDeclaredFields()));
-
-                for (Field field : allFields) {
-                    if (ClassUtil.getPropGetMethod(entityClass, field.getName()) == null
-                            && ClassUtil.getPropGetMethod(entityClass, ClassUtil.formalizePropName(field.getName())) == null) {
-                        continue;
+                for (PropInfo propInfo : entityInfo.propInfoList) {
+                    if (propInfo.isAnnotationPresent(ReadOnly.class) || propInfo.isAnnotationPresent(ReadOnlyId.class)) {
+                        readOnlyPropNames.add(propInfo.name);
                     }
 
-                    if (field.isAnnotationPresent(ReadOnly.class) || field.isAnnotationPresent(ReadOnlyId.class)) {
-                        readOnlyPropNames.add(field.getName());
+                    if (propInfo.isAnnotationPresent(NonUpdatable.class)) {
+                        nonUpdatablePropNames.add(propInfo.name);
                     }
 
-                    if (field.isAnnotationPresent(NonUpdatable.class)) {
-                        nonUpdatablePropNames.add(field.getName());
-                    }
-
-                    if (field.isAnnotationPresent(Transient.class) || Modifier.isTransient(field.getModifiers())) {
-                        readOnlyPropNames.add(field.getName());
-
-                        transientPropNames.add(field.getName());
-                        transientPropNames.add(ClassUtil.formalizePropName(field.getName()));
+                    if (propInfo.isAnnotationPresent(Transient.class) || (propInfo.field != null && Modifier.isTransient(propInfo.field.getModifiers()))) {
+                        readOnlyPropNames.add(propInfo.name);
+                        transientPropNames.add(propInfo.name);
                     }
                 }
 
@@ -647,7 +587,7 @@ public abstract class CQLBuilder {
         sb.append(WD._SPACE);
         sb.append(WD._PARENTHESES_L);
 
-        final Map<String, String> propColumnNameMap = getPropColumnNameMap();
+        final Map<String, String> propColumnNameMap = getPropColumnNameMap(entityClass, namingPolicy);
 
         if (N.notNullOrEmpty(columnNames)) {
             if (columnNames.length == 1 && columnNames[0].indexOf(WD._SPACE) > 0) {
@@ -885,7 +825,7 @@ public abstract class CQLBuilder {
             sb.append(WD._SPACE);
         }
 
-        final Map<String, String> propColumnNameMap = getPropColumnNameMap();
+        final Map<String, String> propColumnNameMap = getPropColumnNameMap(entityClass, namingPolicy);
 
         if (N.notNullOrEmpty(columnNames)) {
             if (columnNames.length == 1) {
@@ -1042,7 +982,7 @@ public abstract class CQLBuilder {
      * @param expr
      */
     private void appendStringExpr(final String expr) {
-        final Map<String, String> propColumnNameMap = getPropColumnNameMap();
+        final Map<String, String> propColumnNameMap = getPropColumnNameMap(entityClass, namingPolicy);
         final List<String> words = SQLParser.parse(expr);
 
         String word = null;
@@ -1094,7 +1034,7 @@ public abstract class CQLBuilder {
                 sb.append(formalizeColumnName(columnNames[0]));
             }
         } else {
-            final Map<String, String> propColumnNameMap = getPropColumnNameMap();
+            final Map<String, String> propColumnNameMap = getPropColumnNameMap(entityClass, namingPolicy);
 
             for (int i = 0, len = columnNames.length; i < len; i++) {
                 if (i > 0) {
@@ -1131,7 +1071,7 @@ public abstract class CQLBuilder {
     public CQLBuilder orderBy(final Collection<String> columnNames) {
         sb.append(_SPACE_ORDER_BY_SPACE);
 
-        final Map<String, String> propColumnNameMap = getPropColumnNameMap();
+        final Map<String, String> propColumnNameMap = getPropColumnNameMap(entityClass, namingPolicy);
         int i = 0;
         for (String columnName : columnNames) {
             if (i++ > 0) {
@@ -1167,7 +1107,7 @@ public abstract class CQLBuilder {
     public CQLBuilder orderBy(final Map<String, SortDirection> orders) {
         sb.append(_SPACE_ORDER_BY_SPACE);
 
-        final Map<String, String> propColumnNameMap = getPropColumnNameMap();
+        final Map<String, String> propColumnNameMap = getPropColumnNameMap(entityClass, namingPolicy);
         int i = 0;
         for (Map.Entry<String, SortDirection> entry : orders.entrySet()) {
             if (i++ > 0) {
@@ -1219,7 +1159,7 @@ public abstract class CQLBuilder {
         if (columnNames.length == 1 && SQLParser.parse(columnNames[0]).contains(WD.EQUAL)) {
             appendStringExpr(columnNames[0]);
         } else {
-            final Map<String, String> propColumnNameMap = getPropColumnNameMap();
+            final Map<String, String> propColumnNameMap = getPropColumnNameMap(entityClass, namingPolicy);
 
             switch (cqlPolicy) {
                 case CQL:
@@ -1276,7 +1216,7 @@ public abstract class CQLBuilder {
 
         sb.append(_SPACE_SET_SPACE);
 
-        final Map<String, String> propColumnNameMap = getPropColumnNameMap();
+        final Map<String, String> propColumnNameMap = getPropColumnNameMap(entityClass, namingPolicy);
 
         switch (cqlPolicy) {
             case CQL:
@@ -1334,7 +1274,7 @@ public abstract class CQLBuilder {
 
         sb.append(_SPACE_SET_SPACE);
 
-        final Map<String, String> propColumnNameMap = getPropColumnNameMap();
+        final Map<String, String> propColumnNameMap = getPropColumnNameMap(entityClass, namingPolicy);
 
         switch (cqlPolicy) {
             case CQL: {
@@ -1986,7 +1926,7 @@ public abstract class CQLBuilder {
      * @return
      */
     private String formalizeColumnName(final String propName) {
-        return formalizeColumnName(getPropColumnNameMap(), propName);
+        return formalizeColumnName(getPropColumnNameMap(entityClass, namingPolicy), propName);
     }
 
     /**
@@ -1997,25 +1937,13 @@ public abstract class CQLBuilder {
      * @return
      */
     private String formalizeColumnName(final Map<String, String> propColumnNameMap, final String propName) {
-        String columnName = propColumnNameMap == null ? null : propColumnNameMap.get(propName);
+        final String columnName = propColumnNameMap == null ? null : propColumnNameMap.get(propName);
 
         if (columnName != null) {
             return columnName;
         }
 
-        switch (namingPolicy) {
-            case LOWER_CASE_WITH_UNDERSCORE:
-                return ClassUtil.toLowerCaseWithUnderscore(propName);
-
-            case UPPER_CASE_WITH_UNDERSCORE:
-                return ClassUtil.toUpperCaseWithUnderscore(propName);
-
-            case LOWER_CAMEL_CASE:
-                return ClassUtil.formalizePropName(propName);
-
-            default:
-                return propName;
-        }
+        return formalizeColumnName(propName, namingPolicy);
     }
 
     /**
@@ -2023,18 +1951,107 @@ public abstract class CQLBuilder {
      *
      * @return
      */
-    private Map<String, String> getPropColumnNameMap() {
+    private static Map<String, String> getPropColumnNameMap(final Class<?> entityClass, final NamingPolicy namingPolicy) {
         if (entityClass == null || Map.class.isAssignableFrom(entityClass)) {
             return N.emptyMap();
         }
 
-        final Map<String, String> result = entityTablePropColumnNameMap.get(entityClass);
+        final Map<NamingPolicy, Map<String, String>> namingColumnNameMap = entityTablePropColumnNameMap.get(entityClass);
+        Map<String, String> result = null;
 
-        if (result == null) {
-            registerEntityPropColumnNameMap(entityClass);
+        if (namingColumnNameMap == null || (result = namingColumnNameMap.get(namingPolicy)) == null) {
+            result = registerEntityPropColumnNameMap(entityClass, namingPolicy, null);
         }
 
-        return entityTablePropColumnNameMap.get(entityClass);
+        return result;
+    }
+
+    /**
+     * Register entity prop column name map.
+     *
+     * @param entityClass annotated with @Table, @Column
+     */
+    private static Map<String, String> registerEntityPropColumnNameMap(final Class<?> entityClass, final NamingPolicy namingPolicy,
+            final Set<Class<?>> registeringClasses) {
+        N.checkArgNotNull(entityClass);
+
+        if (registeringClasses != null) {
+            if (registeringClasses.contains(entityClass)) {
+                throw new AbacusException("Cycling references found among: " + registeringClasses);
+            } else {
+                registeringClasses.add(entityClass);
+            }
+        }
+
+        Map<String, String> propColumnNameMap = new HashMap<>();
+        final EntityInfo entityInfo = ParserUtil.getEntityInfo(entityClass);
+        String columnName = null;
+
+        for (PropInfo propInfo : entityInfo.propInfoList) {
+            if (propInfo.isAnnotationPresent(Column.class)) {
+                columnName = propInfo.getAnnotation(Column.class).value();
+            } else {
+                try {
+                    if (propInfo.isAnnotationPresent(javax.persistence.Column.class)) {
+                        columnName = propInfo.getAnnotation(javax.persistence.Column.class).name();
+                    }
+                } catch (Throwable e) {
+                    logger.warn("To support javax.persistence.Table/Column, please add dependence javax.persistence:persistence-api");
+                }
+            }
+
+            if (N.notNullOrEmpty(columnName)) {
+                propColumnNameMap.put(propInfo.name, columnName);
+            } else {
+                propColumnNameMap.put(propInfo.name, formalizeColumnName(propInfo.name, namingPolicy));
+
+                final Type<?> propType = propInfo.type.isCollection() ? propInfo.type.getElementType() : propInfo.type;
+
+                if (propType.isEntity()) {
+                    final Map<String, String> subPropColumnNameMap = registerEntityPropColumnNameMap(propType.clazz(), namingPolicy,
+                            N.<Class<?>> asLinkedHashSet(entityClass));
+
+                    if (N.notNullOrEmpty(subPropColumnNameMap)) {
+                        final String subTableName = getTableName(propType.clazz(), namingPolicy);
+
+                        for (Map.Entry<String, String> entry : subPropColumnNameMap.entrySet()) {
+                            propColumnNameMap.put(propInfo.name + WD.PERIOD + entry.getKey(), subTableName + WD.PERIOD + entry.getValue());
+                        }
+                    }
+                }
+            }
+        }
+
+        //    final Map<String, String> tmp = entityTablePropColumnNameMap.get(entityClass);
+        //
+        //    if (N.notNullOrEmpty(tmp)) {
+        //        propColumnNameMap.putAll(tmp);
+        //    }
+
+        if (N.isNullOrEmpty(propColumnNameMap)) {
+            propColumnNameMap = N.<String, String> emptyMap();
+        }
+
+        Map<NamingPolicy, Map<String, String>> namingPropColumnMap = entityTablePropColumnNameMap.get(entityClass);
+
+        if (namingPropColumnMap == null) {
+            namingPropColumnMap = new EnumMap<>(NamingPolicy.class);
+            // TODO not necessary?
+            // namingPropColumnMap = Collections.synchronizedMap(namingPropColumnMap)
+            entityTablePropColumnNameMap.put(entityClass, namingPropColumnMap);
+        }
+
+        namingPropColumnMap.put(namingPolicy, propColumnNameMap);
+
+        return propColumnNameMap;
+    }
+
+    private static String formalizeColumnName(final String propName, final NamingPolicy namingPolicy) {
+        if (namingPolicy == NamingPolicy.LOWER_CAMEL_CASE) {
+            return ClassUtil.formalizePropName(propName);
+        } else {
+            return namingPolicy.convert(propName);
+        }
     }
 
     /**
