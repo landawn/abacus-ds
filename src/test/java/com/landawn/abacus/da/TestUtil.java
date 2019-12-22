@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.landawn.abacus.exception.AbacusException;
 import com.landawn.abacus.logging.Logger;
 import com.landawn.abacus.logging.LoggerFactory;
 import com.landawn.abacus.util.ClassUtil;
@@ -72,7 +71,7 @@ public final class TestUtil {
 
     public static <T> T createEntity(Class<T> entityClass, boolean withFixedValues) {
         if (!ClassUtil.isEntity(entityClass)) {
-            throw new AbacusException(entityClass.getCanonicalName() + " is not a valid entity class with property getter/setter method");
+            throw new RuntimeException(entityClass.getCanonicalName() + " is not a valid entity class with property getter/setter method");
         }
 
         T entity = N.newInstance(entityClass);

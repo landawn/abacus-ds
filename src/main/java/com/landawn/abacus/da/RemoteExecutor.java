@@ -27,7 +27,6 @@ import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 
 import com.landawn.abacus.da.util.DependencyFinder;
-import com.landawn.abacus.exception.AbacusException;
 import com.landawn.abacus.http.ContentFormat;
 import com.landawn.abacus.http.HttpClient;
 import com.landawn.abacus.http.HttpSettings;
@@ -660,7 +659,7 @@ public final class RemoteExecutor {
     private <T> List<ContinuableFuture<RemoteExecutionResponse>> asyncExecute(final Class<? extends RemoteTask<?, T>> remoteTask, final Object parameter,
             final Map<String, ?> serverParameterMapper, final HttpSettings httpSettings, final Predicate<Pair<String, Object>> serverFilter) {
         if (kryoParser == null) {
-            throw new AbacusException("Kryo libraries are required");
+            throw new RuntimeException("Kryo libraries are required");
         }
 
         final HttpSettings newHttpSettings = httpSettings == null ? HttpSettings.create() : httpSettings.copy();

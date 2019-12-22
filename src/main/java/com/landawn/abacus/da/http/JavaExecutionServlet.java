@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.landawn.abacus.da.RemoteExecutionRequest;
 import com.landawn.abacus.da.RemoteExecutionResponse;
 import com.landawn.abacus.da.RemoteTask;
-import com.landawn.abacus.exception.AbacusException;
 import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.http.AbstractHttpServlet;
 import com.landawn.abacus.http.ContentFormat;
@@ -149,7 +148,7 @@ public class JavaExecutionServlet extends AbstractHttpServlet {
                     break;
 
                 default:
-                    remoteResponse.setErrorCode(getClassName(AbacusException.class));
+                    remoteResponse.setErrorCode(getClassName(RuntimeException.class));
                     remoteResponse.setErrorMessage("Unsupported content format: " + contentFormat + ". Only format JSON/Kryo is supported");
             }
 

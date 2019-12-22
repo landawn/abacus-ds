@@ -31,7 +31,6 @@ import org.w3c.dom.NodeList;
 import org.w3c.dom.Text;
 import org.xml.sax.SAXException;
 
-import com.landawn.abacus.exception.AbacusException;
 import com.landawn.abacus.exception.ParseException;
 import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.util.Configuration;
@@ -110,7 +109,7 @@ public final class CQLMapper {
                 NodeList cqlMapperEle = doc.getElementsByTagName(CQLMapper.CQL_MAPPER);
 
                 if (0 == cqlMapperEle.getLength()) {
-                    throw new AbacusException("There is no 'cqlMapper' element. ");
+                    throw new RuntimeException("There is no 'cqlMapper' element. ");
                 }
 
                 List<Element> cqlElementList = XMLUtil.getElementsByTagName((Element) cqlMapperEle.item(0), CQL);

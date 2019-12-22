@@ -42,7 +42,6 @@ import com.landawn.abacus.DirtyMarker;
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.core.RowDataSet;
-import com.landawn.abacus.exception.AbacusException;
 import com.landawn.abacus.parser.ParserUtil;
 import com.landawn.abacus.parser.ParserUtil.EntityInfo;
 import com.landawn.abacus.parser.ParserUtil.PropInfo;
@@ -2366,7 +2365,7 @@ public final class CouchbaseExecutor implements Closeable {
      */
     private static void checkResultError(N1qlQueryResult resultSet) {
         if (N.notNullOrEmpty(resultSet.errors())) {
-            throw new AbacusException("Errors in query result: " + resultSet.errors());
+            throw new RuntimeException("Errors in query result: " + resultSet.errors());
         }
     }
 

@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.landawn.abacus.exception.AbacusException;
 import com.landawn.abacus.pool.KeyedObjectPool;
 import com.landawn.abacus.pool.PoolFactory;
 import com.landawn.abacus.pool.PoolableWrapper;
@@ -117,7 +116,7 @@ public final class NamedCQL {
             for (String word : words) {
                 if (word.equals(WD.QUESTION_MARK)) {
                     if (namedParameters.size() > 0) {
-                        throw new AbacusException("can't mix '?' and '#{propName}' in the same cql script");
+                        throw new RuntimeException("can't mix '?' and '#{propName}' in the same cql script");
                     }
 
                     countOfParameter++;
@@ -288,7 +287,7 @@ public final class NamedCQL {
             for (String word : words) {
                 if (word.equals(WD.QUESTION_MARK)) {
                     if (couchbaseNamedParameters.size() > 0) {
-                        throw new AbacusException("can't mix '?' and '#{propName}' in the same cql script");
+                        throw new RuntimeException("can't mix '?' and '#{propName}' in the same cql script");
                     }
 
                     countOfParameter++;
