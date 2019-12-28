@@ -21,8 +21,8 @@ import com.landawn.abacus.util.Array;
 import com.landawn.abacus.util.IntPair;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.ShortList;
-import com.landawn.abacus.util.Try;
-import com.landawn.abacus.util.Try.Consumer;
+import com.landawn.abacus.util.Throwables;
+import com.landawn.abacus.util.Throwables.Consumer;
 import com.landawn.abacus.util.u.OptionalShort;
 import com.landawn.abacus.util.function.IntConsumer;
 import com.landawn.abacus.util.stream.IntStream;
@@ -370,7 +370,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Try.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(int rowIndex, Throwables.ShortUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsShort(a[rowIndex][i]);
         }
@@ -383,7 +383,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Try.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(int columnIndex, Throwables.ShortUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsShort(a[i][columnIndex]);
         }
@@ -427,7 +427,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateLU2RD(final Try.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Throwables.ShortUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
@@ -473,7 +473,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateRU2LD(final Try.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Throwables.ShortUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
@@ -487,10 +487,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateAll(final Throwables.ShortUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -499,7 +499,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -533,10 +533,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.IntBiFunction<Short, E> func) throws E {
+    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Short, E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -545,7 +545,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -578,10 +578,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param newValue
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.ShortPredicate<E> predicate, final short newValue) throws E {
+    public <E extends Exception> void replaceIf(final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -590,7 +590,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -624,10 +624,10 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param newValue
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final short newValue) throws E {
+    public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final short newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -636,7 +636,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -669,12 +669,12 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      * @throws E the e
      */
-    public <E extends Exception> ShortMatrix map(final Try.ShortUnaryOperator<E> func) throws E {
+    public <E extends Exception> ShortMatrix map(final Throwables.ShortUnaryOperator<E> func) throws E {
         final short[][] c = new short[rows][cols];
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -683,7 +683,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -722,7 +722,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      * @throws E the e
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.ShortFunction<? extends T, E> func) throws E {
+    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Throwables.ShortFunction<? extends T, E> func) throws E {
         final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
 
         for (int i = 0; i < rows; i++) {
@@ -731,7 +731,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -740,7 +740,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -1621,7 +1621,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      * @throws E the e
      */
-    public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final Try.ShortBiFunction<Short, E> zipFunction) throws E {
+    public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
         final short[][] result = new short[rows][cols];
@@ -1629,7 +1629,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -1638,7 +1638,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -1676,8 +1676,8 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @return
      * @throws E the e
      */
-    public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final ShortMatrix matrixC, final Try.ShortTriFunction<Short, E> zipFunction)
-            throws E {
+    public <E extends Exception> ShortMatrix zipWith(final ShortMatrix matrixB, final ShortMatrix matrixC,
+            final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
 
         final short[][] result = new short[rows][cols];
@@ -1686,7 +1686,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -1695,7 +1695,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -2164,7 +2164,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @param action
      * @throws E the e
      */
-    public <E extends Exception> void forEach(final Try.ShortConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.ShortConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
@@ -2179,7 +2179,7 @@ public final class ShortMatrix extends AbstractMatrix<short[], ShortList, ShortS
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Try.ShortConsumer<E> action) throws E {
+            final Throwables.ShortConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

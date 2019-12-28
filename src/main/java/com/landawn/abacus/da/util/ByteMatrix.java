@@ -21,8 +21,8 @@ import com.landawn.abacus.util.Array;
 import com.landawn.abacus.util.ByteList;
 import com.landawn.abacus.util.IntPair;
 import com.landawn.abacus.util.N;
-import com.landawn.abacus.util.Try;
-import com.landawn.abacus.util.Try.Consumer;
+import com.landawn.abacus.util.Throwables;
+import com.landawn.abacus.util.Throwables.Consumer;
 import com.landawn.abacus.util.u.OptionalByte;
 import com.landawn.abacus.util.function.IntConsumer;
 import com.landawn.abacus.util.stream.ByteIteratorEx;
@@ -370,7 +370,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Try.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(int rowIndex, Throwables.ByteUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsByte(a[rowIndex][i]);
         }
@@ -383,7 +383,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Try.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(int columnIndex, Throwables.ByteUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsByte(a[i][columnIndex]);
         }
@@ -427,7 +427,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateLU2RD(final Try.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Throwables.ByteUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
@@ -473,7 +473,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateRU2LD(final Try.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Throwables.ByteUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
@@ -487,10 +487,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateAll(final Throwables.ByteUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -499,7 +499,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -533,10 +533,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.IntBiFunction<Byte, E> func) throws E {
+    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Byte, E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -545,7 +545,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -579,10 +579,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param newValue
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.BytePredicate<E> predicate, final byte newValue) throws E {
+    public <E extends Exception> void replaceIf(final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -591,7 +591,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -626,10 +626,10 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param newValue
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final byte newValue) throws E {
+    public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final byte newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -638,7 +638,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -672,12 +672,12 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return
      * @throws E the e
      */
-    public <E extends Exception> ByteMatrix map(final Try.ByteUnaryOperator<E> func) throws E {
+    public <E extends Exception> ByteMatrix map(final Throwables.ByteUnaryOperator<E> func) throws E {
         final byte[][] c = new byte[rows][cols];
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -686,7 +686,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -725,7 +725,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return
      * @throws E the e
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.ByteFunction<? extends T, E> func) throws E {
+    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Throwables.ByteFunction<? extends T, E> func) throws E {
         final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
 
         for (int i = 0; i < rows; i++) {
@@ -734,7 +734,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -743,7 +743,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -1624,7 +1624,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return
      * @throws E the e
      */
-    public <E extends Exception> ByteMatrix zipWith(final ByteMatrix matrixB, final Try.ByteBiFunction<Byte, E> zipFunction) throws E {
+    public <E extends Exception> ByteMatrix zipWith(final ByteMatrix matrixB, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
         final byte[][] result = new byte[rows][cols];
@@ -1632,7 +1632,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -1641,7 +1641,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -1679,7 +1679,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @return
      * @throws E the e
      */
-    public <E extends Exception> ByteMatrix zipWith(final ByteMatrix matrixB, final ByteMatrix matrixC, final Try.ByteTriFunction<Byte, E> zipFunction)
+    public <E extends Exception> ByteMatrix zipWith(final ByteMatrix matrixB, final ByteMatrix matrixC, final Throwables.ByteTriFunction<Byte, E> zipFunction)
             throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
 
@@ -1689,7 +1689,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -1698,7 +1698,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
 
                     @Override
                     public void accept(final int j) throws E {
@@ -2166,7 +2166,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @param action
      * @throws E the e
      */
-    public <E extends Exception> void forEach(final Try.ByteConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.ByteConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
@@ -2181,7 +2181,7 @@ public final class ByteMatrix extends AbstractMatrix<byte[], ByteList, ByteStrea
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Try.ByteConsumer<E> action) throws E {
+            final Throwables.ByteConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

@@ -84,7 +84,7 @@ import com.landawn.abacus.util.ImmutableSet;
 import com.landawn.abacus.util.MutableInt;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
-import com.landawn.abacus.util.Try;
+import com.landawn.abacus.util.Throwables;
 import com.landawn.abacus.util.Tuple;
 import com.landawn.abacus.util.Tuple.Tuple2;
 import com.landawn.abacus.util.WD;
@@ -2051,7 +2051,7 @@ public final class CassandraExecutor implements Closeable {
     public <T> ContinuableFuture<Optional<T>> asyncGet(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 2);
 
-        return asyncExecute(cp).map(new Try.Function<ResultSet, Optional<T>, RuntimeException>() {
+        return asyncExecute(cp).map(new Throwables.Function<ResultSet, Optional<T>, RuntimeException>() {
             @Override
             public Optional<T> apply(final ResultSet resultSet) throws RuntimeException {
                 final Row row = resultSet.one();
@@ -2116,7 +2116,7 @@ public final class CassandraExecutor implements Closeable {
     public <T> ContinuableFuture<T> asyncGett(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 2);
 
-        return asyncExecute(cp).map(new Try.Function<ResultSet, T, RuntimeException>() {
+        return asyncExecute(cp).map(new Throwables.Function<ResultSet, T, RuntimeException>() {
             @Override
             public T apply(final ResultSet resultSet) throws RuntimeException {
                 final Row row = resultSet.one();
@@ -2415,7 +2415,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /** The Constant boolean_mapper. */
-    private static final Try.Function<Nullable<Boolean>, OptionalBoolean, RuntimeException> boolean_mapper = new Try.Function<Nullable<Boolean>, OptionalBoolean, RuntimeException>() {
+    private static final Throwables.Function<Nullable<Boolean>, OptionalBoolean, RuntimeException> boolean_mapper = new Throwables.Function<Nullable<Boolean>, OptionalBoolean, RuntimeException>() {
         @Override
         public OptionalBoolean apply(Nullable<Boolean> t) throws RuntimeException {
             return t.mapToBoolean(ToBooleanFunction.UNBOX);
@@ -2436,7 +2436,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /** The Constant char_mapper. */
-    private static final Try.Function<Nullable<Character>, OptionalChar, RuntimeException> char_mapper = new Try.Function<Nullable<Character>, OptionalChar, RuntimeException>() {
+    private static final Throwables.Function<Nullable<Character>, OptionalChar, RuntimeException> char_mapper = new Throwables.Function<Nullable<Character>, OptionalChar, RuntimeException>() {
         @Override
         public OptionalChar apply(Nullable<Character> t) throws RuntimeException {
             return t.mapToChar(ToCharFunction.UNBOX);
@@ -2457,7 +2457,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /** The Constant byte_mapper. */
-    private static final Try.Function<Nullable<Byte>, OptionalByte, RuntimeException> byte_mapper = new Try.Function<Nullable<Byte>, OptionalByte, RuntimeException>() {
+    private static final Throwables.Function<Nullable<Byte>, OptionalByte, RuntimeException> byte_mapper = new Throwables.Function<Nullable<Byte>, OptionalByte, RuntimeException>() {
         @Override
         public OptionalByte apply(Nullable<Byte> t) throws RuntimeException {
             return t.mapToByte(ToByteFunction.UNBOX);
@@ -2478,7 +2478,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /** The Constant short_mapper. */
-    private static final Try.Function<Nullable<Short>, OptionalShort, RuntimeException> short_mapper = new Try.Function<Nullable<Short>, OptionalShort, RuntimeException>() {
+    private static final Throwables.Function<Nullable<Short>, OptionalShort, RuntimeException> short_mapper = new Throwables.Function<Nullable<Short>, OptionalShort, RuntimeException>() {
         @Override
         public OptionalShort apply(Nullable<Short> t) throws RuntimeException {
             return t.mapToShort(ToShortFunction.UNBOX);
@@ -2499,7 +2499,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /** The Constant int_mapper. */
-    private static final Try.Function<Nullable<Integer>, OptionalInt, RuntimeException> int_mapper = new Try.Function<Nullable<Integer>, OptionalInt, RuntimeException>() {
+    private static final Throwables.Function<Nullable<Integer>, OptionalInt, RuntimeException> int_mapper = new Throwables.Function<Nullable<Integer>, OptionalInt, RuntimeException>() {
         @Override
         public OptionalInt apply(Nullable<Integer> t) throws RuntimeException {
             return t.mapToInt(ToIntFunction.UNBOX);
@@ -2520,7 +2520,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /** The Constant long_mapper. */
-    private static final Try.Function<Nullable<Long>, OptionalLong, RuntimeException> long_mapper = new Try.Function<Nullable<Long>, OptionalLong, RuntimeException>() {
+    private static final Throwables.Function<Nullable<Long>, OptionalLong, RuntimeException> long_mapper = new Throwables.Function<Nullable<Long>, OptionalLong, RuntimeException>() {
         @Override
         public OptionalLong apply(Nullable<Long> t) throws RuntimeException {
             return t.mapToLong(ToLongFunction.UNBOX);
@@ -2541,7 +2541,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /** The Constant float_mapper. */
-    private static final Try.Function<Nullable<Float>, OptionalFloat, RuntimeException> float_mapper = new Try.Function<Nullable<Float>, OptionalFloat, RuntimeException>() {
+    private static final Throwables.Function<Nullable<Float>, OptionalFloat, RuntimeException> float_mapper = new Throwables.Function<Nullable<Float>, OptionalFloat, RuntimeException>() {
         @Override
         public OptionalFloat apply(Nullable<Float> t) throws RuntimeException {
             return t.mapToFloat(ToFloatFunction.UNBOX);
@@ -2562,7 +2562,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /** The Constant double_mapper. */
-    private static final Try.Function<Nullable<Double>, OptionalDouble, RuntimeException> double_mapper = new Try.Function<Nullable<Double>, OptionalDouble, RuntimeException>() {
+    private static final Throwables.Function<Nullable<Double>, OptionalDouble, RuntimeException> double_mapper = new Throwables.Function<Nullable<Double>, OptionalDouble, RuntimeException>() {
         @Override
         public OptionalDouble apply(Nullable<Double> t) throws RuntimeException {
             return t.mapToDouble(ToDoubleFunction.UNBOX);
@@ -2695,7 +2695,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /** The Constant exists_mapper. */
-    private static final Try.Function<ResultSet, Boolean, RuntimeException> exists_mapper = new Try.Function<ResultSet, Boolean, RuntimeException>() {
+    private static final Throwables.Function<ResultSet, Boolean, RuntimeException> exists_mapper = new Throwables.Function<ResultSet, Boolean, RuntimeException>() {
         @Override
         public Boolean apply(ResultSet resultSet) throws RuntimeException {
             return resultSet.iterator().hasNext();
@@ -2715,7 +2715,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /** The Constant long_mapper2. */
-    private static final Try.Function<Nullable<Long>, Long, RuntimeException> long_mapper2 = new Try.Function<Nullable<Long>, Long, RuntimeException>() {
+    private static final Throwables.Function<Nullable<Long>, Long, RuntimeException> long_mapper2 = new Throwables.Function<Nullable<Long>, Long, RuntimeException>() {
         @Override
         public Long apply(Nullable<Long> t) throws RuntimeException {
             return t.mapToLong(ToLongFunction.UNBOX).orElse(0);
@@ -2863,7 +2863,7 @@ public final class CassandraExecutor implements Closeable {
      */
     @SafeVarargs
     public final <T> ContinuableFuture<Nullable<T>> asyncQueryForSingleResult(final Class<T> valueClass, final String query, final Object... parameters) {
-        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, Nullable<T>, RuntimeException>() {
+        return asyncExecute(query, parameters).map(new Throwables.Function<ResultSet, Nullable<T>, RuntimeException>() {
             @Override
             public Nullable<T> apply(final ResultSet resultSet) throws RuntimeException {
                 final Row row = resultSet.one();
@@ -2896,7 +2896,7 @@ public final class CassandraExecutor implements Closeable {
      */
     @SafeVarargs
     public final <T> ContinuableFuture<Optional<T>> asyncFindFirst(final Class<T> targetClass, final String query, final Object... parameters) {
-        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, Optional<T>, RuntimeException>() {
+        return asyncExecute(query, parameters).map(new Throwables.Function<ResultSet, Optional<T>, RuntimeException>() {
             @Override
             public Optional<T> apply(final ResultSet resultSet) throws RuntimeException {
                 final Row row = resultSet.one();
@@ -2927,7 +2927,7 @@ public final class CassandraExecutor implements Closeable {
      */
     @SafeVarargs
     public final <T> ContinuableFuture<List<T>> asyncList(final Class<T> targetClass, final String query, final Object... parameters) {
-        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, List<T>, RuntimeException>() {
+        return asyncExecute(query, parameters).map(new Throwables.Function<ResultSet, List<T>, RuntimeException>() {
             @Override
             public List<T> apply(final ResultSet resultSet) throws RuntimeException {
                 return toList(targetClass, resultSet);
@@ -2955,7 +2955,7 @@ public final class CassandraExecutor implements Closeable {
      */
     @SafeVarargs
     public final ContinuableFuture<DataSet> asyncQuery(final Class<?> targetClass, final String query, final Object... parameters) {
-        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, DataSet, RuntimeException>() {
+        return asyncExecute(query, parameters).map(new Throwables.Function<ResultSet, DataSet, RuntimeException>() {
             @Override
             public DataSet apply(final ResultSet resultSet) throws RuntimeException {
                 return extractData(targetClass, resultSet);
@@ -2971,7 +2971,7 @@ public final class CassandraExecutor implements Closeable {
      */
     @SafeVarargs
     public final ContinuableFuture<Stream<Object[]>> asyncStream(final String query, final Object... parameters) {
-        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, Stream<Object[]>, RuntimeException>() {
+        return asyncExecute(query, parameters).map(new Throwables.Function<ResultSet, Stream<Object[]>, RuntimeException>() {
             @Override
             public Stream<Object[]> apply(final ResultSet resultSet) throws RuntimeException {
                 final MutableInt columnCount = MutableInt.of(0);
@@ -3014,7 +3014,7 @@ public final class CassandraExecutor implements Closeable {
      */
     @SafeVarargs
     public final <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final String query, final Object... parameters) {
-        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, Stream<T>, RuntimeException>() {
+        return asyncExecute(query, parameters).map(new Throwables.Function<ResultSet, Stream<T>, RuntimeException>() {
             @Override
             public Stream<T> apply(final ResultSet resultSet) throws RuntimeException {
                 return Stream.of(resultSet.iterator()).map(new Function<Row, T>() {
@@ -3038,7 +3038,7 @@ public final class CassandraExecutor implements Closeable {
     @SafeVarargs
     public final <T> ContinuableFuture<Stream<T>> asyncStream(final String query, final BiFunction<ColumnDefinitions, Row, T> rowMapper,
             final Object... parameters) {
-        return asyncExecute(query, parameters).map(new Try.Function<ResultSet, Stream<T>, RuntimeException>() {
+        return asyncExecute(query, parameters).map(new Throwables.Function<ResultSet, Stream<T>, RuntimeException>() {
             @Override
             public Stream<T> apply(final ResultSet resultSet) throws RuntimeException {
                 return Stream.of(resultSet.iterator()).map(new Function<Row, T>() {

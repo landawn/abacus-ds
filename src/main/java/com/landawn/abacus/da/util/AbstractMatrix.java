@@ -17,7 +17,7 @@ package com.landawn.abacus.da.util;
 import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.IntPair;
 import com.landawn.abacus.util.N;
-import com.landawn.abacus.util.Try;
+import com.landawn.abacus.util.Throwables;
 import com.landawn.abacus.util.function.IntFunction;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.Stream;
@@ -247,7 +247,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param op
      * @throws E the e
      */
-    public abstract <E extends Exception> void flatOp(Try.Consumer<A, E> op) throws E;
+    public abstract <E extends Exception> void flatOp(Throwables.Consumer<A, E> op) throws E;
 
     /**
      * <pre>
@@ -264,7 +264,7 @@ public abstract class AbstractMatrix<A, PL, ES, RS, X extends AbstractMatrix<A, 
      * @param action
      * @throws E the e
      */
-    public <E extends Exception> void forEach(Try.IntBiConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(Throwables.IntBiConsumer<E> action) throws E {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 action.accept(i, j);

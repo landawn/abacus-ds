@@ -42,7 +42,7 @@ import com.landawn.abacus.util.IntPair;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.Objectory;
 import com.landawn.abacus.util.StringUtil;
-import com.landawn.abacus.util.Try;
+import com.landawn.abacus.util.Throwables;
 import com.landawn.abacus.util.function.IntFunction;
 import com.landawn.abacus.util.stream.IntStream;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
@@ -683,7 +683,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param func
      * @throws X the x
      */
-    public <X extends Exception> void updateRow(R rowKey, Try.Function<? super E, E, X> func) throws X {
+    public <X extends Exception> void updateRow(R rowKey, Throwables.Function<? super E, E, X> func) throws X {
         checkFrozen();
 
         if (columnLength() > 0) {
@@ -1010,7 +1010,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param func
      * @throws X the x
      */
-    public <X extends Exception> void updateColumn(C columnKey, Try.Function<? super E, E, X> func) throws X {
+    public <X extends Exception> void updateColumn(C columnKey, Throwables.Function<? super E, E, X> func) throws X {
         checkFrozen();
 
         if (rowLength() > 0) {
@@ -1214,7 +1214,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param func
      * @throws X the x
      */
-    public <X extends Exception> void updateAll(Try.Function<? super E, E, X> func) throws X {
+    public <X extends Exception> void updateAll(Throwables.Function<? super E, E, X> func) throws X {
         checkFrozen();
 
         if (rowLength() > 0 && columnLength() > 0) {
@@ -1237,7 +1237,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param func
      * @throws X the x
      */
-    public <X extends Exception> void updateAll(Try.IntBiFunction<E, X> func) throws X {
+    public <X extends Exception> void updateAll(Throwables.IntBiFunction<E, X> func) throws X {
         checkFrozen();
 
         if (rowLength() > 0 && columnLength() > 0) {
@@ -1263,7 +1263,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param func
      * @throws X the x
      */
-    public <X extends Exception> void updateAll(Try.TriFunction<R, C, E, E, X> func) throws X {
+    public <X extends Exception> void updateAll(Throwables.TriFunction<R, C, E, E, X> func) throws X {
         checkFrozen();
 
         if (rowLength() > 0 && columnLength() > 0) {
@@ -1292,7 +1292,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param newValue
      * @throws X the x
      */
-    public <X extends Exception> void replaceIf(final Try.Predicate<? super E, X> predicate, final E newValue) throws X {
+    public <X extends Exception> void replaceIf(final Throwables.Predicate<? super E, X> predicate, final E newValue) throws X {
         checkFrozen();
 
         if (rowLength() > 0 && columnLength() > 0) {
@@ -1318,7 +1318,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param newValue
      * @throws X the x
      */
-    public <X extends Exception> void replaceIf(final Try.IntBiPredicate<X> predicate, final E newValue) throws X {
+    public <X extends Exception> void replaceIf(final Throwables.IntBiPredicate<X> predicate, final E newValue) throws X {
         checkFrozen();
 
         if (rowLength() > 0 && columnLength() > 0) {
@@ -1347,7 +1347,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param newValue
      * @throws X the x
      */
-    public <X extends Exception> void replaceIf(final Try.TriPredicate<R, C, E, X> predicate, final E newValue) throws X {
+    public <X extends Exception> void replaceIf(final Throwables.TriPredicate<R, C, E, X> predicate, final E newValue) throws X {
         checkFrozen();
 
         if (rowLength() > 0 && columnLength() > 0) {
@@ -1485,7 +1485,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @throws X the x
      */
     public <E2, E3, X extends Exception> Sheet<R, C, E3> merge(Sheet<? extends R, ? extends C, ? extends E2> b,
-            Try.BiFunction<? super E, ? super E2, E3, X> mergeFunction) throws X {
+            Throwables.BiFunction<? super E, ? super E2, E3, X> mergeFunction) throws X {
         final Set<R> newRowKeySet = N.newLinkedHashSet(this.rowKeySet());
         newRowKeySet.addAll(b.rowKeySet());
 
@@ -1601,7 +1601,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param action
      * @throws X the x
      */
-    public <X extends Exception> void forEachH(Try.TriConsumer<R, C, E, X> action) throws X {
+    public <X extends Exception> void forEachH(Throwables.TriConsumer<R, C, E, X> action) throws X {
         for (R rowKey : _rowKeySet) {
             for (C columnKey : _columnKeySet) {
                 if (_initialized) {
@@ -1620,7 +1620,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param action
      * @throws X the x
      */
-    public <X extends Exception> void forEachV(Try.TriConsumer<R, C, E, X> action) throws X {
+    public <X extends Exception> void forEachV(Throwables.TriConsumer<R, C, E, X> action) throws X {
         for (C columnKey : _columnKeySet) {
             for (R rowKey : _rowKeySet) {
                 if (_initialized) {
@@ -2603,7 +2603,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @return
      * @throws X the x
      */
-    public <T, X extends Exception> T apply(Try.Function<? super Sheet<R, C, E>, T, X> func) throws X {
+    public <T, X extends Exception> T apply(Throwables.Function<? super Sheet<R, C, E>, T, X> func) throws X {
         return func.apply(this);
     }
 
@@ -2613,7 +2613,7 @@ public final class Sheet<R, C, E> implements Cloneable {
      * @param action
      * @throws X the x
      */
-    public <X extends Exception> void accept(Try.Consumer<? super Sheet<R, C, E>, X> action) throws X {
+    public <X extends Exception> void accept(Throwables.Consumer<? super Sheet<R, C, E>, X> action) throws X {
         action.accept(this);
     }
 

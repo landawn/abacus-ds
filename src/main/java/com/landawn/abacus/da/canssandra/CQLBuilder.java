@@ -73,7 +73,7 @@ import com.landawn.abacus.util.SQLParser;
 import com.landawn.abacus.util.SortDirection;
 import com.landawn.abacus.util.Splitter;
 import com.landawn.abacus.util.StringUtil;
-import com.landawn.abacus.util.Try;
+import com.landawn.abacus.util.Throwables;
 import com.landawn.abacus.util.WD;
 
 // TODO: Auto-generated Javadoc
@@ -2061,7 +2061,7 @@ public abstract class CQLBuilder {
      * @return
      * @throws EX the ex
      */
-    public <T, EX extends Exception> T apply(final Try.Function<? super CP, T, EX> func) throws EX {
+    public <T, EX extends Exception> T apply(final Throwables.Function<? super CP, T, EX> func) throws EX {
         return func.apply(this.pair());
     }
 
@@ -2071,7 +2071,7 @@ public abstract class CQLBuilder {
      * @param consumer
      * @throws EX the ex
      */
-    public <EX extends Exception> void accept(final Try.Consumer<? super CP, EX> consumer) throws EX {
+    public <EX extends Exception> void accept(final Throwables.Consumer<? super CP, EX> consumer) throws EX {
         consumer.accept(this.pair());
     }
 

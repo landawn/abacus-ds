@@ -20,7 +20,7 @@ import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.Matth;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.Objectory;
-import com.landawn.abacus.util.Try;
+import com.landawn.abacus.util.Throwables;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -59,7 +59,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <T, E extends Exception> void replaceAlll(final T[] a, final Try.UnaryOperator<T, E> operator) throws E {
+    public static <T, E extends Exception> void replaceAlll(final T[] a, final Throwables.UnaryOperator<T, E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -78,7 +78,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <T, E extends Exception> void replaceIff(final T[] a, final Try.Predicate<? super T, E> predicate, final T newValue) throws E {
+    public static <T, E extends Exception> void replaceIff(final T[] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -99,7 +99,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapp(final T[] a, final Try.UnaryOperator<T, E> func) throws E {
+    public static <T, E extends Exception> T[] mapp(final T[] a, final Throwables.UnaryOperator<T, E> func) throws E {
         if (a == null) {
             return null;
         }
@@ -118,7 +118,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, R, E extends Exception> R[] map(final Class<R> cls, final T[] a, final Try.Function<? super T, R, E> func) throws E {
+    public static <T, R, E extends Exception> R[] map(final Class<R> cls, final T[] a, final Throwables.Function<? super T, R, E> func) throws E {
         if (a == null) {
             return null;
         }
@@ -143,7 +143,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Try.ToBooleanFunction<? super T, E> func) throws E {
+    public static <T, E extends Exception> boolean[] mapToBoolean(final T[] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
         if (a == null) {
             return null;
         }
@@ -168,7 +168,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> char[] mapToChar(final T[] a, final Try.ToCharFunction<? super T, E> func) throws E {
+    public static <T, E extends Exception> char[] mapToChar(final T[] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
         if (a == null) {
             return null;
         }
@@ -193,7 +193,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Try.ToByteFunction<? super T, E> func) throws E {
+    public static <T, E extends Exception> byte[] mapToByte(final T[] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
         if (a == null) {
             return null;
         }
@@ -218,7 +218,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> short[] mapToShort(final T[] a, final Try.ToShortFunction<? super T, E> func) throws E {
+    public static <T, E extends Exception> short[] mapToShort(final T[] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
         if (a == null) {
             return null;
         }
@@ -243,7 +243,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> int[] mapToInt(final T[] a, final Try.ToIntFunction<? super T, E> func) throws E {
+    public static <T, E extends Exception> int[] mapToInt(final T[] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
         if (a == null) {
             return null;
         }
@@ -268,7 +268,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> long[] mapToLong(final T[] a, final Try.ToLongFunction<? super T, E> func) throws E {
+    public static <T, E extends Exception> long[] mapToLong(final T[] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
         if (a == null) {
             return null;
         }
@@ -293,7 +293,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Try.ToFloatFunction<? super T, E> func) throws E {
+    public static <T, E extends Exception> float[] mapToFloat(final T[] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
         if (a == null) {
             return null;
         }
@@ -318,7 +318,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Try.ToDoubleFunction<? super T, E> func) throws E {
+    public static <T, E extends Exception> double[] mapToDouble(final T[] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
         if (a == null) {
             return null;
         }
@@ -344,7 +344,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final boolean[] a, final Try.BooleanFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final boolean[] a, final Throwables.BooleanFunction<? extends T, E> mapper)
+            throws E {
         if (a == null) {
             return null;
         }
@@ -370,7 +371,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final boolean[][] a, final Try.BooleanFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final boolean[][] a, final Throwables.BooleanFunction<? extends T, E> mapper)
+            throws E {
         if (a == null) {
             return null;
         }
@@ -396,7 +398,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final boolean[][][] a, final Try.BooleanFunction<? extends T, E> mapper)
+    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final boolean[][][] a, final Throwables.BooleanFunction<? extends T, E> mapper)
             throws E {
         if (a == null) {
             return null;
@@ -423,7 +425,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final char[] a, final Try.CharFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final char[] a, final Throwables.CharFunction<? extends T, E> mapper) throws E {
         if (a == null) {
             return null;
         }
@@ -449,7 +451,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final char[][] a, final Try.CharFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final char[][] a, final Throwables.CharFunction<? extends T, E> mapper) throws E {
         if (a == null) {
             return null;
         }
@@ -475,7 +477,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final char[][][] a, final Try.CharFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final char[][][] a, final Throwables.CharFunction<? extends T, E> mapper)
+            throws E {
         if (a == null) {
             return null;
         }
@@ -501,7 +504,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final byte[] a, final Try.ByteFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final byte[] a, final Throwables.ByteFunction<? extends T, E> mapper) throws E {
         if (a == null) {
             return null;
         }
@@ -527,7 +530,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final byte[][] a, final Try.ByteFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final byte[][] a, final Throwables.ByteFunction<? extends T, E> mapper) throws E {
         if (a == null) {
             return null;
         }
@@ -553,7 +556,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final byte[][][] a, final Try.ByteFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final byte[][][] a, final Throwables.ByteFunction<? extends T, E> mapper)
+            throws E {
         if (a == null) {
             return null;
         }
@@ -579,7 +583,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final short[] a, final Try.ShortFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final short[] a, final Throwables.ShortFunction<? extends T, E> mapper) throws E {
         if (a == null) {
             return null;
         }
@@ -605,7 +609,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final short[][] a, final Try.ShortFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final short[][] a, final Throwables.ShortFunction<? extends T, E> mapper)
+            throws E {
         if (a == null) {
             return null;
         }
@@ -631,7 +636,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final short[][][] a, final Try.ShortFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final short[][][] a, final Throwables.ShortFunction<? extends T, E> mapper)
+            throws E {
         if (a == null) {
             return null;
         }
@@ -657,7 +663,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final int[] a, final Try.IntFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final int[] a, final Throwables.IntFunction<? extends T, E> mapper) throws E {
         if (a == null) {
             return null;
         }
@@ -683,7 +689,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final int[][] a, final Try.IntFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final int[][] a, final Throwables.IntFunction<? extends T, E> mapper) throws E {
         if (a == null) {
             return null;
         }
@@ -709,7 +715,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final int[][][] a, final Try.IntFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final int[][][] a, final Throwables.IntFunction<? extends T, E> mapper)
+            throws E {
         if (a == null) {
             return null;
         }
@@ -735,7 +742,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final long[] a, final Try.LongFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final long[] a, final Throwables.LongFunction<? extends T, E> mapper) throws E {
         if (a == null) {
             return null;
         }
@@ -761,7 +768,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final long[][] a, final Try.LongFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final long[][] a, final Throwables.LongFunction<? extends T, E> mapper) throws E {
         if (a == null) {
             return null;
         }
@@ -787,7 +794,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final long[][][] a, final Try.LongFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final long[][][] a, final Throwables.LongFunction<? extends T, E> mapper)
+            throws E {
         if (a == null) {
             return null;
         }
@@ -813,7 +821,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final float[] a, final Try.FloatFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final float[] a, final Throwables.FloatFunction<? extends T, E> mapper) throws E {
         if (a == null) {
             return null;
         }
@@ -839,7 +847,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final float[][] a, final Try.FloatFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final float[][] a, final Throwables.FloatFunction<? extends T, E> mapper)
+            throws E {
         if (a == null) {
             return null;
         }
@@ -865,7 +874,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final float[][][] a, final Try.FloatFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final float[][][] a, final Throwables.FloatFunction<? extends T, E> mapper)
+            throws E {
         if (a == null) {
             return null;
         }
@@ -891,7 +901,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final double[] a, final Try.DoubleFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[] mapToObj(final Class<T> cls, final double[] a, final Throwables.DoubleFunction<? extends T, E> mapper) throws E {
         if (a == null) {
             return null;
         }
@@ -917,7 +927,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final double[][] a, final Try.DoubleFunction<? extends T, E> mapper) throws E {
+    public static <T, E extends Exception> T[][] mapToObj(final Class<T> cls, final double[][] a, final Throwables.DoubleFunction<? extends T, E> mapper)
+            throws E {
         if (a == null) {
             return null;
         }
@@ -943,7 +954,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final double[][][] a, final Try.DoubleFunction<? extends T, E> mapper)
+    public static <T, E extends Exception> T[][][] mapToObj(final Class<T> cls, final double[][][] a, final Throwables.DoubleFunction<? extends T, E> mapper)
             throws E {
         if (a == null) {
             return null;
@@ -970,7 +981,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <A, B, E extends Exception> A[] zipp(final A[] a, final B[] b, final Try.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
+    public static <A, B, E extends Exception> A[] zipp(final A[] a, final B[] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
         return zip((Class<A>) a.getClass().getComponentType(), a, b, zipFunction);
     }
 
@@ -988,7 +999,7 @@ public final class f {
      * @throws E the e
      */
     public static <A, B, R, E extends Exception> R[] zip(final Class<R> cls, final A[] a, final B[] b,
-            final Try.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+            final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -1015,7 +1026,7 @@ public final class f {
      * @throws E the e
      */
     public static <A, B, E extends Exception> A[] zipp(final A[] a, final B[] b, final A valueForNoneA, final B valueForNoneB,
-            final Try.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
+            final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
         return zip((Class<A>) a.getClass().getComponentType(), a, b, valueForNoneA, valueForNoneB, zipFunction);
     }
 
@@ -1035,7 +1046,7 @@ public final class f {
      * @throws E the e
      */
     public static <A, B, R, E extends Exception> R[] zip(final Class<R> cls, final A[] a, final B[] b, final A valueForNoneA, final B valueForNoneB,
-            final Try.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+            final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -1059,7 +1070,7 @@ public final class f {
      * @throws E the e
      */
     private static <A, B, R, E extends Exception> R[] zip(final int len, final Class<R> cls, final A[] a, final B[] b, final A valueForNoneA,
-            final B valueForNoneB, final Try.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+            final B valueForNoneB, final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -1102,7 +1113,7 @@ public final class f {
      * @throws E the e
      */
     public static <A, B, C, E extends Exception> A[] zipp(final A[] a, final B[] b, final C[] c,
-            final Try.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+            final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
         return zip((Class<A>) a.getClass().getComponentType(), a, b, c, zipFunction);
     }
 
@@ -1122,7 +1133,7 @@ public final class f {
      * @throws E the e
      */
     public static <A, B, C, R, E extends Exception> R[] zip(final Class<R> cls, final A[] a, final B[] b, final C[] c,
-            final Try.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+            final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -1153,7 +1164,7 @@ public final class f {
      * @throws E the e
      */
     public static <A, B, C, E extends Exception> A[] zipp(final A[] a, final B[] b, final C[] c, final A valueForNoneA, final B valueForNoneB,
-            final C valueForNoneC, final Try.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+            final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
         return zip((Class<A>) a.getClass().getComponentType(), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
     }
 
@@ -1176,7 +1187,7 @@ public final class f {
      * @throws E the e
      */
     public static <A, B, C, R, E extends Exception> R[] zip(final Class<R> cls, final A[] a, final B[] b, final C[] c, final A valueForNoneA,
-            final B valueForNoneB, final C valueForNoneC, final Try.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+            final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -1204,7 +1215,7 @@ public final class f {
      * @throws E the e
      */
     private static <A, B, C, R, E extends Exception> R[] zip(final int len, final Class<R> cls, final A[] a, final B[] b, final C[] c, final A valueForNoneA,
-            final B valueForNoneB, final C valueForNoneC, final Try.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+            final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -1280,7 +1291,7 @@ public final class f {
          * @param operator
          * @throws E the e
          */
-        public static <T, E extends Exception> void replaceAll(final T[][] a, final Try.UnaryOperator<T, E> operator) throws E {
+        public static <T, E extends Exception> void replaceAll(final T[][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
             if (N.isNullOrEmpty(a)) {
                 return;
             }
@@ -1299,7 +1310,7 @@ public final class f {
          * @param newValue
          * @throws E the e
          */
-        public static <T, E extends Exception> void replaceIf(final T[][] a, final Try.Predicate<? super T, E> predicate, final T newValue) throws E {
+        public static <T, E extends Exception> void replaceIf(final T[][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
             if (N.isNullOrEmpty(a)) {
                 return;
             }
@@ -1377,7 +1388,7 @@ public final class f {
          * @param op
          * @throws E the e
          */
-        public static <T, E extends Exception> void flatOp(final T[][] a, Try.Consumer<T[], E> op) throws E {
+        public static <T, E extends Exception> void flatOp(final T[][] a, Throwables.Consumer<T[], E> op) throws E {
             if (N.isNullOrEmpty(a)) {
                 return;
             }
@@ -1405,7 +1416,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> T[][] map(final T[][] a, final Try.UnaryOperator<T, E> func) throws E {
+        public static <T, E extends Exception> T[][] map(final T[][] a, final Throwables.UnaryOperator<T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -1424,7 +1435,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, R, E extends Exception> R[][] map(final Class<R> cls, final T[][] a, final Try.Function<? super T, R, E> func) throws E {
+        public static <T, R, E extends Exception> R[][] map(final Class<R> cls, final T[][] a, final Throwables.Function<? super T, R, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -1449,7 +1460,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> boolean[][] mapToBoolean(final T[][] a, final Try.ToBooleanFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> boolean[][] mapToBoolean(final T[][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -1474,7 +1485,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> char[][] mapToChar(final T[][] a, final Try.ToCharFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> char[][] mapToChar(final T[][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -1499,7 +1510,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> byte[][] mapToByte(final T[][] a, final Try.ToByteFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> byte[][] mapToByte(final T[][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -1524,7 +1535,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> short[][] mapToShort(final T[][] a, final Try.ToShortFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> short[][] mapToShort(final T[][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -1549,7 +1560,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> int[][] mapToInt(final T[][] a, final Try.ToIntFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> int[][] mapToInt(final T[][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -1574,7 +1585,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> long[][] mapToLong(final T[][] a, final Try.ToLongFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> long[][] mapToLong(final T[][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -1599,7 +1610,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> float[][] mapToFloat(final T[][] a, final Try.ToFloatFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> float[][] mapToFloat(final T[][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -1624,7 +1635,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> double[][] mapToDouble(final T[][] a, final Try.ToDoubleFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> double[][] mapToDouble(final T[][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -1656,7 +1667,7 @@ public final class f {
          * @throws E the e
          */
         private static <A, B, R, E extends Exception> R[] zip(final int len, final Class<R> cls, final A[] a, final B[] b, final A valueForNoneA,
-                final B valueForNoneB, final Try.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+                final B valueForNoneB, final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -1705,8 +1716,8 @@ public final class f {
          * @throws E the e
          */
         private static <A, B, C, R, E extends Exception> R[] zip(final int len, final Class<R> cls, final A[] a, final B[] b, final C[] c,
-                final A valueForNoneA, final B valueForNoneB, final C valueForNoneC, final Try.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction)
-                throws E {
+                final A valueForNoneA, final B valueForNoneB, final C valueForNoneC,
+                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -1737,7 +1748,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Try.BiFunction<? super A, ? super B, A, E> zipFunction)
+        public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction)
                 throws E {
             return zip((Class<A>) a.getClass().getComponentType().getComponentType(), a, b, zipFunction);
         }
@@ -1756,7 +1767,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][] zip(final Class<R> cls, final A[][] a, final B[][] b,
-                final Try.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -1783,7 +1794,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
-                final Try.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
+                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
             return zip((Class<A>) a.getClass().getComponentType().getComponentType(), a, b, valueForNoneA, valueForNoneB, zipFunction);
         }
 
@@ -1803,7 +1814,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][] zip(final Class<R> cls, final A[][] a, final B[][] b, final A valueForNoneA, final B valueForNoneB,
-                final Try.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
             return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), cls, a, b, valueForNoneA, valueForNoneB, zipFunction);
         }
 
@@ -1825,7 +1836,7 @@ public final class f {
          * @throws E the e
          */
         private static <A, B, R, E extends Exception> R[][] zip(final int len, final int rowLen, final Class<R> cls, final A[][] a, final B[][] b,
-                final A valueForNoneA, final B valueForNoneB, final Try.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+                final A valueForNoneA, final B valueForNoneB, final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -1868,7 +1879,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c,
-                final Try.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+                final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
             return zip((Class<A>) a.getClass().getComponentType().getComponentType(), a, b, c, zipFunction);
         }
 
@@ -1888,7 +1899,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final Class<R> cls, final A[][] a, final B[][] b, final C[][] c,
-                final Try.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -1919,7 +1930,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, C, E extends Exception> A[][] zip(final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA, final B valueForNoneB,
-                final C valueForNoneC, final Try.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+                final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
             return zip((Class<A>) a.getClass().getComponentType().getComponentType(), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC, zipFunction);
         }
 
@@ -1942,7 +1953,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][] zip(final Class<R> cls, final A[][] a, final B[][] b, final C[][] c, final A valueForNoneA,
-                final B valueForNoneB, final C valueForNoneC, final Try.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+                final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
             return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), cls, a, b, c, valueForNoneA,
                     valueForNoneB, valueForNoneC, zipFunction);
         }
@@ -1969,7 +1980,7 @@ public final class f {
          */
         private static <A, B, C, R, E extends Exception> R[][] zip(final int len, final int rowLen, final Class<R> cls, final A[][] a, final B[][] b,
                 final C[][] c, final A valueForNoneA, final B valueForNoneB, final C valueForNoneC,
-                final Try.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -2111,7 +2122,7 @@ public final class f {
          * @param operator
          * @throws E the e
          */
-        public static <T, E extends Exception> void replaceAll(final T[][][] a, final Try.UnaryOperator<T, E> operator) throws E {
+        public static <T, E extends Exception> void replaceAll(final T[][][] a, final Throwables.UnaryOperator<T, E> operator) throws E {
             if (N.isNullOrEmpty(a)) {
                 return;
             }
@@ -2130,7 +2141,7 @@ public final class f {
          * @param newValue
          * @throws E the e
          */
-        public static <T, E extends Exception> void replaceIf(final T[][][] a, final Try.Predicate<? super T, E> predicate, final T newValue) throws E {
+        public static <T, E extends Exception> void replaceIf(final T[][][] a, final Throwables.Predicate<? super T, E> predicate, final T newValue) throws E {
             if (N.isNullOrEmpty(a)) {
                 return;
             }
@@ -2230,7 +2241,7 @@ public final class f {
          * @param op
          * @throws E the e
          */
-        public static <T, E extends Exception> void flatOp(final T[][][] a, Try.Consumer<T[], E> op) throws E {
+        public static <T, E extends Exception> void flatOp(final T[][][] a, Throwables.Consumer<T[], E> op) throws E {
             if (N.isNullOrEmpty(a)) {
                 return;
             }
@@ -2262,7 +2273,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> T[][][] map(final T[][][] a, final Try.UnaryOperator<T, E> func) throws E {
+        public static <T, E extends Exception> T[][][] map(final T[][][] a, final Throwables.UnaryOperator<T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -2281,7 +2292,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, R, E extends Exception> R[][][] map(final Class<R> cls, final T[][][] a, final Try.Function<? super T, R, E> func) throws E {
+        public static <T, R, E extends Exception> R[][][] map(final Class<R> cls, final T[][][] a, final Throwables.Function<? super T, R, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -2306,7 +2317,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Try.ToBooleanFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> boolean[][][] mapToBoolean(final T[][][] a, final Throwables.ToBooleanFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -2331,7 +2342,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Try.ToCharFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> char[][][] mapToChar(final T[][][] a, final Throwables.ToCharFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -2356,7 +2367,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Try.ToByteFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> byte[][][] mapToByte(final T[][][] a, final Throwables.ToByteFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -2381,7 +2392,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Try.ToShortFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> short[][][] mapToShort(final T[][][] a, final Throwables.ToShortFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -2406,7 +2417,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Try.ToIntFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> int[][][] mapToInt(final T[][][] a, final Throwables.ToIntFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -2431,7 +2442,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Try.ToLongFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> long[][][] mapToLong(final T[][][] a, final Throwables.ToLongFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -2456,7 +2467,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Try.ToFloatFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> float[][][] mapToFloat(final T[][][] a, final Throwables.ToFloatFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -2481,7 +2492,7 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Try.ToDoubleFunction<? super T, E> func) throws E {
+        public static <T, E extends Exception> double[][][] mapToDouble(final T[][][] a, final Throwables.ToDoubleFunction<? super T, E> func) throws E {
             if (a == null) {
                 return null;
             }
@@ -2507,8 +2518,8 @@ public final class f {
          * @return
          * @throws E the e
          */
-        public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final Try.BiFunction<? super A, ? super B, A, E> zipFunction)
-                throws E {
+        public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b,
+                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
             return zip((Class<A>) a.getClass().getComponentType().getComponentType().getComponentType(), a, b, zipFunction);
         }
 
@@ -2526,7 +2537,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final Class<R> cls, final A[][][] a, final B[][][] b,
-                final Try.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+                final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -2553,7 +2564,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final A valueForNoneA, final B valueForNoneB,
-                final Try.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
+                final Throwables.BiFunction<? super A, ? super B, A, E> zipFunction) throws E {
             return zip((Class<A>) a.getClass().getComponentType().getComponentType().getComponentType(), a, b, valueForNoneA, valueForNoneB, zipFunction);
         }
 
@@ -2573,7 +2584,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, R, E extends Exception> R[][][] zip(final Class<R> cls, final A[][][] a, final B[][][] b, final A valueForNoneA,
-                final B valueForNoneB, final Try.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
+                final B valueForNoneB, final Throwables.BiFunction<? super A, ? super B, R, E> zipFunction) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
 
@@ -2610,7 +2621,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c,
-                final Try.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+                final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
             return zip((Class<A>) a.getClass().getComponentType().getComponentType().getComponentType(), a, b, c, zipFunction);
         }
 
@@ -2630,7 +2641,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final Class<R> cls, final A[][][] a, final B[][][] b, final C[][][] c,
-                final Try.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
+                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -2661,7 +2672,7 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, C, E extends Exception> A[][][] zip(final A[][][] a, final B[][][] b, final C[][][] c, final A valueForNoneA,
-                final B valueForNoneB, final C valueForNoneC, final Try.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
+                final B valueForNoneB, final C valueForNoneC, final Throwables.TriFunction<? super A, ? super B, ? super C, A, E> zipFunction) throws E {
             return zip((Class<A>) a.getClass().getComponentType().getComponentType().getComponentType(), a, b, c, valueForNoneA, valueForNoneB, valueForNoneC,
                     zipFunction);
         }
@@ -2685,8 +2696,8 @@ public final class f {
          * @throws E the e
          */
         public static <A, B, C, R, E extends Exception> R[][][] zip(final Class<R> cls, final A[][][] a, final B[][][] b, final C[][][] c,
-                final A valueForNoneA, final B valueForNoneB, final C valueForNoneC, final Try.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction)
-                throws E {
+                final A valueForNoneA, final B valueForNoneB, final C valueForNoneC,
+                final Throwables.TriFunction<? super A, ? super B, ? super C, R, E> zipFunction) throws E {
             final int lenA = N.len(a);
             final int lenB = N.len(b);
             final int lenC = N.len(c);
@@ -2786,7 +2797,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final boolean[] a, final Try.BooleanUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final boolean[] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -2803,7 +2814,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final boolean[][] a, final Try.BooleanUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final boolean[][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -2820,7 +2831,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final boolean[][][] a, final Try.BooleanUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final boolean[][][] a, final Throwables.BooleanUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -2838,7 +2849,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final boolean[] a, final Try.BooleanPredicate<E> predicate, final boolean newValue) throws E {
+    public static <E extends Exception> void replaceIf(final boolean[] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -2858,7 +2869,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final boolean[][] a, final Try.BooleanPredicate<E> predicate, final boolean newValue) throws E {
+    public static <E extends Exception> void replaceIf(final boolean[][] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -2876,7 +2887,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final boolean[][][] a, final Try.BooleanPredicate<E> predicate, final boolean newValue) throws E {
+    public static <E extends Exception> void replaceIf(final boolean[][][] a, final Throwables.BooleanPredicate<E> predicate, final boolean newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -3032,7 +3043,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final boolean[][] a, Try.Consumer<boolean[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final boolean[][] a, Throwables.Consumer<boolean[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -3064,7 +3075,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final boolean[][][] a, Try.Consumer<boolean[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final boolean[][][] a, Throwables.Consumer<boolean[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -3096,7 +3107,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final Try.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+    public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final Throwables.BooleanBiFunction<Boolean, E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -3121,7 +3133,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean valueForNoneA, final boolean valueForNoneB,
-            final Try.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+            final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -3141,7 +3153,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> boolean[] zip(final int len, final boolean[] a, final boolean[] b, final boolean valueForNoneA,
-            final boolean valueForNoneB, final Try.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+            final boolean valueForNoneB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -3181,7 +3193,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c,
-            final Try.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3209,7 +3221,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> boolean[] zip(final boolean[] a, final boolean[] b, final boolean[] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Try.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3232,7 +3244,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> boolean[] zip(final int len, final boolean[] a, final boolean[] b, final boolean[] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Try.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3261,7 +3273,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final Try.BooleanBiFunction<Boolean, E> zipFunction)
+    public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final Throwables.BooleanBiFunction<Boolean, E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3287,7 +3299,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean valueForNoneA, final boolean valueForNoneB,
-            final Try.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+            final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction);
     }
 
@@ -3305,7 +3317,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> boolean[][] zip(final int len, final int rowLen, final boolean[][] a, final boolean[][] b, final boolean valueForNoneA,
-            final boolean valueForNoneB, final Try.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+            final boolean valueForNoneB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -3345,7 +3357,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c,
-            final Try.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3373,7 +3385,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> boolean[][] zip(final boolean[][] a, final boolean[][] b, final boolean[][] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Try.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
                 valueForNoneC, zipFunction);
     }
@@ -3394,7 +3406,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> boolean[][] zip(final int len, final int rowLen, final boolean[][] a, final boolean[][] b, final boolean[][] c,
-            final boolean valueForNoneA, final boolean valueForNoneB, final boolean valueForNoneC, final Try.BooleanTriFunction<Boolean, E> zipFunction)
+            final boolean valueForNoneA, final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -3425,8 +3437,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final Try.BooleanBiFunction<Boolean, E> zipFunction)
-            throws E {
+    public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b,
+            final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -3451,7 +3463,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean valueForNoneA,
-            final boolean valueForNoneB, final Try.BooleanBiFunction<Boolean, E> zipFunction) throws E {
+            final boolean valueForNoneB, final Throwables.BooleanBiFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -3485,7 +3497,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c,
-            final Try.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3513,7 +3525,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> boolean[][][] zip(final boolean[][][] a, final boolean[][][] b, final boolean[][][] c, final boolean valueForNoneA,
-            final boolean valueForNoneB, final boolean valueForNoneC, final Try.BooleanTriFunction<Boolean, E> zipFunction) throws E {
+            final boolean valueForNoneB, final boolean valueForNoneC, final Throwables.BooleanTriFunction<Boolean, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -3902,7 +3914,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final char[] a, final Try.CharUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final char[] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -3919,7 +3931,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final char[][] a, final Try.CharUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final char[][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -3936,7 +3948,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final char[][][] a, final Try.CharUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final char[][][] a, final Throwables.CharUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -3954,7 +3966,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final char[] a, final Try.CharPredicate<E> predicate, final char newValue) throws E {
+    public static <E extends Exception> void replaceIf(final char[] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -3974,7 +3986,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final char[][] a, final Try.CharPredicate<E> predicate, final char newValue) throws E {
+    public static <E extends Exception> void replaceIf(final char[][] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -3992,7 +4004,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final char[][][] a, final Try.CharPredicate<E> predicate, final char newValue) throws E {
+    public static <E extends Exception> void replaceIf(final char[][][] a, final Throwables.CharPredicate<E> predicate, final char newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -4148,7 +4160,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final char[][] a, Try.Consumer<char[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final char[][] a, Throwables.Consumer<char[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -4180,7 +4192,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final char[][][] a, Try.Consumer<char[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final char[][][] a, Throwables.Consumer<char[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -4212,7 +4224,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final Try.CharBiFunction<Character, E> zipFunction) throws E {
+    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -4237,7 +4249,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char valueForNoneA, final char valueForNoneB,
-            final Try.CharBiFunction<Character, E> zipFunction) throws E {
+            final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -4257,7 +4269,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> char[] zip(final int len, final char[] a, final char[] b, final char valueForNoneA, final char valueForNoneB,
-            final Try.CharBiFunction<Character, E> zipFunction) throws E {
+            final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -4296,7 +4308,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final Try.CharTriFunction<Character, E> zipFunction)
+    public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final Throwables.CharTriFunction<Character, E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -4325,7 +4337,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> char[] zip(final char[] a, final char[] b, final char[] c, final char valueForNoneA, final char valueForNoneB,
-            final char valueForNoneC, final Try.CharTriFunction<Character, E> zipFunction) throws E {
+            final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4348,7 +4360,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> char[] zip(final int len, final char[] a, final char[] b, final char[] c, final char valueForNoneA,
-            final char valueForNoneB, final char valueForNoneC, final Try.CharTriFunction<Character, E> zipFunction) throws E {
+            final char valueForNoneB, final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4377,7 +4389,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final Try.CharBiFunction<Character, E> zipFunction) throws E {
+    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -4402,7 +4414,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char valueForNoneA, final char valueForNoneB,
-            final Try.CharBiFunction<Character, E> zipFunction) throws E {
+            final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction);
     }
 
@@ -4420,7 +4432,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> char[][] zip(final int len, final int rowLen, final char[][] a, final char[][] b, final char valueForNoneA,
-            final char valueForNoneB, final Try.CharBiFunction<Character, E> zipFunction) throws E {
+            final char valueForNoneB, final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -4459,8 +4471,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final Try.CharTriFunction<Character, E> zipFunction)
-            throws E {
+    public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c,
+            final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4488,7 +4500,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> char[][] zip(final char[][] a, final char[][] b, final char[][] c, final char valueForNoneA, final char valueForNoneB,
-            final char valueForNoneC, final Try.CharTriFunction<Character, E> zipFunction) throws E {
+            final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
                 valueForNoneC, zipFunction);
     }
@@ -4509,7 +4521,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> char[][] zip(final int len, final int rowLen, final char[][] a, final char[][] b, final char[][] c,
-            final char valueForNoneA, final char valueForNoneB, final char valueForNoneC, final Try.CharTriFunction<Character, E> zipFunction) throws E {
+            final char valueForNoneA, final char valueForNoneB, final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4539,7 +4551,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Try.CharBiFunction<Character, E> zipFunction) throws E {
+    public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final Throwables.CharBiFunction<Character, E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -4564,7 +4577,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char valueForNoneA, final char valueForNoneB,
-            final Try.CharBiFunction<Character, E> zipFunction) throws E {
+            final Throwables.CharBiFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -4598,7 +4611,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c,
-            final Try.CharTriFunction<Character, E> zipFunction) throws E {
+            final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -4626,7 +4639,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> char[][][] zip(final char[][][] a, final char[][][] b, final char[][][] c, final char valueForNoneA,
-            final char valueForNoneB, final char valueForNoneC, final Try.CharTriFunction<Character, E> zipFunction) throws E {
+            final char valueForNoneB, final char valueForNoneC, final Throwables.CharTriFunction<Character, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -5015,7 +5028,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final byte[] a, final Try.ByteUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final byte[] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -5032,7 +5045,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final byte[][] a, final Try.ByteUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final byte[][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -5049,7 +5062,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final byte[][][] a, final Try.ByteUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final byte[][][] a, final Throwables.ByteUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -5067,7 +5080,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final byte[] a, final Try.BytePredicate<E> predicate, final byte newValue) throws E {
+    public static <E extends Exception> void replaceIf(final byte[] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -5087,7 +5100,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final byte[][] a, final Try.BytePredicate<E> predicate, final byte newValue) throws E {
+    public static <E extends Exception> void replaceIf(final byte[][] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -5105,7 +5118,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final byte[][][] a, final Try.BytePredicate<E> predicate, final byte newValue) throws E {
+    public static <E extends Exception> void replaceIf(final byte[][][] a, final Throwables.BytePredicate<E> predicate, final byte newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -5208,7 +5221,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final byte[][] a, Try.Consumer<byte[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final byte[][] a, Throwables.Consumer<byte[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -5240,7 +5253,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final byte[][][] a, Try.Consumer<byte[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final byte[][][] a, Throwables.Consumer<byte[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -7270,7 +7283,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final Try.ByteBiFunction<Byte, E> zipFunction) throws E {
+    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -7295,7 +7308,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
-            final Try.ByteBiFunction<Byte, E> zipFunction) throws E {
+            final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -7315,7 +7328,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> byte[] zip(final int len, final byte[] a, final byte[] b, final byte valueForNoneA, final byte valueForNoneB,
-            final Try.ByteBiFunction<Byte, E> zipFunction) throws E {
+            final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -7354,7 +7367,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final Try.ByteTriFunction<Byte, E> zipFunction) throws E {
+    public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final Throwables.ByteTriFunction<Byte, E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7382,7 +7396,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> byte[] zip(final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA, final byte valueForNoneB,
-            final byte valueForNoneC, final Try.ByteTriFunction<Byte, E> zipFunction) throws E {
+            final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7405,7 +7419,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> byte[] zip(final int len, final byte[] a, final byte[] b, final byte[] c, final byte valueForNoneA,
-            final byte valueForNoneB, final byte valueForNoneC, final Try.ByteTriFunction<Byte, E> zipFunction) throws E {
+            final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7434,7 +7448,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final Try.ByteBiFunction<Byte, E> zipFunction) throws E {
+    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -7459,7 +7473,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte valueForNoneA, final byte valueForNoneB,
-            final Try.ByteBiFunction<Byte, E> zipFunction) throws E {
+            final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction);
     }
 
@@ -7477,7 +7491,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> byte[][] zip(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte valueForNoneA,
-            final byte valueForNoneB, final Try.ByteBiFunction<Byte, E> zipFunction) throws E {
+            final byte valueForNoneB, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -7516,8 +7530,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final Try.ByteTriFunction<Byte, E> zipFunction)
-            throws E {
+    public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c,
+            final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7545,7 +7559,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> byte[][] zip(final byte[][] a, final byte[][] b, final byte[][] c, final byte valueForNoneA, final byte valueForNoneB,
-            final byte valueForNoneC, final Try.ByteTriFunction<Byte, E> zipFunction) throws E {
+            final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
                 valueForNoneC, zipFunction);
     }
@@ -7566,7 +7580,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> byte[][] zip(final int len, final int rowLen, final byte[][] a, final byte[][] b, final byte[][] c,
-            final byte valueForNoneA, final byte valueForNoneB, final byte valueForNoneC, final Try.ByteTriFunction<Byte, E> zipFunction) throws E {
+            final byte valueForNoneA, final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7596,7 +7610,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final Try.ByteBiFunction<Byte, E> zipFunction) throws E {
+    public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -7621,7 +7635,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte valueForNoneA, final byte valueForNoneB,
-            final Try.ByteBiFunction<Byte, E> zipFunction) throws E {
+            final Throwables.ByteBiFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -7655,7 +7669,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c,
-            final Try.ByteTriFunction<Byte, E> zipFunction) throws E {
+            final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -7683,7 +7697,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> byte[][][] zip(final byte[][][] a, final byte[][][] b, final byte[][][] c, final byte valueForNoneA,
-            final byte valueForNoneB, final byte valueForNoneC, final Try.ByteTriFunction<Byte, E> zipFunction) throws E {
+            final byte valueForNoneB, final byte valueForNoneC, final Throwables.ByteTriFunction<Byte, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -8072,7 +8086,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final short[] a, final Try.ShortUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final short[] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -8089,7 +8103,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final short[][] a, final Try.ShortUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final short[][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -8106,7 +8120,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final short[][][] a, final Try.ShortUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final short[][][] a, final Throwables.ShortUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -8124,7 +8138,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final short[] a, final Try.ShortPredicate<E> predicate, final short newValue) throws E {
+    public static <E extends Exception> void replaceIf(final short[] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -8144,7 +8158,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final short[][] a, final Try.ShortPredicate<E> predicate, final short newValue) throws E {
+    public static <E extends Exception> void replaceIf(final short[][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -8162,7 +8176,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final short[][][] a, final Try.ShortPredicate<E> predicate, final short newValue) throws E {
+    public static <E extends Exception> void replaceIf(final short[][][] a, final Throwables.ShortPredicate<E> predicate, final short newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -8318,7 +8332,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final short[][] a, Try.Consumer<short[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final short[][] a, Throwables.Consumer<short[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -8350,7 +8364,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final short[][][] a, Try.Consumer<short[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final short[][][] a, Throwables.Consumer<short[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -10331,7 +10345,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final Try.ShortBiFunction<Short, E> zipFunction) throws E {
+    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -10356,7 +10370,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB,
-            final Try.ShortBiFunction<Short, E> zipFunction) throws E {
+            final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -10376,7 +10390,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> short[] zip(final int len, final short[] a, final short[] b, final short valueForNoneA, final short valueForNoneB,
-            final Try.ShortBiFunction<Short, E> zipFunction) throws E {
+            final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -10415,7 +10429,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final Try.ShortTriFunction<Short, E> zipFunction)
+    public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final Throwables.ShortTriFunction<Short, E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -10444,7 +10458,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> short[] zip(final short[] a, final short[] b, final short[] c, final short valueForNoneA, final short valueForNoneB,
-            final short valueForNoneC, final Try.ShortTriFunction<Short, E> zipFunction) throws E {
+            final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10467,7 +10481,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> short[] zip(final int len, final short[] a, final short[] b, final short[] c, final short valueForNoneA,
-            final short valueForNoneB, final short valueForNoneC, final Try.ShortTriFunction<Short, E> zipFunction) throws E {
+            final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10496,7 +10510,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final Try.ShortBiFunction<Short, E> zipFunction) throws E {
+    public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -10521,7 +10535,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short valueForNoneA, final short valueForNoneB,
-            final Try.ShortBiFunction<Short, E> zipFunction) throws E {
+            final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction);
     }
 
@@ -10539,7 +10553,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> short[][] zip(final int len, final int rowLen, final short[][] a, final short[][] b, final short valueForNoneA,
-            final short valueForNoneB, final Try.ShortBiFunction<Short, E> zipFunction) throws E {
+            final short valueForNoneB, final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -10578,8 +10592,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c, final Try.ShortTriFunction<Short, E> zipFunction)
-            throws E {
+    public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c,
+            final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10607,7 +10621,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> short[][] zip(final short[][] a, final short[][] b, final short[][] c, final short valueForNoneA,
-            final short valueForNoneB, final short valueForNoneC, final Try.ShortTriFunction<Short, E> zipFunction) throws E {
+            final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
                 valueForNoneC, zipFunction);
     }
@@ -10628,7 +10642,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> short[][] zip(final int len, final int rowLen, final short[][] a, final short[][] b, final short[][] c,
-            final short valueForNoneA, final short valueForNoneB, final short valueForNoneC, final Try.ShortTriFunction<Short, E> zipFunction) throws E {
+            final short valueForNoneA, final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10658,7 +10672,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final Try.ShortBiFunction<Short, E> zipFunction) throws E {
+    public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final Throwables.ShortBiFunction<Short, E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -10683,7 +10698,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short valueForNoneA, final short valueForNoneB,
-            final Try.ShortBiFunction<Short, E> zipFunction) throws E {
+            final Throwables.ShortBiFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -10717,7 +10732,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c,
-            final Try.ShortTriFunction<Short, E> zipFunction) throws E {
+            final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -10745,7 +10760,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> short[][][] zip(final short[][][] a, final short[][][] b, final short[][][] c, final short valueForNoneA,
-            final short valueForNoneB, final short valueForNoneC, final Try.ShortTriFunction<Short, E> zipFunction) throws E {
+            final short valueForNoneB, final short valueForNoneC, final Throwables.ShortTriFunction<Short, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -11134,7 +11149,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final int[] a, final Try.IntUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final int[] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -11151,7 +11166,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final int[][] a, final Try.IntUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final int[][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -11168,7 +11183,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final int[][][] a, final Try.IntUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final int[][][] a, final Throwables.IntUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -11186,7 +11201,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final int[] a, final Try.IntPredicate<E> predicate, final int newValue) throws E {
+    public static <E extends Exception> void replaceIf(final int[] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -11206,7 +11221,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final int[][] a, final Try.IntPredicate<E> predicate, final int newValue) throws E {
+    public static <E extends Exception> void replaceIf(final int[][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -11224,7 +11239,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final int[][][] a, final Try.IntPredicate<E> predicate, final int newValue) throws E {
+    public static <E extends Exception> void replaceIf(final int[][][] a, final Throwables.IntPredicate<E> predicate, final int newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -11380,7 +11395,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final int[][] a, Try.Consumer<int[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final int[][] a, Throwables.Consumer<int[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -11412,7 +11427,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final int[][][] a, Try.Consumer<int[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final int[][][] a, Throwables.Consumer<int[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -13383,7 +13398,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final Try.IntBiFunction<Integer, E> zipFunction) throws E {
+    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -13408,7 +13423,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB,
-            final Try.IntBiFunction<Integer, E> zipFunction) throws E {
+            final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -13428,7 +13443,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> int[] zip(final int len, final int[] a, final int[] b, final int valueForNoneA, final int valueForNoneB,
-            final Try.IntBiFunction<Integer, E> zipFunction) throws E {
+            final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -13467,7 +13482,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final Try.IntTriFunction<Integer, E> zipFunction) throws E {
+    public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final Throwables.IntTriFunction<Integer, E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -13495,7 +13511,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> int[] zip(final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB,
-            final int valueForNoneC, final Try.IntTriFunction<Integer, E> zipFunction) throws E {
+            final int valueForNoneC, final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -13518,7 +13534,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> int[] zip(final int len, final int[] a, final int[] b, final int[] c, final int valueForNoneA, final int valueForNoneB,
-            final int valueForNoneC, final Try.IntTriFunction<Integer, E> zipFunction) throws E {
+            final int valueForNoneC, final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -13547,7 +13563,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final Try.IntBiFunction<Integer, E> zipFunction) throws E {
+    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -13572,7 +13588,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int valueForNoneA, final int valueForNoneB,
-            final Try.IntBiFunction<Integer, E> zipFunction) throws E {
+            final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction);
     }
 
@@ -13590,7 +13606,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> int[][] zip(final int len, final int rowLen, final int[][] a, final int[][] b, final int valueForNoneA,
-            final int valueForNoneB, final Try.IntBiFunction<Integer, E> zipFunction) throws E {
+            final int valueForNoneB, final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -13629,7 +13645,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final Try.IntTriFunction<Integer, E> zipFunction)
+    public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final Throwables.IntTriFunction<Integer, E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -13658,7 +13674,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> int[][] zip(final int[][] a, final int[][] b, final int[][] c, final int valueForNoneA, final int valueForNoneB,
-            final int valueForNoneC, final Try.IntTriFunction<Integer, E> zipFunction) throws E {
+            final int valueForNoneC, final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
                 valueForNoneC, zipFunction);
     }
@@ -13679,7 +13695,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> int[][] zip(final int len, final int rowLen, final int[][] a, final int[][] b, final int[][] c,
-            final int valueForNoneA, final int valueForNoneB, final int valueForNoneC, final Try.IntTriFunction<Integer, E> zipFunction) throws E {
+            final int valueForNoneA, final int valueForNoneB, final int valueForNoneC, final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -13709,7 +13725,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final Try.IntBiFunction<Integer, E> zipFunction) throws E {
+    public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -13734,7 +13750,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int valueForNoneA, final int valueForNoneB,
-            final Try.IntBiFunction<Integer, E> zipFunction) throws E {
+            final Throwables.IntBiFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -13767,8 +13783,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c, final Try.IntTriFunction<Integer, E> zipFunction)
-            throws E {
+    public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c,
+            final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -13796,7 +13812,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> int[][][] zip(final int[][][] a, final int[][][] b, final int[][][] c, final int valueForNoneA, final int valueForNoneB,
-            final int valueForNoneC, final Try.IntTriFunction<Integer, E> zipFunction) throws E {
+            final int valueForNoneC, final Throwables.IntTriFunction<Integer, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -14185,7 +14201,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final long[] a, final Try.LongUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final long[] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -14202,7 +14218,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final long[][] a, final Try.LongUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final long[][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -14219,7 +14235,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final long[][][] a, final Try.LongUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final long[][][] a, final Throwables.LongUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -14237,7 +14253,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final long[] a, final Try.LongPredicate<E> predicate, final long newValue) throws E {
+    public static <E extends Exception> void replaceIf(final long[] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -14257,7 +14273,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final long[][] a, final Try.LongPredicate<E> predicate, final long newValue) throws E {
+    public static <E extends Exception> void replaceIf(final long[][] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -14275,7 +14291,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final long[][][] a, final Try.LongPredicate<E> predicate, final long newValue) throws E {
+    public static <E extends Exception> void replaceIf(final long[][][] a, final Throwables.LongPredicate<E> predicate, final long newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -14431,7 +14447,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final long[][] a, Try.Consumer<long[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final long[][] a, Throwables.Consumer<long[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -14463,7 +14479,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final long[][][] a, Try.Consumer<long[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final long[][][] a, Throwables.Consumer<long[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -16440,7 +16456,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final Try.LongBiFunction<Long, E> zipFunction) throws E {
+    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -16465,7 +16481,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long valueForNoneA, final long valueForNoneB,
-            final Try.LongBiFunction<Long, E> zipFunction) throws E {
+            final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -16485,7 +16501,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> long[] zip(final int len, final long[] a, final long[] b, final long valueForNoneA, final long valueForNoneB,
-            final Try.LongBiFunction<Long, E> zipFunction) throws E {
+            final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -16524,7 +16540,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final Try.LongTriFunction<Long, E> zipFunction) throws E {
+    public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final Throwables.LongTriFunction<Long, E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -16552,7 +16569,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> long[] zip(final long[] a, final long[] b, final long[] c, final long valueForNoneA, final long valueForNoneB,
-            final long valueForNoneC, final Try.LongTriFunction<Long, E> zipFunction) throws E {
+            final long valueForNoneC, final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -16575,7 +16592,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> long[] zip(final int len, final long[] a, final long[] b, final long[] c, final long valueForNoneA,
-            final long valueForNoneB, final long valueForNoneC, final Try.LongTriFunction<Long, E> zipFunction) throws E {
+            final long valueForNoneB, final long valueForNoneC, final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -16604,7 +16621,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final Try.LongBiFunction<Long, E> zipFunction) throws E {
+    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -16629,7 +16646,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long valueForNoneA, final long valueForNoneB,
-            final Try.LongBiFunction<Long, E> zipFunction) throws E {
+            final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction);
     }
 
@@ -16647,7 +16664,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> long[][] zip(final int len, final int rowLen, final long[][] a, final long[][] b, final long valueForNoneA,
-            final long valueForNoneB, final Try.LongBiFunction<Long, E> zipFunction) throws E {
+            final long valueForNoneB, final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -16686,8 +16703,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final Try.LongTriFunction<Long, E> zipFunction)
-            throws E {
+    public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c,
+            final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -16715,7 +16732,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> long[][] zip(final long[][] a, final long[][] b, final long[][] c, final long valueForNoneA, final long valueForNoneB,
-            final long valueForNoneC, final Try.LongTriFunction<Long, E> zipFunction) throws E {
+            final long valueForNoneC, final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
                 valueForNoneC, zipFunction);
     }
@@ -16736,7 +16753,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> long[][] zip(final int len, final int rowLen, final long[][] a, final long[][] b, final long[][] c,
-            final long valueForNoneA, final long valueForNoneB, final long valueForNoneC, final Try.LongTriFunction<Long, E> zipFunction) throws E {
+            final long valueForNoneA, final long valueForNoneB, final long valueForNoneC, final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -16766,7 +16783,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final Try.LongBiFunction<Long, E> zipFunction) throws E {
+    public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -16791,7 +16808,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long valueForNoneA, final long valueForNoneB,
-            final Try.LongBiFunction<Long, E> zipFunction) throws E {
+            final Throwables.LongBiFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -16825,7 +16842,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c,
-            final Try.LongTriFunction<Long, E> zipFunction) throws E {
+            final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -16853,7 +16870,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> long[][][] zip(final long[][][] a, final long[][][] b, final long[][][] c, final long valueForNoneA,
-            final long valueForNoneB, final long valueForNoneC, final Try.LongTriFunction<Long, E> zipFunction) throws E {
+            final long valueForNoneB, final long valueForNoneC, final Throwables.LongTriFunction<Long, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -17242,7 +17259,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final float[] a, final Try.FloatUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final float[] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -17259,7 +17276,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final float[][] a, final Try.FloatUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final float[][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -17276,7 +17293,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final float[][][] a, final Try.FloatUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final float[][][] a, final Throwables.FloatUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -17294,7 +17311,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final float[] a, final Try.FloatPredicate<E> predicate, final float newValue) throws E {
+    public static <E extends Exception> void replaceIf(final float[] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -17314,7 +17331,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final float[][] a, final Try.FloatPredicate<E> predicate, final float newValue) throws E {
+    public static <E extends Exception> void replaceIf(final float[][] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -17332,7 +17349,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final float[][][] a, final Try.FloatPredicate<E> predicate, final float newValue) throws E {
+    public static <E extends Exception> void replaceIf(final float[][][] a, final Throwables.FloatPredicate<E> predicate, final float newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -17488,7 +17505,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final float[][] a, Try.Consumer<float[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final float[][] a, Throwables.Consumer<float[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -17520,7 +17537,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final float[][][] a, Try.Consumer<float[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final float[][][] a, Throwables.Consumer<float[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -19501,7 +19518,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final Try.FloatBiFunction<Float, E> zipFunction) throws E {
+    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -19526,7 +19543,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB,
-            final Try.FloatBiFunction<Float, E> zipFunction) throws E {
+            final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -19546,7 +19563,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> float[] zip(final int len, final float[] a, final float[] b, final float valueForNoneA, final float valueForNoneB,
-            final Try.FloatBiFunction<Float, E> zipFunction) throws E {
+            final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -19585,7 +19602,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final Try.FloatTriFunction<Float, E> zipFunction)
+    public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final Throwables.FloatTriFunction<Float, E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -19614,7 +19631,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> float[] zip(final float[] a, final float[] b, final float[] c, final float valueForNoneA, final float valueForNoneB,
-            final float valueForNoneC, final Try.FloatTriFunction<Float, E> zipFunction) throws E {
+            final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -19637,7 +19654,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> float[] zip(final int len, final float[] a, final float[] b, final float[] c, final float valueForNoneA,
-            final float valueForNoneB, final float valueForNoneC, final Try.FloatTriFunction<Float, E> zipFunction) throws E {
+            final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -19666,7 +19683,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final Try.FloatBiFunction<Float, E> zipFunction) throws E {
+    public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -19691,7 +19708,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float valueForNoneA, final float valueForNoneB,
-            final Try.FloatBiFunction<Float, E> zipFunction) throws E {
+            final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction);
     }
 
@@ -19709,7 +19726,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> float[][] zip(final int len, final int rowLen, final float[][] a, final float[][] b, final float valueForNoneA,
-            final float valueForNoneB, final Try.FloatBiFunction<Float, E> zipFunction) throws E {
+            final float valueForNoneB, final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -19748,8 +19765,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c, final Try.FloatTriFunction<Float, E> zipFunction)
-            throws E {
+    public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c,
+            final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -19777,7 +19794,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> float[][] zip(final float[][] a, final float[][] b, final float[][] c, final float valueForNoneA,
-            final float valueForNoneB, final float valueForNoneC, final Try.FloatTriFunction<Float, E> zipFunction) throws E {
+            final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
                 valueForNoneC, zipFunction);
     }
@@ -19798,7 +19815,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> float[][] zip(final int len, final int rowLen, final float[][] a, final float[][] b, final float[][] c,
-            final float valueForNoneA, final float valueForNoneB, final float valueForNoneC, final Try.FloatTriFunction<Float, E> zipFunction) throws E {
+            final float valueForNoneA, final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -19828,7 +19845,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final Try.FloatBiFunction<Float, E> zipFunction) throws E {
+    public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final Throwables.FloatBiFunction<Float, E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -19853,7 +19871,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float valueForNoneA, final float valueForNoneB,
-            final Try.FloatBiFunction<Float, E> zipFunction) throws E {
+            final Throwables.FloatBiFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -19887,7 +19905,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c,
-            final Try.FloatTriFunction<Float, E> zipFunction) throws E {
+            final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -19915,7 +19933,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> float[][][] zip(final float[][][] a, final float[][][] b, final float[][][] c, final float valueForNoneA,
-            final float valueForNoneB, final float valueForNoneC, final Try.FloatTriFunction<Float, E> zipFunction) throws E {
+            final float valueForNoneB, final float valueForNoneC, final Throwables.FloatTriFunction<Float, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -20304,7 +20322,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final double[] a, final Try.DoubleUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final double[] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -20321,7 +20339,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final double[][] a, final Try.DoubleUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final double[][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -20338,7 +20356,7 @@ public final class f {
      * @param operator
      * @throws E the e
      */
-    public static <E extends Exception> void replaceAll(final double[][][] a, final Try.DoubleUnaryOperator<E> operator) throws E {
+    public static <E extends Exception> void replaceAll(final double[][][] a, final Throwables.DoubleUnaryOperator<E> operator) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -20356,7 +20374,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final double[] a, final Try.DoublePredicate<E> predicate, final double newValue) throws E {
+    public static <E extends Exception> void replaceIf(final double[] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -20376,7 +20394,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final double[][] a, final Try.DoublePredicate<E> predicate, final double newValue) throws E {
+    public static <E extends Exception> void replaceIf(final double[][] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -20394,7 +20412,7 @@ public final class f {
      * @param newValue
      * @throws E the e
      */
-    public static <E extends Exception> void replaceIf(final double[][][] a, final Try.DoublePredicate<E> predicate, final double newValue) throws E {
+    public static <E extends Exception> void replaceIf(final double[][][] a, final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -20550,7 +20568,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final double[][] a, Try.Consumer<double[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final double[][] a, Throwables.Consumer<double[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -20582,7 +20600,7 @@ public final class f {
      * @param op
      * @throws E the e
      */
-    public static <E extends Exception> void flatOp(final double[][][] a, Try.Consumer<double[], E> op) throws E {
+    public static <E extends Exception> void flatOp(final double[][][] a, Throwables.Consumer<double[], E> op) throws E {
         if (N.isNullOrEmpty(a)) {
             return;
         }
@@ -22565,7 +22583,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> double[] zip(final double[] a, final double[] b, final Try.DoubleBiFunction<Double, E> zipFunction) throws E {
+    public static <E extends Exception> double[] zip(final double[] a, final double[] b, final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -22590,7 +22608,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB,
-            final Try.DoubleBiFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -22610,7 +22628,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> double[] zip(final int len, final double[] a, final double[] b, final double valueForNoneA, final double valueForNoneB,
-            final Try.DoubleBiFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -22649,8 +22667,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c, final Try.DoubleTriFunction<Double, E> zipFunction)
-            throws E {
+    public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c,
+            final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -22678,7 +22696,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> double[] zip(final double[] a, final double[] b, final double[] c, final double valueForNoneA,
-            final double valueForNoneB, final double valueForNoneC, final Try.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -22701,7 +22719,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> double[] zip(final int len, final double[] a, final double[] b, final double[] c, final double valueForNoneA,
-            final double valueForNoneB, final double valueForNoneC, final Try.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -22730,7 +22748,8 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final Try.DoubleBiFunction<Double, E> zipFunction) throws E {
+    public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final Throwables.DoubleBiFunction<Double, E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -22755,7 +22774,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double valueForNoneA, final double valueForNoneB,
-            final Try.DoubleBiFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b)), N.max(maxSubArrayLen(a), maxSubArrayLen(b)), a, b, valueForNoneA, valueForNoneB, zipFunction);
     }
 
@@ -22773,7 +22792,7 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> double[][] zip(final int len, final int rowLen, final double[][] a, final double[][] b, final double valueForNoneA,
-            final double valueForNoneB, final Try.DoubleBiFunction<Double, E> zipFunction) throws E {
+            final double valueForNoneB, final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -22813,7 +22832,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c,
-            final Try.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -22841,7 +22860,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> double[][] zip(final double[][] a, final double[][] b, final double[][] c, final double valueForNoneA,
-            final double valueForNoneB, final double valueForNoneC, final Try.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
         return zip(N.max(N.len(a), N.len(b), N.len(c)), N.max(maxSubArrayLen(a), maxSubArrayLen(b), maxSubArrayLen(c)), a, b, c, valueForNoneA, valueForNoneB,
                 valueForNoneC, zipFunction);
     }
@@ -22862,7 +22881,8 @@ public final class f {
      * @throws E the e
      */
     private static <E extends Exception> double[][] zip(final int len, final int rowLen, final double[][] a, final double[][] b, final double[][] c,
-            final double valueForNoneA, final double valueForNoneB, final double valueForNoneC, final Try.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final double valueForNoneA, final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction)
+            throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -22892,7 +22912,7 @@ public final class f {
      * @return
      * @throws E the e
      */
-    public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final Try.DoubleBiFunction<Double, E> zipFunction)
+    public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final Throwables.DoubleBiFunction<Double, E> zipFunction)
             throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
@@ -22918,7 +22938,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double valueForNoneA, final double valueForNoneB,
-            final Try.DoubleBiFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
 
@@ -22952,7 +22972,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c,
-            final Try.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);
@@ -22980,7 +23000,7 @@ public final class f {
      * @throws E the e
      */
     public static <E extends Exception> double[][][] zip(final double[][][] a, final double[][][] b, final double[][][] c, final double valueForNoneA,
-            final double valueForNoneB, final double valueForNoneC, final Try.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final double valueForNoneB, final double valueForNoneC, final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
         final int lenA = N.len(a);
         final int lenB = N.len(b);
         final int lenC = N.len(c);

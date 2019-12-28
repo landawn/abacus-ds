@@ -12,7 +12,7 @@ import com.landawn.abacus.util.Array;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.Profiler;
 import com.landawn.abacus.util.StringUtil;
-import com.landawn.abacus.util.Try;
+import com.landawn.abacus.util.Throwables;
 import com.landawn.abacus.util.function.CharConsumer;
 import com.landawn.abacus.util.function.Function;
 import com.landawn.abacus.util.function.ToCharFunction;
@@ -111,7 +111,7 @@ public class MatrixTest extends TestCase {
     public void test_perf3() {
         final IntMatrix m = IntMatrix.rangeClosed(0, 10_000).reshape(100, 100);
 
-        Profiler.run(8, 100, 3, new Try.Runnable() {
+        Profiler.run(8, 100, 3, new Throwables.Runnable<RuntimeException>() {
             @Override
             public void run() {
                 assertTrue(m.streamV().toArray().length == 10_000);
@@ -122,7 +122,7 @@ public class MatrixTest extends TestCase {
     public void test_perf2() {
         final IntMatrix m = IntMatrix.rangeClosed(0, 10_000_000).reshape(10_000, 1_000);
 
-        Profiler.run(1, 1, 3, new Try.Runnable() {
+        Profiler.run(1, 1, 3, new Throwables.Runnable<RuntimeException>() {
             @Override
             public void run() {
                 assertEquals(10_000_000, m.rotate90().count);
@@ -134,7 +134,7 @@ public class MatrixTest extends TestCase {
         final IntMatrix m = IntMatrix.rangeClosed(0, 999_999).reshape(10_000, 100);
         final IntMatrix m2 = IntMatrix.rangeClosed(1, 1_000_000).reshape(100, 10_000);
 
-        Profiler.run(1, 1, 3, new Try.Runnable() {
+        Profiler.run(1, 1, 3, new Throwables.Runnable<RuntimeException>() {
             @Override
             public void run() {
                 assertEquals(100_000_000, m.multiply(m2).count);

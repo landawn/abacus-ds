@@ -21,8 +21,8 @@ import com.landawn.abacus.util.Array;
 import com.landawn.abacus.util.DoubleList;
 import com.landawn.abacus.util.IntPair;
 import com.landawn.abacus.util.N;
-import com.landawn.abacus.util.Try;
-import com.landawn.abacus.util.Try.Consumer;
+import com.landawn.abacus.util.Throwables;
+import com.landawn.abacus.util.Throwables.Consumer;
 import com.landawn.abacus.util.u.OptionalDouble;
 import com.landawn.abacus.util.function.IntConsumer;
 import com.landawn.abacus.util.stream.DoubleIteratorEx;
@@ -394,7 +394,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateRow(int rowIndex, Try.DoubleUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRow(int rowIndex, Throwables.DoubleUnaryOperator<E> func) throws E {
         for (int i = 0; i < cols; i++) {
             a[rowIndex][i] = func.applyAsDouble(a[rowIndex][i]);
         }
@@ -407,7 +407,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateColumn(int columnIndex, Try.DoubleUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateColumn(int columnIndex, Throwables.DoubleUnaryOperator<E> func) throws E {
         for (int i = 0; i < rows; i++) {
             a[i][columnIndex] = func.applyAsDouble(a[i][columnIndex]);
         }
@@ -451,7 +451,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateLU2RD(final Try.DoubleUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateLU2RD(final Throwables.DoubleUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
@@ -497,7 +497,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateRU2LD(final Try.DoubleUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateRU2LD(final Throwables.DoubleUnaryOperator<E> func) throws E {
         N.checkState(rows == cols, "'rows' and 'cols' must be same to get diagonals: rows=%s, cols=%s", rows, cols);
 
         for (int i = 0; i < rows; i++) {
@@ -511,10 +511,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.DoubleUnaryOperator<E> func) throws E {
+    public <E extends Exception> void updateAll(final Throwables.DoubleUnaryOperator<E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -523,7 +523,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -556,10 +556,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param func
      * @throws E the e
      */
-    public <E extends Exception> void updateAll(final Try.IntBiFunction<Double, E> func) throws E {
+    public <E extends Exception> void updateAll(final Throwables.IntBiFunction<Double, E> func) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -568,7 +568,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -601,10 +601,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param newValue
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.DoublePredicate<E> predicate, final double newValue) throws E {
+    public <E extends Exception> void replaceIf(final Throwables.DoublePredicate<E> predicate, final double newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -613,7 +613,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -647,10 +647,10 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param newValue
      * @throws E the e
      */
-    public <E extends Exception> void replaceIf(final Try.IntBiPredicate<E> predicate, final double newValue) throws E {
+    public <E extends Exception> void replaceIf(final Throwables.IntBiPredicate<E> predicate, final double newValue) throws E {
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -659,7 +659,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -692,12 +692,12 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return
      * @throws E the e
      */
-    public <E extends Exception> DoubleMatrix map(final Try.DoubleUnaryOperator<E> func) throws E {
+    public <E extends Exception> DoubleMatrix map(final Throwables.DoubleUnaryOperator<E> func) throws E {
         final double[][] c = new double[rows][cols];
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -706,7 +706,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -744,7 +744,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return
      * @throws E the e
      */
-    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Try.DoubleFunction<? extends T, E> func) throws E {
+    public <T, E extends Exception> Matrix<T> mapToObj(final Class<T> cls, final Throwables.DoubleFunction<? extends T, E> func) throws E {
         final T[][] c = N.newArray(N.newArray(cls, 0).getClass(), rows);
 
         for (int i = 0; i < rows; i++) {
@@ -753,7 +753,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -762,7 +762,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -1552,7 +1552,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @return
      * @throws E the e
      */
-    public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final Try.DoubleBiFunction<Double, E> zipFunction) throws E {
+    public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final Throwables.DoubleBiFunction<Double, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB), "Can't zip two matrices which have different shape.");
 
         final double[][] result = new double[rows][cols];
@@ -1560,7 +1560,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -1569,7 +1569,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -1607,7 +1607,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E the e
      */
     public <E extends Exception> DoubleMatrix zipWith(final DoubleMatrix matrixB, final DoubleMatrix matrixC,
-            final Try.DoubleTriFunction<Double, E> zipFunction) throws E {
+            final Throwables.DoubleTriFunction<Double, E> zipFunction) throws E {
         N.checkArgument(isSameShape(matrixB) && isSameShape(matrixC), "Can't zip three matrices which have different shape.");
 
         final double[][] result = new double[rows][cols];
@@ -1616,7 +1616,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
 
         if (isParallelable()) {
             if (rows <= cols) {
-                IntStream.range(0, rows).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, rows).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int i) throws E {
                         for (int j = 0; j < cols; j++) {
@@ -1625,7 +1625,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
                     }
                 });
             } else {
-                IntStream.range(0, cols).parallel().forEach(new Try.IntConsumer<E>() {
+                IntStream.range(0, cols).parallel().forEach(new Throwables.IntConsumer<E>() {
                     @Override
                     public void accept(final int j) throws E {
                         for (int i = 0; i < rows; i++) {
@@ -2093,7 +2093,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @param action
      * @throws E the e
      */
-    public <E extends Exception> void forEach(final Try.DoubleConsumer<E> action) throws E {
+    public <E extends Exception> void forEach(final Throwables.DoubleConsumer<E> action) throws E {
         forEach(0, rows, 0, cols, action);
     }
 
@@ -2108,7 +2108,7 @@ public final class DoubleMatrix extends AbstractMatrix<double[], DoubleList, Dou
      * @throws E the e
      */
     public <E extends Exception> void forEach(final int fromRowIndex, final int toRowIndex, final int fromColumnIndex, final int toColumnIndex,
-            final Try.DoubleConsumer<E> action) throws E {
+            final Throwables.DoubleConsumer<E> action) throws E {
         N.checkFromToIndex(fromRowIndex, toRowIndex, rows);
         N.checkFromToIndex(fromColumnIndex, toColumnIndex, cols);
 

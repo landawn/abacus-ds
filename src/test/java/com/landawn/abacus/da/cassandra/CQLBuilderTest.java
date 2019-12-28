@@ -22,12 +22,12 @@ import com.landawn.abacus.da.canssandra.CQLBuilder.SCCB;
 import com.landawn.abacus.da.entity.Account;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.Profiler;
-import com.landawn.abacus.util.Try;
+import com.landawn.abacus.util.Throwables;
 
 /**
- * 
+ *
  * @since 0.8
- * 
+ *
  * @author Haiyang Li
  */
 public class CQLBuilderTest extends AbstractNoSQLTest {
@@ -59,7 +59,7 @@ public class CQLBuilderTest extends AbstractNoSQLTest {
             assertEquals(166, cql.length());
         }
 
-        Profiler.run(16, 100000, 3, new Try.Runnable() {
+        Profiler.run(16, 100000, 3, new Throwables.Runnable<RuntimeException>() {
             @Override
             public void run() {
                 String cql = SCCB.insert("gui", "firstName", "lastName", "lastUpdateTime", "createTime").into("account").cql();
@@ -174,14 +174,14 @@ public class CQLBuilderTest extends AbstractNoSQLTest {
 
     //
     //    public void test_perf() {
-    //        Profiler.run(new Try.Runnable() {
+    //        Profiler.run(new Throwables.Runnable<RuntimeException>() {
     //            @Override
     //            public void run() {
     //                E.batchInsert(createAccountPropsList(99)).into("account").cql().length();
     //            }
     //        }, 32, 10000, 3).printResult();
     //
-    //        Profiler.run(new Try.Runnable() {
+    //        Profiler.run(new Throwables.Runnable<RuntimeException>() {
     //            @Override
     //            public void run() {
     //                E.batchInsert(createAccountPropsList(99)).into("account").cql().length();
