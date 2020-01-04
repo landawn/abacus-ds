@@ -227,7 +227,7 @@ public final class MongoDB {
      */
     public static void registerIdProeprty(final Class<?> cls, final String idPropertyName) {
         if (ClassUtil.getPropGetMethod(cls, idPropertyName) == null || ClassUtil.getPropSetMethod(cls, idPropertyName) == null) {
-            throw new IllegalArgumentException("The specified class: " + ClassUtil.getCanonicalClassName(cls)
+            throw new IllegalArgumentException("The specified class: " + ClassUtil.getClassName(cls)
                     + " doesn't have getter or setter method for the specified id propery: " + idPropertyName);
         }
 
@@ -373,7 +373,7 @@ public final class MongoDB {
                     }
                 } else {
                     throw new IllegalArgumentException(
-                            "Can't covert document: " + first.toString() + " to class: " + ClassUtil.getCanonicalClassName(targetClass));
+                            "Can't covert document: " + first.toString() + " to class: " + ClassUtil.getClassName(targetClass));
                 }
 
                 return (List<T>) resultList;
@@ -540,7 +540,7 @@ public final class MongoDB {
             jsonParser.readString(result, json);
             return (T) result;
         } else {
-            throw new IllegalArgumentException("Unsupported type: " + ClassUtil.getCanonicalClassName(targetClass));
+            throw new IllegalArgumentException("Unsupported type: " + ClassUtil.getClassName(targetClass));
         }
     }
 
@@ -791,7 +791,7 @@ public final class MongoDB {
     private static <T> void checkTargetClass(final Class<T> targetClass) {
         if (!(ClassUtil.isEntity(targetClass) || Map.class.isAssignableFrom(targetClass))) {
             throw new IllegalArgumentException("The target class must be an entity class with getter/setter methods or Map.class/Document.class. But it is: "
-                    + ClassUtil.getCanonicalClassName(targetClass));
+                    + ClassUtil.getClassName(targetClass));
         }
     }
 

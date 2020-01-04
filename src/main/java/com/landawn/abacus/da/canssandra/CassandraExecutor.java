@@ -498,7 +498,7 @@ public final class CassandraExecutor implements Closeable {
         } else if (rowType.isEntity()) {
             res = toEntity(rowClass, row);
         } else {
-            throw new IllegalArgumentException("Unsupported row/column type: " + ClassUtil.getCanonicalClassName(rowClass));
+            throw new IllegalArgumentException("Unsupported row/column type: " + ClassUtil.getClassName(rowClass));
         }
 
         return res;
@@ -539,7 +539,7 @@ public final class CassandraExecutor implements Closeable {
             }
         } else {
             throw new IllegalArgumentException(
-                    "Can't covert result with columns: " + columnDefinitions.toString() + " to class: " + ClassUtil.getCanonicalClassName(targetClass));
+                    "Can't covert result with columns: " + columnDefinitions.toString() + " to class: " + ClassUtil.getClassName(targetClass));
         }
 
         return (List<T>) resultList;
@@ -668,7 +668,7 @@ public final class CassandraExecutor implements Closeable {
             return and;
         } else {
             throw new IllegalArgumentException("The number: " + ids.length + " of input ids doesn't match the (registered) key names: "
-                    + (keyNames == null ? "[id]" : N.toString(keyNames)) + " in class: " + ClassUtil.getCanonicalClassName(targetClass));
+                    + (keyNames == null ? "[id]" : N.toString(keyNames)) + " in class: " + ClassUtil.getClassName(targetClass));
         }
     }
 
@@ -3121,7 +3121,7 @@ public final class CassandraExecutor implements Closeable {
     private static <T> void checkTargetClass(final Class<T> targetClass) {
         if (!(ClassUtil.isEntity(targetClass) || Map.class.isAssignableFrom(targetClass))) {
             throw new IllegalArgumentException("The target class must be an entity class with getter/setter methods or Map.class. But it is: "
-                    + ClassUtil.getCanonicalClassName(targetClass));
+                    + ClassUtil.getClassName(targetClass));
         }
     }
 
