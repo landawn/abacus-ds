@@ -211,7 +211,7 @@ public final class CouchbaseExecutor implements Closeable {
      */
     public static void registerIdProperty(Class<?> cls, String idPropertyName) {
         if (ClassUtil.getPropGetMethod(cls, idPropertyName) == null || ClassUtil.getPropSetMethod(cls, idPropertyName) == null) {
-            throw new IllegalArgumentException("The specified class: " + ClassUtil.getClassName(cls)
+            throw new IllegalArgumentException("The specified class: " + ClassUtil.getCanonicalClassName(cls)
                     + " doesn't have getter or setter method for the specified id propery: " + idPropertyName);
         }
 
@@ -343,7 +343,7 @@ public final class CouchbaseExecutor implements Closeable {
                 }
             } else {
                 throw new IllegalArgumentException(
-                        "Can't covert result with columns: " + first.getNames().toString() + " to class: " + ClassUtil.getClassName(targetClass));
+                        "Can't covert result with columns: " + first.getNames().toString() + " to class: " + ClassUtil.getCanonicalClassName(targetClass));
             }
         }
 
@@ -566,7 +566,7 @@ public final class CouchbaseExecutor implements Closeable {
 
             return (T) JsonDocument.create(id, jsonObject);
         } else {
-            throw new IllegalArgumentException("Unsupported type: " + ClassUtil.getClassName(targetClass));
+            throw new IllegalArgumentException("Unsupported type: " + ClassUtil.getCanonicalClassName(targetClass));
         }
     }
 
@@ -2354,7 +2354,7 @@ public final class CouchbaseExecutor implements Closeable {
     private static void checkTargetClass(final Class<?> targetClass) {
         if (!(ClassUtil.isEntity(targetClass) || Map.class.isAssignableFrom(targetClass))) {
             throw new IllegalArgumentException("The target class must be an entity class with getter/setter methods or Map.class. But it is: "
-                    + ClassUtil.getClassName(targetClass));
+                    + ClassUtil.getCanonicalClassName(targetClass));
         }
     }
 
