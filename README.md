@@ -3,16 +3,7 @@ Abacus Data Access&Analysis
 
 [![Maven Central](https://img.shields.io/maven-central/v/com.landawn/abacus-da.svg)](https://maven-badges.herokuapp.com/maven-central/com.landawn/abacus-da/)
 [![Javadocs](https://www.javadoc.io/badge/com.landawn/abacus-da.svg)](https://www.javadoc.io/doc/com.landawn/abacus-da)
-
-
-* Matrix: 
-[AbstractMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/AbstractMatrix_view.html), 
-[Matrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Matrix_view.html), 
-[ByteMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/ByteMatrix_view.html), 
-[IntMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/IntMatrix_view.html), 
-[LongMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/LongMatrix_view.html), 
-[DoubleMatrix](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/DoubleMatrix_view.html)...
-
+ 
 
 * ORMs for NoSQL: 
 [MongoCollectionExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/MongoCollectionExecutor_view.html), 
@@ -21,14 +12,6 @@ Abacus Data Access&Analysis
 [HBaseExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/HBaseExecutor_view.html), 
 [DynamoDBExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/DynamoDBExecutor_view.html) and 
 [Neo4jExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Neo4jExecutor_view.html).
-
-
-* [Run on remote servers without deploying first](https://github.com/landawn/abacus-da/wiki/Deploy-Once,-Run-Anytime):
-[RemoteExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/RemoteExecutor_view.html).
-
-
-* More: [Sheet](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Sheet_view.html), [Points](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Points_view.html), 
-[f](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/f_view.html), ...
 
 
 ## Download/Installation & [Changes](https://github.com/landawn/abacus-da/blob/master/CHANGES.md):
@@ -60,7 +43,7 @@ compile 'com.landawn:abacus-da:1.9.9'
 Please refer to [Wiki](https://github.com/landawn/abacus-da/wiki)
 
 
-## Also See: [abacus-util](https://github.com/landawn/abacus-util), [abacus-jdbc](https://github.com/landawn/abacus-jdbc).
+## Also See: [abacus-util](https://github.com/landawn/abacus-util), [abacus-jdbc](https://github.com/landawn/abacus-jdbc), [abacus-extra](https://github.com/landawn/abacus-extra).
 
 
 ## Recommended Java programming libraries/frameworks:
