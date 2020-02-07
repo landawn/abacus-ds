@@ -78,7 +78,7 @@
 		<dependency>
 			<groupId>com.landawn</groupId>
 			<artifactId>abacus-util</artifactId>
-			<version>1.10.11</version>
+			<version>1.10.13</version>
 		</dependency>
 	</dependencies>
 

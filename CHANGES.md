@@ -1,3 +1,8 @@
+### 1.9.9
+
+* Move the utility classes to the new project: https://github.com/landawn/abacus-extra
+* Improvements and bug fix.
+
 ### 1.9.8
 
 * Move functional interfaces from `Try` to `Throwables`.
