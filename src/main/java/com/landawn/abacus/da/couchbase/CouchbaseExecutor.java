@@ -55,7 +55,7 @@ import com.landawn.abacus.util.ContinuableFuture;
 import com.landawn.abacus.util.Fn;
 import com.landawn.abacus.util.Maps;
 import com.landawn.abacus.util.N;
-import com.landawn.abacus.util.NamedSQL;
+import com.landawn.abacus.util.ParsedSql;
 import com.landawn.abacus.util.SQLMapper;
 import com.landawn.abacus.util.u.Nullable;
 import com.landawn.abacus.util.u.Optional;
@@ -2409,8 +2409,8 @@ public final class CouchbaseExecutor implements Closeable {
             return prepareN1qlQuery(query);
         }
 
-        final NamedSQL namedSQL = getNamedSQL(query);
-        final String sql = namedSQL.getParameterizedSQL(true);
+        final ParsedSql namedSQL = parseSql(query);
+        final String sql = namedSQL.getParameterizedSql(true);
         final int parameterCount = namedSQL.getParameterCount(true);
         final List<String> namedParameters = namedSQL.getNamedParameters(true);
 
@@ -2521,18 +2521,18 @@ public final class CouchbaseExecutor implements Closeable {
      * @param sql
      * @return
      */
-    private NamedSQL getNamedSQL(String sql) {
-        NamedSQL namedSQL = null;
+    private ParsedSql parseSql(String sql) {
+        ParsedSql parsedSql = null;
 
         if (sqlMapper != null) {
-            namedSQL = sqlMapper.get(sql);
+            parsedSql = sqlMapper.get(sql);
         }
 
-        if (namedSQL == null) {
-            namedSQL = NamedSQL.parse(sql);
+        if (parsedSql == null) {
+            parsedSql = ParsedSql.parse(sql);
         }
 
-        return namedSQL;
+        return parsedSql;
     }
 
     /**

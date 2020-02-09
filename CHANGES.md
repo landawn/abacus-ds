@@ -1,7 +1,14 @@
-### 1.9.9
+### 1.9.10
 
+* Rename `NamedSQL` to `ParsedSql`.
+* Improvements and bug fix.
+
+
+### 1.9.9
+ 
 * Move the utility classes to the new project: https://github.com/landawn/abacus-extra
 * Improvements and bug fix.
+
 
 ### 1.9.8
 
