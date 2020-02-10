@@ -4,36 +4,110 @@
 
 package com.landawn.abacus.da.hbase;
 
-import com.landawn.abacus.da.AbstractNoSQLTest;
+import static org.junit.Assert.assertEquals;
 
-/**
- *
- * @since 0.8
- * 
- * @author Haiyang Li
- */
-public class HBaseExecutorTest extends AbstractNoSQLTest {
-    //    // Install HBase and create tables:
-    //    // create 'account', 'id', 'gui', 'name', 'status', 'lastUpdateTime', 'createTime', 'contact', 'strSet', 'strMap'
-    //    // create 'contact', 'id', 'accountId', 'telephone', 'city', 'state', 'zipCode', 'status', 'lastUpdateTime', 'createTime'
-    //
-    //    static final HBaseExecutor hbaseExecutor;
-    //    static {
-    //        Configuration config = HBaseConfiguration.create();
-    //        config.setInt("timeout", 120000);
-    //        config.set("hbase.master", "hqd-billing-01:9000");
-    //        config.set("hbase.zookeeper.quorum", "hqd-billing-01");
-    //        config.set("hbase.zookeeper.property.clientPort", "2181");
-    //        try {
-    //            hbaseExecutor = new HBaseExecutor(ConnectionFactory.createConnection(config));
-    //        } catch (IOException e) {
-    //            throw new UncheckedIOException(e);
-    //        }
-    //
-    //        HBaseExecutor.registerRowKeyProperty(Account.class, "id");
-    //        HBaseExecutor.registerRowKeyProperty(com.landawn.abacus.util.Account.class, "id");
-    //    }
-    //
+import java.io.IOException;
+import java.sql.Timestamp;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.junit.jupiter.api.Test;
+
+import com.landawn.abacus.exception.UncheckedIOException;
+import com.landawn.abacus.util.N;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+public class HBaseExecutorTest {
+    // Install HBase and create tables:
+    // create 'account', 'id', 'gui', 'name', 'emailAddress', 'lastUpdateTime', 'createTime', 'contact'
+    // create 'contact', 'id', 'accountId', 'telephone', 'city', 'state', 'zipCode', 'status', 'lastUpdateTime', 'createTime'
+
+    static final HBaseExecutor hbaseExecutor;
+
+    static {
+        Configuration config = HBaseConfiguration.create();
+        config.setInt("timeout", 120000);
+        config.set("hbase.master", "localhost:9000");
+        config.set("hbase.zookeeper.quorum", "localhost");
+        config.set("hbase.zookeeper.property.clientPort", "2181");
+        try {
+            hbaseExecutor = new HBaseExecutor(ConnectionFactory.createConnection(config));
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+
+        HBaseExecutor.registerRowKeyProperty(Account.class, "id");
+    }
+
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Account {
+        private String id;
+        private String gui;
+        private Name name;
+        private String emailAddress;
+        private Timestamp lastUpdateTime;
+        private Timestamp createTime;
+        private Contact contact;
+    }
+
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Name {
+        private String firstName;
+        private String middleName;
+        private String lastName;
+    }
+
+    @Builder
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class Contact {
+        private long id;
+        private long accountId;
+        private String telephone;
+        private String city;
+        private String state;
+        private String country;
+        private String zipCode;
+        private int status;
+        private Timestamp lastUpdateTime;
+        private Timestamp createTime;
+    }
+
+    @Test
+    public void test_toAnyPut() {
+        Account account = Account.builder()
+                .id("1002")
+                .gui(N.uuid())
+                .name(Name.builder().firstName("fn").lastName("lm").build())
+                .contact(Contact.builder().city("San Jose").state("CA").build())
+                .build();
+        N.println(account);
+
+        hbaseExecutor.delete("account", AnyDelete.of(account.getId()));
+
+        AnyPut put = HBaseExecutor.toAnyPut(account);
+        N.println(put.toString(100));
+
+        hbaseExecutor.put("account", put);
+
+        Account dbAccount = hbaseExecutor.get(Account.class, "account", AnyGet.of(account.getId()));
+        N.println(dbAccount);
+
+        assertEquals(account, dbAccount);
+    }
+
     //    @Test
     //    public void test_01() throws ZooKeeperConnectionException, ServiceException, IOException {
     //        Result result = hbaseExecutor.get("account", AnyGet.of("row1"));
