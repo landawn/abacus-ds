@@ -40,90 +40,90 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     /**
      * Instantiates a new any put.
      *
-     * @param row
+     * @param rowKey
      */
-    public AnyPut(final Object row) {
-        super(new Put(toRowBytes(row)));
+    public AnyPut(final Object rowKey) {
+        super(new Put(toRowBytes(rowKey)));
         this.put = (Put) mutation;
     }
 
     /**
      * Instantiates a new any put.
      *
-     * @param row
+     * @param rowKey
      * @param timestamp
      */
-    public AnyPut(final Object row, final long timestamp) {
-        super(new Put(toRowBytes(row), timestamp));
+    public AnyPut(final Object rowKey, final long timestamp) {
+        super(new Put(toRowBytes(rowKey), timestamp));
         this.put = (Put) mutation;
     }
 
     /**
      * Instantiates a new any put.
      *
-     * @param row
+     * @param rowKey
      * @param rowOffset
      * @param rowLength
      */
-    public AnyPut(final Object row, final int rowOffset, final int rowLength) {
-        super(new Put(toRowBytes(row), rowOffset, rowLength));
+    public AnyPut(final Object rowKey, final int rowOffset, final int rowLength) {
+        super(new Put(toRowBytes(rowKey), rowOffset, rowLength));
         this.put = (Put) mutation;
     }
 
     /**
      * Instantiates a new any put.
      *
-     * @param row
+     * @param rowKey
      * @param rowOffset
      * @param rowLength
      * @param timestamp
      */
-    public AnyPut(final Object row, int rowOffset, int rowLength, final long timestamp) {
-        super(new Put(toRowBytes(row), rowOffset, rowLength, timestamp));
+    public AnyPut(final Object rowKey, int rowOffset, int rowLength, final long timestamp) {
+        super(new Put(toRowBytes(rowKey), rowOffset, rowLength, timestamp));
         this.put = (Put) mutation;
     }
 
     /**
      * Instantiates a new any put.
      *
-     * @param row
+     * @param rowKey
      * @param rowIsImmutable
      */
-    public AnyPut(final Object row, final boolean rowIsImmutable) {
-        super(new Put(toRowBytes(row), rowIsImmutable));
+    public AnyPut(final Object rowKey, final boolean rowIsImmutable) {
+        super(new Put(toRowBytes(rowKey), rowIsImmutable));
         this.put = (Put) mutation;
     }
 
     /**
      * Instantiates a new any put.
      *
-     * @param row
+     * @param rowKey
      * @param timestamp
      * @param rowIsImmutable
      */
-    public AnyPut(final Object row, final long timestamp, final boolean rowIsImmutable) {
-        super(new Put(toRowBytes(row), timestamp, rowIsImmutable));
+    public AnyPut(final Object rowKey, final long timestamp, final boolean rowIsImmutable) {
+        super(new Put(toRowBytes(rowKey), timestamp, rowIsImmutable));
         this.put = (Put) mutation;
     }
 
     /**
      * Instantiates a new any put.
      *
-     * @param row
+     * @param rowKey
      */
-    public AnyPut(final ByteBuffer row) {
-        super(new Put(row));
+    public AnyPut(final ByteBuffer rowKey) {
+        super(new Put(rowKey));
         this.put = (Put) mutation;
     }
 
     /**
      * Instantiates a new any put.
      *
-     * @param row
+     * @param rowKey
      * @param timestamp
      */
-    public AnyPut(final ByteBuffer row, final long timestamp) {
-        super(new Put(row, timestamp));
+    public AnyPut(final ByteBuffer rowKey, final long timestamp) {
+        super(new Put(rowKey, timestamp));
         this.put = (Put) mutation;
     }
 
@@ -139,84 +139,84 @@ public final class AnyPut extends AnyMutation<AnyPut> {
 
     /**
      *
-     * @param row
+     * @param rowKey
      * @return
      */
-    public static AnyPut of(final Object row) {
-        return new AnyPut(row);
+    public static AnyPut of(final Object rowKey) {
+        return new AnyPut(rowKey);
     }
 
     /**
      *
-     * @param row
+     * @param rowKey
      * @param timestamp
      * @return
      */
-    public static AnyPut of(final Object row, final long timestamp) {
-        return new AnyPut(row, timestamp);
+    public static AnyPut of(final Object rowKey, final long timestamp) {
+        return new AnyPut(rowKey, timestamp);
     }
 
     /**
      *
-     * @param row
+     * @param rowKey
      * @param rowOffset
      * @param rowLength
      * @return
      */
-    public static AnyPut of(final Object row, final int rowOffset, final int rowLength) {
-        return new AnyPut(row, rowOffset, rowLength);
+    public static AnyPut of(final Object rowKey, final int rowOffset, final int rowLength) {
+        return new AnyPut(rowKey, rowOffset, rowLength);
     }
 
     /**
      *
-     * @param row
+     * @param rowKey
      * @param rowOffset
      * @param rowLength
      * @param timestamp
      * @return
      */
-    public static AnyPut of(final Object row, final int rowOffset, final int rowLength, final long timestamp) {
-        return new AnyPut(row, rowOffset, rowLength, timestamp);
+    public static AnyPut of(final Object rowKey, final int rowOffset, final int rowLength, final long timestamp) {
+        return new AnyPut(rowKey, rowOffset, rowLength, timestamp);
     }
 
     /**
      *
-     * @param row
+     * @param rowKey
      * @param rowIsImmutable
      * @return
      */
-    public static AnyPut of(final Object row, final boolean rowIsImmutable) {
-        return new AnyPut(row, rowIsImmutable);
+    public static AnyPut of(final Object rowKey, final boolean rowIsImmutable) {
+        return new AnyPut(rowKey, rowIsImmutable);
     }
 
     /**
      *
-     * @param row
+     * @param rowKey
      * @param timestamp
      * @param rowIsImmutable
      * @return
      */
-    public static AnyPut of(final Object row, final long timestamp, final boolean rowIsImmutable) {
-        return new AnyPut(row, timestamp, rowIsImmutable);
+    public static AnyPut of(final Object rowKey, final long timestamp, final boolean rowIsImmutable) {
+        return new AnyPut(rowKey, timestamp, rowIsImmutable);
     }
 
     /**
      *
-     * @param row
+     * @param rowKey
      * @return
      */
-    public static AnyPut of(final ByteBuffer row) {
-        return new AnyPut(row);
+    public static AnyPut of(final ByteBuffer rowKey) {
+        return new AnyPut(rowKey);
     }
 
     /**
      *
-     * @param row
+     * @param rowKey
      * @param timestamp
      * @return
      */
-    public static AnyPut of(final ByteBuffer row, final long timestamp) {
-        return new AnyPut(row, timestamp);
+    public static AnyPut of(final ByteBuffer rowKey, final long timestamp) {
+        return new AnyPut(rowKey, timestamp);
     }
 
     /**

@@ -65,10 +65,10 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
     /**
      * Instantiates a new any get.
      *
-     * @param row
+     * @param rowKey
      */
-    public AnyGet(ByteBuffer row) {
-        super(new Get(row));
+    public AnyGet(ByteBuffer rowKey) {
+        super(new Get(rowKey));
         this.get = (Get) query;
     }
 
@@ -104,11 +104,11 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
 
     /**
      *
-     * @param row
+     * @param rowKey
      * @return
      */
-    public static AnyGet of(ByteBuffer row) {
-        return new AnyGet(row);
+    public static AnyGet of(ByteBuffer rowKey) {
+        return new AnyGet(rowKey);
     }
 
     /**

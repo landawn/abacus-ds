@@ -87,12 +87,12 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
     /**
      * Instantiates a new any delete.
      *
-     * @param row
+     * @param rowKey
      * @param timestamp
      * @param familyMap
      */
-    public AnyDelete(final Object row, final long timestamp, final NavigableMap<byte[], List<Cell>> familyMap) {
-        super(new Delete(toRowBytes(row), timestamp, familyMap));
+    public AnyDelete(final Object rowKey, final long timestamp, final NavigableMap<byte[], List<Cell>> familyMap) {
+        super(new Delete(toRowBytes(rowKey), timestamp, familyMap));
         this.delete = (Delete) mutation;
     }
 
@@ -150,13 +150,13 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
 
     /**
      *
-     * @param row
+     * @param rowKey
      * @param timestamp
      * @param familyMap
      * @return
      */
-    public static AnyDelete of(final Object row, final long timestamp, final NavigableMap<byte[], List<Cell>> familyMap) {
-        return new AnyDelete(row, timestamp, familyMap);
+    public static AnyDelete of(final Object rowKey, final long timestamp, final NavigableMap<byte[], List<Cell>> familyMap) {
+        return new AnyDelete(rowKey, timestamp, familyMap);
     }
 
     /**
