@@ -335,7 +335,12 @@ public final class CassandraExecutor implements Closeable {
      *
      * @param entityClass
      * @param keyNames
+     * @see com.landawn.abacus.annotation.Id
+     * @see javax.persistence.Id
+     * 
+     * @deprecated please defined or annotated the key/id field by {@code @Id}
      */
+    @Deprecated
     public static void registerKeys(Class<?> entityClass, Collection<String> keyNames) {
         N.checkArgument(N.notNullOrEmpty(keyNames), "'keyNames' can't be null or empty");
 

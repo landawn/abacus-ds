@@ -208,7 +208,12 @@ public final class CouchbaseExecutor implements Closeable {
      *
      * @param cls
      * @param idPropertyName
+     * @see com.landawn.abacus.annotation.Id
+     * @see javax.persistence.Id
+     * 
+     * @deprecated please defined or annotated the key/id field by {@code @Id}
      */
+    @Deprecated
     public static void registerIdProperty(Class<?> cls, String idPropertyName) {
         if (ClassUtil.getPropGetMethod(cls, idPropertyName) == null || ClassUtil.getPropSetMethod(cls, idPropertyName) == null) {
             throw new IllegalArgumentException("The specified class: " + ClassUtil.getCanonicalClassName(cls)
