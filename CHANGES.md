@@ -1,3 +1,10 @@
+### 1.9.12
+
+* Hide the constructors of `AnyGet/AnyPut/AnyDelete/AnyScan/...` because the static creator method `XXX.of(...)` is preferred.
+
+* Improvements and bug fix.
+
+
 ### 1.9.11
 
 * Improvements and bug fix.

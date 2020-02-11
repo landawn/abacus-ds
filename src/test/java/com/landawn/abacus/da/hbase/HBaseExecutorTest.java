@@ -14,6 +14,7 @@ import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.annotation.Id;
 import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.util.N;
 
@@ -41,7 +42,7 @@ public class HBaseExecutorTest {
             throw new UncheckedIOException(e);
         }
 
-        HBaseExecutor.registerRowKeyProperty(Account.class, "id");
+        // HBaseExecutor.registerRowKeyProperty(Account.class, "id");
     }
 
     @Builder
@@ -49,6 +50,7 @@ public class HBaseExecutorTest {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Account {
+        @Id
         private String id;
         private String gui;
         private Name name;

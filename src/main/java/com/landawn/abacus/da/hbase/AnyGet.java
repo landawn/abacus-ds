@@ -45,7 +45,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
      *
      * @param rowKey
      */
-    public AnyGet(Object rowKey) {
+      AnyGet(Object rowKey) {
         super(new Get(toRowKeyBytes(rowKey)));
         this.get = (Get) query;
     }
@@ -57,7 +57,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
      * @param rowOffset
      * @param rowLength
      */
-    public AnyGet(Object rowKey, int rowOffset, int rowLength) {
+      AnyGet(Object rowKey, int rowOffset, int rowLength) {
         super(new Get(toRowKeyBytes(rowKey), rowOffset, rowLength));
         this.get = (Get) query;
     }
@@ -67,7 +67,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
      *
      * @param rowKey
      */
-    public AnyGet(ByteBuffer rowKey) {
+      AnyGet(ByteBuffer rowKey) {
         super(new Get(rowKey));
         this.get = (Get) query;
     }
@@ -77,7 +77,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Comparable<Row> {
      *
      * @param get
      */
-    public AnyGet(Get get) {
+      AnyGet(Get get) {
         super(get);
         this.get = (Get) query;
     }

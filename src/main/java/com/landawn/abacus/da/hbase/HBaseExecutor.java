@@ -104,7 +104,7 @@ public final class HBaseExecutor implements Closeable {
      * @param conn
      */
     public HBaseExecutor(final Connection conn) {
-        this(conn, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
+        this(conn, new AsyncExecutor(Math.max(IOUtil.CPU_CORES, 8), Math.max(IOUtil.CPU_CORES, 64), 180L, TimeUnit.SECONDS));
     }
 
     /**
@@ -154,7 +154,12 @@ public final class HBaseExecutor implements Closeable {
      *
      * @param cls entity classes with getter/setter methods
      * @param rowKeyPropertyName
+     * @see com.landawn.abacus.annotation.Id
+     * @see javax.persistence.Id
+     * 
+     * @deprecated please defined or annotated the key/id field by {@code @Id}
      */
+    @Deprecated
     public static void registerRowKeyProperty(final Class<?> cls, final String rowKeyPropertyName) {
         if (ClassUtil.getPropGetMethod(cls, rowKeyPropertyName) == null || ClassUtil.getPropSetMethod(cls, rowKeyPropertyName) == null) {
             throw new IllegalArgumentException("The specified class: " + ClassUtil.getCanonicalClassName(cls)
@@ -185,20 +190,22 @@ public final class HBaseExecutor implements Closeable {
     private static <T> Method getRowKeySetMethod(final Class<T> targetClass) {
         Method rowKeySetMethod = classRowkeySetMethodPool.get(targetClass);
 
-        //        if (rowKeySetMethod == null) {
-        //            Method setMethod = N.getPropSetMethod(targetClass, "id");
-        //            Class<?> parameterType = setMethod == null ? null : setMethod.getParameterTypes()[0];
-        //
-        //            if (parameterType != null && HBaseColumn.class.equals(parameterType) && String.class.equals(N.getTypeArgumentsByMethod(setMethod)[0])) {
-        //                rowKeySetMethod = setMethod;
-        //            }
-        //
-        //            if (rowKeySetMethod == null) {
-        //                rowKeySetMethod = N.METHOD_MASK;
-        //            }
-        //
-        //            classRowkeySetMethodPool.put(targetClass, rowKeySetMethod);
-        //        }
+        if (rowKeySetMethod == null) {
+            final List<String> ids = ClassUtil.getIdFieldNames(targetClass);
+
+            if (ids.size() > 1) {
+                throw new IllegalArgumentException("Multiple ids: " + ids + " defined/annotated in class: " + ClassUtil.getCanonicalClassName(targetClass));
+            } else {
+                registerRowKeyProperty(targetClass, ids.get(0));
+
+                rowKeySetMethod = classRowkeySetMethodPool.get(targetClass);
+            }
+
+            if (rowKeySetMethod == null) {
+                rowKeySetMethod = ClassUtil.METHOD_MASK;
+                classRowkeySetMethodPool.put(targetClass, rowKeySetMethod);
+            }
+        }
 
         return rowKeySetMethod == ClassUtil.METHOD_MASK ? null : rowKeySetMethod;
     }
