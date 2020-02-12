@@ -3147,8 +3147,8 @@ public final class CassandraExecutor implements Closeable {
         }
 
         if (stmt == null) {
-            final NamedCQL namedCQL = getNamedCQL(query);
-            final String cql = namedCQL.getPureCQL();
+            final ParsedCql parseCql = parseCql(query);
+            final String cql = parseCql.getParameterizedCql();
             stmt = bind(prepare(cql));
 
             if (query.length() <= POOLABLE_LENGTH) {
@@ -3170,8 +3170,8 @@ public final class CassandraExecutor implements Closeable {
             return prepareStatement(query);
         }
 
-        final NamedCQL namedCQL = getNamedCQL(query);
-        final String cql = namedCQL.getPureCQL();
+        final ParsedCql parseCql = parseCql(query);
+        final String cql = parseCql.getParameterizedCql();
         PreparedStatement preStmt = null;
 
         if (query.length() <= POOLABLE_LENGTH) {
@@ -3222,7 +3222,7 @@ public final class CassandraExecutor implements Closeable {
         if (parameters.length == 1 && (parameters[0] instanceof Map || ClassUtil.isEntity(parameters[0].getClass()))) {
             values = new Object[parameterCount];
             final Object parameter_0 = parameters[0];
-            final Map<Integer, String> namedParameters = namedCQL.getNamedParameters();
+            final Map<Integer, String> namedParameters = parseCql.getNamedParameters();
             final boolean isCassandraNamedParameters = N.isNullOrEmpty(namedParameters);
             String parameterName = null;
             if (parameter_0 instanceof Map) {
@@ -3254,9 +3254,9 @@ public final class CassandraExecutor implements Closeable {
                 }
             }
         } else if ((parameters.length == 1) && (parameters[0] != null)) {
-            if (parameters[0] instanceof Object[] && ((((Object[]) parameters[0]).length) >= namedCQL.getParameterCount())) {
+            if (parameters[0] instanceof Object[] && ((((Object[]) parameters[0]).length) >= parseCql.getParameterCount())) {
                 values = (Object[]) parameters[0];
-            } else if (parameters[0] instanceof List && (((List<?>) parameters[0]).size() >= namedCQL.getParameterCount())) {
+            } else if (parameters[0] instanceof List && (((List<?>) parameters[0]).size() >= parseCql.getParameterCount())) {
                 final Collection<?> c = (Collection<?>) parameters[0];
                 values = c.toArray(new Object[c.size()]);
             }
@@ -3345,24 +3345,23 @@ public final class CassandraExecutor implements Closeable {
         return stmt;
     }
 
-    /**
-     * Gets the named CQL.
+    /** 
      *
      * @param cql
      * @return
      */
-    private NamedCQL getNamedCQL(String cql) {
-        NamedCQL namedCQL = null;
+    private ParsedCql parseCql(String cql) {
+        ParsedCql parsedCql = null;
 
         if (cqlMapper != null) {
-            namedCQL = cqlMapper.get(cql);
+            parsedCql = cqlMapper.get(cql);
         }
 
-        if (namedCQL == null) {
-            namedCQL = NamedCQL.parse(cql, null);
+        if (parsedCql == null) {
+            parsedCql = ParsedCql.parse(cql, null);
         }
 
-        return namedCQL;
+        return parsedCql;
     }
 
     /**

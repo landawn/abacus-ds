@@ -2414,10 +2414,10 @@ public final class CouchbaseExecutor implements Closeable {
             return prepareN1qlQuery(query);
         }
 
-        final ParsedSql namedSQL = parseSql(query);
-        final String sql = namedSQL.getParameterizedSql(true);
-        final int parameterCount = namedSQL.getParameterCount(true);
-        final List<String> namedParameters = namedSQL.getNamedParameters(true);
+        final ParsedSql parsedCql = parseSql(query);
+        final String sql = parsedCql.getParameterizedSql(true);
+        final int parameterCount = parsedCql.getParameterCount(true);
+        final List<String> namedParameters = parsedCql.getNamedParameters(true);
 
         // Prepared query plan doens't work in Couchbase 4.0 Beta version?
 
@@ -2520,8 +2520,7 @@ public final class CouchbaseExecutor implements Closeable {
         }
     }
 
-    /**
-     * Gets the named SQL.
+    /** 
      *
      * @param sql
      * @return

@@ -66,7 +66,7 @@ public final class CQLMapper {
     static final String TIMEOUT = "timeout";
 
     /** The cql map. */
-    private final Map<String, NamedCQL> cqlMap = new LinkedHashMap<>();
+    private final Map<String, ParsedCql> cqlMap = new LinkedHashMap<>();
 
     /**
      * Instantiates a new CQL mapper.
@@ -142,18 +142,18 @@ public final class CQLMapper {
      * @param id
      * @return
      */
-    public NamedCQL get(String id) {
+    public ParsedCql get(String id) {
         return cqlMap.get(id);
     }
 
     /**
      *
      * @param id
-     * @param namedCQL
+     * @param parsedCql
      * @return
      */
-    public NamedCQL add(String id, NamedCQL namedCQL) {
-        return cqlMap.put(id, namedCQL);
+    public ParsedCql add(String id, ParsedCql parsedCql) {
+        return cqlMap.put(id, parsedCql);
     }
 
     /**
@@ -167,7 +167,7 @@ public final class CQLMapper {
             throw new IllegalArgumentException(id + " already exists with cql: " + cqlMap.get(id));
         }
 
-        cqlMap.put(id, NamedCQL.parse(cql, attrs));
+        cqlMap.put(id, ParsedCql.parse(cql, attrs));
     }
 
     /**
@@ -192,20 +192,20 @@ public final class CQLMapper {
             Element cqlMapperNode = doc.createElement(CQLMapper.CQL_MAPPER);
 
             for (String id : cqlMap.keySet()) {
-                NamedCQL namedCQL = cqlMap.get(id);
+                ParsedCql parsedCql = cqlMap.get(id);
 
                 Element cqlNode = doc.createElement(CQL);
                 cqlNode.setAttribute(ID, id);
 
-                if (!N.isNullOrEmpty(namedCQL.getAttribes())) {
-                    Map<String, String> attrs = namedCQL.getAttribes();
+                if (!N.isNullOrEmpty(parsedCql.getAttribes())) {
+                    Map<String, String> attrs = parsedCql.getAttribes();
 
                     for (String key : attrs.keySet()) {
                         cqlNode.setAttribute(key, attrs.get(key));
                     }
                 }
 
-                Text cqlText = doc.createTextNode(cqlMap.get(id).getNamedCQL());
+                Text cqlText = doc.createTextNode(cqlMap.get(id).cql());
                 cqlNode.appendChild(cqlText);
                 cqlMapperNode.appendChild(cqlNode);
             }
