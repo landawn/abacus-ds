@@ -81,6 +81,7 @@ import com.landawn.abacus.util.Clazz;
 import com.landawn.abacus.util.ContinuableFuture;
 import com.landawn.abacus.util.ImmutableList;
 import com.landawn.abacus.util.ImmutableSet;
+import com.landawn.abacus.util.InternalUtil;
 import com.landawn.abacus.util.MutableInt;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
@@ -597,6 +598,7 @@ public final class CassandraExecutor implements Closeable {
 
             return (T) map;
         } else if (ClassUtil.isEntity(targetClass)) {
+            final Map<String, String> column2FieldNameMap = InternalUtil.getColumn2FieldNameMap(targetClass);
             final T entity = N.newInstance(targetClass);
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
             PropInfo propInfo = null;
@@ -609,6 +611,11 @@ public final class CassandraExecutor implements Closeable {
                 entityInfo.setPropValue(entity, propName, propValue);
 
                 propInfo = entityInfo.getPropInfo(propName);
+
+                if (propInfo == null && column2FieldNameMap.containsKey(propName)) {
+                    propName = column2FieldNameMap.get(propName);
+                    propInfo = entityInfo.getPropInfo(propName);
+                }
 
                 if (propInfo == null) {
                     if (propName.indexOf(WD._PERIOD) > 0) {

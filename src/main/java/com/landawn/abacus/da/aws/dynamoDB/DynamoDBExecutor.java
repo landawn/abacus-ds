@@ -62,6 +62,7 @@ import com.landawn.abacus.parser.ParserUtil.PropInfo;
 import com.landawn.abacus.type.Type;
 import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
+import com.landawn.abacus.util.InternalUtil;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
 import com.landawn.abacus.util.ObjIterator;
@@ -601,6 +602,7 @@ public final class DynamoDBExecutor implements Closeable {
                 return null;
             }
 
+            final Map<String, String> column2FieldNameMap = InternalUtil.getColumn2FieldNameMap(targetClass);
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
             final T entity = N.newInstance(targetClass);
 
@@ -608,6 +610,10 @@ public final class DynamoDBExecutor implements Closeable {
 
             for (Map.Entry<String, AttributeValue> entry : item.entrySet()) {
                 propInfo = entityInfo.getPropInfo(entry.getKey());
+
+                if (propInfo == null && column2FieldNameMap.containsKey(entry.getKey())) {
+                    propInfo = entityInfo.getPropInfo(entry.getKey());
+                }
 
                 if (propInfo == null) {
                     continue;
