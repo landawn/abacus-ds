@@ -1,4 +1,4 @@
-### 1.9.12
+### 1.9.13
 
 * Hide the constructors of `AnyGet/AnyPut/AnyDelete/AnyScan/...` because the static creator method `XXX.of(...)` is preferred.
 * Add `AnyAppend/AnyIncrement`.
