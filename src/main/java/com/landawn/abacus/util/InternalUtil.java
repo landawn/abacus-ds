@@ -24,5 +24,4 @@ public final class InternalUtil {
     public static ImmutableMap<String, String> getColumn2FieldNameMap(Class<?> entityClass) {
         return InternalJdbcUtil.getColumn2FieldNameMap(entityClass);
     }
-
 }
