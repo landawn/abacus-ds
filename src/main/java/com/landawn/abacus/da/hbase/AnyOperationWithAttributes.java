@@ -22,24 +22,24 @@ import org.apache.hadoop.hbase.client.OperationWithAttributes;
 /**
  * It's a wrapper of <code>OperationWithAttributes</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *
- * @param <AP>
+ * @param <AOWA>
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.OperationWithAttributes
  * @since 1.7.13
  */
-abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<?>> extends AnyOperation<AP> {
+abstract class AnyOperationWithAttributes<AOWA extends AnyOperationWithAttributes<AOWA>> extends AnyOperation<AOWA> {
 
     /** The ap. */
-    protected final OperationWithAttributes ap;
+    protected final OperationWithAttributes owa;
 
     /**
      * Instantiates a new any operation with attributes.
      *
-     * @param ap
+     * @param owa
      */
-    protected AnyOperationWithAttributes(final OperationWithAttributes ap) {
-        super(ap);
-        this.ap = ap;
+    protected AnyOperationWithAttributes(final OperationWithAttributes owa) {
+        super(owa);
+        this.owa = owa;
     }
 
     /**
@@ -49,7 +49,7 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
      * @return
      */
     public byte[] getAttribute(String name) {
-        return ap.getAttribute(name);
+        return owa.getAttribute(name);
     }
 
     /**
@@ -58,7 +58,7 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
      * @return
      */
     public Map<String, byte[]> getAttributesMap() {
-        return ap.getAttributesMap();
+        return owa.getAttributesMap();
     }
 
     /**
@@ -68,10 +68,10 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
      * @param value
      * @return
      */
-    public AP setAttribute(final String name, final Object value) {
-        ap.setAttribute(name, HBaseExecutor.toValueBytes(value));
+    public AOWA setAttribute(final String name, final Object value) {
+        owa.setAttribute(name, HBaseExecutor.toValueBytes(value));
 
-        return (AP) this;
+        return (AOWA) this;
     }
 
     /**
@@ -80,7 +80,7 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
      * @return
      */
     public String getId() {
-        return ap.getId();
+        return owa.getId();
     }
 
     /**
@@ -93,10 +93,10 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
      * @param id id to set for the scan
      * @return
      */
-    public AP setId(final String id) {
-        ap.setId(id);
+    public AOWA setId(final String id) {
+        owa.setId(id);
 
-        return (AP) this;
+        return (AOWA) this;
     }
 
     /**
@@ -105,7 +105,7 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
      * @return
      */
     public int getPriority() {
-        return ap.getPriority();
+        return owa.getPriority();
     }
 
     /**
@@ -114,9 +114,9 @@ abstract class AnyOperationWithAttributes<AP extends AnyOperationWithAttributes<
      * @param priority
      * @return
      */
-    public AP setPriority(final int priority) {
-        ap.setPriority(priority);
+    public AOWA setPriority(final int priority) {
+        owa.setPriority(priority);
 
-        return (AP) this;
+        return (AOWA) this;
     }
 }

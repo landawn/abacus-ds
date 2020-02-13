@@ -23,12 +23,12 @@ import org.apache.hadoop.hbase.client.Operation;
 /**
  * It's a wrapper of <code>Operation</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *
- * @param <AP>
+ * @param <AO>
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.Operation
  * @since 1.7.13
  */
-abstract class AnyOperation<AP extends AnyOperation<?>> {
+abstract class AnyOperation<AO extends AnyOperation<AO>> {
 
     /** The op. */
     protected final Operation op;

@@ -42,7 +42,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      *
      * @param rowKey
      */
-      AnyPut(final Object rowKey) {
+    AnyPut(final Object rowKey) {
         super(new Put(toRowBytes(rowKey)));
         this.put = (Put) mutation;
     }
@@ -53,7 +53,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param rowKey
      * @param timestamp
      */
-      AnyPut(final Object rowKey, final long timestamp) {
+    AnyPut(final Object rowKey, final long timestamp) {
         super(new Put(toRowBytes(rowKey), timestamp));
         this.put = (Put) mutation;
     }
@@ -65,7 +65,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param rowOffset
      * @param rowLength
      */
-      AnyPut(final Object rowKey, final int rowOffset, final int rowLength) {
+    AnyPut(final Object rowKey, final int rowOffset, final int rowLength) {
         super(new Put(toRowBytes(rowKey), rowOffset, rowLength));
         this.put = (Put) mutation;
     }
@@ -78,7 +78,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param rowLength
      * @param timestamp
      */
-      AnyPut(final Object rowKey, int rowOffset, int rowLength, final long timestamp) {
+    AnyPut(final Object rowKey, int rowOffset, int rowLength, final long timestamp) {
         super(new Put(toRowBytes(rowKey), rowOffset, rowLength, timestamp));
         this.put = (Put) mutation;
     }
@@ -89,7 +89,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param rowKey
      * @param rowIsImmutable
      */
-      AnyPut(final Object rowKey, final boolean rowIsImmutable) {
+    AnyPut(final Object rowKey, final boolean rowIsImmutable) {
         super(new Put(toRowBytes(rowKey), rowIsImmutable));
         this.put = (Put) mutation;
     }
@@ -101,7 +101,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param timestamp
      * @param rowIsImmutable
      */
-      AnyPut(final Object rowKey, final long timestamp, final boolean rowIsImmutable) {
+    AnyPut(final Object rowKey, final long timestamp, final boolean rowIsImmutable) {
         super(new Put(toRowBytes(rowKey), timestamp, rowIsImmutable));
         this.put = (Put) mutation;
     }
@@ -111,7 +111,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      *
      * @param rowKey
      */
-      AnyPut(final ByteBuffer rowKey) {
+    AnyPut(final ByteBuffer rowKey) {
         super(new Put(rowKey));
         this.put = (Put) mutation;
     }
@@ -122,7 +122,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param rowKey
      * @param timestamp
      */
-      AnyPut(final ByteBuffer rowKey, final long timestamp) {
+    AnyPut(final ByteBuffer rowKey, final long timestamp) {
         super(new Put(rowKey, timestamp));
         this.put = (Put) mutation;
     }
@@ -132,7 +132,7 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      *
      * @param putToCopy
      */
-      AnyPut(final Put putToCopy) {
+    AnyPut(final Put putToCopy) {
         super(new Put(putToCopy));
         this.put = (Put) mutation;
     }

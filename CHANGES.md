@@ -1,6 +1,7 @@
 ### 1.9.12
 
 * Hide the constructors of `AnyGet/AnyPut/AnyDelete/AnyScan/...` because the static creator method `XXX.of(...)` is preferred.
+* Add `AnyAppend/AnyIncrement`.
 * Rename `NamedCQL` to `ParsedCql`.
 * Improvements and bug fix.
 

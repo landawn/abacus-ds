@@ -34,12 +34,12 @@ import org.apache.hadoop.hbase.security.visibility.CellVisibility;
 /**
  * It's a wrapper of <code>Mutation</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *
- * @param <MP>
+ * @param <AM>
  * @see <a href="http://hbase.apache.org/devapidocs/index.html">http://hbase.apache.org/devapidocs/index.html</a>
  * @see org.apache.hadoop.hbase.client.Mutation
  * @since 1.7.13
  */
-abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAttributes<MP> implements Comparable<Row> {
+abstract class AnyMutation<AM extends AnyMutation<AM>> extends AnyOperationWithAttributes<AM> implements Row {
 
     /** The mutation. */
     protected final Mutation mutation;
@@ -89,10 +89,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      * @param d
      * @return
      */
-    public MP setDurability(Durability d) {
+    public AM setDurability(Durability d) {
         mutation.setDurability(d);
 
-        return (MP) this;
+        return (AM) this;
     }
 
     /**
@@ -113,10 +113,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      *             Use {@link Mutation#Mutation(byte[], long, NavigableMap)} instead
      */
     @Deprecated
-    public MP setFamilyCellMap(NavigableMap<byte[], List<Cell>> map) {
+    public AM setFamilyCellMap(NavigableMap<byte[], List<Cell>> map) {
         mutation.setFamilyCellMap(map);
 
-        return (MP) this;
+        return (AM) this;
     }
 
     /**
@@ -146,10 +146,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      * @param timestamp
      * @return
      */
-    public MP setTimestamp(long timestamp) {
+    public AM setTimestamp(long timestamp) {
         mutation.setTimestamp(timestamp);
 
-        return (MP) this;
+        return (AM) this;
     }
 
     /**
@@ -167,10 +167,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      * @param clusterIds of the clusters that have consumed the mutation
      * @return
      */
-    public MP setClusterIds(List<UUID> clusterIds) {
+    public AM setClusterIds(List<UUID> clusterIds) {
         mutation.setClusterIds(clusterIds);
 
-        return (MP) this;
+        return (AM) this;
     }
 
     /**
@@ -189,10 +189,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      * @param expression
      * @return
      */
-    public MP setCellVisibility(CellVisibility expression) {
+    public AM setCellVisibility(CellVisibility expression) {
         mutation.setCellVisibility(expression);
 
-        return (MP) this;
+        return (AM) this;
     }
 
     /**
@@ -211,10 +211,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      * @param perms Permissions for the user
      * @return
      */
-    public MP setACL(String user, Permission perms) {
+    public AM setACL(String user, Permission perms) {
         mutation.setACL(user, perms);
 
-        return (MP) this;
+        return (AM) this;
     }
 
     /**
@@ -223,10 +223,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      * @param perms A map of permissions for a user or users
      * @return
      */
-    public MP setACL(Map<String, Permission> perms) {
+    public AM setACL(Map<String, Permission> perms) {
         mutation.setACL(perms);
 
-        return (MP) this;
+        return (AM) this;
     }
 
     /**
@@ -243,10 +243,10 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      * @param ttl the TTL desired for the result of the mutation, in milliseconds
      * @return this
      */
-    public MP setTTL(long ttl) {
+    public AM setTTL(long ttl) {
         mutation.setTTL(ttl);
 
-        return (MP) this;
+        return (AM) this;
     }
 
     /**
@@ -398,6 +398,7 @@ abstract class AnyMutation<MP extends AnyMutation<?>> extends AnyOperationWithAt
      *
      * @return row
      */
+    @Override
     public byte[] getRow() {
         return mutation.getRow();
     }

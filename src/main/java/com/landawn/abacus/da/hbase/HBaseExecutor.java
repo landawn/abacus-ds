@@ -51,7 +51,9 @@ import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;
 import com.google.protobuf.Service;
 import com.landawn.abacus.DirtyMarker;
+import com.landawn.abacus.annotation.Column;
 import com.landawn.abacus.core.DirtyMarkerUtil;
+import com.landawn.abacus.da.hbase.annotation.ColumnFamily;
 import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.parser.ParserUtil;
 import com.landawn.abacus.parser.ParserUtil.EntityInfo;
@@ -64,6 +66,9 @@ import com.landawn.abacus.util.HBaseColumn;
 import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
+import com.landawn.abacus.util.Tuple;
+import com.landawn.abacus.util.Tuple.Tuple2;
+import com.landawn.abacus.util.Tuple.Tuple4;
 import com.landawn.abacus.util.function.Function;
 import com.landawn.abacus.util.function.Supplier;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
@@ -88,6 +93,9 @@ public final class HBaseExecutor implements Closeable {
 
     /** The Constant classRowkeySetMethodPool. */
     private static final Map<Class<?>, Method> classRowkeySetMethodPool = new ConcurrentHashMap<>();
+
+    private static final Map<Class<?>, Map<NamingPolicy, Map<String, Tuple4<String, String, Boolean, Boolean>>>> classFamilyColumnNamePool = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, Tuple2<Map<String, String>, Map<String, String>>> classFamilyColumnFieldNamePool = new ConcurrentHashMap<>();
 
     /** The admin. */
     private final Admin admin;
@@ -177,6 +185,8 @@ public final class HBaseExecutor implements Closeable {
         }
 
         classRowkeySetMethodPool.put(cls, setMethod);
+
+        classFamilyColumnNamePool.remove(cls);
     }
 
     /**
@@ -210,6 +220,112 @@ public final class HBaseExecutor implements Closeable {
         return rowKeySetMethod == ClassUtil.METHOD_MASK ? null : rowKeySetMethod;
     }
 
+    private static Map<String, Tuple4<String, String, Boolean, Boolean>> getClassFamilyColumnNameMap(Class<?> entityClass, NamingPolicy namingPolicy) {
+        Map<NamingPolicy, Map<String, Tuple4<String, String, Boolean, Boolean>>> namingPolicyFamilyColumnNameMap = classFamilyColumnNamePool.get(entityClass);
+
+        if (namingPolicyFamilyColumnNameMap == null) {
+            namingPolicyFamilyColumnNameMap = new ConcurrentHashMap<>();
+            classFamilyColumnNamePool.put(entityClass, namingPolicyFamilyColumnNameMap);
+        }
+
+        Map<String, Tuple4<String, String, Boolean, Boolean>> classFamilyColumnNameMap = namingPolicyFamilyColumnNameMap.get(namingPolicy);
+
+        if (classFamilyColumnNameMap == null) {
+            classFamilyColumnNameMap = new HashMap<>();
+
+            final EntityInfo entityInfo = ParserUtil.getEntityInfo(entityClass);
+
+            for (PropInfo propInfo : entityInfo.propInfoList) {
+                String columnFamilyName = null;
+                String columnName = null;
+                boolean hasColumnFamilyAnnotation = false;
+                boolean hasColumnAnnotation = false;
+
+                if (propInfo.isAnnotationPresent(ColumnFamily.class)) {
+                    columnFamilyName = propInfo.getAnnotation(ColumnFamily.class).value();
+                    hasColumnFamilyAnnotation = true;
+                }
+
+                if (hasColumnFamilyAnnotation == false) {
+                    columnFamilyName = formatName(propInfo.name, namingPolicy);
+                }
+
+                if (propInfo.isAnnotationPresent(Column.class)) {
+                    columnName = propInfo.getAnnotation(Column.class).value();
+                    hasColumnAnnotation = true;
+                } else {
+                    try {
+                        if (propInfo.isAnnotationPresent(javax.persistence.Column.class)) {
+                            columnName = propInfo.getAnnotation(javax.persistence.Column.class).name();
+                            hasColumnAnnotation = true;
+                        }
+                    } catch (Throwable e) {
+                        // ignore.
+                    }
+                }
+
+                if (hasColumnAnnotation == false) {
+                    columnName = formatName(propInfo.name, namingPolicy);
+                }
+
+                classFamilyColumnNameMap.put(propInfo.name, Tuple.of(columnFamilyName, columnName, hasColumnFamilyAnnotation, hasColumnAnnotation));
+            }
+
+            namingPolicyFamilyColumnNameMap.put(namingPolicy, classFamilyColumnNameMap);
+        }
+
+        return classFamilyColumnNameMap;
+    }
+
+    private static Tuple2<Map<String, String>, Map<String, String>> getFamilyColumnFieldNameMap(final Class<?> entityClass) {
+        Tuple2<Map<String, String>, Map<String, String>> familyColumnFieldNameMapTP = classFamilyColumnFieldNamePool.get(entityClass);
+
+        if (familyColumnFieldNameMapTP == null) {
+            familyColumnFieldNameMapTP = Tuple.of(new HashMap<>(), new HashMap<>());
+
+            final EntityInfo entityInfo = ParserUtil.getEntityInfo(entityClass);
+
+            for (PropInfo propInfo : entityInfo.propInfoList) {
+                List<String> columnFamilyNames = null;
+                List<String> columnNames = null;
+
+                if (propInfo.isAnnotationPresent(ColumnFamily.class)) {
+                    columnFamilyNames = N.asList(propInfo.getAnnotation(ColumnFamily.class).value());
+                } else {
+                    columnFamilyNames = Stream.of(NamingPolicy.values()).map(it -> formatName(propInfo.name, it)).toList();
+                }
+
+                if (propInfo.isAnnotationPresent(Column.class)) {
+                    columnNames = N.asList(propInfo.getAnnotation(Column.class).value());
+                } else {
+                    try {
+                        if (propInfo.isAnnotationPresent(javax.persistence.Column.class)) {
+                            columnNames = N.asList(propInfo.getAnnotation(javax.persistence.Column.class).name());
+                        }
+                    } catch (Throwable e) {
+                        // ignore.
+                    }
+                }
+
+                if (N.isNullOrEmpty(columnNames)) {
+                    columnNames = Stream.of(NamingPolicy.values()).map(it -> formatName(propInfo.name, it)).append(EMPTY_QULIFIER).toList();
+                }
+
+                for (String columnFamilyName : columnFamilyNames) {
+                    familyColumnFieldNameMapTP._1.put(columnFamilyName, propInfo.name);
+                }
+
+                for (String columnName : columnNames) {
+                    familyColumnFieldNameMapTP._2.put(columnName, propInfo.name);
+                }
+            }
+
+            classFamilyColumnFieldNamePool.put(entityClass, familyColumnFieldNameMapTP);
+        }
+
+        return familyColumnFieldNameMapTP;
+    }
+
     /**
      *
      * @param <T>
@@ -240,7 +356,6 @@ public final class HBaseExecutor implements Closeable {
 
         try {
             while (offset-- > 0 && resultScanner.next() != null) {
-
             }
 
             Result result = null;
@@ -312,6 +427,7 @@ public final class HBaseExecutor implements Closeable {
                 return null;
             }
 
+            final Map<String, String> familyFieldNameMap = getFamilyColumnFieldNameMap(targetClass)._1;
             final T entity = N.newInstance(targetClass);
             final CellScanner cellScanner = result.cellScanner();
 
@@ -326,6 +442,7 @@ public final class HBaseExecutor implements Closeable {
             Object rowKey = null;
             String family = null;
             String qualifier = null;
+            String fieldName = null;
             PropInfo familyPropInfo = null;
             PropInfo columnPropInfo = null;
             Type<?> columnValueType = null;
@@ -366,6 +483,7 @@ public final class HBaseExecutor implements Closeable {
 
                 // .....................................................................................
                 columnCollectionMap = familyColumnCollectionMap.get(family);
+
                 if (N.notNullOrEmpty(columnCollectionMap)) {
                     columnColl = columnCollectionMap.get(qualifier);
 
@@ -379,7 +497,8 @@ public final class HBaseExecutor implements Closeable {
                 }
 
                 // .....................................................................................
-                familyPropInfo = entityInfo.getPropInfo(family);
+                fieldName = familyFieldNameMap.getOrDefault(family, family);
+                familyPropInfo = entityInfo.getPropInfo(fieldName);
 
                 // ignore the unknown property:
                 if (familyPropInfo == null) {
@@ -396,8 +515,9 @@ public final class HBaseExecutor implements Closeable {
 
                 if (familyPropInfo.jsonXmlType.isEntity()) {
                     final Class<?> propEntityClass = familyPropInfo.jsonXmlType.clazz();
+                    final Map<String, String> propEntityColumnFieldNameMap = getFamilyColumnFieldNameMap(propEntityClass)._2;
                     final EntityInfo propEntityInfo = ParserUtil.getEntityInfo(propEntityClass);
-                    Object propEntity = ClassUtil.getPropValue(entity, ClassUtil.getPropGetMethod(targetClass, family));
+                    Object propEntity = familyPropInfo.getPropValue(entity);
 
                     if (propEntity == null) {
                         propEntity = N.newInstance(propEntityClass);
@@ -405,7 +525,7 @@ public final class HBaseExecutor implements Closeable {
                         familyPropInfo.setPropValue(entity, propEntity);
                     }
 
-                    columnPropInfo = propEntityInfo.getPropInfo(qualifier);
+                    columnPropInfo = propEntityInfo.getPropInfo(propEntityColumnFieldNameMap.getOrDefault(qualifier, qualifier));
 
                     // ignore the unknown property.
                     if (columnPropInfo == null) {
@@ -529,7 +649,7 @@ public final class HBaseExecutor implements Closeable {
             T value = type.valueOf(getValueString(cell));
 
             if (cellScanner.advance()) {
-                throw new IllegalArgumentException("Can't covert result with columns: " + getFamilyString(cell) + ":" + getQualifierString(cell) + " to class: "
+                throw new IllegalArgumentException("Can't covert result with columns: " + getFamilyString(cell) + "." + getQualifierString(cell) + " to class: "
                         + ClassUtil.getCanonicalClassName(type.clazz()));
             }
 
@@ -603,6 +723,7 @@ public final class HBaseExecutor implements Closeable {
 
         checkEntityClass(cls);
 
+        final Map<String, Tuple4<String, String, Boolean, Boolean>> classFamilyColumnNameMap = getClassFamilyColumnNameMap(cls, namingPolicy);
         final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
         final Method rowKeySetMethod = getRowKeySetMethod(cls);
         final Method rowKeyGetMethod = rowKeySetMethod == null ? null : ClassUtil.getPropGetMethod(cls, ClassUtil.getPropNameByMethod(rowKeySetMethod));
@@ -615,39 +736,43 @@ public final class HBaseExecutor implements Closeable {
         final AnyPut anyPut = outputAnyPut == null ? new AnyPut(ClassUtil.<Object> getPropValue(obj, rowKeyGetMethod)) : outputAnyPut;
         final Map<String, Method> familyGetMethodMap = ClassUtil.getPropGetMethods(cls);
 
-        String familyName = null;
-        PropInfo familyPropInfo = null;
-        String columnName = null;
+        PropInfo propInfo = null;
         PropInfo columnPropInfo = null;
         Collection<HBaseColumn<?>> columnColl = null;
         Map<Long, HBaseColumn<?>> columnMap = null;
         HBaseColumn<?> column = null;
         Object propValue = null;
+        Tuple4<String, String, Boolean, Boolean> tp = null;
+        String columnName = null;
 
         for (Map.Entry<String, Method> familyGetMethodEntry : familyGetMethodMap.entrySet()) {
-            familyPropInfo = entityInfo.getPropInfo(familyGetMethodEntry.getKey());
+            propInfo = entityInfo.getPropInfo(familyGetMethodEntry.getKey());
 
-            if (rowKeyGetMethod != null && familyPropInfo.getMethod.equals(rowKeyGetMethod)) {
+            if (rowKeyGetMethod != null && propInfo.getMethod.equals(rowKeyGetMethod)) {
                 continue;
             }
 
-            familyName = formatName(familyGetMethodEntry.getKey(), namingPolicy);
-            propValue = ClassUtil.getPropValue(obj, familyPropInfo.getMethod);
+            propValue = ClassUtil.getPropValue(obj, propInfo.getMethod);
 
             if (propValue == null) {
                 continue;
             }
 
-            if (familyPropInfo.jsonXmlType.isEntity()) {
-                final Class<?> propEntityClass = familyPropInfo.jsonXmlType.clazz();
+            tp = classFamilyColumnNameMap.get(propInfo.name);
+            columnName = tp._4 ? tp._2 : EMPTY_QULIFIER;
+
+            if (propInfo.jsonXmlType.isEntity() && tp._4 == false) {
+                final Map<String, Tuple4<String, String, Boolean, Boolean>> propEntityFamilyColumnNameMap = getClassFamilyColumnNameMap(propInfo.clazz,
+                        namingPolicy);
+                final Class<?> propEntityClass = propInfo.jsonXmlType.clazz();
                 final EntityInfo propEntityInfo = ParserUtil.getEntityInfo(propEntityClass);
                 final Object propEntity = propValue;
+                Tuple4<String, String, Boolean, Boolean> propEntityTP = null;
 
                 final Map<String, Method> columnGetMethodMap = ClassUtil.getPropGetMethods(propEntityClass);
 
                 for (Map.Entry<String, Method> columnGetMethodEntry : columnGetMethodMap.entrySet()) {
                     columnPropInfo = propEntityInfo.getPropInfo(columnGetMethodEntry.getKey());
-                    columnName = formatName(columnGetMethodEntry.getKey(), namingPolicy);
 
                     propValue = columnPropInfo.getPropValue(propEntity);
 
@@ -655,11 +780,13 @@ public final class HBaseExecutor implements Closeable {
                         continue;
                     }
 
+                    propEntityTP = propEntityFamilyColumnNameMap.get(columnPropInfo.name);
+
                     if (columnPropInfo.jsonXmlType.isMap() && columnPropInfo.jsonXmlType.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
                         columnMap = (Map<Long, HBaseColumn<?>>) propValue;
 
                         for (HBaseColumn<?> e : columnMap.values()) {
-                            anyPut.addColumn(familyName, columnName, e.version(), e.value());
+                            anyPut.addColumn(tp._1, propEntityTP._2, e.version(), e.value());
 
                         }
                     } else if (columnPropInfo.jsonXmlType.isCollection()
@@ -667,35 +794,35 @@ public final class HBaseExecutor implements Closeable {
                         columnColl = (Collection<HBaseColumn<?>>) propValue;
 
                         for (HBaseColumn<?> e : columnColl) {
-                            anyPut.addColumn(familyName, columnName, e.version(), e.value());
+                            anyPut.addColumn(tp._1, propEntityTP._2, e.version(), e.value());
 
                         }
                     } else if (columnPropInfo.jsonXmlType.clazz().equals(HBaseColumn.class)) {
                         column = (HBaseColumn<?>) propValue;
-                        anyPut.addColumn(familyName, columnName, column.version(), column.value());
+                        anyPut.addColumn(tp._1, propEntityTP._2, column.version(), column.value());
                     } else {
-                        anyPut.addColumn(familyName, columnName, propValue);
+                        anyPut.addColumn(tp._1, propEntityTP._2, propValue);
                     }
                 }
-            } else if (familyPropInfo.jsonXmlType.isMap() && familyPropInfo.jsonXmlType.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
+            } else if (propInfo.jsonXmlType.isMap() && propInfo.jsonXmlType.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
                 columnMap = (Map<Long, HBaseColumn<?>>) propValue;
 
                 for (HBaseColumn<?> e : columnMap.values()) {
-                    anyPut.addColumn(familyName, EMPTY_QULIFIER, e.version(), e.value());
+                    anyPut.addColumn(tp._1, columnName, e.version(), e.value());
 
                 }
-            } else if (familyPropInfo.jsonXmlType.isCollection() && familyPropInfo.jsonXmlType.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
+            } else if (propInfo.jsonXmlType.isCollection() && propInfo.jsonXmlType.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
                 columnColl = (Collection<HBaseColumn<?>>) propValue;
 
                 for (HBaseColumn<?> e : columnColl) {
-                    anyPut.addColumn(familyName, EMPTY_QULIFIER, e.version(), e.value());
+                    anyPut.addColumn(tp._1, columnName, e.version(), e.value());
 
                 }
-            } else if (familyPropInfo.jsonXmlType.clazz().equals(HBaseColumn.class)) {
+            } else if (propInfo.jsonXmlType.clazz().equals(HBaseColumn.class)) {
                 column = (HBaseColumn<?>) propValue;
-                anyPut.addColumn(familyName, EMPTY_QULIFIER, column.version(), column.value());
+                anyPut.addColumn(tp._1, columnName, column.version(), column.value());
             } else {
-                anyPut.addColumn(familyName, EMPTY_QULIFIER, propValue);
+                anyPut.addColumn(tp._1, columnName, propValue);
             }
         }
 
@@ -709,16 +836,7 @@ public final class HBaseExecutor implements Closeable {
      * @return
      */
     private static String formatName(String name, final NamingPolicy namingPolicy) {
-        switch (namingPolicy) {
-            case LOWER_CASE_WITH_UNDERSCORE:
-                return ClassUtil.toLowerCaseWithUnderscore(name);
-            case UPPER_CASE_WITH_UNDERSCORE:
-                return ClassUtil.toUpperCaseWithUnderscore(name);
-            case LOWER_CAMEL_CASE:
-                return name;
-            default:
-                throw new IllegalArgumentException("Unsupported naming policy: " + namingPolicy);
-        }
+        return namingPolicy == NamingPolicy.LOWER_CAMEL_CASE ? name : namingPolicy.convert(name);
     }
 
     /**
@@ -1444,6 +1562,17 @@ public final class HBaseExecutor implements Closeable {
      * @return
      * @throws UncheckedIOException the unchecked IO exception
      */
+    public Result append(final String tableName, final AnyAppend append) throws UncheckedIOException {
+        return append(tableName, append.val());
+    }
+
+    /**
+     *
+     * @param tableName
+     * @param append
+     * @return
+     * @throws UncheckedIOException the unchecked IO exception
+     */
     public Result append(final String tableName, final Append append) throws UncheckedIOException {
         final Table table = getTable(tableName);
 
@@ -1454,6 +1583,17 @@ public final class HBaseExecutor implements Closeable {
         } finally {
             closeQuietly(table);
         }
+    }
+
+    /**
+     *
+     * @param tableName
+     * @param increment
+     * @return
+     * @throws UncheckedIOException the unchecked IO exception
+     */
+    public Result increment(final String tableName, final AnyIncrement increment) throws UncheckedIOException {
+        return increment(tableName, increment.val());
     }
 
     /**

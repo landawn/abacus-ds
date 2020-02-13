@@ -8,15 +8,24 @@ import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.List;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
+import org.apache.hadoop.hbase.TableName;
+import org.apache.hadoop.hbase.client.ColumnFamilyDescriptor;
+import org.apache.hadoop.hbase.client.ColumnFamilyDescriptorBuilder;
 import org.apache.hadoop.hbase.client.ConnectionFactory;
+import org.apache.hadoop.hbase.client.TableDescriptor;
+import org.apache.hadoop.hbase.client.TableDescriptorBuilder;
 import org.junit.jupiter.api.Test;
 
+import com.landawn.abacus.annotation.Column;
 import com.landawn.abacus.annotation.Id;
+import com.landawn.abacus.da.hbase.annotation.ColumnFamily;
 import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.util.N;
+import com.landawn.abacus.util.stream.Stream;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -38,6 +47,16 @@ public class HBaseExecutorTest {
         config.set("hbase.zookeeper.property.clientPort", "2181");
         try {
             hbaseExecutor = new HBaseExecutor(ConnectionFactory.createConnection(config));
+            final TableName tableName = TableName.valueOf("account");
+
+            final List<ColumnFamilyDescriptor> families = Stream.of("id", "gui", "fullName", "emailAddress", //
+                    "time", "createTime", "contact").map(it -> ColumnFamilyDescriptorBuilder.newBuilder(it.getBytes()).build()).toList();
+
+            hbaseExecutor.admin().disableTable(tableName);
+            hbaseExecutor.admin().deleteTable(tableName);
+
+            final TableDescriptor desc = TableDescriptorBuilder.newBuilder(tableName).setColumnFamilies(families).build();
+            hbaseExecutor.admin().createTable(desc);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -52,10 +71,16 @@ public class HBaseExecutorTest {
     public static class Account {
         @Id
         private String id;
+        @Column("guid") // or @Qualifer("guid")
         private String gui;
+        @ColumnFamily("fullName")
         private Name name;
         private String emailAddress;
+        @ColumnFamily("time")
+        @Column("updateTime")
         private Timestamp lastUpdateTime;
+        @ColumnFamily("time")
+        @Column("creationTime")
         private Timestamp createTime;
         private Contact contact;
     }
@@ -65,8 +90,10 @@ public class HBaseExecutorTest {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Name {
+        @Column("givenName")
         private String firstName;
         private String middleName;
+        @Column("Surname")
         private String lastName;
     }
 

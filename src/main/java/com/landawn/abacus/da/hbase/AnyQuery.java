@@ -36,7 +36,7 @@ import org.apache.hadoop.hbase.security.visibility.Authorizations;
  * @see org.apache.hadoop.hbase.client.Query
  * @since 1.7.13
  */
-abstract class AnyQuery<AQ extends AnyQuery<?>> extends AnyOperationWithAttributes<AQ> {
+abstract class AnyQuery<AQ extends AnyQuery<AQ>> extends AnyOperationWithAttributes<AQ> {
 
     /** The query. */
     protected final Query query;

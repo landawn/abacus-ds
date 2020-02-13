@@ -43,7 +43,7 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      *
      * @param rowKey
      */
-      AnyDelete(final Object rowKey) {
+    AnyDelete(final Object rowKey) {
         super(new Delete(toRowKeyBytes(rowKey)));
         this.delete = (Delete) mutation;
     }
@@ -54,7 +54,7 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * @param rowKey
      * @param timestamp
      */
-      AnyDelete(final Object rowKey, final long timestamp) {
+    AnyDelete(final Object rowKey, final long timestamp) {
         super(new Delete(toRowKeyBytes(rowKey), timestamp));
         this.delete = (Delete) mutation;
     }
@@ -66,7 +66,7 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * @param rowOffset
      * @param rowLength
      */
-      AnyDelete(final Object rowKey, final int rowOffset, final int rowLength) {
+    AnyDelete(final Object rowKey, final int rowOffset, final int rowLength) {
         super(new Delete(toRowKeyBytes(rowKey), rowOffset, rowLength));
         this.delete = (Delete) mutation;
     }
@@ -79,7 +79,7 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * @param rowLength
      * @param timestamp
      */
-      AnyDelete(final Object rowKey, final int rowOffset, final int rowLength, final long timestamp) {
+    AnyDelete(final Object rowKey, final int rowOffset, final int rowLength, final long timestamp) {
         super(new Delete(toRowKeyBytes(rowKey), rowOffset, rowLength, timestamp));
         this.delete = (Delete) mutation;
     }
@@ -91,7 +91,7 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * @param timestamp
      * @param familyMap
      */
-      AnyDelete(final Object rowKey, final long timestamp, final NavigableMap<byte[], List<Cell>> familyMap) {
+    AnyDelete(final Object rowKey, final long timestamp, final NavigableMap<byte[], List<Cell>> familyMap) {
         super(new Delete(toRowBytes(rowKey), timestamp, familyMap));
         this.delete = (Delete) mutation;
     }
@@ -101,7 +101,7 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      *
      * @param deleteToCopy delete to copy
      */
-      AnyDelete(final Delete deleteToCopy) {
+    AnyDelete(final Delete deleteToCopy) {
         super(new Delete(deleteToCopy));
         this.delete = (Delete) mutation;
     }

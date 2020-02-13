@@ -47,7 +47,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
     /**
      * Instantiates a new any scan.
      */
-      AnyScan() {
+    AnyScan() {
         super(new Scan());
         this.scan = (Scan) query;
     }
@@ -61,7 +61,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * @deprecated use {@code new Scan().withStartRow(startRow)} instead.
      */
     @Deprecated
-      AnyScan(final Object startRow) {
+    AnyScan(final Object startRow) {
         super(new Scan(toRowKeyBytes(startRow)));
         this.scan = (Scan) query;
     }
@@ -73,7 +73,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * @deprecated use {@code new Scan().withStartRow(startRow).withStopRow(stopRow)} instead.
      */
     @Deprecated
-      AnyScan(final Object startRow, final Object stopRow) {
+    AnyScan(final Object startRow, final Object stopRow) {
         super(new Scan(toRowKeyBytes(startRow), toRowKeyBytes(stopRow)));
         this.scan = (Scan) query;
     }
@@ -86,7 +86,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * @deprecated use {@code new Scan().withStartRow(startRow).setFilter(filter)} instead.
      */
     @Deprecated
-      AnyScan(final Object startRow, final Filter filter) {
+    AnyScan(final Object startRow, final Filter filter) {
         super(new Scan(toRowKeyBytes(startRow), filter));
         this.scan = (Scan) query;
     }
@@ -96,7 +96,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      *
      * @param scan
      */
-      AnyScan(final Scan scan) {
+    AnyScan(final Scan scan) {
         super(scan);
         this.scan = (Scan) query;
     }
@@ -106,7 +106,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      *
      * @param get
      */
-      AnyScan(final Get get) {
+    AnyScan(final Get get) {
         super(get);
         this.scan = (Scan) query;
     }
