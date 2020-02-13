@@ -117,9 +117,10 @@ public class HBaseExecutorTest {
     @Test
     public void test_toAnyPut() {
         Account account = Account.builder()
-                .id("2020")
+                .id("2021")
                 .gui(N.uuid())
-                .name(Name.builder().firstName("fn").lastName("lm").build())
+                .emailAddress("abc@email.com")
+                .name(Name.builder().firstName("fn").lastName("ln").build())
                 .contact(Contact.builder().city("San Jose").state("CA").build())
                 .build();
         N.println(account);

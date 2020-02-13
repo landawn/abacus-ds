@@ -95,7 +95,7 @@ public final class HBaseExecutor implements Closeable {
     private static final Map<Class<?>, Method> classRowkeySetMethodPool = new ConcurrentHashMap<>();
 
     private static final Map<Class<?>, Map<NamingPolicy, Map<String, Tuple4<String, String, Boolean, Boolean>>>> classFamilyColumnNamePool = new ConcurrentHashMap<>();
-    private static final Map<Class<?>, Tuple2<Map<String, String>, Map<String, String>>> classFamilyColumnFieldNamePool = new ConcurrentHashMap<>();
+    private static final Map<Class<?>, Tuple2<Map<String, Tuple2<String, Boolean>>, Map<String, String>>> classFamilyColumnFieldNamePool = new ConcurrentHashMap<>();
 
     /** The admin. */
     private final Admin admin;
@@ -277,8 +277,8 @@ public final class HBaseExecutor implements Closeable {
         return classFamilyColumnNameMap;
     }
 
-    private static Tuple2<Map<String, String>, Map<String, String>> getFamilyColumnFieldNameMap(final Class<?> entityClass) {
-        Tuple2<Map<String, String>, Map<String, String>> familyColumnFieldNameMapTP = classFamilyColumnFieldNamePool.get(entityClass);
+    private static Tuple2<Map<String, Tuple2<String, Boolean>>, Map<String, String>> getFamilyColumnFieldNameMap(final Class<?> entityClass) {
+        Tuple2<Map<String, Tuple2<String, Boolean>>, Map<String, String>> familyColumnFieldNameMapTP = classFamilyColumnFieldNamePool.get(entityClass);
 
         if (familyColumnFieldNameMapTP == null) {
             familyColumnFieldNameMapTP = Tuple.of(new HashMap<>(), new HashMap<>());
@@ -288,6 +288,7 @@ public final class HBaseExecutor implements Closeable {
             for (PropInfo propInfo : entityInfo.propInfoList) {
                 List<String> columnFamilyNames = null;
                 List<String> columnNames = null;
+                boolean hasColumnAnnotation = false;
 
                 if (propInfo.isAnnotationPresent(ColumnFamily.class)) {
                     columnFamilyNames = N.asList(propInfo.getAnnotation(ColumnFamily.class).value());
@@ -297,10 +298,12 @@ public final class HBaseExecutor implements Closeable {
 
                 if (propInfo.isAnnotationPresent(Column.class)) {
                     columnNames = N.asList(propInfo.getAnnotation(Column.class).value());
+                    hasColumnAnnotation = true;
                 } else {
                     try {
                         if (propInfo.isAnnotationPresent(javax.persistence.Column.class)) {
                             columnNames = N.asList(propInfo.getAnnotation(javax.persistence.Column.class).name());
+                            hasColumnAnnotation = true;
                         }
                     } catch (Throwable e) {
                         // ignore.
@@ -312,7 +315,7 @@ public final class HBaseExecutor implements Closeable {
                 }
 
                 for (String columnFamilyName : columnFamilyNames) {
-                    familyColumnFieldNameMapTP._1.put(columnFamilyName, propInfo.name);
+                    familyColumnFieldNameMapTP._1.put(columnFamilyName, Tuple.of(propInfo.name, hasColumnAnnotation));
                 }
 
                 for (String columnName : columnNames) {
@@ -427,7 +430,7 @@ public final class HBaseExecutor implements Closeable {
                 return null;
             }
 
-            final Map<String, String> familyFieldNameMap = getFamilyColumnFieldNameMap(targetClass)._1;
+            final Map<String, Tuple2<String, Boolean>> familyFieldNameMap = getFamilyColumnFieldNameMap(targetClass)._1;
             final T entity = N.newInstance(targetClass);
             final CellScanner cellScanner = result.cellScanner();
 
@@ -446,6 +449,7 @@ public final class HBaseExecutor implements Closeable {
             PropInfo familyPropInfo = null;
             PropInfo columnPropInfo = null;
             Type<?> columnValueType = null;
+            Tuple2<String, Boolean> familyTP = null;
 
             Map<String, Type<?>> columnValueTypeMap = null;
             Collection<HBaseColumn<?>> columnColl = null;
@@ -497,7 +501,9 @@ public final class HBaseExecutor implements Closeable {
                 }
 
                 // .....................................................................................
-                fieldName = familyFieldNameMap.getOrDefault(family, family);
+                familyTP = familyFieldNameMap.get(family);
+
+                fieldName = familyTP == null ? family : familyTP._1;
                 familyPropInfo = entityInfo.getPropInfo(fieldName);
 
                 // ignore the unknown property:
@@ -513,7 +519,7 @@ public final class HBaseExecutor implements Closeable {
                     familyColumnValueTypeMap.put(family, columnValueTypeMap);
                 }
 
-                if (familyPropInfo.jsonXmlType.isEntity()) {
+                if (familyPropInfo.jsonXmlType.isEntity() && (familyTP == null || familyTP._2 == false)) {
                     final Class<?> propEntityClass = familyPropInfo.jsonXmlType.clazz();
                     final Map<String, String> propEntityColumnFieldNameMap = getFamilyColumnFieldNameMap(propEntityClass)._2;
                     final EntityInfo propEntityInfo = ParserUtil.getEntityInfo(propEntityClass);
@@ -649,7 +655,7 @@ public final class HBaseExecutor implements Closeable {
             T value = type.valueOf(getValueString(cell));
 
             if (cellScanner.advance()) {
-                throw new IllegalArgumentException("Can't covert result with columns: " + getFamilyString(cell) + "." + getQualifierString(cell) + " to class: "
+                throw new IllegalArgumentException("Can't covert result with columns: " + getFamilyString(cell) + ":" + getQualifierString(cell) + " to class: "
                         + ClassUtil.getCanonicalClassName(type.clazz()));
             }
 
