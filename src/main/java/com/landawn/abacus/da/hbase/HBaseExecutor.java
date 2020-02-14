@@ -387,6 +387,10 @@ public final class HBaseExecutor implements Closeable {
 
         try {
             for (Result result : results) {
+                if (result.isEmpty()) {
+                    continue;
+                }
+
                 resultList.add(toValue(type, targetClass, result));
             }
         } catch (IOException e) {
@@ -952,6 +956,47 @@ public final class HBaseExecutor implements Closeable {
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
+    }
+
+    @SuppressWarnings("rawtypes")
+    private final Map<Class<?>, HBaseMapper> mapperPool = new ConcurrentHashMap<>();
+
+    public <T, K> HBaseMapper<T, K> mapper(final Class<T> targetEntityClass) {
+        @SuppressWarnings("rawtypes")
+        HBaseMapper mapper = mapperPool.get(targetEntityClass);
+
+        if (mapper == null) {
+            final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetEntityClass);
+
+            String tableName = null;
+
+            if (entityInfo.isAnnotationPresent(com.landawn.abacus.annotation.Table.class)) {
+                tableName = entityInfo.getAnnotation(com.landawn.abacus.annotation.Table.class).value();
+            } else {
+                try {
+                    if (entityInfo.isAnnotationPresent(javax.persistence.Table.class)) {
+                        tableName = entityInfo.getAnnotation(javax.persistence.Table.class).name();
+                    }
+                } catch (Throwable e) {
+                    // ignore;
+                }
+            }
+
+            if (N.isNullOrEmpty(tableName)) {
+                throw new IllegalArgumentException("The target entity class: " + targetEntityClass
+                        + " must be annotated with com.landawn.abacus.annotation.Table or javax.persistence.Table. Otherwise call  HBaseExecutor.mapper(final String tableName, final Class<T> targetEntityClass) instead");
+            }
+
+            mapper = mapper(tableName, targetEntityClass);
+
+            mapperPool.put(targetEntityClass, mapper);
+        }
+
+        return mapper;
+    }
+
+    public <T, K> HBaseMapper<T, K> mapper(final String tableName, final Class<T> targetEntityClass) {
+        return new HBaseMapper<T, K>(this, tableName, targetEntityClass);
     }
 
     /**
@@ -1999,6 +2044,133 @@ public final class HBaseExecutor implements Closeable {
     public void close() throws IOException {
         if (conn.isClosed() == false) {
             conn.close();
+        }
+    }
+
+    /**
+     *
+     * @param <T> target entity type.
+     * @param <K> row key type
+     */
+    public static class HBaseMapper<T, K> {
+        private final HBaseExecutor hbaseExecutor;
+        private final String tableName;
+        private final Class<T> targetEntityClass;
+        private final String rowKeyPropName;
+
+        HBaseMapper(final HBaseExecutor hbaseExecutor, final String tableName, final Class<T> targetEntityClass) {
+            N.checkArgNotNull(hbaseExecutor, "hbaseExecutor");
+            N.checkArgNotNullOrEmpty(tableName, "tableName");
+            N.checkArgNotNull(targetEntityClass, "targetEntityClass");
+
+            N.checkArgument(ClassUtil.isEntity(targetEntityClass), targetEntityClass + " is not an entity class with getter/setter method");
+
+            @SuppressWarnings("deprecation")
+            final List<String> idPropNames = ClassUtil.getIdFieldNames(targetEntityClass);
+
+            if (idPropNames.size() != 1) {
+                throw new IllegalArgumentException(
+                        "No or multiple ids: " + idPropNames + " defined/annotated in class: " + ClassUtil.getCanonicalClassName(targetEntityClass));
+            }
+
+            this.hbaseExecutor = hbaseExecutor;
+            this.tableName = tableName;
+            this.targetEntityClass = targetEntityClass;
+            this.rowKeyPropName = idPropNames.get(0);
+        }
+
+        /**
+         * 
+         * @param rowKey
+         * @return
+         * @throws UncheckedIOException
+         */
+        public boolean exists(final K rowKey) throws UncheckedIOException {
+            return hbaseExecutor.exists(tableName, AnyGet.of(rowKey));
+        }
+
+        /**
+         * 
+         * @param rowKeys
+         * @return
+         * @throws UncheckedIOException
+         */
+        public List<Boolean> exists(final Collection<? extends K> rowKeys) throws UncheckedIOException {
+            return hbaseExecutor.exists(tableName, N.map(rowKeys, AnyGet::of));
+        }
+
+        /**
+         * 
+         * @param rowKey
+         * @return
+         * @throws UncheckedIOException
+         */
+        public T get(final K rowKey) throws UncheckedIOException {
+            return hbaseExecutor.get(targetEntityClass, tableName, AnyGet.of(rowKey));
+        }
+
+        /**
+         * 
+         * @param rowKeys
+         * @return
+         * @throws UncheckedIOException
+         */
+        public List<T> get(final Collection<? extends K> rowKeys) throws UncheckedIOException {
+            return hbaseExecutor.get(targetEntityClass, tableName, N.map(rowKeys, AnyGet::of));
+        }
+
+        /**
+         * 
+         * @param entityToPut
+         * @throws UncheckedIOException
+         */
+        public void put(final T entityToPut) throws UncheckedIOException {
+            hbaseExecutor.put(tableName, HBaseExecutor.toAnyPut(entityToPut));
+        }
+
+        /**
+         * 
+         * @param entitiesToPut
+         * @throws UncheckedIOException
+         */
+        public void put(final Collection<? extends T> entitiesToPut) throws UncheckedIOException {
+            hbaseExecutor.put(tableName, HBaseExecutor.toAnyPut(entitiesToPut));
+        }
+
+        /**
+         * 
+         * @param entityToDelete
+         * @throws UncheckedIOException
+         */
+        public void delete(T entityToDelete) throws UncheckedIOException {
+            deleteByRowKey((K) ClassUtil.getPropValue(entityToDelete, rowKeyPropName));
+        }
+
+        /**
+         * 
+         * @param entitiesToDelete
+         * @throws UncheckedIOException
+         */
+        public void delete(final Collection<? extends T> entitiesToDelete) throws UncheckedIOException {
+            deleteByRowKey((List<K>) N.map(entitiesToDelete, entity -> ClassUtil.getPropValue(entity, rowKeyPropName)));
+        }
+
+        /**
+         * 
+         * @param rowKey
+         * @throws UncheckedIOException
+         */
+        public void deleteByRowKey(K rowKey) throws UncheckedIOException {
+            hbaseExecutor.delete(tableName, AnyDelete.of(rowKey));
+        }
+
+        /**
+         * 
+         * @param rowKeys
+         * @throws UncheckedIOException
+         */
+        public void deleteByRowKey(final Collection<? extends K> rowKeys) throws UncheckedIOException {
+            hbaseExecutor.delete(tableName, N.map(rowKeys, AnyDelete::of));
         }
     }
 }

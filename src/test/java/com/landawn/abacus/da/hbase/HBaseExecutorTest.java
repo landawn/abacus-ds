@@ -5,6 +5,7 @@
 package com.landawn.abacus.da.hbase;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -22,6 +23,8 @@ import org.junit.jupiter.api.Test;
 
 import com.landawn.abacus.annotation.Column;
 import com.landawn.abacus.annotation.Id;
+import com.landawn.abacus.annotation.Table;
+import com.landawn.abacus.da.hbase.HBaseExecutor.HBaseMapper;
 import com.landawn.abacus.da.hbase.annotation.ColumnFamily;
 import com.landawn.abacus.exception.UncheckedIOException;
 import com.landawn.abacus.util.N;
@@ -38,6 +41,8 @@ public class HBaseExecutorTest {
     // create 'contact', 'id', 'accountId', 'telephone', 'city', 'state', 'zipCode', 'status', 'lastUpdateTime', 'createTime'
 
     static final HBaseExecutor hbaseExecutor;
+
+    static final HBaseMapper<Account, String> accountMapper;
 
     static {
         Configuration config = HBaseConfiguration.create();
@@ -57,6 +62,8 @@ public class HBaseExecutorTest {
 
             final TableDescriptor desc = TableDescriptorBuilder.newBuilder(tableName).setColumnFamilies(families).build();
             hbaseExecutor.admin().createTable(desc);
+
+            accountMapper = hbaseExecutor.mapper(Account.class);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
@@ -68,6 +75,7 @@ public class HBaseExecutorTest {
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
+    @Table("account")
     public static class Account {
         @Id
         private String id;
@@ -125,17 +133,69 @@ public class HBaseExecutorTest {
                 .build();
         N.println(account);
 
-        hbaseExecutor.delete("account", AnyDelete.of(account.getId()));
+        final String tableName = "account";
+
+        hbaseExecutor.delete(tableName, AnyDelete.of(account.getId()));
 
         AnyPut put = HBaseExecutor.toAnyPut(account);
         N.println(put.toString(100));
 
-        hbaseExecutor.put("account", put);
+        hbaseExecutor.put(tableName, put);
 
-        Account dbAccount = hbaseExecutor.get(Account.class, "account", AnyGet.of(account.getId()));
+        Account dbAccount = hbaseExecutor.get(Account.class, tableName, AnyGet.of(account.getId()));
         N.println(dbAccount);
 
         assertEquals(account, dbAccount);
+    }
+
+    @Test
+    public void test_mapper() {
+        Account account = Account.builder()
+                .id("2020")
+                .gui(N.uuid())
+                .emailAddress("abc@email.com")
+                .name(Name.builder().firstName("fn").lastName("ln").build())
+                .contact(Contact.builder().city("San Jose").state("CA").build())
+                .build();
+        N.println(account);
+
+        final String tableName = "account";
+
+        accountMapper.delete(account);
+
+        assertEquals(0, hbaseExecutor.scan(Account.class, tableName, AnyScan.create()).count());
+
+        accountMapper.put(account);
+
+        Account dbAccount = accountMapper.get(account.getId());
+        N.println(dbAccount);
+
+        assertEquals(account, dbAccount);
+        assertEquals(account, hbaseExecutor.scan(Account.class, tableName, AnyScan.create()).onlyOne().orNull());
+
+        accountMapper.deleteByRowKey(account.getId());
+
+        assertNull(accountMapper.get(account.getId()));
+
+        Account account2 = Account.builder()
+                .id("2021")
+                .gui(N.uuid())
+                .emailAddress("abc@email.com")
+                .name(Name.builder().firstName("fn").lastName("ln").build())
+                .contact(Contact.builder().city("San Jose").state("CA").build())
+                .build();
+
+        List<Account> accounts = N.asList(account, account2);
+        accountMapper.put(accounts);
+
+        List<Account> dbAccounts = accountMapper.get(N.asList(account.getId(), account2.getId()));
+        assertEquals(accounts, dbAccounts);
+        assertEquals(accounts, hbaseExecutor.scan(Account.class, tableName, AnyScan.create()).toList());
+
+        accountMapper.delete(dbAccounts);
+
+        assertEquals(0, accountMapper.get(N.asList(account.getId(), account2.getId())).size());
+        assertEquals(0, hbaseExecutor.scan(Account.class, tableName, AnyScan.create()).toList().size());
     }
 
     //    @Test
