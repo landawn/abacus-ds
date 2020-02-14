@@ -51,7 +51,6 @@ import com.google.protobuf.Descriptors;
 import com.google.protobuf.Message;
 import com.google.protobuf.Service;
 import com.landawn.abacus.DirtyMarker;
-import com.landawn.abacus.annotation.Column;
 import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.da.hbase.annotation.ColumnFamily;
 import com.landawn.abacus.exception.UncheckedIOException;
@@ -244,27 +243,14 @@ public final class HBaseExecutor implements Closeable {
                 if (propInfo.isAnnotationPresent(ColumnFamily.class)) {
                     columnFamilyName = propInfo.getAnnotation(ColumnFamily.class).value();
                     hasColumnFamilyAnnotation = true;
-                }
-
-                if (hasColumnFamilyAnnotation == false) {
+                } else {
                     columnFamilyName = formatName(propInfo.name, namingPolicy);
                 }
 
-                if (propInfo.isAnnotationPresent(Column.class)) {
-                    columnName = propInfo.getAnnotation(Column.class).value();
+                if (N.notNullOrEmpty(propInfo.columnName)) {
+                    columnName = propInfo.columnName;
                     hasColumnAnnotation = true;
                 } else {
-                    try {
-                        if (propInfo.isAnnotationPresent(javax.persistence.Column.class)) {
-                            columnName = propInfo.getAnnotation(javax.persistence.Column.class).name();
-                            hasColumnAnnotation = true;
-                        }
-                    } catch (Throwable e) {
-                        // ignore.
-                    }
-                }
-
-                if (hasColumnAnnotation == false) {
                     columnName = formatName(propInfo.name, namingPolicy);
                 }
 
@@ -296,21 +282,10 @@ public final class HBaseExecutor implements Closeable {
                     columnFamilyNames = Stream.of(NamingPolicy.values()).map(it -> formatName(propInfo.name, it)).toList();
                 }
 
-                if (propInfo.isAnnotationPresent(Column.class)) {
-                    columnNames = N.asList(propInfo.getAnnotation(Column.class).value());
+                if (N.notNullOrEmpty(propInfo.columnName)) {
+                    columnNames = N.asList(propInfo.columnName);
                     hasColumnAnnotation = true;
                 } else {
-                    try {
-                        if (propInfo.isAnnotationPresent(javax.persistence.Column.class)) {
-                            columnNames = N.asList(propInfo.getAnnotation(javax.persistence.Column.class).name());
-                            hasColumnAnnotation = true;
-                        }
-                    } catch (Throwable e) {
-                        // ignore.
-                    }
-                }
-
-                if (N.isNullOrEmpty(columnNames)) {
                     columnNames = Stream.of(NamingPolicy.values()).map(it -> formatName(propInfo.name, it)).append(EMPTY_QULIFIER).toList();
                 }
 
@@ -968,26 +943,12 @@ public final class HBaseExecutor implements Closeable {
         if (mapper == null) {
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetEntityClass);
 
-            String tableName = null;
-
-            if (entityInfo.isAnnotationPresent(com.landawn.abacus.annotation.Table.class)) {
-                tableName = entityInfo.getAnnotation(com.landawn.abacus.annotation.Table.class).value();
-            } else {
-                try {
-                    if (entityInfo.isAnnotationPresent(javax.persistence.Table.class)) {
-                        tableName = entityInfo.getAnnotation(javax.persistence.Table.class).name();
-                    }
-                } catch (Throwable e) {
-                    // ignore;
-                }
-            }
-
-            if (N.isNullOrEmpty(tableName)) {
+            if (N.isNullOrEmpty(entityInfo.tableName)) {
                 throw new IllegalArgumentException("The target entity class: " + targetEntityClass
                         + " must be annotated with com.landawn.abacus.annotation.Table or javax.persistence.Table. Otherwise call  HBaseExecutor.mapper(final String tableName, final Class<T> targetEntityClass) instead");
             }
 
-            mapper = mapper(tableName, targetEntityClass);
+            mapper = mapper(entityInfo.tableName, targetEntityClass);
 
             mapperPool.put(targetEntityClass, mapper);
         }
