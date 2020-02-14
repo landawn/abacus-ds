@@ -404,11 +404,13 @@ public final class HBaseExecutor implements Closeable {
     private static <T> T toValue(final Type<T> type, final Class<T> targetClass, final Result result) throws IOException {
         if (type.isMap()) {
             throw new IllegalArgumentException("Map is not supported");
-        } else if (type.isEntity()) {
-            if (result.advance() == false) {
-                return null;
-            }
+        }
 
+        if (result.isEmpty() || result.advance() == false) {
+            return type.defaultValue();
+        }
+
+        if (type.isEntity()) {
             final Map<String, Tuple2<String, Boolean>> familyFieldNameMap = getFamilyColumnFieldNameMap(targetClass)._1;
             final T entity = N.newInstance(targetClass);
             final CellScanner cellScanner = result.cellScanner();
@@ -619,10 +621,6 @@ public final class HBaseExecutor implements Closeable {
 
             return entity;
         } else {
-            if (result.advance() == false) {
-                return type.defaultValue();
-            }
-
             final CellScanner cellScanner = result.cellScanner();
 
             if (cellScanner.advance() == false) {
