@@ -20,9 +20,13 @@ import static com.landawn.abacus.da.hbase.HBaseExecutor.toValueBytes;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.Collection;
+import java.util.List;
 
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Put;
+
+import com.landawn.abacus.util.NamingPolicy;
 
 // TODO: Auto-generated Javadoc
 /**
@@ -226,6 +230,48 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      */
     public static AnyPut of(final Put putToCopy) {
         return new AnyPut(putToCopy);
+    }
+
+    /**
+     * 
+     * @param entity
+     * @return
+     */
+    @SuppressWarnings("deprecation")
+    public static AnyPut from(final Object entity) {
+        return HBaseExecutor.toAnyPut(entity);
+    }
+
+    /**
+     * 
+     * @param entity
+     * @param namingPolicy
+     * @return
+     */
+    @SuppressWarnings("deprecation")
+    public static AnyPut from(final Object entity, final NamingPolicy namingPolicy) {
+        return HBaseExecutor.toAnyPut(entity);
+    }
+
+    /**
+     * 
+     * @param entities
+     * @return
+     */
+    @SuppressWarnings("deprecation")
+    public static List<AnyPut> from(final Collection<?> entities) {
+        return HBaseExecutor.toAnyPut(entities);
+    }
+
+    /**
+     * 
+     * @param entities
+     * @param namingPolicy
+     * @return
+     */
+    @SuppressWarnings("deprecation")
+    public static List<AnyPut> from(final Collection<?> entities, final NamingPolicy namingPolicy) {
+        return HBaseExecutor.toAnyPut(entities, namingPolicy);
     }
 
     /**

@@ -14,11 +14,13 @@
 
 package com.landawn.abacus.da.spark;
 
+//TODO
+
 /**
  * https://spark.apache.org/docs/latest/api/java/org/apache/spark/streaming/dstream/DStream.html
  *
  */
-public class DStreamUtil {
+ class DStreamUtil {
 
     private DStreamUtil() {
         // singleton

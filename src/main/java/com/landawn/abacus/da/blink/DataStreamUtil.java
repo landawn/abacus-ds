@@ -14,11 +14,13 @@
 
 package com.landawn.abacus.da.blink;
 
+//TODO
+
 /**
  * https://ci.apache.org/projects/flink/flink-docs-release-1.10/dev/datastream_api.html
  *
  */
-public final class DataStreamUtil {
+final class DataStreamUtil {
     private DataStreamUtil() {
         // singleton
     }

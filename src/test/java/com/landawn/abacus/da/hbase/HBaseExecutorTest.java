@@ -137,7 +137,7 @@ public class HBaseExecutorTest {
 
         hbaseExecutor.delete(tableName, AnyDelete.of(account.getId()));
 
-        AnyPut put = HBaseExecutor.toAnyPut(account);
+        AnyPut put = AnyPut.from(account);
         N.println(put.toString(100));
 
         hbaseExecutor.put(tableName, put);
@@ -159,11 +159,9 @@ public class HBaseExecutorTest {
                 .build();
         N.println(account);
 
-        final String tableName = "account";
-
         accountMapper.delete(account);
 
-        assertEquals(0, hbaseExecutor.scan(Account.class, tableName, AnyScan.create()).count());
+        assertEquals(0, accountMapper.scan(AnyScan.create()).count());
 
         accountMapper.put(account);
 
@@ -171,7 +169,7 @@ public class HBaseExecutorTest {
         N.println(dbAccount);
 
         assertEquals(account, dbAccount);
-        assertEquals(account, hbaseExecutor.scan(Account.class, tableName, AnyScan.create()).onlyOne().orNull());
+        assertEquals(account, accountMapper.scan(AnyScan.create()).onlyOne().orNull());
 
         accountMapper.deleteByRowKey(account.getId());
 
@@ -190,12 +188,15 @@ public class HBaseExecutorTest {
 
         List<Account> dbAccounts = accountMapper.get(N.asList(account.getId(), account2.getId()));
         assertEquals(accounts, dbAccounts);
-        assertEquals(accounts, hbaseExecutor.scan(Account.class, tableName, AnyScan.create()).toList());
+        assertEquals(accounts, accountMapper.scan(AnyScan.create()).toList());
 
         accountMapper.delete(dbAccounts);
 
         assertEquals(0, accountMapper.get(N.asList(account.getId(), account2.getId())).size());
-        assertEquals(0, hbaseExecutor.scan(Account.class, tableName, AnyScan.create()).toList().size());
+        assertEquals(0, accountMapper.scan(AnyScan.create()).toList().size());
+
+        assertNull(hbaseExecutor.mapper(Account.class).get(account.getId()));
+        hbaseExecutor.mapper(Account.class).deleteByRowKey(account.getId());
     }
 
     //    @Test

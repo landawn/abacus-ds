@@ -14,10 +14,12 @@
 
 package com.landawn.abacus.da.spark;
 
+//TODO
+
 /**
  * https://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/Dataset.html
  */
-public class DatasetUtil {
+ class DatasetUtil {
 
     private DatasetUtil() {
         // singleton

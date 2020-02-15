@@ -656,53 +656,57 @@ public final class HBaseExecutor implements Closeable {
     /**
      *
      *
-     * @param obj entity with getter/setter methods
+     * @param entity entity with getter/setter methods
      * @return
+     * @deprecated replaced by {@code AnyPut.from(Object)}
      */
-    public static AnyPut toAnyPut(final Object obj) {
-        return toAnyPut(obj, NamingPolicy.LOWER_CAMEL_CASE);
+    @Deprecated
+    public static AnyPut toAnyPut(final Object entity) {
+        return toAnyPut(entity, NamingPolicy.LOWER_CAMEL_CASE);
     }
 
     /**
      * To any put.
      *
-     * @param obj entity with getter/setter methods
+     * @param entity entity with getter/setter methods
      * @param namingPolicy
      * @return
+     * @deprecated replaced by {@code AnyPut.from(Object, NamingPolicy)}
      */
-    public static AnyPut toAnyPut(final Object obj, final NamingPolicy namingPolicy) {
-        return toAnyPut(null, obj, namingPolicy);
+    @Deprecated
+    public static AnyPut toAnyPut(final Object entity, final NamingPolicy namingPolicy) {
+        return toAnyPut(null, entity, namingPolicy);
     }
 
     /**
      * To any put.
      *
      * @param outputAnyPut the output result if it's not null.
-     * @param obj entity with getter/setter methods
+     * @param entity entity with getter/setter methods
      * @return
      */
-    static AnyPut toAnyPut(final AnyPut outputAnyPut, final Object obj) {
-        return toAnyPut(outputAnyPut, obj, NamingPolicy.LOWER_CAMEL_CASE);
+    static AnyPut toAnyPut(final AnyPut outputAnyPut, final Object entity) {
+        return toAnyPut(outputAnyPut, entity, NamingPolicy.LOWER_CAMEL_CASE);
     }
 
     /**
      * To any put.
      *
      * @param outputAnyPut
-     * @param obj entity with getter/setter methods
+     * @param entity entity with getter/setter methods
      * @param namingPolicy
      * @return
      */
-    static AnyPut toAnyPut(final AnyPut outputAnyPut, final Object obj, final NamingPolicy namingPolicy) {
-        if (obj instanceof AnyPut) {
+    static AnyPut toAnyPut(final AnyPut outputAnyPut, final Object entity, final NamingPolicy namingPolicy) {
+        if (entity instanceof AnyPut) {
             if (outputAnyPut != null) {
                 throw new IllegalArgumentException("Merge is not supported. The specified entity object is already a AnyPut and outputAnyPut is not null");
             }
 
-            return (AnyPut) obj;
+            return (AnyPut) entity;
         }
 
-        final Class<?> cls = obj.getClass();
+        final Class<?> cls = entity.getClass();
 
         checkEntityClass(cls);
 
@@ -716,7 +720,7 @@ public final class HBaseExecutor implements Closeable {
                     "Row key property is required to create AnyPut instance. But no row key property found in class: " + ClassUtil.getCanonicalClassName(cls));
         }
 
-        final AnyPut anyPut = outputAnyPut == null ? new AnyPut(ClassUtil.<Object> getPropValue(obj, rowKeyGetMethod)) : outputAnyPut;
+        final AnyPut anyPut = outputAnyPut == null ? new AnyPut(ClassUtil.<Object> getPropValue(entity, rowKeyGetMethod)) : outputAnyPut;
         final Map<String, Method> familyGetMethodMap = ClassUtil.getPropGetMethods(cls);
 
         PropInfo propInfo = null;
@@ -735,7 +739,7 @@ public final class HBaseExecutor implements Closeable {
                 continue;
             }
 
-            propValue = ClassUtil.getPropValue(obj, propInfo.getMethod);
+            propValue = ClassUtil.getPropValue(entity, propInfo.getMethod);
 
             if (propValue == null) {
                 continue;
@@ -825,13 +829,15 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To any put.
      *
-     * @param objs <code>AnyPut</code> or entity with getter/setter methods
+     * @param entities <code>AnyPut</code> or entity with getter/setter methods
      * @return
+     * @deprecated replaced by {@code AnyPut.from(Collection)}
      */
-    public static List<AnyPut> toAnyPut(final Collection<?> objs) {
-        final List<AnyPut> anyPuts = new ArrayList<>(objs.size());
+    @Deprecated
+    public static List<AnyPut> toAnyPut(final Collection<?> entities) {
+        final List<AnyPut> anyPuts = new ArrayList<>(entities.size());
 
-        for (Object entity : objs) {
+        for (Object entity : entities) {
             anyPuts.add(entity instanceof AnyPut ? (AnyPut) entity : toAnyPut(entity));
         }
 
@@ -841,14 +847,16 @@ public final class HBaseExecutor implements Closeable {
     /**
      * To any put.
      *
-     * @param objs <code>AnyPut</code> or entity with getter/setter methods
+     * @param entities <code>AnyPut</code> or entity with getter/setter methods
      * @param namingPolicy
      * @return
+     * @deprecated replaced by {@code AnyPut.from(Collection, NamingPolicy)}
      */
-    public static List<AnyPut> toAnyPut(final Collection<?> objs, final NamingPolicy namingPolicy) {
-        final List<AnyPut> anyPuts = new ArrayList<>(objs.size());
+    @Deprecated
+    public static List<AnyPut> toAnyPut(final Collection<?> entities, final NamingPolicy namingPolicy) {
+        final List<AnyPut> anyPuts = new ArrayList<>(entities.size());
 
-        for (Object entity : objs) {
+        for (Object entity : entities) {
             anyPuts.add(entity instanceof AnyPut ? (AnyPut) entity : toAnyPut(entity, namingPolicy));
         }
 
@@ -857,13 +865,15 @@ public final class HBaseExecutor implements Closeable {
 
     /**
      *
-     * @param objs <code>AnyPut</code> or entity with getter/setter methods
+     * @param entities <code>AnyPut</code> or entity with getter/setter methods
      * @return
+     * @deprecated replaced by {@code AnyPut.from(Collection)}
      */
-    public static List<Put> toPut(final Collection<?> objs) {
-        final List<Put> puts = new ArrayList<>(objs.size());
+    @Deprecated
+    public static List<Put> toPut(final Collection<?> entities) {
+        final List<Put> puts = new ArrayList<>(entities.size());
 
-        for (Object entity : objs) {
+        for (Object entity : entities) {
             puts.add(entity instanceof AnyPut ? ((AnyPut) entity).val() : toAnyPut(entity).val());
         }
 
@@ -872,14 +882,16 @@ public final class HBaseExecutor implements Closeable {
 
     /**
      *
-     * @param objs <code>AnyPut</code> or entity with getter/setter methods
+     * @param entities <code>AnyPut</code> or entity with getter/setter methods
      * @param namingPolicy
      * @return
+     * @deprecated replaced by {@code AnyPut.from(Collection, NamingPolicy)}
      */
-    public static List<Put> toPut(final Collection<?> objs, final NamingPolicy namingPolicy) {
-        final List<Put> puts = new ArrayList<>(objs.size());
+    @Deprecated
+    public static List<Put> toPut(final Collection<?> entities, final NamingPolicy namingPolicy) {
+        final List<Put> puts = new ArrayList<>(entities.size());
 
-        for (Object entity : objs) {
+        for (Object entity : entities) {
             puts.add(entity instanceof AnyPut ? ((AnyPut) entity).val() : toAnyPut(entity, namingPolicy).val());
         }
 
@@ -1222,6 +1234,58 @@ public final class HBaseExecutor implements Closeable {
     /**
      *
      * @param tableName
+     * @param family
+     * @return
+     */
+    public Stream<Result> scan(final String tableName, final String family) {
+        return scan(tableName, AnyScan.create().addFamily(family));
+    }
+
+    /**
+     *
+     * @param tableName
+     * @param family
+     * @param qualifier
+     * @return
+     */
+    public Stream<Result> scan(final String tableName, final String family, final String qualifier) {
+        return scan(tableName, AnyScan.create().addColumn(family, qualifier));
+    }
+
+    /**
+     *
+     * @param tableName
+     * @param family
+     * @return
+     */
+    public Stream<Result> scan(final String tableName, final byte[] family) {
+        return scan(tableName, AnyScan.create().addFamily(family));
+    }
+
+    /**
+     *
+     * @param tableName
+     * @param family
+     * @param qualifier
+     * @return
+     */
+    public Stream<Result> scan(final String tableName, final byte[] family, final byte[] qualifier) {
+        return scan(tableName, AnyScan.create().addColumn(family, qualifier));
+    }
+
+    /**
+     *
+     * @param tableName
+     * @param anyScan
+     * @return
+     */
+    public Stream<Result> scan(final String tableName, final AnyScan anyScan) {
+        return scan(tableName, anyScan.val());
+    }
+
+    /**
+     *
+     * @param tableName
      * @param scan
      * @return
      */
@@ -1284,82 +1348,6 @@ public final class HBaseExecutor implements Closeable {
 
     /**
      *
-     * @param tableName
-     * @param anyScan
-     * @return
-     */
-    public Stream<Result> scan(final String tableName, final AnyScan anyScan) {
-        return scan(tableName, anyScan.val());
-    }
-
-    /**
-     *
-     * @param tableName
-     * @param family
-     * @return
-     */
-    public Stream<Result> scan(final String tableName, final String family) {
-        return scan(tableName, AnyScan.create().addFamily(family));
-    }
-
-    /**
-     *
-     * @param tableName
-     * @param family
-     * @param qualifier
-     * @return
-     */
-    public Stream<Result> scan(final String tableName, final String family, final String qualifier) {
-        return scan(tableName, AnyScan.create().addColumn(family, qualifier));
-    }
-
-    /**
-     *
-     * @param tableName
-     * @param family
-     * @return
-     */
-    public Stream<Result> scan(final String tableName, final byte[] family) {
-        return scan(tableName, AnyScan.create().addFamily(family));
-    }
-
-    /**
-     *
-     * @param tableName
-     * @param family
-     * @param qualifier
-     * @return
-     */
-    public Stream<Result> scan(final String tableName, final byte[] family, final byte[] qualifier) {
-        return scan(tableName, AnyScan.create().addColumn(family, qualifier));
-    }
-
-    /**
-     *
-     * @param <T>
-     * @param targetClass
-     * @param tableName
-     * @param scan
-     * @return
-     */
-    public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final Scan scan) {
-        return scan(tableName, scan).map(toEntity(targetClass));
-    }
-
-    /**
-     *
-     * @param <T>
-     * @param targetClass
-     * @param tableName
-     * @param anyScan
-     * @return
-     */
-    public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final AnyScan anyScan) {
-        return scan(tableName, anyScan).map(toEntity(targetClass));
-    }
-
-    /**
-     *
      * @param <T>
      * @param targetClass
      * @param tableName
@@ -1406,6 +1394,30 @@ public final class HBaseExecutor implements Closeable {
      */
     public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final byte[] family, final byte[] qualifier) {
         return scan(tableName, family, qualifier).map(toEntity(targetClass));
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param anyScan
+     * @return
+     */
+    public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final AnyScan anyScan) {
+        return scan(tableName, anyScan).map(toEntity(targetClass));
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param scan
+     * @return
+     */
+    public <T> Stream<T> scan(final Class<T> targetClass, final String tableName, final Scan scan) {
+        return scan(tableName, scan).map(toEntity(targetClass));
     }
 
     /**
@@ -2084,7 +2096,7 @@ public final class HBaseExecutor implements Closeable {
          * @throws UncheckedIOException
          */
         public void put(final T entityToPut) throws UncheckedIOException {
-            hbaseExecutor.put(tableName, HBaseExecutor.toAnyPut(entityToPut));
+            hbaseExecutor.put(tableName, AnyPut.from(entityToPut));
         }
 
         /**
@@ -2093,7 +2105,7 @@ public final class HBaseExecutor implements Closeable {
          * @throws UncheckedIOException
          */
         public void put(final Collection<? extends T> entitiesToPut) throws UncheckedIOException {
-            hbaseExecutor.put(tableName, HBaseExecutor.toAnyPut(entitiesToPut));
+            hbaseExecutor.put(tableName, AnyPut.from(entitiesToPut));
         }
 
         /**
@@ -2130,6 +2142,58 @@ public final class HBaseExecutor implements Closeable {
          */
         public void deleteByRowKey(final Collection<? extends K> rowKeys) throws UncheckedIOException {
             hbaseExecutor.delete(tableName, N.map(rowKeys, AnyDelete::of));
+        }
+
+        public boolean exists(final AnyGet anyGet) throws UncheckedIOException {
+            return hbaseExecutor.exists(tableName, anyGet.val());
+        }
+
+        public List<Boolean> exists(final List<AnyGet> anyGets) throws UncheckedIOException {
+            return hbaseExecutor.exists(tableName, toGet(anyGets));
+        }
+
+        public T get(final AnyGet anyGet) throws UncheckedIOException {
+            return hbaseExecutor.get(targetEntityClass, tableName, anyGet);
+        }
+
+        public List<T> get(final List<AnyGet> anyGets) throws UncheckedIOException {
+            return hbaseExecutor.get(targetEntityClass, tableName, anyGets);
+        }
+
+        public Stream<T> scan(final String family) {
+            return hbaseExecutor.scan(targetEntityClass, tableName, family);
+        }
+
+        public Stream<T> scan(final String family, final String qualifier) {
+            return hbaseExecutor.scan(targetEntityClass, tableName, family, qualifier);
+        }
+
+        public Stream<T> scan(final byte[] family) {
+            return hbaseExecutor.scan(targetEntityClass, tableName, family);
+        }
+
+        public Stream<T> scan(final byte[] family, final byte[] qualifier) {
+            return hbaseExecutor.scan(targetEntityClass, tableName, family, qualifier);
+        }
+
+        public Stream<T> scan(final AnyScan anyScan) {
+            return hbaseExecutor.scan(targetEntityClass, tableName, anyScan);
+        }
+
+        public void put(final AnyPut anyPut) throws UncheckedIOException {
+            hbaseExecutor.put(tableName, anyPut);
+        }
+
+        public void put(final List<AnyPut> anyPuts) throws UncheckedIOException {
+            hbaseExecutor.put(tableName, anyPuts);
+        }
+
+        public void delete(final AnyDelete anyDelete) throws UncheckedIOException {
+            hbaseExecutor.delete(tableName, anyDelete);
+        }
+
+        public void delete(final List<AnyDelete> anyDeletes) throws UncheckedIOException {
+            hbaseExecutor.delete(tableName, anyDeletes);
         }
     }
 }
