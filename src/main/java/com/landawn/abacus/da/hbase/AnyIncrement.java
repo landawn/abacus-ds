@@ -26,7 +26,6 @@ import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Increment;
 import org.apache.hadoop.hbase.io.TimeRange;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Increment</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *

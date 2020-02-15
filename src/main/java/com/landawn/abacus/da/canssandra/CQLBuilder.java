@@ -74,7 +74,6 @@ import com.landawn.abacus.util.StringUtil;
 import com.landawn.abacus.util.Throwables;
 import com.landawn.abacus.util.WD;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's easier to write/maintain the CQL by <code>CQLBuilder</code> and more efficient, comparing to write Cassandra CQL in plain text.
  * <br>The <code>cql()</code> or <code>pair()</code> method must be called to release resources.

@@ -19,7 +19,6 @@ import java.util.Map;
 
 import org.apache.hadoop.hbase.client.Operation;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Operation</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *

@@ -69,7 +69,6 @@ import com.landawn.abacus.util.ObjIterator;
 import com.landawn.abacus.util.function.Function;
 import com.landawn.abacus.util.stream.Stream;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a simple wrapper of DynamoDB Java client.
  *

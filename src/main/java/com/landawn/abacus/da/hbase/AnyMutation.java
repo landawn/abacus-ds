@@ -30,7 +30,6 @@ import org.apache.hadoop.hbase.exceptions.DeserializationException;
 import org.apache.hadoop.hbase.security.access.Permission;
 import org.apache.hadoop.hbase.security.visibility.CellVisibility;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Mutation</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *

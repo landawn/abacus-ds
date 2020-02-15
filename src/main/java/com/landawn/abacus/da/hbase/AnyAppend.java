@@ -25,7 +25,6 @@ import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Append;
 import org.apache.hadoop.hbase.io.TimeRange;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Append</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *

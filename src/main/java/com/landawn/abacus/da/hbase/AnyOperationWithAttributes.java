@@ -18,7 +18,6 @@ import java.util.Map;
 
 import org.apache.hadoop.hbase.client.OperationWithAttributes;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>OperationWithAttributes</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *

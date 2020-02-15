@@ -14,7 +14,6 @@
 
 package com.landawn.abacus.da.hadoop;
 
-// TODO: Auto-generated Javadoc
 /**
  * The Class HDFSUtil.
  *

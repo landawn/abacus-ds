@@ -61,7 +61,6 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import com.mongodb.client.MongoIterable;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a simple wrapper of MongoDB Java client.
  *

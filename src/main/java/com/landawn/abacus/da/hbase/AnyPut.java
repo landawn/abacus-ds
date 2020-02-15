@@ -28,7 +28,6 @@ import org.apache.hadoop.hbase.client.Put;
 
 import com.landawn.abacus.util.NamingPolicy;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Put</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *

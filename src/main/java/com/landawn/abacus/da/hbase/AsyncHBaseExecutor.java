@@ -39,7 +39,6 @@ import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ContinuableFuture;
 import com.landawn.abacus.util.stream.Stream;
 
-// TODO: Auto-generated Javadoc
 /**
  * Asynchronous <code>HBaseExecutor</code>.
  *
@@ -307,36 +306,6 @@ public final class AsyncHBaseExecutor {
     /**
      *
      * @param tableName
-     * @param scan
-     * @return
-     */
-    public ContinuableFuture<Stream<Result>> scan(final String tableName, final Scan scan) {
-        return asyncExecutor.execute(new Callable<Stream<Result>>() {
-            @Override
-            public Stream<Result> call() throws Exception {
-                return hbaseExecutor.scan(tableName, scan);
-            }
-        });
-    }
-
-    /**
-     *
-     * @param tableName
-     * @param anyScan
-     * @return
-     */
-    public ContinuableFuture<Stream<Result>> scan(final String tableName, final AnyScan anyScan) {
-        return asyncExecutor.execute(new Callable<Stream<Result>>() {
-            @Override
-            public Stream<Result> call() throws Exception {
-                return hbaseExecutor.scan(tableName, anyScan);
-            }
-        });
-    }
-
-    /**
-     *
-     * @param tableName
      * @param family
      * @return
      */
@@ -398,34 +367,30 @@ public final class AsyncHBaseExecutor {
 
     /**
      *
-     * @param <T>
-     * @param targetClass
      * @param tableName
-     * @param scan
+     * @param anyScan
      * @return
      */
-    public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final Scan scan) {
-        return asyncExecutor.execute(new Callable<Stream<T>>() {
+    public ContinuableFuture<Stream<Result>> scan(final String tableName, final AnyScan anyScan) {
+        return asyncExecutor.execute(new Callable<Stream<Result>>() {
             @Override
-            public Stream<T> call() throws Exception {
-                return hbaseExecutor.scan(targetClass, tableName, scan);
+            public Stream<Result> call() throws Exception {
+                return hbaseExecutor.scan(tableName, anyScan);
             }
         });
     }
 
     /**
      *
-     * @param <T>
-     * @param targetClass
      * @param tableName
-     * @param anyScan
+     * @param scan
      * @return
      */
-    public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final AnyScan anyScan) {
-        return asyncExecutor.execute(new Callable<Stream<T>>() {
+    public ContinuableFuture<Stream<Result>> scan(final String tableName, final Scan scan) {
+        return asyncExecutor.execute(new Callable<Stream<Result>>() {
             @Override
-            public Stream<T> call() throws Exception {
-                return hbaseExecutor.scan(targetClass, tableName, anyScan);
+            public Stream<Result> call() throws Exception {
+                return hbaseExecutor.scan(tableName, scan);
             }
         });
     }
@@ -496,6 +461,40 @@ public final class AsyncHBaseExecutor {
             @Override
             public Stream<T> call() throws Exception {
                 return hbaseExecutor.scan(targetClass, tableName, family, qualifier);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param anyScan
+     * @return
+     */
+    public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final AnyScan anyScan) {
+        return asyncExecutor.execute(new Callable<Stream<T>>() {
+            @Override
+            public Stream<T> call() throws Exception {
+                return hbaseExecutor.scan(targetClass, tableName, anyScan);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param targetClass
+     * @param tableName
+     * @param scan
+     * @return
+     */
+    public <T> ContinuableFuture<Stream<T>> scan(final Class<T> targetClass, final String tableName, final Scan scan) {
+        return asyncExecutor.execute(new Callable<Stream<T>>() {
+            @Override
+            public Stream<T> call() throws Exception {
+                return hbaseExecutor.scan(targetClass, tableName, scan);
             }
         });
     }
@@ -636,6 +635,17 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    public ContinuableFuture<Void> mutateRow(final String tableName, final AnyRowMutations rm) {
+        return asyncExecutor.execute(new Callable<Void>() {
+            @Override
+            public Void call() throws Exception {
+                hbaseExecutor.mutateRow(tableName, rm);
+
+                return null;
+            }
+        });
+    }
+
     /**
      *
      * @param tableName
@@ -653,6 +663,15 @@ public final class AsyncHBaseExecutor {
         });
     }
 
+    public ContinuableFuture<Result> append(final String tableName, final AnyAppend append) {
+        return asyncExecutor.execute(new Callable<Result>() {
+            @Override
+            public Result call() throws Exception {
+                return hbaseExecutor.append(tableName, append);
+            }
+        });
+    }
+
     /**
      *
      * @param tableName
@@ -664,6 +683,15 @@ public final class AsyncHBaseExecutor {
             @Override
             public Result call() throws Exception {
                 return hbaseExecutor.append(tableName, append);
+            }
+        });
+    }
+
+    public ContinuableFuture<Result> increment(final String tableName, final AnyIncrement increment) {
+        return asyncExecutor.execute(new Callable<Result>() {
+            @Override
+            public Result call() throws Exception {
+                return hbaseExecutor.increment(tableName, increment);
             }
         });
     }

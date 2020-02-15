@@ -40,7 +40,6 @@ import com.landawn.abacus.util.Splitter;
 import com.landawn.abacus.util.WD;
 import com.landawn.abacus.util.XMLUtil;
 
-// TODO: Auto-generated Javadoc
 /**
  * the cql scripts are configured in xml file and mapped to short ids referenced in program. for example: <br>
  * {@code <cqlMapper>} <br>

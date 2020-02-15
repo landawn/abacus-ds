@@ -73,7 +73,6 @@ import com.landawn.abacus.util.function.Supplier;
 import com.landawn.abacus.util.stream.ObjIteratorEx;
 import com.landawn.abacus.util.stream.Stream;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a simple wrapper of HBase Java client.
  *
@@ -1565,6 +1564,16 @@ public final class HBaseExecutor implements Closeable {
      * @param rm
      * @throws UncheckedIOException the unchecked IO exception
      */
+    public void mutateRow(final String tableName, final AnyRowMutations rm) throws UncheckedIOException {
+        mutateRow(tableName, rm.val());
+    }
+
+    /**
+     *
+     * @param tableName
+     * @param rm
+     * @throws UncheckedIOException the unchecked IO exception
+     */
     public void mutateRow(final String tableName, final RowMutations rm) throws UncheckedIOException {
         final Table table = getTable(tableName);
 
@@ -2194,6 +2203,61 @@ public final class HBaseExecutor implements Closeable {
 
         public void delete(final List<AnyDelete> anyDeletes) throws UncheckedIOException {
             hbaseExecutor.delete(tableName, anyDeletes);
+        }
+
+        public void mutateRow(final AnyRowMutations rm) throws UncheckedIOException {
+            hbaseExecutor.mutateRow(tableName, rm);
+        }
+
+        public Result append(final AnyAppend append) throws UncheckedIOException {
+            return hbaseExecutor.append(tableName, append);
+        }
+
+        public Result increment(final AnyIncrement increment) throws UncheckedIOException {
+            return hbaseExecutor.increment(tableName, increment);
+        }
+
+        public long incrementColumnValue(final Object rowKey, final String family, final String qualifier, final long amount) throws UncheckedIOException {
+            return hbaseExecutor.incrementColumnValue(tableName, rowKey, family, qualifier, amount);
+        }
+
+        public long incrementColumnValue(final Object rowKey, final String family, final String qualifier, final long amount, final Durability durability)
+                throws UncheckedIOException {
+            return hbaseExecutor.incrementColumnValue(tableName, rowKey, family, qualifier, amount, durability);
+        }
+
+        public long incrementColumnValue(final Object rowKey, final byte[] family, final byte[] qualifier, final long amount) throws UncheckedIOException {
+            return hbaseExecutor.incrementColumnValue(tableName, rowKey, family, qualifier, amount);
+        }
+
+        public long incrementColumnValue(final Object rowKey, final byte[] family, final byte[] qualifier, final long amount, final Durability durability)
+                throws UncheckedIOException {
+            return hbaseExecutor.incrementColumnValue(tableName, rowKey, family, qualifier, amount, durability);
+        }
+
+        public CoprocessorRpcChannel coprocessorService(final Object rowKey) {
+            return hbaseExecutor.coprocessorService(tableName, rowKey);
+        }
+
+        public <S extends Service, R> Map<byte[], R> coprocessorService(final Class<S> service, final Object startRowKey, final Object endRowKey,
+                final Batch.Call<S, R> callable) throws UncheckedIOException, Exception {
+            return hbaseExecutor.coprocessorService(tableName, service, startRowKey, endRowKey, callable);
+        }
+
+        public <S extends Service, R> void coprocessorService(final Class<S> service, final Object startRowKey, final Object endRowKey,
+                final Batch.Call<S, R> callable, final Batch.Callback<R> callback) throws UncheckedIOException, Exception {
+            hbaseExecutor.coprocessorService(tableName, service, startRowKey, endRowKey, callable, callback);
+        }
+
+        public <R extends Message> Map<byte[], R> batchCoprocessorService(final Descriptors.MethodDescriptor methodDescriptor, final Message request,
+                final Object startRowKey, final Object endRowKey, final R responsePrototype) throws UncheckedIOException, Exception {
+            return hbaseExecutor.batchCoprocessorService(tableName, methodDescriptor, request, startRowKey, endRowKey, responsePrototype);
+        }
+
+        public <R extends Message> void batchCoprocessorService(final Descriptors.MethodDescriptor methodDescriptor, final Message request,
+                final Object startRowKey, final Object endRowKey, final R responsePrototype, final Batch.Callback<R> callback)
+                throws UncheckedIOException, Exception {
+            hbaseExecutor.batchCoprocessorService(tableName, methodDescriptor, request, startRowKey, endRowKey, responsePrototype, callback);
         }
     }
 }

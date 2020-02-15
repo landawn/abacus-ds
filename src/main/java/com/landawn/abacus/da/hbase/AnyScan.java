@@ -31,7 +31,6 @@ import org.apache.hadoop.hbase.client.metrics.ScanMetrics;
 import org.apache.hadoop.hbase.filter.Filter;
 import org.apache.hadoop.hbase.io.TimeRange;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Scan</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *

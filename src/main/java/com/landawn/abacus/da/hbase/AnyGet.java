@@ -27,7 +27,6 @@ import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Row;
 import org.apache.hadoop.hbase.io.TimeRange;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Get</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *

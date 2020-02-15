@@ -25,7 +25,6 @@ import java.util.NavigableMap;
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Delete;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a wrapper of <code>Delete</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *

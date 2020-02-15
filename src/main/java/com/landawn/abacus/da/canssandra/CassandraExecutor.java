@@ -111,7 +111,6 @@ import com.landawn.abacus.util.function.ToLongFunction;
 import com.landawn.abacus.util.function.ToShortFunction;
 import com.landawn.abacus.util.stream.Stream;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a simple wrapper of Cassandra Java client.
  * Raw/parameterized cql are supported. The parameters can be array/list/map/entity:

@@ -28,7 +28,6 @@ import org.neo4j.ogm.session.SessionFactory;
 
 import com.landawn.abacus.util.stream.Stream;
 
-// TODO: Auto-generated Javadoc
 /**
  * It's a simple wrapper of Neo4j Java client.
  * Refer to: http://neo4j.com/docs/ogm/java/stable/ 
