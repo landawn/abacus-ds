@@ -1,6 +1,7 @@
 ### 1.9.14
 
 * Add `HBaseMapper`.
+* Add `DynamoDBExecutor.Mapper`.
 * Improvements and bug fix.
 
 

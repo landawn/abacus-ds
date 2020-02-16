@@ -2095,7 +2095,9 @@ public final class HBaseExecutor implements Closeable {
          * @throws UncheckedIOException
          */
         public List<Boolean> exists(final Collection<? extends K> rowKeys) throws UncheckedIOException {
-            return hbaseExecutor.exists(tableName, N.map(rowKeys, AnyGet::of));
+            final List<AnyGet> anyGets = N.map(rowKeys, AnyGet::of);
+
+            return hbaseExecutor.exists(tableName, anyGets);
         }
 
         /**
@@ -2115,7 +2117,9 @@ public final class HBaseExecutor implements Closeable {
          * @throws UncheckedIOException
          */
         public List<T> get(final Collection<? extends K> rowKeys) throws UncheckedIOException {
-            return hbaseExecutor.get(targetEntityClass, tableName, N.map(rowKeys, AnyGet::of));
+            final List<AnyGet> anyGets = N.map(rowKeys, AnyGet::of);
+
+            return hbaseExecutor.get(targetEntityClass, tableName, anyGets);
         }
 
         /**
@@ -2169,7 +2173,9 @@ public final class HBaseExecutor implements Closeable {
          * @throws UncheckedIOException
          */
         public void deleteByRowKey(final Collection<? extends K> rowKeys) throws UncheckedIOException {
-            hbaseExecutor.delete(tableName, N.map(rowKeys, AnyDelete::of));
+            final List<AnyDelete> anyDeletes = N.map(rowKeys, AnyDelete::of);
+
+            hbaseExecutor.delete(tableName, anyDeletes);
         }
 
         public boolean exists(final AnyGet anyGet) throws UncheckedIOException {

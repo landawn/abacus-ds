@@ -604,6 +604,7 @@ public final class CassandraExecutor implements Closeable {
             String propName = null;
             Object propValue = null;
             Class<?> parameterType = null;
+            String fieldName = null;
 
             for (int i = 0; i < columnCount; i++) {
                 propName = columnDefinitions.getName(i);
@@ -611,8 +612,8 @@ public final class CassandraExecutor implements Closeable {
 
                 propInfo = entityInfo.getPropInfo(propName);
 
-                if (propInfo == null && column2FieldNameMap.containsKey(propName)) {
-                    propName = column2FieldNameMap.get(propName);
+                if (propInfo == null && (fieldName = column2FieldNameMap.get(propName)) != null) {
+                    propName = fieldName;
                     propInfo = entityInfo.getPropInfo(propName);
                 }
 

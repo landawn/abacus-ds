@@ -65,7 +65,6 @@ import com.landawn.abacus.parser.ParserUtil.PropInfo;
 import com.landawn.abacus.type.Type;
 import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
-import com.landawn.abacus.util.Fn;
 import com.landawn.abacus.util.InternalUtil;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
@@ -289,39 +288,39 @@ public final class DynamoDBExecutor implements Closeable {
 
     /**
      *
-     * @param keyName
+     * @param attrName
      * @param value
      * @return
      */
-    public static Map<String, AttributeValue> asItem(final String keyName, final Object value) {
-        return N.asLinkedHashMap(keyName, attrValueOf(value));
+    public static Map<String, AttributeValue> asItem(final String attrName, final Object value) {
+        return N.asLinkedHashMap(attrName, attrValueOf(value));
     }
 
     /**
      *
-     * @param keyName
+     * @param attrName
      * @param value
-     * @param keyName2
+     * @param attrName2
      * @param value2
      * @return
      */
-    public static Map<String, AttributeValue> asItem(final String keyName, final Object value, final String keyName2, final Object value2) {
-        return N.asLinkedHashMap(keyName, attrValueOf(value), keyName2, attrValueOf(value2));
+    public static Map<String, AttributeValue> asItem(final String attrName, final Object value, final String attrName2, final Object value2) {
+        return N.asLinkedHashMap(attrName, attrValueOf(value), attrName2, attrValueOf(value2));
     }
 
     /**
      *
-     * @param keyName
+     * @param attrName
      * @param value
-     * @param keyName2
+     * @param attrName2
      * @param value2
-     * @param keyName3
+     * @param attrName3
      * @param value3
      * @return
      */
-    public static Map<String, AttributeValue> asItem(final String keyName, final Object value, final String keyName2, final Object value2,
-            final String keyName3, Object value3) {
-        return N.asLinkedHashMap(keyName, attrValueOf(value), keyName2, attrValueOf(value2), keyName3, attrValueOf(value3));
+    public static Map<String, AttributeValue> asItem(final String attrName, final Object value, final String attrName2, final Object value2,
+            final String attrName3, Object value3) {
+        return N.asLinkedHashMap(attrName, attrValueOf(value), attrName2, attrValueOf(value2), attrName3, attrValueOf(value3));
     }
 
     /**
@@ -349,41 +348,41 @@ public final class DynamoDBExecutor implements Closeable {
     /**
      * As update item.
      *
-     * @param keyName
+     * @param attrName
      * @param value
      * @return
      */
-    public static Map<String, AttributeValueUpdate> asUpdateItem(final String keyName, final Object value) {
-        return N.asLinkedHashMap(keyName, attrValueUpdateOf(value));
+    public static Map<String, AttributeValueUpdate> asUpdateItem(final String attrName, final Object value) {
+        return N.asLinkedHashMap(attrName, attrValueUpdateOf(value));
     }
 
     /**
      * As update item.
      *
-     * @param keyName
+     * @param attrName
      * @param value
-     * @param keyName2
+     * @param attrName2
      * @param value2
      * @return
      */
-    public static Map<String, AttributeValueUpdate> asUpdateItem(final String keyName, final Object value, final String keyName2, final Object value2) {
-        return N.asLinkedHashMap(keyName, attrValueUpdateOf(value), keyName2, attrValueUpdateOf(value2));
+    public static Map<String, AttributeValueUpdate> asUpdateItem(final String attrName, final Object value, final String attrName2, final Object value2) {
+        return N.asLinkedHashMap(attrName, attrValueUpdateOf(value), attrName2, attrValueUpdateOf(value2));
     }
 
     /**
      * As update item.
      *
-     * @param keyName
+     * @param attrName
      * @param value
-     * @param keyName2
+     * @param attrName2
      * @param value2
-     * @param keyName3
+     * @param attrName3
      * @param value3
      * @return
      */
-    public static Map<String, AttributeValueUpdate> asUpdateItem(final String keyName, final Object value, final String keyName2, final Object value2,
-            final String keyName3, final Object value3) {
-        return N.asLinkedHashMap(keyName, attrValueUpdateOf(value), keyName2, attrValueUpdateOf(value2), keyName3, attrValueUpdateOf(value3));
+    public static Map<String, AttributeValueUpdate> asUpdateItem(final String attrName, final Object value, final String attrName2, final Object value2,
+            final String attrName3, final Object value3) {
+        return N.asLinkedHashMap(attrName, attrValueUpdateOf(value), attrName2, attrValueUpdateOf(value2), attrName3, attrValueUpdateOf(value3));
     }
 
     /**
@@ -411,186 +410,195 @@ public final class DynamoDBExecutor implements Closeable {
 
     /**
      *
-     * @param queryResult
+     * @param entity
      * @return
      */
-    public static DataSet extractData(final QueryResult queryResult) {
-        return extractData(queryResult, 0, Integer.MAX_VALUE);
+    public static Map<String, AttributeValue> toItem(final Object entity) {
+        return toItem(entity, NamingPolicy.LOWER_CAMEL_CASE);
     }
 
     /**
      *
-     * @param queryResult
-     * @param offset
-     * @param count
+     * @param entity
+     * @param namingPolicy
      * @return
      */
-    public static DataSet extractData(final QueryResult queryResult, int offset, int count) {
-        return extractData(queryResult.getItems(), offset, count);
-    }
+    public static Map<String, AttributeValue> toItem(final Object entity, NamingPolicy namingPolicy) {
+        final boolean isLowerCamelCase = namingPolicy == NamingPolicy.LOWER_CAMEL_CASE;
+        final Map<String, AttributeValue> attrs = new LinkedHashMap<>();
+        final Class<?> cls = entity.getClass();
 
-    /**
-     *
-     * @param scanResult
-     * @return
-     */
-    public static DataSet extractData(final ScanResult scanResult) {
-        return extractData(scanResult, 0, Integer.MAX_VALUE);
-    }
+        if (ClassUtil.isEntity(cls)) {
+            if (DirtyMarkerUtil.isDirtyMarker(cls)) {
 
-    /**
-     *
-     * @param scanResult
-     * @param offset
-     * @param count
-     * @return
-     */
-    public static DataSet extractData(final ScanResult scanResult, int offset, int count) {
-        return extractData(scanResult.getItems(), offset, count);
-    }
+                @SuppressWarnings("deprecation")
+                final Set<String> signedPropNames = ((DirtyMarker) entity).signedPropNames();
+                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
+                PropInfo propInfo = null;
 
-    /**
-     *
-     * @param items
-     * @param offset
-     * @param count
-     * @return
-     */
-    static DataSet extractData(final List<Map<String, AttributeValue>> items, int offset, int count) {
-        N.checkArgument(offset >= 0 && count >= 0, "'offset' and 'count' can't be negative: %s, %s", offset, count);
+                for (String propName : signedPropNames) {
+                    propInfo = entityInfo.getPropInfo(propName);
 
-        if (N.isNullOrEmpty(items) || count == 0 || offset >= items.size()) {
-            return N.newEmptyDataSet();
-        }
+                    attrs.put(getAttrName(propInfo, namingPolicy), attrValueOf(propInfo.getPropValue(entity)));
+                }
+            } else {
+                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
+                Object propValue = null;
 
-        final int rowCount = N.min(count, items.size() - offset);
-        final Set<String> columnNames = N.newLinkedHashSet();
+                for (PropInfo propInfo : entityInfo.propInfoList) {
+                    propValue = propInfo.getPropValue(entity);
 
-        for (int i = offset, to = offset + rowCount; i < to; i++) {
-            columnNames.addAll(items.get(i).keySet());
-        }
+                    if (propValue == null) {
+                        continue;
+                    }
 
-        final int columnCount = columnNames.size();
-        final List<String> columnNameList = new ArrayList<>(columnNames);
-        final List<List<Object>> columnList = new ArrayList<>(columnCount);
-
-        for (int i = 0; i < columnCount; i++) {
-            columnList.add(new ArrayList<>(rowCount));
-        }
-
-        for (int i = offset, to = offset + rowCount; i < to; i++) {
-            final Map<String, AttributeValue> item = items.get(i);
-
-            for (int j = 0; j < columnCount; j++) {
-                columnList.get(j).add(toValue(item.get(columnNameList.get(j))));
+                    attrs.put(getAttrName(propInfo, namingPolicy), attrValueOf(propValue));
+                }
             }
-        }
+        } else if (Map.class.isAssignableFrom(cls)) {
+            final Map<String, Object> map = (Map<String, Object>) entity;
 
-        return new RowDataSet(columnNameList, columnList);
-    }
-
-    /**
-     *
-     * @param <T>
-     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param queryResult
-     * @return
-     */
-    public static <T> List<T> toList(final Class<T> targetClass, final QueryResult queryResult) {
-        return toList(targetClass, queryResult, 0, Integer.MAX_VALUE);
-    }
-
-    /**
-     *
-     * @param <T>
-     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param queryResult
-     * @param offset
-     * @param count
-     * @return
-     */
-    public static <T> List<T> toList(final Class<T> targetClass, final QueryResult queryResult, int offset, int count) {
-        return toList(targetClass, queryResult.getItems(), offset, count);
-    }
-
-    /**
-     *
-     * @param <T>
-     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param scanResult
-     * @return
-     */
-    public static <T> List<T> toList(final Class<T> targetClass, final ScanResult scanResult) {
-        return toList(targetClass, scanResult, 0, Integer.MAX_VALUE);
-    }
-
-    /**
-     *
-     * @param <T>
-     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param scanResult
-     * @param offset
-     * @param count
-     * @return
-     */
-    public static <T> List<T> toList(final Class<T> targetClass, final ScanResult scanResult, int offset, int count) {
-        return toList(targetClass, scanResult.getItems(), offset, count);
-    }
-
-    /**
-     *
-     * @param <T>
-     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param items
-     * @return
-     */
-    static <T> List<T> toList(final Class<T> targetClass, final List<Map<String, AttributeValue>> items) {
-        return toList(targetClass, items, 0, Integer.MAX_VALUE);
-    }
-
-    /**
-     *
-     * @param <T>
-     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param items
-     * @param offset
-     * @param count
-     * @return
-     */
-    static <T> List<T> toList(final Class<T> targetClass, final List<Map<String, AttributeValue>> items, int offset, int count) {
-        if (offset < 0 || count < 0) {
-            throw new IllegalArgumentException("Offset and count can't be negative");
-        }
-
-        final Type<T> type = N.typeOf(targetClass);
-        final List<T> resultList = new ArrayList<>();
-
-        if (N.notNullOrEmpty(items)) {
-            for (int i = offset, to = items.size(); i < to && count > 0; i++, count--) {
-                resultList.add(toValue(type, targetClass, items.get(i)));
+            if (isLowerCamelCase) {
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    attrs.put(entry.getKey(), attrValueOf(entry.getValue()));
+                }
+            } else {
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    attrs.put(namingPolicy.convert(entry.getKey()), attrValueOf(entry.getValue()));
+                }
             }
+        } else if (entity instanceof Object[]) {
+            return toItem(N.asProps(entity), namingPolicy);
+        } else {
+            throw new IllegalArgumentException("Unsupported type: " + ClassUtil.getCanonicalClassName(cls)
+                    + ". Only Entity and Map<String, Object> class generated by CodeGenerator with getter/setter methods are supported");
         }
 
-        return resultList;
+        return attrs;
+    }
+
+    /**
+     * Only the dirty properties will be set to the result Map if the specified entity is a dirty marker entity.
+     *
+     * @param entity
+     * @return
+     */
+    public static Map<String, AttributeValueUpdate> toUpdateItem(final Object entity) {
+        return toUpdateItem(entity, NamingPolicy.LOWER_CAMEL_CASE);
+    }
+
+    /**
+     * Only the dirty properties will be set to the result Map if the specified entity is a dirty marker entity.
+     *
+     * @param entity
+     * @param namingPolicy
+     * @return
+     */
+    public static Map<String, AttributeValueUpdate> toUpdateItem(final Object entity, NamingPolicy namingPolicy) {
+        final boolean isLowerCamelCase = namingPolicy == NamingPolicy.LOWER_CAMEL_CASE;
+        final Map<String, AttributeValueUpdate> attrs = new LinkedHashMap<>();
+        final Class<?> cls = entity.getClass();
+
+        if (ClassUtil.isEntity(cls)) {
+            if (DirtyMarkerUtil.isDirtyMarker(cls)) {
+
+                @SuppressWarnings("deprecation")
+                final Set<String> dirtyPropNames = ((DirtyMarker) entity).dirtyPropNames();
+                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
+                PropInfo propInfo = null;
+
+                for (String propName : dirtyPropNames) {
+                    propInfo = entityInfo.getPropInfo(propName);
+
+                    attrs.put(getAttrName(propInfo, namingPolicy), attrValueUpdateOf(propInfo.getPropValue(entity)));
+                }
+
+            } else {
+                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
+                Object propValue = null;
+
+                for (PropInfo propInfo : entityInfo.propInfoList) {
+                    propValue = propInfo.getPropValue(entity);
+
+                    if (propValue == null) {
+                        continue;
+                    }
+
+                    attrs.put(getAttrName(propInfo, namingPolicy), attrValueUpdateOf(propValue));
+                }
+            }
+        } else if (Map.class.isAssignableFrom(cls)) {
+            final Map<String, Object> map = (Map<String, Object>) entity;
+
+            if (isLowerCamelCase) {
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    attrs.put(entry.getKey(), attrValueUpdateOf(entry.getValue()));
+                }
+            } else {
+                for (Map.Entry<String, Object> entry : map.entrySet()) {
+                    attrs.put(namingPolicy.convert(entry.getKey()), attrValueUpdateOf(entry.getValue()));
+                }
+            }
+        } else if (entity instanceof Object[]) {
+            return toUpdateItem(N.asProps(entity), namingPolicy);
+        } else {
+            throw new IllegalArgumentException("Unsupported type: " + ClassUtil.getCanonicalClassName(cls)
+                    + ". Only Entity and Map<String, Object> class generated by CodeGenerator with getter/setter methods are supported");
+        }
+
+        return attrs;
     }
 
     /**
      *
-     * @param <T>
-     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
-     * @param tableItems
+     * @param entities
      * @return
      */
-    static <T> Map<String, List<T>> toEntities(final Class<T> targetClass, final Map<String, List<Map<String, AttributeValue>>> tableItems) {
-        final Map<String, List<T>> tableEntities = new LinkedHashMap<>();
+    static List<Map<String, AttributeValue>> toItem(final Collection<?> entities) {
+        return toItem(entities, NamingPolicy.LOWER_CAMEL_CASE);
+    }
 
-        if (N.notNullOrEmpty(tableItems)) {
-            for (Map.Entry<String, List<Map<String, AttributeValue>>> entry : tableItems.entrySet()) {
-                tableEntities.put(entry.getKey(), toList(targetClass, entry.getValue()));
-            }
+    /**
+     *
+     * @param entities
+     * @param namingPolicy
+     * @return
+     */
+    static List<Map<String, AttributeValue>> toItem(final Collection<?> entities, NamingPolicy namingPolicy) {
+        final List<Map<String, AttributeValue>> attrsList = new ArrayList<>(entities.size());
+
+        for (Object entity : entities) {
+            attrsList.add(toItem(entity, namingPolicy));
         }
 
-        return tableEntities;
+        return attrsList;
+    }
+
+    /**
+     * To update item.
+     *
+     * @param entities
+     * @return
+     */
+    static List<Map<String, AttributeValueUpdate>> toUpdateItem(final Collection<?> entities) {
+        return toUpdateItem(entities, NamingPolicy.LOWER_CAMEL_CASE);
+    }
+
+    /**
+     * To update item.
+     *
+     * @param entities
+     * @param namingPolicy
+     * @return
+     */
+    static List<Map<String, AttributeValueUpdate>> toUpdateItem(final Collection<?> entities, NamingPolicy namingPolicy) {
+        final List<Map<String, AttributeValueUpdate>> attrsList = new ArrayList<>(entities.size());
+
+        for (Object entity : entities) {
+            attrsList.add(toUpdateItem(entity, namingPolicy));
+        }
+
+        return attrsList;
     }
 
     /**
@@ -635,14 +643,15 @@ public final class DynamoDBExecutor implements Closeable {
             final Map<String, String> column2FieldNameMap = InternalUtil.getColumn2FieldNameMap(targetClass);
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
             final T entity = N.newInstance(targetClass);
+            String fieldName = null;
 
             PropInfo propInfo = null;
 
             for (Map.Entry<String, AttributeValue> entry : item.entrySet()) {
                 propInfo = entityInfo.getPropInfo(entry.getKey());
 
-                if (propInfo == null && column2FieldNameMap.containsKey(entry.getKey())) {
-                    propInfo = entityInfo.getPropInfo(entry.getKey());
+                if (propInfo == null && (fieldName = column2FieldNameMap.get(entry.getKey())) != null) {
+                    propInfo = entityInfo.getPropInfo(fieldName);
                 }
 
                 if (propInfo == null) {
@@ -732,6 +741,190 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     /**
+     *
+     * @param <T>
+     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
+     * @param tableItems
+     * @return
+     */
+    static <T> Map<String, List<T>> toEntities(final Class<T> targetClass, final Map<String, List<Map<String, AttributeValue>>> tableItems) {
+        final Map<String, List<T>> tableEntities = new LinkedHashMap<>();
+
+        if (N.notNullOrEmpty(tableItems)) {
+            for (Map.Entry<String, List<Map<String, AttributeValue>>> entry : tableItems.entrySet()) {
+                tableEntities.put(entry.getKey(), toList(targetClass, entry.getValue()));
+            }
+        }
+
+        return tableEntities;
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
+     * @param queryResult
+     * @return
+     */
+    public static <T> List<T> toList(final Class<T> targetClass, final QueryResult queryResult) {
+        return toList(targetClass, queryResult, 0, Integer.MAX_VALUE);
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
+     * @param queryResult
+     * @param offset
+     * @param count
+     * @return
+     */
+    public static <T> List<T> toList(final Class<T> targetClass, final QueryResult queryResult, int offset, int count) {
+        return toList(targetClass, queryResult.getItems(), offset, count);
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
+     * @param scanResult
+     * @return
+     */
+    public static <T> List<T> toList(final Class<T> targetClass, final ScanResult scanResult) {
+        return toList(targetClass, scanResult, 0, Integer.MAX_VALUE);
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
+     * @param scanResult
+     * @param offset
+     * @param count
+     * @return
+     */
+    public static <T> List<T> toList(final Class<T> targetClass, final ScanResult scanResult, int offset, int count) {
+        return toList(targetClass, scanResult.getItems(), offset, count);
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
+     * @param items
+     * @return
+     */
+    static <T> List<T> toList(final Class<T> targetClass, final List<Map<String, AttributeValue>> items) {
+        return toList(targetClass, items, 0, Integer.MAX_VALUE);
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param targetClass entity classes with getter/setter methods or basic single value type(Primitive/String/Date...)
+     * @param items
+     * @param offset
+     * @param count
+     * @return
+     */
+    static <T> List<T> toList(final Class<T> targetClass, final List<Map<String, AttributeValue>> items, int offset, int count) {
+        if (offset < 0 || count < 0) {
+            throw new IllegalArgumentException("Offset and count can't be negative");
+        }
+
+        final Type<T> type = N.typeOf(targetClass);
+        final List<T> resultList = new ArrayList<>();
+
+        if (N.notNullOrEmpty(items)) {
+            for (int i = offset, to = items.size(); i < to && count > 0; i++, count--) {
+                resultList.add(toValue(type, targetClass, items.get(i)));
+            }
+        }
+
+        return resultList;
+    }
+
+    /**
+     *
+     * @param queryResult
+     * @return
+     */
+    public static DataSet extractData(final QueryResult queryResult) {
+        return extractData(queryResult, 0, Integer.MAX_VALUE);
+    }
+
+    /**
+     *
+     * @param queryResult
+     * @param offset
+     * @param count
+     * @return
+     */
+    public static DataSet extractData(final QueryResult queryResult, int offset, int count) {
+        return extractData(queryResult.getItems(), offset, count);
+    }
+
+    /**
+     *
+     * @param scanResult
+     * @return
+     */
+    public static DataSet extractData(final ScanResult scanResult) {
+        return extractData(scanResult, 0, Integer.MAX_VALUE);
+    }
+
+    /**
+     *
+     * @param scanResult
+     * @param offset
+     * @param count
+     * @return
+     */
+    public static DataSet extractData(final ScanResult scanResult, int offset, int count) {
+        return extractData(scanResult.getItems(), offset, count);
+    }
+
+    /**
+     *
+     * @param items
+     * @param offset
+     * @param count
+     * @return
+     */
+    static DataSet extractData(final List<Map<String, AttributeValue>> items, int offset, int count) {
+        N.checkArgument(offset >= 0 && count >= 0, "'offset' and 'count' can't be negative: %s, %s", offset, count);
+
+        if (N.isNullOrEmpty(items) || count == 0 || offset >= items.size()) {
+            return N.newEmptyDataSet();
+        }
+
+        final int rowCount = N.min(count, items.size() - offset);
+        final Set<String> columnNames = N.newLinkedHashSet();
+
+        for (int i = offset, to = offset + rowCount; i < to; i++) {
+            columnNames.addAll(items.get(i).keySet());
+        }
+
+        final int columnCount = columnNames.size();
+        final List<String> columnNameList = new ArrayList<>(columnNames);
+        final List<List<Object>> columnList = new ArrayList<>(columnCount);
+
+        for (int i = 0; i < columnCount; i++) {
+            columnList.add(new ArrayList<>(rowCount));
+        }
+
+        for (int i = offset, to = offset + rowCount; i < to; i++) {
+            final Map<String, AttributeValue> item = items.get(i);
+
+            for (int j = 0; j < columnCount; j++) {
+                columnList.get(j).add(toValue(item.get(columnNameList.get(j))));
+            }
+        }
+
+        return new RowDataSet(columnNameList, columnList);
+    }
+
+    /**
      * Check entity class.
      *
      * @param <T>
@@ -744,198 +937,14 @@ public final class DynamoDBExecutor implements Closeable {
         }
     }
 
-    /**
-     *
-     * @param entity
-     * @return
-     */
-    public static Map<String, AttributeValue> toItem(final Object entity) {
-        return toItem(entity, NamingPolicy.LOWER_CAMEL_CASE);
-    }
-
-    /**
-     *
-     * @param entity
-     * @param namingPolicy
-     * @return
-     */
-    public static Map<String, AttributeValue> toItem(final Object entity, NamingPolicy namingPolicy) {
-        final boolean isLowerCamelCase = namingPolicy == NamingPolicy.LOWER_CAMEL_CASE;
-        final Map<String, AttributeValue> attrs = new LinkedHashMap<>();
-        final Class<?> cls = entity.getClass();
-
-        if (ClassUtil.isEntity(cls)) {
-            if (DirtyMarkerUtil.isDirtyMarker(cls)) {
-
-                @SuppressWarnings("deprecation")
-                final Set<String> signedPropNames = ((DirtyMarker) entity).signedPropNames();
-                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
-                PropInfo propInfo = null;
-
-                for (String propName : signedPropNames) {
-                    propInfo = entityInfo.getPropInfo(propName);
-
-                    attrs.put(isLowerCamelCase ? propInfo.name : namingPolicy.convert(propInfo.name), attrValueOf(propInfo.getPropValue(entity)));
-                }
-            } else {
-                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
-                Object propValue = null;
-
-                for (PropInfo propInfo : entityInfo.propInfoList) {
-                    propValue = propInfo.getPropValue(entity);
-
-                    if (propValue == null) {
-                        continue;
-                    }
-
-                    attrs.put(isLowerCamelCase ? propInfo.name : namingPolicy.convert(propInfo.name), attrValueOf(propValue));
-                }
-            }
-
-        } else if (Map.class.isAssignableFrom(cls)) {
-            final Map<String, Object> map = (Map<String, Object>) entity;
-
-            if (isLowerCamelCase) {
-                for (Map.Entry<String, Object> entry : map.entrySet()) {
-                    attrs.put(entry.getKey(), attrValueOf(entry.getValue()));
-                }
-            } else {
-                for (Map.Entry<String, Object> entry : map.entrySet()) {
-                    attrs.put(namingPolicy.convert(entry.getKey()), attrValueOf(entry.getValue()));
-                }
-            }
-        } else if (entity instanceof Object[]) {
-            return toItem(N.asProps(entity), namingPolicy);
+    private static String getAttrName(final PropInfo propInfo, final NamingPolicy namingPolicy) {
+        if (N.notNullOrEmpty(propInfo.columnName)) {
+            return propInfo.columnName;
+        } else if (NamingPolicy.LOWER_CAMEL_CASE.equals(namingPolicy)) {
+            return propInfo.name;
         } else {
-            throw new IllegalArgumentException("Unsupported type: " + ClassUtil.getCanonicalClassName(cls)
-                    + ". Only Entity and Map<String, Object> class generated by CodeGenerator with getter/setter methods are supported");
+            return namingPolicy.convert(propInfo.name);
         }
-
-        return attrs;
-    }
-
-    /**
-     *
-     * @param entities
-     * @return
-     */
-    static List<Map<String, AttributeValue>> toItem(final Collection<?> entities) {
-        return toItem(entities, NamingPolicy.LOWER_CAMEL_CASE);
-    }
-
-    /**
-     *
-     * @param entities
-     * @param namingPolicy
-     * @return
-     */
-    static List<Map<String, AttributeValue>> toItem(final Collection<?> entities, NamingPolicy namingPolicy) {
-        final List<Map<String, AttributeValue>> attrsList = new ArrayList<>(entities.size());
-
-        for (Object entity : entities) {
-            attrsList.add(toItem(entity, namingPolicy));
-        }
-
-        return attrsList;
-    }
-
-    /**
-     * Only the dirty properties will be set to the result Map if the specified entity is a dirty marker entity.
-     *
-     * @param entity
-     * @return
-     */
-    public static Map<String, AttributeValueUpdate> toUpdateItem(final Object entity) {
-        return toUpdateItem(entity, NamingPolicy.LOWER_CAMEL_CASE);
-    }
-
-    /**
-     * Only the dirty properties will be set to the result Map if the specified entity is a dirty marker entity.
-     *
-     * @param entity
-     * @param namingPolicy
-     * @return
-     */
-    public static Map<String, AttributeValueUpdate> toUpdateItem(final Object entity, NamingPolicy namingPolicy) {
-        final boolean isLowerCamelCase = namingPolicy == NamingPolicy.LOWER_CAMEL_CASE;
-        final Map<String, AttributeValueUpdate> attrs = new LinkedHashMap<>();
-        final Class<?> cls = entity.getClass();
-
-        if (ClassUtil.isEntity(cls)) {
-            if (DirtyMarkerUtil.isDirtyMarker(cls)) {
-
-                @SuppressWarnings("deprecation")
-                final Set<String> dirtyPropNames = ((DirtyMarker) entity).dirtyPropNames();
-                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
-                PropInfo propInfo = null;
-
-                for (String propName : dirtyPropNames) {
-                    propInfo = entityInfo.getPropInfo(propName);
-
-                    attrs.put(isLowerCamelCase ? propInfo.name : namingPolicy.convert(propInfo.name), attrValueUpdateOf(propInfo.getPropValue(entity)));
-                }
-
-            } else {
-                final EntityInfo entityInfo = ParserUtil.getEntityInfo(cls);
-                Object propValue = null;
-
-                for (PropInfo propInfo : entityInfo.propInfoList) {
-                    propValue = propInfo.getPropValue(entity);
-
-                    if (propValue == null) {
-                        continue;
-                    }
-
-                    attrs.put(isLowerCamelCase ? propInfo.name : namingPolicy.convert(propInfo.name), attrValueUpdateOf(propValue));
-                }
-            }
-        } else if (Map.class.isAssignableFrom(cls)) {
-            final Map<String, Object> map = (Map<String, Object>) entity;
-
-            if (isLowerCamelCase) {
-                for (Map.Entry<String, Object> entry : map.entrySet()) {
-                    attrs.put(entry.getKey(), attrValueUpdateOf(entry.getValue()));
-                }
-            } else {
-                for (Map.Entry<String, Object> entry : map.entrySet()) {
-                    attrs.put(namingPolicy.convert(entry.getKey()), attrValueUpdateOf(entry.getValue()));
-                }
-            }
-        } else if (entity instanceof Object[]) {
-            return toUpdateItem(N.asProps(entity), namingPolicy);
-        } else {
-            throw new IllegalArgumentException("Unsupported type: " + ClassUtil.getCanonicalClassName(cls)
-                    + ". Only Entity and Map<String, Object> class generated by CodeGenerator with getter/setter methods are supported");
-        }
-
-        return attrs;
-    }
-
-    /**
-     * To update item.
-     *
-     * @param entities
-     * @return
-     */
-    static List<Map<String, AttributeValueUpdate>> toUpdateItem(final Collection<?> entities) {
-        return toUpdateItem(entities, NamingPolicy.LOWER_CAMEL_CASE);
-    }
-
-    /**
-     * To update item.
-     *
-     * @param entities
-     * @param namingPolicy
-     * @return
-     */
-    static List<Map<String, AttributeValueUpdate>> toUpdateItem(final Collection<?> entities, NamingPolicy namingPolicy) {
-        final List<Map<String, AttributeValueUpdate>> attrsList = new ArrayList<>(entities.size());
-
-        for (Object entity : entities) {
-            attrsList.add(toUpdateItem(entity, namingPolicy));
-        }
-
-        return attrsList;
     }
 
     /**
@@ -1655,6 +1664,10 @@ public final class DynamoDBExecutor implements Closeable {
             return dynamoDBExecutor.getItem(targetEntityClass, tableName, createKey(entity), consistentRead);
         }
 
+        public T getItem(final Map<String, AttributeValue> key) {
+            return dynamoDBExecutor.getItem(targetEntityClass, tableName, key);
+        }
+
         public T getItem(final GetItemRequest getItemRequest) {
             return dynamoDBExecutor.getItem(targetEntityClass, checkItem(getItemRequest));
         }
@@ -1723,6 +1736,10 @@ public final class DynamoDBExecutor implements Closeable {
 
         public DeleteItemResult deleteItem(final T entity, final String returnValues) {
             return dynamoDBExecutor.deleteItem(tableName, createKey(entity), returnValues);
+        }
+
+        public DeleteItemResult deleteItem(final Map<String, AttributeValue> key) {
+            return dynamoDBExecutor.deleteItem(tableName, key);
         }
 
         public DeleteItemResult deleteItem(final DeleteItemRequest deleteItemRequest) {
@@ -1808,27 +1825,25 @@ public final class DynamoDBExecutor implements Closeable {
         private GetItemRequest checkItem(GetItemRequest item) {
             if (N.isNullOrEmpty(item.getTableName())) {
                 item.setTableName(tableName);
-            } else if (!isSameTableName(item.getTableName())) {
-                throw new IllegalArgumentException(
-                        "The table name: " + item.getTableName() + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            } else {
+                checkTableName(item.getTableName());
             }
 
             return item;
         }
 
         private BatchGetItemRequest checkItem(BatchGetItemRequest item) {
-            if (item.getRequestItems().keySet().stream().anyMatch(Fn.notEqual(tableName))) {
-                throw new IllegalArgumentException("The table names: " + item.getRequestItems().keySet()
-                        + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            for (String tableNameInRequest : item.getRequestItems().keySet()) {
+                checkTableName(tableNameInRequest);
             }
 
             return item;
+
         }
 
         private BatchWriteItemRequest checkItem(BatchWriteItemRequest item) {
-            if (item.getRequestItems().keySet().stream().anyMatch(Fn.notEqual(tableName))) {
-                throw new IllegalArgumentException("The table names: " + item.getRequestItems().keySet()
-                        + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            for (String tableNameInRequest : item.getRequestItems().keySet()) {
+                checkTableName(tableNameInRequest);
             }
 
             return item;
@@ -1837,9 +1852,8 @@ public final class DynamoDBExecutor implements Closeable {
         private PutItemRequest checkItem(PutItemRequest item) {
             if (N.isNullOrEmpty(item.getTableName())) {
                 item.setTableName(tableName);
-            } else if (!isSameTableName(item.getTableName())) {
-                throw new IllegalArgumentException(
-                        "The table name: " + item.getTableName() + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            } else {
+                checkTableName(item.getTableName());
             }
 
             return item;
@@ -1848,9 +1862,8 @@ public final class DynamoDBExecutor implements Closeable {
         private UpdateItemRequest checkItem(UpdateItemRequest item) {
             if (N.isNullOrEmpty(item.getTableName())) {
                 item.setTableName(tableName);
-            } else if (!isSameTableName(item.getTableName())) {
-                throw new IllegalArgumentException(
-                        "The table name: " + item.getTableName() + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            } else {
+                checkTableName(item.getTableName());
             }
 
             return item;
@@ -1859,9 +1872,8 @@ public final class DynamoDBExecutor implements Closeable {
         private DeleteItemRequest checkItem(DeleteItemRequest item) {
             if (N.isNullOrEmpty(item.getTableName())) {
                 item.setTableName(tableName);
-            } else if (!isSameTableName(item.getTableName())) {
-                throw new IllegalArgumentException(
-                        "The table name: " + item.getTableName() + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            } else {
+                checkTableName(item.getTableName());
             }
 
             return item;
@@ -1870,9 +1882,8 @@ public final class DynamoDBExecutor implements Closeable {
         private QueryRequest checkQueryRequest(final QueryRequest queryRequest) {
             if (N.isNullOrEmpty(queryRequest.getTableName())) {
                 queryRequest.setTableName(tableName);
-            } else if (!isSameTableName(queryRequest.getTableName())) {
-                throw new IllegalArgumentException("The table name: " + queryRequest.getTableName()
-                        + " in the specfied QueryRequest is not equal to the table name in the Mapper: " + tableName);
+            } else {
+                checkTableName(queryRequest.getTableName());
             }
 
             return queryRequest;
@@ -1881,16 +1892,18 @@ public final class DynamoDBExecutor implements Closeable {
         private ScanRequest checkScanRequest(final ScanRequest scanRequest) {
             if (N.isNullOrEmpty(scanRequest.getTableName())) {
                 scanRequest.setTableName(tableName);
-            } else if (!isSameTableName(scanRequest.getTableName())) {
-                throw new IllegalArgumentException("The table name: " + scanRequest.getTableName()
-                        + " in the specfied ScanRequest is not equal to the table name in the Mapper: " + tableName);
+            } else {
+                checkTableName(scanRequest.getTableName());
             }
 
             return scanRequest;
         }
 
-        private boolean isSameTableName(final String tableNameInRequest) {
-            return tableName.equals(tableNameInRequest);
+        private void checkTableName(final String tableNameInRequest) {
+            if (!tableName.equals(tableNameInRequest)) {
+                throw new IllegalArgumentException("The table name: " + tableNameInRequest
+                        + " in the specfied request is not equal to the table name defined for the Mapper: " + tableName);
+            }
         }
     }
 
