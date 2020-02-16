@@ -945,6 +945,13 @@ public final class HBaseExecutor implements Closeable {
     @SuppressWarnings("rawtypes")
     private final Map<Class<?>, HBaseMapper> mapperPool = new ConcurrentHashMap<>();
 
+    /**
+     * 
+     * @param <T>
+     * @param <K>
+     * @param targetEntityClass
+     * @return
+     */
     public <T, K> HBaseMapper<T, K> mapper(final Class<T> targetEntityClass) {
         @SuppressWarnings("rawtypes")
         HBaseMapper mapper = mapperPool.get(targetEntityClass);
@@ -957,7 +964,7 @@ public final class HBaseExecutor implements Closeable {
                         + " must be annotated with com.landawn.abacus.annotation.Table or javax.persistence.Table. Otherwise call  HBaseExecutor.mapper(final String tableName, final Class<T> targetEntityClass) instead");
             }
 
-            mapper = mapper(entityInfo.tableName, targetEntityClass);
+            mapper = mapper(targetEntityClass, entityInfo.tableName, NamingPolicy.LOWER_CAMEL_CASE);
 
             mapperPool.put(targetEntityClass, mapper);
         }
@@ -965,8 +972,17 @@ public final class HBaseExecutor implements Closeable {
         return mapper;
     }
 
-    public <T, K> HBaseMapper<T, K> mapper(final String tableName, final Class<T> targetEntityClass) {
-        return new HBaseMapper<T, K>(this, tableName, targetEntityClass);
+    /**
+     * 
+     * @param <T>
+     * @param <K>
+     * @param targetEntityClass
+     * @param tableName
+     * @param namingPolicy
+     * @return
+     */
+    public <T, K> HBaseMapper<T, K> mapper(final Class<T> targetEntityClass, final String tableName, final NamingPolicy namingPolicy) {
+        return new HBaseMapper<T, K>(targetEntityClass, this, tableName, namingPolicy);
     }
 
     /**
@@ -2037,13 +2053,14 @@ public final class HBaseExecutor implements Closeable {
         private final String tableName;
         private final Class<T> targetEntityClass;
         private final String rowKeyPropName;
+        private final NamingPolicy namingPolicy;
 
-        HBaseMapper(final HBaseExecutor hbaseExecutor, final String tableName, final Class<T> targetEntityClass) {
+        HBaseMapper(final Class<T> targetEntityClass, final HBaseExecutor hbaseExecutor, final String tableName, final NamingPolicy namingPolicy) {
+            N.checkArgNotNull(targetEntityClass, "targetEntityClass");
             N.checkArgNotNull(hbaseExecutor, "hbaseExecutor");
             N.checkArgNotNullOrEmpty(tableName, "tableName");
-            N.checkArgNotNull(targetEntityClass, "targetEntityClass");
 
-            N.checkArgument(ClassUtil.isEntity(targetEntityClass), targetEntityClass + " is not an entity class with getter/setter method");
+            N.checkArgument(ClassUtil.isEntity(targetEntityClass), "{} is not an entity class with getter/setter method", targetEntityClass);
 
             @SuppressWarnings("deprecation")
             final List<String> idPropNames = ClassUtil.getIdFieldNames(targetEntityClass);
@@ -2057,6 +2074,8 @@ public final class HBaseExecutor implements Closeable {
             this.tableName = tableName;
             this.targetEntityClass = targetEntityClass;
             this.rowKeyPropName = idPropNames.get(0);
+
+            this.namingPolicy = namingPolicy == null ? NamingPolicy.LOWER_CAMEL_CASE : namingPolicy;
         }
 
         /**
@@ -2105,7 +2124,7 @@ public final class HBaseExecutor implements Closeable {
          * @throws UncheckedIOException
          */
         public void put(final T entityToPut) throws UncheckedIOException {
-            hbaseExecutor.put(tableName, AnyPut.from(entityToPut));
+            hbaseExecutor.put(tableName, AnyPut.from(entityToPut, namingPolicy));
         }
 
         /**
@@ -2114,7 +2133,7 @@ public final class HBaseExecutor implements Closeable {
          * @throws UncheckedIOException
          */
         public void put(final Collection<? extends T> entitiesToPut) throws UncheckedIOException {
-            hbaseExecutor.put(tableName, AnyPut.from(entitiesToPut));
+            hbaseExecutor.put(tableName, AnyPut.from(entitiesToPut, namingPolicy));
         }
 
         /**

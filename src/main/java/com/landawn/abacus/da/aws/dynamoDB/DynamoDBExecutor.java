@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
@@ -41,10 +42,12 @@ import com.amazonaws.services.dynamodbv2.model.ComparisonOperator;
 import com.amazonaws.services.dynamodbv2.model.Condition;
 import com.amazonaws.services.dynamodbv2.model.DeleteItemRequest;
 import com.amazonaws.services.dynamodbv2.model.DeleteItemResult;
+import com.amazonaws.services.dynamodbv2.model.DeleteRequest;
 import com.amazonaws.services.dynamodbv2.model.GetItemRequest;
 import com.amazonaws.services.dynamodbv2.model.KeysAndAttributes;
 import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
 import com.amazonaws.services.dynamodbv2.model.PutItemResult;
+import com.amazonaws.services.dynamodbv2.model.PutRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryRequest;
 import com.amazonaws.services.dynamodbv2.model.QueryResult;
 import com.amazonaws.services.dynamodbv2.model.ScanRequest;
@@ -62,6 +65,7 @@ import com.landawn.abacus.parser.ParserUtil.PropInfo;
 import com.landawn.abacus.type.Type;
 import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
+import com.landawn.abacus.util.Fn;
 import com.landawn.abacus.util.InternalUtil;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
@@ -134,7 +138,7 @@ public final class DynamoDBExecutor implements Closeable {
      *
      * @return
      */
-    public DynamoDBMapper mapper() {
+    public DynamoDBMapper dynamoDBMapper() {
         return mapper;
     }
 
@@ -143,8 +147,35 @@ public final class DynamoDBExecutor implements Closeable {
      * @param config
      * @return
      */
-    public DynamoDBMapper mapper(final DynamoDBMapperConfig config) {
+    public DynamoDBMapper dynamoDBMapper(final DynamoDBMapperConfig config) {
         return new DynamoDBMapper(dynamoDB, config);
+    }
+
+    @SuppressWarnings("rawtypes")
+    private final Map<Class<?>, Mapper> mapperPool = new ConcurrentHashMap<>();
+
+    public <T> Mapper<T> mapper(final Class<T> targetEntityClass) {
+        @SuppressWarnings("rawtypes")
+        Mapper mapper = mapperPool.get(targetEntityClass);
+
+        if (mapper == null) {
+            final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetEntityClass);
+
+            if (N.isNullOrEmpty(entityInfo.tableName)) {
+                throw new IllegalArgumentException("The target entity class: " + targetEntityClass
+                        + " must be annotated with com.landawn.abacus.annotation.Table or javax.persistence.Table. Otherwise call  HBaseExecutor.mapper(final String tableName, final Class<T> targetEntityClass) instead");
+            }
+
+            mapper = mapper(targetEntityClass, entityInfo.tableName, NamingPolicy.LOWER_CAMEL_CASE);
+
+            mapperPool.put(targetEntityClass, mapper);
+        }
+
+        return mapper;
+    }
+
+    public <T> Mapper<T> mapper(final Class<T> targetEntityClass, final String tableName, final NamingPolicy namingPolicy) {
+        return new Mapper<T>(targetEntityClass, this, tableName, namingPolicy);
     }
 
     /**
@@ -1576,6 +1607,291 @@ public final class DynamoDBExecutor implements Closeable {
     @Override
     public void close() throws IOException {
         dynamoDB.shutdown();
+    }
+
+    /**
+     *
+     * @param <T> target entity type.
+     */
+    public static class Mapper<T> {
+        private final DynamoDBExecutor dynamoDBExecutor;
+        private final String tableName;
+        private final Class<T> targetEntityClass;
+        private final EntityInfo entityInfo;
+        private final List<String> keyPropNames;
+        private final List<PropInfo> keyPropInfos;
+        private final NamingPolicy namingPolicy;
+
+        Mapper(final Class<T> targetEntityClass, final DynamoDBExecutor dynamoDBExecutor, final String tableName, final NamingPolicy namingPolicy) {
+            N.checkArgNotNull(targetEntityClass, "targetEntityClass");
+            N.checkArgNotNull(dynamoDBExecutor, "dynamoDBExecutor");
+            N.checkArgNotNullOrEmpty(tableName, "tableName");
+
+            N.checkArgument(ClassUtil.isEntity(targetEntityClass), "{} is not an entity class with getter/setter method", targetEntityClass);
+
+            @SuppressWarnings("deprecation")
+            final List<String> idPropNames = ClassUtil.getIdFieldNames(targetEntityClass);
+
+            if (idPropNames.size() != 1) {
+                throw new IllegalArgumentException(
+                        "No or multiple ids: " + idPropNames + " defined/annotated in class: " + ClassUtil.getCanonicalClassName(targetEntityClass));
+            }
+
+            this.dynamoDBExecutor = dynamoDBExecutor;
+            this.targetEntityClass = targetEntityClass;
+            this.tableName = tableName;
+            this.entityInfo = ParserUtil.getEntityInfo(targetEntityClass);
+            this.keyPropInfos = Stream.of(idPropNames).map(it -> entityInfo.getPropInfo(it)).toList();
+            this.keyPropNames = Stream.of(keyPropInfos).map(it -> N.isNullOrEmpty(it.columnName) ? it.name : it.columnName).toList();
+
+            this.namingPolicy = namingPolicy == null ? NamingPolicy.LOWER_CAMEL_CASE : namingPolicy;
+        }
+
+        public T getItem(final T entity) {
+            return dynamoDBExecutor.getItem(targetEntityClass, tableName, createKey(entity));
+        }
+
+        public T getItem(final T entity, final Boolean consistentRead) {
+            return dynamoDBExecutor.getItem(targetEntityClass, tableName, createKey(entity), consistentRead);
+        }
+
+        public T getItem(final GetItemRequest getItemRequest) {
+            return dynamoDBExecutor.getItem(targetEntityClass, checkItem(getItemRequest));
+        }
+
+        public List<T> batchGetItem(final Collection<? extends T> entities) {
+            final Map<String, List<T>> map = dynamoDBExecutor.batchGetItem(targetEntityClass, createKeys(entities));
+
+            if (N.isNullOrEmpty(map)) {
+                return new ArrayList<>();
+            } else {
+                return map.values().iterator().next();
+            }
+        }
+
+        public List<T> batchGetItem(final Collection<? extends T> entities, final String returnConsumedCapacity) {
+            final Map<String, List<T>> map = dynamoDBExecutor.batchGetItem(targetEntityClass, createKeys(entities), returnConsumedCapacity);
+
+            if (N.isNullOrEmpty(map)) {
+                return new ArrayList<>();
+            } else {
+                return map.values().iterator().next();
+            }
+        }
+
+        public List<T> batchGetItem(final BatchGetItemRequest batchGetItemRequest) {
+            final Map<String, List<T>> map = dynamoDBExecutor.batchGetItem(targetEntityClass, checkItem(batchGetItemRequest));
+
+            if (N.isNullOrEmpty(map)) {
+                return new ArrayList<>();
+            } else {
+                return map.values().iterator().next();
+            }
+        }
+
+        public PutItemResult putItem(final T entity) {
+            return dynamoDBExecutor.putItem(tableName, DynamoDBExecutor.toItem(entity, namingPolicy));
+        }
+
+        public PutItemResult putItem(final T entity, final String returnValues) {
+            return dynamoDBExecutor.putItem(tableName, DynamoDBExecutor.toItem(entity, namingPolicy), returnValues);
+        }
+
+        public PutItemResult putItem(final PutItemRequest putItemRequest) {
+            return dynamoDBExecutor.putItem(checkItem(putItemRequest));
+        }
+
+        public BatchWriteItemResult batchPutItem(final Collection<? extends T> entities) {
+            return dynamoDBExecutor.batchWriteItem(createBatchPutRequest(entities));
+        }
+
+        public UpdateItemResult updateItem(final T entity) {
+            return dynamoDBExecutor.updateItem(tableName, createKey(entity), DynamoDBExecutor.toUpdateItem(entity, namingPolicy));
+        }
+
+        public UpdateItemResult updateItem(final T entity, final String returnValues) {
+            return dynamoDBExecutor.updateItem(tableName, createKey(entity), DynamoDBExecutor.toUpdateItem(entity, namingPolicy), returnValues);
+        }
+
+        public UpdateItemResult updateItem(final UpdateItemRequest updateItemRequest) {
+            return dynamoDBExecutor.updateItem(checkItem(updateItemRequest));
+        }
+
+        public DeleteItemResult deleteItem(final T entity) {
+            return dynamoDBExecutor.deleteItem(tableName, createKey(entity));
+        }
+
+        public DeleteItemResult deleteItem(final T entity, final String returnValues) {
+            return dynamoDBExecutor.deleteItem(tableName, createKey(entity), returnValues);
+        }
+
+        public DeleteItemResult deleteItem(final DeleteItemRequest deleteItemRequest) {
+            return dynamoDBExecutor.deleteItem(checkItem(deleteItemRequest));
+        }
+
+        public BatchWriteItemResult batchDeleteItem(final Collection<? extends T> entities) {
+            return dynamoDBExecutor.batchWriteItem(createBatchDeleteRequest(entities));
+        }
+
+        public BatchWriteItemResult batchWriteItem(final BatchWriteItemRequest batchWriteItemRequest) {
+            return dynamoDBExecutor.batchWriteItem(checkItem(batchWriteItemRequest));
+        }
+
+        public List<T> list(final QueryRequest queryRequest) {
+            return dynamoDBExecutor.list(targetEntityClass, checkQueryRequest(queryRequest));
+        }
+
+        public DataSet query(final QueryRequest queryRequest) {
+            return dynamoDBExecutor.query(targetEntityClass, checkQueryRequest(queryRequest));
+        }
+
+        public Stream<T> stream(final QueryRequest queryRequest) {
+            return dynamoDBExecutor.stream(targetEntityClass, checkQueryRequest(queryRequest));
+        }
+
+        public Stream<T> scan(final List<String> attributesToGet) {
+            return dynamoDBExecutor.scan(targetEntityClass, tableName, attributesToGet);
+        }
+
+        public Stream<T> scan(final Map<String, Condition> scanFilter) {
+            return dynamoDBExecutor.scan(targetEntityClass, tableName, scanFilter);
+        }
+
+        public Stream<T> scan(final List<String> attributesToGet, final Map<String, Condition> scanFilter) {
+            return dynamoDBExecutor.scan(targetEntityClass, tableName, attributesToGet, scanFilter);
+        }
+
+        public Stream<T> scan(final ScanRequest scanRequest) {
+            return dynamoDBExecutor.scan(targetEntityClass, checkScanRequest(scanRequest));
+        }
+
+        private Map<String, AttributeValue> createKey(final T entity) {
+            final Map<String, AttributeValue> key = new HashMap<>(keyPropNames.size());
+
+            for (int i = 0, len = keyPropNames.size(); i < len; i++) {
+                key.put(keyPropNames.get(i), attrValueOf(keyPropInfos.get(i).getPropValue(entity)));
+            }
+
+            return key;
+        }
+
+        private Map<String, KeysAndAttributes> createKeys(final Collection<? extends T> entities) {
+            final List<Map<String, AttributeValue>> keys = new ArrayList<>(entities.size());
+
+            for (T entity : entities) {
+                keys.add(asKey(entity));
+            }
+
+            return N.asMap(tableName, new KeysAndAttributes().withKeys(keys));
+        }
+
+        private Map<String, List<WriteRequest>> createBatchPutRequest(final Collection<? extends T> entities) {
+            final List<WriteRequest> keys = new ArrayList<>(entities.size());
+
+            for (T entity : entities) {
+                keys.add(new WriteRequest().withPutRequest(new PutRequest().withItem(toItem(entity))));
+            }
+
+            return N.asMap(tableName, keys);
+        }
+
+        private Map<String, List<WriteRequest>> createBatchDeleteRequest(final Collection<? extends T> entities) {
+            final List<WriteRequest> keys = new ArrayList<>(entities.size());
+
+            for (T entity : entities) {
+                keys.add(new WriteRequest().withDeleteRequest(new DeleteRequest().withKey(createKey(entity))));
+            }
+
+            return N.asMap(tableName, keys);
+        }
+
+        private GetItemRequest checkItem(GetItemRequest item) {
+            if (N.isNullOrEmpty(item.getTableName())) {
+                item.setTableName(tableName);
+            } else if (!isSameTableName(item.getTableName())) {
+                throw new IllegalArgumentException(
+                        "The table name: " + item.getTableName() + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            }
+
+            return item;
+        }
+
+        private BatchGetItemRequest checkItem(BatchGetItemRequest item) {
+            if (item.getRequestItems().keySet().stream().anyMatch(Fn.notEqual(tableName))) {
+                throw new IllegalArgumentException("The table names: " + item.getRequestItems().keySet()
+                        + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            }
+
+            return item;
+        }
+
+        private BatchWriteItemRequest checkItem(BatchWriteItemRequest item) {
+            if (item.getRequestItems().keySet().stream().anyMatch(Fn.notEqual(tableName))) {
+                throw new IllegalArgumentException("The table names: " + item.getRequestItems().keySet()
+                        + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            }
+
+            return item;
+        }
+
+        private PutItemRequest checkItem(PutItemRequest item) {
+            if (N.isNullOrEmpty(item.getTableName())) {
+                item.setTableName(tableName);
+            } else if (!isSameTableName(item.getTableName())) {
+                throw new IllegalArgumentException(
+                        "The table name: " + item.getTableName() + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            }
+
+            return item;
+        }
+
+        private UpdateItemRequest checkItem(UpdateItemRequest item) {
+            if (N.isNullOrEmpty(item.getTableName())) {
+                item.setTableName(tableName);
+            } else if (!isSameTableName(item.getTableName())) {
+                throw new IllegalArgumentException(
+                        "The table name: " + item.getTableName() + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            }
+
+            return item;
+        }
+
+        private DeleteItemRequest checkItem(DeleteItemRequest item) {
+            if (N.isNullOrEmpty(item.getTableName())) {
+                item.setTableName(tableName);
+            } else if (!isSameTableName(item.getTableName())) {
+                throw new IllegalArgumentException(
+                        "The table name: " + item.getTableName() + " in the specfied item is not equal to the table name in the Mapper: " + tableName);
+            }
+
+            return item;
+        }
+
+        private QueryRequest checkQueryRequest(final QueryRequest queryRequest) {
+            if (N.isNullOrEmpty(queryRequest.getTableName())) {
+                queryRequest.setTableName(tableName);
+            } else if (!isSameTableName(queryRequest.getTableName())) {
+                throw new IllegalArgumentException("The table name: " + queryRequest.getTableName()
+                        + " in the specfied QueryRequest is not equal to the table name in the Mapper: " + tableName);
+            }
+
+            return queryRequest;
+        }
+
+        private ScanRequest checkScanRequest(final ScanRequest scanRequest) {
+            if (N.isNullOrEmpty(scanRequest.getTableName())) {
+                scanRequest.setTableName(tableName);
+            } else if (!isSameTableName(scanRequest.getTableName())) {
+                throw new IllegalArgumentException("The table name: " + scanRequest.getTableName()
+                        + " in the specfied ScanRequest is not equal to the table name in the Mapper: " + tableName);
+            }
+
+            return scanRequest;
+        }
+
+        private boolean isSameTableName(final String tableNameInRequest) {
+            return tableName.equals(tableNameInRequest);
+        }
     }
 
     /**

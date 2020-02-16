@@ -162,18 +162,13 @@ public final class MongoDB {
      * @return
      */
     public MongoCollectionExecutor collExecutor(final String collectionName) {
+        N.checkArgNotNull(collectionName, "collectionName");
+
         MongoCollectionExecutor collExecutor = collExecutorPool.get(collectionName);
 
         if (collExecutor == null) {
-            synchronized (collExecutorPool) {
-                collExecutor = collExecutorPool.get(collectionName);
-
-                if (collExecutor == null) {
-                    collExecutor = new MongoCollectionExecutor(this, mongoDB.getCollection(collectionName), asyncExecutor);
-
-                    collExecutorPool.put(collectionName, collExecutor);
-                }
-            }
+            collExecutor = new MongoCollectionExecutor(this, mongoDB.getCollection(collectionName), asyncExecutor);
+            collExecutorPool.put(collectionName, collExecutor);
         }
 
         return collExecutor;
@@ -204,15 +199,9 @@ public final class MongoDB {
         MongoCollectionMapper collMapper = collMapperPool.get(targetClass);
 
         if (collMapper == null) {
-            synchronized (collMapperPool) {
-                collMapper = collMapperPool.get(targetClass);
+            collMapper = new MongoCollectionMapper(collExecutor(collectionName), targetClass);
 
-                if (collMapper == null) {
-                    collMapper = new MongoCollectionMapper(collExecutor(collectionName), targetClass);
-
-                    collMapperPool.put(targetClass, collMapper);
-                }
-            }
+            collMapperPool.put(targetClass, collMapper);
         }
 
         return collMapper;
