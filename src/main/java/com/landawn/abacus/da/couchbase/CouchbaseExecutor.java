@@ -53,7 +53,6 @@ import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.ContinuableFuture;
 import com.landawn.abacus.util.Fn;
-import com.landawn.abacus.util.InternalUtil;
 import com.landawn.abacus.util.Maps;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.ParsedSql;
@@ -464,7 +463,8 @@ public final class CouchbaseExecutor implements Closeable {
                 return (T) result;
             }
         } else if (ClassUtil.isEntity(targetClass)) {
-            final Map<String, String> column2FieldNameMap = InternalUtil.getColumn2FieldNameMap(targetClass);
+            @SuppressWarnings("deprecation")
+            final Map<String, String> column2FieldNameMap = com.landawn.abacus.util.InternalUtil.getColumn2FieldNameMap(targetClass);
             final T entity = N.newInstance(targetClass);
             final List<String> columnNameList = new ArrayList<>(jsonObject.getNames());
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);

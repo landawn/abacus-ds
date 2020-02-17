@@ -246,8 +246,8 @@ public final class HBaseExecutor implements Closeable {
                     columnFamilyName = formatName(propInfo.name, namingPolicy);
                 }
 
-                if (N.notNullOrEmpty(propInfo.columnName)) {
-                    columnName = propInfo.columnName;
+                if (propInfo.columnName.isPresent()) {
+                    columnName = propInfo.columnName.get();
                     hasColumnAnnotation = true;
                 } else {
                     columnName = formatName(propInfo.name, namingPolicy);
@@ -281,8 +281,8 @@ public final class HBaseExecutor implements Closeable {
                     columnFamilyNames = Stream.of(NamingPolicy.values()).map(it -> formatName(propInfo.name, it)).toList();
                 }
 
-                if (N.notNullOrEmpty(propInfo.columnName)) {
-                    columnNames = N.asList(propInfo.columnName);
+                if (propInfo.columnName.isPresent()) {
+                    columnNames = N.asList(propInfo.columnName.get());
                     hasColumnAnnotation = true;
                 } else {
                     columnNames = Stream.of(NamingPolicy.values()).map(it -> formatName(propInfo.name, it)).append(EMPTY_QULIFIER).toList();
@@ -959,12 +959,12 @@ public final class HBaseExecutor implements Closeable {
         if (mapper == null) {
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetEntityClass);
 
-            if (N.isNullOrEmpty(entityInfo.tableName)) {
+            if (entityInfo.tableName.isEmpty()) {
                 throw new IllegalArgumentException("The target entity class: " + targetEntityClass
                         + " must be annotated with com.landawn.abacus.annotation.Table or javax.persistence.Table. Otherwise call  HBaseExecutor.mapper(final String tableName, final Class<T> targetEntityClass) instead");
             }
 
-            mapper = mapper(targetEntityClass, entityInfo.tableName, NamingPolicy.LOWER_CAMEL_CASE);
+            mapper = mapper(targetEntityClass, entityInfo.tableName.get(), NamingPolicy.LOWER_CAMEL_CASE);
 
             mapperPool.put(targetEntityClass, mapper);
         }

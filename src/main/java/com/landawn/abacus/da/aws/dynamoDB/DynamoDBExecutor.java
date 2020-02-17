@@ -65,7 +65,6 @@ import com.landawn.abacus.parser.ParserUtil.PropInfo;
 import com.landawn.abacus.type.Type;
 import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
-import com.landawn.abacus.util.InternalUtil;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
 import com.landawn.abacus.util.ObjIterator;
@@ -160,12 +159,12 @@ public final class DynamoDBExecutor implements Closeable {
         if (mapper == null) {
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetEntityClass);
 
-            if (N.isNullOrEmpty(entityInfo.tableName)) {
+            if (entityInfo.tableName.isEmpty()) {
                 throw new IllegalArgumentException("The target entity class: " + targetEntityClass
                         + " must be annotated with com.landawn.abacus.annotation.Table or javax.persistence.Table. Otherwise call  HBaseExecutor.mapper(final String tableName, final Class<T> targetEntityClass) instead");
             }
 
-            mapper = mapper(targetEntityClass, entityInfo.tableName, NamingPolicy.LOWER_CAMEL_CASE);
+            mapper = mapper(targetEntityClass, entityInfo.tableName.get(), NamingPolicy.LOWER_CAMEL_CASE);
 
             mapperPool.put(targetEntityClass, mapper);
         }
@@ -640,7 +639,8 @@ public final class DynamoDBExecutor implements Closeable {
                 return null;
             }
 
-            final Map<String, String> column2FieldNameMap = InternalUtil.getColumn2FieldNameMap(targetClass);
+            @SuppressWarnings("deprecation")
+            final Map<String, String> column2FieldNameMap = com.landawn.abacus.util.InternalUtil.getColumn2FieldNameMap(targetClass);
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
             final T entity = N.newInstance(targetClass);
             String fieldName = null;
@@ -938,8 +938,8 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     private static String getAttrName(final PropInfo propInfo, final NamingPolicy namingPolicy) {
-        if (N.notNullOrEmpty(propInfo.columnName)) {
-            return propInfo.columnName;
+        if (propInfo.columnName.isPresent()) {
+            return propInfo.columnName.get();
         } else if (NamingPolicy.LOWER_CAMEL_CASE.equals(namingPolicy)) {
             return propInfo.name;
         } else {
@@ -1651,7 +1651,7 @@ public final class DynamoDBExecutor implements Closeable {
             this.tableName = tableName;
             this.entityInfo = ParserUtil.getEntityInfo(targetEntityClass);
             this.keyPropInfos = Stream.of(idPropNames).map(it -> entityInfo.getPropInfo(it)).toList();
-            this.keyPropNames = Stream.of(keyPropInfos).map(it -> N.isNullOrEmpty(it.columnName) ? it.name : it.columnName).toList();
+            this.keyPropNames = Stream.of(keyPropInfos).map(it -> N.isNullOrEmpty(it.columnName.orNull()) ? it.name : it.columnName.orNull()).toList();
 
             this.namingPolicy = namingPolicy == null ? NamingPolicy.LOWER_CAMEL_CASE : namingPolicy;
         }

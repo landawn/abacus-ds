@@ -81,7 +81,6 @@ import com.landawn.abacus.util.Clazz;
 import com.landawn.abacus.util.ContinuableFuture;
 import com.landawn.abacus.util.ImmutableList;
 import com.landawn.abacus.util.ImmutableSet;
-import com.landawn.abacus.util.InternalUtil;
 import com.landawn.abacus.util.MutableInt;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
@@ -597,7 +596,8 @@ public final class CassandraExecutor implements Closeable {
 
             return (T) map;
         } else if (ClassUtil.isEntity(targetClass)) {
-            final Map<String, String> column2FieldNameMap = InternalUtil.getColumn2FieldNameMap(targetClass);
+            @SuppressWarnings("deprecation")
+            final Map<String, String> column2FieldNameMap = com.landawn.abacus.util.InternalUtil.getColumn2FieldNameMap(targetClass);
             final T entity = N.newInstance(targetClass);
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
             PropInfo propInfo = null;

@@ -343,8 +343,8 @@ public abstract class CQLBuilder {
         if (entityTableNames == null) {
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(entityClass);
 
-            if (N.notNullOrEmpty(entityInfo.tableName)) {
-                entityTableNames = Array.repeat(entityInfo.tableName, 3);
+            if (entityInfo.tableName.isPresent()) {
+                entityTableNames = Array.repeat(entityInfo.tableName.get(), 3);
             } else {
                 final String simpleClassName = ClassUtil.getSimpleClassName(entityClass);
                 entityTableNames = new String[] { ClassUtil.toLowerCaseWithUnderscore(simpleClassName), ClassUtil.toUpperCaseWithUnderscore(simpleClassName),
@@ -1975,8 +1975,8 @@ public abstract class CQLBuilder {
         final EntityInfo entityInfo = ParserUtil.getEntityInfo(entityClass);
 
         for (PropInfo propInfo : entityInfo.propInfoList) {
-            if (N.notNullOrEmpty(propInfo.columnName)) {
-                propColumnNameMap.put(propInfo.name, propInfo.columnName);
+            if (propInfo.columnName.isPresent()) {
+                propColumnNameMap.put(propInfo.name, propInfo.columnName.get());
             } else {
                 propColumnNameMap.put(propInfo.name, formalizeColumnName(propInfo.name, namingPolicy));
 
