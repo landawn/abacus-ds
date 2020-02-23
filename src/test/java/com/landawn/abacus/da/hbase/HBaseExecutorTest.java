@@ -6,10 +6,12 @@ package com.landawn.abacus.da.hbase;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.hbase.HBaseConfiguration;
@@ -27,6 +29,8 @@ import com.landawn.abacus.annotation.Table;
 import com.landawn.abacus.da.hbase.HBaseExecutor.HBaseMapper;
 import com.landawn.abacus.da.hbase.annotation.ColumnFamily;
 import com.landawn.abacus.exception.UncheckedIOException;
+import com.landawn.abacus.util.DateUtil;
+import com.landawn.abacus.util.HBaseColumn;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.stream.Stream;
 
@@ -55,7 +59,7 @@ public class HBaseExecutorTest {
             final TableName tableName = TableName.valueOf("account");
 
             final List<ColumnFamilyDescriptor> families = Stream.of("id", "gui", "fullName", "emailAddress", //
-                    "time", "createTime", "contact").map(it -> ColumnFamilyDescriptorBuilder.newBuilder(it.getBytes()).build()).toList();
+                    "time", "createTime", "contact", "columnFamily2B").map(it -> ColumnFamilyDescriptorBuilder.newBuilder(it.getBytes()).build()).toList();
 
             hbaseExecutor.admin().disableTable(tableName);
             hbaseExecutor.admin().deleteTable(tableName);
@@ -76,10 +80,11 @@ public class HBaseExecutorTest {
     @NoArgsConstructor
     @AllArgsConstructor
     @Table("account")
+    @ColumnFamily("columnFamily2B")
     public static class Account {
         @Id
         private String id;
-        @Column("guid") // or @Qualifer("guid")
+        @Column("guid")
         private String gui;
         @ColumnFamily("fullName")
         private Name name;
@@ -90,7 +95,12 @@ public class HBaseExecutorTest {
         @ColumnFamily("time")
         @Column("creationTime")
         private Timestamp createTime;
+        @ColumnFamily("contact")
         private Contact contact;
+
+        private HBaseColumn<List<String>> hc1;
+        private List<HBaseColumn<Double>> hc2;
+        private Map<Long, HBaseColumn<Map<Integer, Timestamp>>> hc3;
     }
 
     @Builder
@@ -128,7 +138,7 @@ public class HBaseExecutorTest {
                 .id("2021")
                 .gui(N.uuid())
                 .emailAddress("abc@email.com")
-                .name(Name.builder().firstName("fn").lastName("ln").build())
+                .name(Name.builder().firstName("fn").middleName("mn").lastName("ln").build())
                 .contact(Contact.builder().city("San Jose").state("CA").build())
                 .build();
         N.println(account);
@@ -197,6 +207,66 @@ public class HBaseExecutorTest {
 
         assertNull(hbaseExecutor.mapper(Account.class).get(account.getId()));
         hbaseExecutor.mapper(Account.class).deleteByRowKey(account.getId());
+    }
+
+    @Test
+    public void test_scan() {
+
+        List<Account> accounts = Stream.range(1000, 1099)
+                .map(it -> Account.builder()
+                        .id(String.valueOf(it))
+                        .gui(N.uuid())
+                        .emailAddress(it + "abc@email.com")
+                        .name(Name.builder().firstName(it + "fn").middleName(it + "mn").lastName(it + "ln").build())
+                        .contact(Contact.builder().city(it + "San Jose").state("CA").build())
+                        .build())
+                .toList();
+
+        accountMapper.delete(accounts);
+
+        assertEquals(0, accountMapper.scan(AnyScan.create()).count());
+
+        accountMapper.put(accounts);
+
+        List<Account> dbAccounts = accountMapper.get(N.map(accounts, it -> it.getId()));
+        N.println(dbAccounts);
+
+        assertEquals(accounts, dbAccounts);
+        assertEquals(accounts, accountMapper.scan(AnyScan.create()).toList());
+
+        accountMapper.delete(accounts);
+
+        assertTrue(accountMapper.exists(N.map(accounts, it -> it.getId())).stream().allMatch(it -> it.booleanValue() == false));
+    }
+
+    @Test
+    public void test_HBaseColumn() throws IOException {
+        final long ts = System.currentTimeMillis() + 10000;
+        Account account = Account.builder()
+                .id("2020")
+                .gui(N.uuid())
+                .emailAddress("abc@email.com")
+                .name(Name.builder().firstName("fn").lastName("ln").build())
+                .contact(Contact.builder().city("San Jose").state("CA").build())
+                .hc1(HBaseColumn.valueOf(N.asList("hc1-abc", "hc1-ef"), ts))
+                .hc2(N.asList(HBaseColumn.valueOf(1.22, ts)))
+                .hc3(N.asMap(ts, HBaseColumn.valueOf(N.asMap(1, DateUtil.currentTimestamp()), ts)))
+                .build();
+        N.println(account);
+
+        accountMapper.delete(account);
+
+        assertEquals(0, accountMapper.scan(AnyScan.create()).count());
+
+        accountMapper.put(account);
+
+        Account dbAccount = accountMapper.get(AnyGet.of(account.getId()).readVersions(1000));
+        N.println(dbAccount);
+
+        assertEquals(account, dbAccount);
+        assertEquals(account, accountMapper.scan(AnyScan.create()).onlyOne().orNull());
+
+        accountMapper.deleteByRowKey(account.getId());
     }
 
     //    @Test
