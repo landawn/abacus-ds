@@ -19,14 +19,25 @@ import static com.landawn.abacus.da.hbase.HBaseExecutor.toRowBytes;
 import static com.landawn.abacus.da.hbase.HBaseExecutor.toValueBytes;
 
 import java.io.IOException;
+import java.lang.reflect.Method;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.hadoop.hbase.Cell;
 import org.apache.hadoop.hbase.client.Put;
 
+import com.landawn.abacus.da.hbase.annotation.ColumnFamily;
+import com.landawn.abacus.parser.ParserUtil;
+import com.landawn.abacus.parser.ParserUtil.EntityInfo;
+import com.landawn.abacus.parser.ParserUtil.PropInfo;
+import com.landawn.abacus.util.ClassUtil;
+import com.landawn.abacus.util.HBaseColumn;
+import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
+import com.landawn.abacus.util.Tuple.Tuple3;
 
 /**
  * It's a wrapper of <code>Put</code> in HBase to reduce the manual conversion between bytes and String/Object.
@@ -236,9 +247,8 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param entity
      * @return
      */
-    @SuppressWarnings("deprecation")
     public static AnyPut from(final Object entity) {
-        return HBaseExecutor.toAnyPut(entity);
+        return from(entity, NamingPolicy.LOWER_CAMEL_CASE);
     }
 
     /**
@@ -247,9 +257,12 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param namingPolicy
      * @return
      */
-    @SuppressWarnings("deprecation")
     public static AnyPut from(final Object entity, final NamingPolicy namingPolicy) {
-        return HBaseExecutor.toAnyPut(entity);
+        N.checkArgNotNull(entity, "entity");
+
+        final EntityInfo entityInfo = ParserUtil.getEntityInfo(entity.getClass());
+
+        return from(entity, namingPolicy, entityInfo, entityInfo.propInfoList);
     }
 
     /**
@@ -257,9 +270,14 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param entities
      * @return
      */
-    @SuppressWarnings("deprecation")
     public static List<AnyPut> from(final Collection<?> entities) {
-        return HBaseExecutor.toAnyPut(entities);
+        final List<AnyPut> anyPuts = new ArrayList<>(entities.size());
+
+        for (Object entity : entities) {
+            anyPuts.add(entity instanceof AnyPut ? (AnyPut) entity : from(entity));
+        }
+
+        return anyPuts;
     }
 
     /**
@@ -268,9 +286,183 @@ public final class AnyPut extends AnyMutation<AnyPut> {
      * @param namingPolicy
      * @return
      */
-    @SuppressWarnings("deprecation")
     public static List<AnyPut> from(final Collection<?> entities, final NamingPolicy namingPolicy) {
-        return HBaseExecutor.toAnyPut(entities, namingPolicy);
+        final List<AnyPut> anyPuts = new ArrayList<>(entities.size());
+
+        for (Object entity : entities) {
+            anyPuts.add(entity instanceof AnyPut ? (AnyPut) entity : from(entity, namingPolicy));
+        }
+
+        return anyPuts;
+    }
+
+    /**
+     * 
+     * @param entity
+     * @param selectPropNames
+     * @return
+     */
+    public static AnyPut from(final Object entity, final Collection<String> selectPropNames) {
+        return from(entity, selectPropNames, NamingPolicy.LOWER_CAMEL_CASE);
+    }
+
+    /**
+     * 
+     * @param entity
+     * @param selectPropNames
+     * @param namingPolicy
+     * @return
+     */
+    public static AnyPut from(final Object entity, final Collection<String> selectPropNames, final NamingPolicy namingPolicy) {
+        N.checkArgNotNull(entity, "entity");
+
+        if (selectPropNames == null) {
+            return from(entity, namingPolicy);
+        }
+
+        final EntityInfo entityInfo = ParserUtil.getEntityInfo(entity.getClass());
+
+        return from(entity, namingPolicy, entityInfo, N.map(selectPropNames, propName -> N.checkArgNotNull(entityInfo.getPropInfo(propName))));
+    }
+
+    /**
+     * 
+     * @param entities
+     * @param selectPropNames
+     * @return
+     */
+    public static List<AnyPut> from(final Collection<?> entities, final Collection<String> selectPropNames) {
+        final List<AnyPut> anyPuts = new ArrayList<>(entities.size());
+
+        for (Object entity : entities) {
+            anyPuts.add(entity instanceof AnyPut ? (AnyPut) entity : from(entity, selectPropNames));
+        }
+
+        return anyPuts;
+    }
+
+    /**
+     * 
+     * @param entities
+     * @param selectPropNames
+     * @param namingPolicy
+     * @return
+     */
+    public static List<AnyPut> from(final Collection<?> entities, final Collection<String> selectPropNames, final NamingPolicy namingPolicy) {
+        final List<AnyPut> anyPuts = new ArrayList<>(entities.size());
+
+        for (Object entity : entities) {
+            anyPuts.add(entity instanceof AnyPut ? (AnyPut) entity : from(entity, selectPropNames, namingPolicy));
+        }
+
+        return anyPuts;
+    }
+
+    private static AnyPut from(final Object entity, final NamingPolicy namingPolicy, final EntityInfo entityInfo, final Collection<PropInfo> selectPropInfos) {
+        final Class<?> cls = entity.getClass();
+
+        HBaseExecutor.checkEntityClass(cls);
+
+        final Map<String, Tuple3<String, String, Boolean>> classFamilyColumnNameMap = HBaseExecutor.getClassFamilyColumnNameMap(cls, namingPolicy);
+        final Method rowKeySetMethod = HBaseExecutor.getRowKeySetMethod(cls);
+        final Method rowKeyGetMethod = rowKeySetMethod == null ? null : ClassUtil.getPropGetMethod(cls, ClassUtil.getPropNameByMethod(rowKeySetMethod));
+
+        if (rowKeySetMethod == null) {
+            throw new IllegalArgumentException(
+                    "Row key property is required to create AnyPut instance. But no row key property found in class: " + ClassUtil.getCanonicalClassName(cls));
+        }
+
+        final AnyPut anyPut = new AnyPut(ClassUtil.<Object> getPropValue(entity, rowKeyGetMethod));
+        final boolean annotatedByDefaultColumnFamily = entityInfo.isAnnotationPresent(ColumnFamily.class);
+
+        PropInfo columnPropInfo = null;
+        Collection<HBaseColumn<?>> columnColl = null;
+        Map<Long, HBaseColumn<?>> columnMap = null;
+        HBaseColumn<?> column = null;
+        Object propValue = null;
+        Tuple3<String, String, Boolean> tp = null;
+        String columnName = null;
+
+        for (PropInfo propInfo : selectPropInfos) {
+            if (rowKeyGetMethod != null && propInfo.getMethod.equals(rowKeyGetMethod)) {
+                continue;
+            }
+
+            propValue = propInfo.getPropValue(entity);
+
+            if (propValue == null) {
+                continue;
+            }
+
+            tp = classFamilyColumnNameMap.get(propInfo.name);
+            columnName = tp._3 || annotatedByDefaultColumnFamily || propInfo.isAnnotationPresent(ColumnFamily.class) ? tp._2 : HBaseExecutor.EMPTY_QULIFIER;
+
+            if (propInfo.jsonXmlType.isEntity() && tp._3 == false) {
+                final Map<String, Tuple3<String, String, Boolean>> propEntityFamilyColumnNameMap = HBaseExecutor.getClassFamilyColumnNameMap(propInfo.clazz,
+                        namingPolicy);
+                final Class<?> propEntityClass = propInfo.jsonXmlType.clazz();
+                final EntityInfo propEntityInfo = ParserUtil.getEntityInfo(propEntityClass);
+                final Object propEntity = propValue;
+                Tuple3<String, String, Boolean> propEntityTP = null;
+
+                final Map<String, Method> columnGetMethodMap = ClassUtil.getPropGetMethods(propEntityClass);
+
+                for (Map.Entry<String, Method> columnGetMethodEntry : columnGetMethodMap.entrySet()) {
+                    columnPropInfo = propEntityInfo.getPropInfo(columnGetMethodEntry.getKey());
+
+                    propValue = columnPropInfo.getPropValue(propEntity);
+
+                    if (propValue == null) {
+                        continue;
+                    }
+
+                    propEntityTP = propEntityFamilyColumnNameMap.get(columnPropInfo.name);
+
+                    if (columnPropInfo.jsonXmlType.isMap() && columnPropInfo.jsonXmlType.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
+                        columnMap = (Map<Long, HBaseColumn<?>>) propValue;
+
+                        for (HBaseColumn<?> e : columnMap.values()) {
+                            anyPut.addColumn(tp._1, propEntityTP._2, e.version(), e.value());
+
+                        }
+                    } else if (columnPropInfo.jsonXmlType.isCollection()
+                            && columnPropInfo.jsonXmlType.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
+                        columnColl = (Collection<HBaseColumn<?>>) propValue;
+
+                        for (HBaseColumn<?> e : columnColl) {
+                            anyPut.addColumn(tp._1, propEntityTP._2, e.version(), e.value());
+
+                        }
+                    } else if (columnPropInfo.jsonXmlType.clazz().equals(HBaseColumn.class)) {
+                        column = (HBaseColumn<?>) propValue;
+                        anyPut.addColumn(tp._1, propEntityTP._2, column.version(), column.value());
+                    } else {
+                        anyPut.addColumn(tp._1, propEntityTP._2, propValue);
+                    }
+                }
+            } else if (propInfo.jsonXmlType.isMap() && propInfo.jsonXmlType.getParameterTypes()[1].clazz().equals(HBaseColumn.class)) {
+                columnMap = (Map<Long, HBaseColumn<?>>) propValue;
+
+                for (HBaseColumn<?> e : columnMap.values()) {
+                    anyPut.addColumn(tp._1, columnName, e.version(), e.value());
+
+                }
+            } else if (propInfo.jsonXmlType.isCollection() && propInfo.jsonXmlType.getParameterTypes()[0].clazz().equals(HBaseColumn.class)) {
+                columnColl = (Collection<HBaseColumn<?>>) propValue;
+
+                for (HBaseColumn<?> e : columnColl) {
+                    anyPut.addColumn(tp._1, columnName, e.version(), e.value());
+
+                }
+            } else if (propInfo.jsonXmlType.clazz().equals(HBaseColumn.class)) {
+                column = (HBaseColumn<?>) propValue;
+                anyPut.addColumn(tp._1, columnName, column.version(), column.value());
+            } else {
+                anyPut.addColumn(tp._1, columnName, propValue);
+            }
+        }
+
+        return anyPut;
     }
 
     /**
