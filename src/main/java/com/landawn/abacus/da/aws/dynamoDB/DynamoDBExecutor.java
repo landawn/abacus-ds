@@ -1907,10 +1907,10 @@ public final class DynamoDBExecutor implements Closeable {
         }
     }
 
-    /**
-     * The Class Filters.
-     */
     public static final class Filters {
+        private Filters() {
+            // singleton for Utility class
+        }
 
         /**
          *
@@ -2041,15 +2041,11 @@ public final class DynamoDBExecutor implements Closeable {
          */
         @SafeVarargs
         public static Map<String, Condition> in(String attrName, Object... attrValues) {
-            final AttributeValue[] attributeValueList = new AttributeValue[attrValues.length];
+            final Map<String, Condition> result = new HashMap<>(1);
 
-            for (int i = 0, len = attrValues.length; i < len; i++) {
-                attributeValueList[i] = attrValueOf(attrValues[i]);
-            }
+            in(result, attrName, attrValues);
 
-            final Condition cond = new Condition().withComparisonOperator(ComparisonOperator.IN).withAttributeValueList(attributeValueList);
-
-            return N.asMap(attrName, cond);
+            return result;
         }
 
         /**
@@ -2059,6 +2055,26 @@ public final class DynamoDBExecutor implements Closeable {
          * @return
          */
         public static Map<String, Condition> in(String attrName, Collection<?> attrValues) {
+            final Map<String, Condition> result = new HashMap<>(1);
+
+            in(result, attrName, attrValues);
+
+            return result;
+        }
+
+        static void in(Map<String, Condition> output, String attrName, Object... attrValues) {
+            final AttributeValue[] attributeValueList = new AttributeValue[attrValues.length];
+
+            for (int i = 0, len = attrValues.length; i < len; i++) {
+                attributeValueList[i] = attrValueOf(attrValues[i]);
+            }
+
+            final Condition cond = new Condition().withComparisonOperator(ComparisonOperator.IN).withAttributeValueList(attributeValueList);
+
+            output.put(attrName, cond);
+        }
+
+        static void in(Map<String, Condition> output, String attrName, Collection<?> attrValues) {
             final AttributeValue[] attributeValueList = new AttributeValue[attrValues.size()];
 
             int i = 0;
@@ -2068,7 +2084,196 @@ public final class DynamoDBExecutor implements Closeable {
 
             final Condition cond = new Condition().withComparisonOperator(ComparisonOperator.IN).withAttributeValueList(attributeValueList);
 
-            return N.asMap(attrName, cond);
+            output.put(attrName, cond);
+        }
+    }
+
+    public static final class ConditionBuilder {
+        private Map<String, Condition> condMap;
+
+        ConditionBuilder() {
+            condMap = new HashMap<>();
+        }
+
+        public static ConditionBuilder create() {
+            return new ConditionBuilder();
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param attrValue
+         * @return
+         */
+        public ConditionBuilder eq(String attrName, Object attrValue) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.EQ).withAttributeValueList(attrValueOf(attrValue)));
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param attrValue
+         * @return
+         */
+        public ConditionBuilder ne(String attrName, Object attrValue) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.NE).withAttributeValueList(attrValueOf(attrValue)));
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param attrValue
+         * @return
+         */
+        public ConditionBuilder gt(String attrName, Object attrValue) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.GT).withAttributeValueList(attrValueOf(attrValue)));
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param attrValue
+         * @return
+         */
+        public ConditionBuilder ge(String attrName, Object attrValue) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.GE).withAttributeValueList(attrValueOf(attrValue)));
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param attrValue
+         * @return
+         */
+        public ConditionBuilder lt(String attrName, Object attrValue) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.LT).withAttributeValueList(attrValueOf(attrValue)));
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param attrValue
+         * @return
+         */
+        public ConditionBuilder le(String attrName, Object attrValue) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.LE).withAttributeValueList(attrValueOf(attrValue)));
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param minAttrValue
+         * @param maxAttrValue
+         * @return
+         */
+        public ConditionBuilder bt(String attrName, Object minAttrValue, Object maxAttrValue) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.BETWEEN)
+                    .withAttributeValueList(attrValueOf(minAttrValue), attrValueOf(maxAttrValue)));
+
+            return this;
+        }
+
+        /**
+         * Checks if is null.
+         *
+         * @param attrName
+         * @return
+         */
+        public ConditionBuilder isNull(String attrName) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.NULL));
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @return
+         */
+        public ConditionBuilder notNull(String attrName) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.NOT_NULL));
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param attrValue
+         * @return
+         */
+        public ConditionBuilder contains(String attrName, Object attrValue) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.CONTAINS).withAttributeValueList(attrValueOf(attrValue)));
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param attrValue
+         * @return
+         */
+        public ConditionBuilder notContains(String attrName, Object attrValue) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.NOT_CONTAINS).withAttributeValueList(attrValueOf(attrValue)));
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param attrValue
+         * @return
+         */
+        public ConditionBuilder beginsWith(String attrName, Object attrValue) {
+            condMap.put(attrName, new Condition().withComparisonOperator(ComparisonOperator.BEGINS_WITH).withAttributeValueList(attrValueOf(attrValue)));
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param attrValues
+         * @return
+         */
+        public ConditionBuilder in(String attrName, Object... attrValues) {
+            Filters.in(condMap, attrName, attrValues);
+
+            return this;
+        }
+
+        /**
+         *
+         * @param attrName
+         * @param attrValues
+         * @return
+         */
+        public ConditionBuilder in(String attrName, Collection<?> attrValues) {
+            Filters.in(condMap, attrName, attrValues);
+
+            return this;
+        }
+
+        public Map<String, Condition> build() {
+            final Map<String, Condition> result = condMap;
+
+            condMap = null;
+
+            return result;
         }
     }
 }
