@@ -345,10 +345,13 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * @param minStamp
      * @param maxStamp
      * @return
-     * @throws IOException Signals that an I/O exception has occurred.
      */
-    public AnyScan setTimeRange(long minStamp, long maxStamp) throws IOException {
-        scan.setTimeRange(minStamp, maxStamp);
+    public AnyScan setTimeRange(long minStamp, long maxStamp) {
+        try {
+            scan.setTimeRange(minStamp, maxStamp);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
 
         return this;
     }
@@ -358,11 +361,9 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      *
      * @param timestamp
      * @return
-     * @throws IOException Signals that an I/O exception has occurred.
      */
-    public AnyScan setTimestamp(long timestamp) throws IOException {
+    public AnyScan setTimestamp(long timestamp) {
         scan.setTimestamp(timestamp);
-
         return this;
     }
 
@@ -374,15 +375,18 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      *
      * @param timestamp version timestamp
      * @return this
-     * @throws IOException Signals that an I/O exception has occurred.
      * @see Scan#setMaxVersions()
      * @see Scan#setMaxVersions(int)
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@code setTimestamp(long)} instead
      */
     @Deprecated
-    public AnyScan setTimeStamp(long timestamp) throws IOException {
-        scan.setTimeStamp(timestamp);
+    public AnyScan setTimeStamp(long timestamp)  {
+        try {
+            scan.setTimeStamp(timestamp);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
 
         return this;
     }
@@ -540,12 +544,11 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      *
      * @param maxVersions
      * @return this
-     * @throws IOException Signals that an I/O exception has occurred.
      * @deprecated It is easy to misunderstand with column family's max versions, so use
      *             {@code readAllVersions()} instead.
      */
     @Deprecated
-    public AnyScan setMaxVersions(int maxVersions) throws IOException {
+    public AnyScan setMaxVersions(int maxVersions) {
         scan.setMaxVersions(maxVersions);
 
         return this;
@@ -568,10 +571,9 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      *
      * @param maxVersions
      * @return
-     * @throws IOException Signals that an I/O exception has occurred.
      */
-    public AnyScan readVersions(int maxVersions) throws IOException {
-        scan.readVersions(maxVersions);
+    public AnyScan readVersions(int maxVersions) {
+            scan.readVersions(maxVersions);
 
         return this;
     }

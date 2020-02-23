@@ -152,11 +152,14 @@ public final class AnyIncrement extends AnyMutation<AnyIncrement> {
      * This range is used as [minStamp, maxStamp).
      * @param minStamp minimum timestamp value, inclusive
      * @param maxStamp maximum timestamp value, exclusive
-     * @throws IOException if invalid time range
      * @return this
      */
-    public AnyIncrement setTimeRange(long minStamp, long maxStamp) throws IOException {
-        increment.setTimeRange(minStamp, maxStamp);
+    public AnyIncrement setTimeRange(long minStamp, long maxStamp)  {
+        try {
+            increment.setTimeRange(minStamp, maxStamp);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
 
         return this;
     }

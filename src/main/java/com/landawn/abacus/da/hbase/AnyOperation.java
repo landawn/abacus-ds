@@ -19,6 +19,8 @@ import java.util.Map;
 
 import org.apache.hadoop.hbase.client.Operation;
 
+import com.landawn.abacus.exception.UncheckedIOException;
+
 /**
  * It's a wrapper of <code>Operation</code> in HBase to reduce the manual conversion between bytes and String/Object.
  *
@@ -70,20 +72,26 @@ abstract class AnyOperation<AO extends AnyOperation<AO>> {
     /**
      *
      * @return
-     * @throws IOException Signals that an I/O exception has occurred.
      */
-    public String toJSON() throws IOException {
-        return op.toJSON();
+    public String toJSON()  {
+        try {
+            return op.toJSON();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     /**
      *
      * @param maxCols
      * @return
-     * @throws IOException Signals that an I/O exception has occurred.
      */
-    public String toJSON(final int maxCols) throws IOException {
-        return op.toJSON(maxCols);
+    public String toJSON(final int maxCols)  {
+        try {
+            return op.toJSON(maxCols);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     /**

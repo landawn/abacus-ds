@@ -248,10 +248,13 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
      * @param minStamp
      * @param maxStamp
      * @return
-     * @throws IOException Signals that an I/O exception has occurred.
      */
-    public AnyGet setTimeRange(long minStamp, long maxStamp) throws IOException {
-        get.setTimeRange(minStamp, maxStamp);
+    public AnyGet setTimeRange(long minStamp, long maxStamp) {
+        try {
+            get.setTimeRange(minStamp, maxStamp);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
 
         return this;
     }
@@ -261,9 +264,8 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
      *
      * @param timestamp
      * @return
-     * @throws IOException Signals that an I/O exception has occurred.
      */
-    public AnyGet setTimestamp(long timestamp) throws IOException {
+    public AnyGet setTimestamp(long timestamp) {
         get.setTimestamp(timestamp);
 
         return this;
@@ -274,13 +276,16 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
      *
      * @param timestamp version timestamp
      * @return this for invocation chaining
-     * @throws IOException Signals that an I/O exception has occurred.
      * @deprecated As of release 2.0.0, this will be removed in HBase 3.0.0.
      *             Use {@code setTimestamp(long)} instead
      */
     @Deprecated
-    public AnyGet setTimeStamp(long timestamp) throws IOException {
-        get.setTimeStamp(timestamp);
+    public AnyGet setTimeStamp(long timestamp)  {
+        try {
+            get.setTimeStamp(timestamp);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
 
         return this;
     }
@@ -299,13 +304,16 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
      *
      * @param maxVersions maximum versions for each column
      * @return this for invocation chaining
-     * @throws IOException if invalid number of versions
      * @deprecated It is easy to misunderstand with column family's max versions, so use
      *             {@code readVersions(int)} instead.
      */
     @Deprecated
-    public AnyGet setMaxVersions(int maxVersions) throws IOException {
-        get.setMaxVersions(maxVersions);
+    public AnyGet setMaxVersions(int maxVersions)  {
+        try {
+            get.setMaxVersions(maxVersions);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
 
         return this;
     }
@@ -328,10 +336,13 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
      *
      * @param versions specified number of versions for each column
      * @return this for invocation chaining
-     * @throws IOException if invalid number of versions
      */
-    public AnyGet readVersions(int versions) throws IOException {
-        get.readVersions(versions);
+    public AnyGet readVersions(int versions) {
+        try {
+            get.readVersions(versions);
+        } catch (IOException e) {
+            throw new IllegalArgumentException(e);
+        }
 
         return this;
     }
