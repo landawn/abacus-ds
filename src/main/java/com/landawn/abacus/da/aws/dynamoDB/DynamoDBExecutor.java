@@ -2086,6 +2086,10 @@ public final class DynamoDBExecutor implements Closeable {
 
             output.put(attrName, cond);
         }
+
+        public static ConditionBuilder builder() {
+            return new ConditionBuilder();
+        }
     }
 
     public static final class ConditionBuilder {
@@ -2095,6 +2099,12 @@ public final class DynamoDBExecutor implements Closeable {
             condMap = new HashMap<>();
         }
 
+        /**
+         * 
+         * @return
+         * @deprecated replaced with {@link Filters#builder()}
+         */
+        @Deprecated
         public static ConditionBuilder create() {
             return new ConditionBuilder();
         }
