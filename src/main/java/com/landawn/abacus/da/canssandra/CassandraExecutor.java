@@ -1916,6 +1916,47 @@ public final class CassandraExecutor implements Closeable {
     /**
      *
      * @param <T>
+     * @param targetClass an entity class with getter/setter method or <code>Map.class</code>
+     * @param statement
+     * @return
+     */
+    public final <T> Stream<T> stream(final Class<T> targetClass, final Statement statement) {
+        return Stream.of(execute(statement).iterator()).map(new Function<Row, T>() {
+            @Override
+            public T apply(Row row) {
+                return toEntity(targetClass, row);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param <T>
+     * @param query
+     * @param rowMapper
+     * @param parameters
+     * @return
+     */
+    public final <T> Stream<T> stream(final Statement statement, final BiFunction<ColumnDefinitions, Row, T> rowMapper) {
+        N.checkArgNotNull(rowMapper, "rowMapper");
+
+        return Stream.of(execute(statement).iterator()).map(new Function<Row, T>() {
+            private volatile ColumnDefinitions cds = null;
+
+            @Override
+            public T apply(Row row) {
+                if (cds == null) {
+                    cds = row.getColumnDefinitions();
+                }
+
+                return rowMapper.apply(cds, row);
+            }
+        });
+    }
+
+    /**
+     *
+     * @param <T>
      * @param targetClass
      * @param selectPropNames
      * @param whereCause
@@ -3051,6 +3092,40 @@ public final class CassandraExecutor implements Closeable {
     public final <T> ContinuableFuture<Stream<T>> asyncStream(final String query, final BiFunction<ColumnDefinitions, Row, T> rowMapper,
             final Object... parameters) {
         return asyncExecute(query, parameters).map(new Throwables.Function<ResultSet, Stream<T>, RuntimeException>() {
+            @Override
+            public Stream<T> apply(final ResultSet resultSet) throws RuntimeException {
+                return Stream.of(resultSet.iterator()).map(new Function<Row, T>() {
+                    private volatile ColumnDefinitions cds = null;
+
+                    @Override
+                    public T apply(Row row) {
+                        if (cds == null) {
+                            cds = row.getColumnDefinitions();
+                        }
+
+                        return rowMapper.apply(cds, row);
+                    }
+                });
+            }
+        });
+    }
+
+    public final <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final Statement statement) {
+        return asyncExecute(statement).map(new Throwables.Function<ResultSet, Stream<T>, RuntimeException>() {
+            @Override
+            public Stream<T> apply(final ResultSet resultSet) throws RuntimeException {
+                return Stream.of(resultSet.iterator()).map(new Function<Row, T>() {
+                    @Override
+                    public T apply(Row row) {
+                        return toEntity(targetClass, row);
+                    }
+                });
+            }
+        });
+    }
+
+    public final <T> ContinuableFuture<Stream<T>> asyncStream(final Statement statement, final BiFunction<ColumnDefinitions, Row, T> rowMapper) {
+        return asyncExecute(statement).map(new Throwables.Function<ResultSet, Stream<T>, RuntimeException>() {
             @Override
             public Stream<T> apply(final ResultSet resultSet) throws RuntimeException {
                 return Stream.of(resultSet.iterator()).map(new Function<Row, T>() {
