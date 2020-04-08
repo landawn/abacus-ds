@@ -1077,13 +1077,13 @@ public final class CassandraExecutor implements Closeable {
     private CP prepareUpdate(final Class<?> targetClass, final Map<String, Object> props, final Condition whereCause) {
         switch (namingPolicy) {
             case LOWER_CASE_WITH_UNDERSCORE:
-                return NSC.update(targetClass).set(props).where(whereCause).pair();
+                return NSC.update(targetClass).set(props).append(whereCause).pair();
 
             case UPPER_CASE_WITH_UNDERSCORE:
-                return NAC.update(targetClass).set(props).where(whereCause).pair();
+                return NAC.update(targetClass).set(props).append(whereCause).pair();
 
             case LOWER_CAMEL_CASE:
-                return NLC.update(targetClass).set(props).where(whereCause).pair();
+                return NLC.update(targetClass).set(props).append(whereCause).pair();
 
             default:
                 throw new RuntimeException("Unsupported naming policy: " + namingPolicy);
@@ -1263,23 +1263,23 @@ public final class CassandraExecutor implements Closeable {
         switch (namingPolicy) {
             case LOWER_CASE_WITH_UNDERSCORE:
                 if (N.isNullOrEmpty(deletingPropNames)) {
-                    return NSC.deleteFrom(targetClass).where(whereCause).pair();
+                    return NSC.deleteFrom(targetClass).append(whereCause).pair();
                 } else {
-                    return NSC.delete(deletingPropNames).from(targetClass).where(whereCause).pair();
+                    return NSC.delete(deletingPropNames).from(targetClass).append(whereCause).pair();
                 }
 
             case UPPER_CASE_WITH_UNDERSCORE:
                 if (N.isNullOrEmpty(deletingPropNames)) {
-                    return NAC.deleteFrom(targetClass).where(whereCause).pair();
+                    return NAC.deleteFrom(targetClass).append(whereCause).pair();
                 } else {
-                    return NAC.delete(deletingPropNames).from(targetClass).where(whereCause).pair();
+                    return NAC.delete(deletingPropNames).from(targetClass).append(whereCause).pair();
                 }
 
             case LOWER_CAMEL_CASE:
                 if (N.isNullOrEmpty(deletingPropNames)) {
-                    return NLC.deleteFrom(targetClass).where(whereCause).pair();
+                    return NLC.deleteFrom(targetClass).append(whereCause).pair();
                 } else {
-                    return NLC.delete(deletingPropNames).from(targetClass).where(whereCause).pair();
+                    return NLC.delete(deletingPropNames).from(targetClass).append(whereCause).pair();
                 }
 
             default:
@@ -1981,27 +1981,27 @@ public final class CassandraExecutor implements Closeable {
         switch (namingPolicy) {
             case LOWER_CASE_WITH_UNDERSCORE:
                 if (N.isNullOrEmpty(selectPropNames)) {
-                    cqlBuilder = NSC.selectFrom(targetClass).where(whereCause);
+                    cqlBuilder = NSC.selectFrom(targetClass).append(whereCause);
                 } else {
-                    cqlBuilder = NSC.select(selectPropNames).from(targetClass).where(whereCause);
+                    cqlBuilder = NSC.select(selectPropNames).from(targetClass).append(whereCause);
                 }
 
                 break;
 
             case UPPER_CASE_WITH_UNDERSCORE:
                 if (N.isNullOrEmpty(selectPropNames)) {
-                    cqlBuilder = NAC.selectFrom(targetClass).where(whereCause);
+                    cqlBuilder = NAC.selectFrom(targetClass).append(whereCause);
                 } else {
-                    cqlBuilder = NAC.select(selectPropNames).from(targetClass).where(whereCause);
+                    cqlBuilder = NAC.select(selectPropNames).from(targetClass).append(whereCause);
                 }
 
                 break;
 
             case LOWER_CAMEL_CASE:
                 if (N.isNullOrEmpty(selectPropNames)) {
-                    cqlBuilder = NLC.selectFrom(targetClass).where(whereCause);
+                    cqlBuilder = NLC.selectFrom(targetClass).append(whereCause);
                 } else {
-                    cqlBuilder = NLC.select(selectPropNames).from(targetClass).where(whereCause);
+                    cqlBuilder = NLC.select(selectPropNames).from(targetClass).append(whereCause);
                 }
 
                 break;

@@ -42,11 +42,15 @@ import com.landawn.abacus.annotation.Transient;
 import com.landawn.abacus.condition.Between;
 import com.landawn.abacus.condition.Binary;
 import com.landawn.abacus.condition.Cell;
+import com.landawn.abacus.condition.Clause;
 import com.landawn.abacus.condition.Condition;
 import com.landawn.abacus.condition.ConditionFactory.CF;
+import com.landawn.abacus.condition.Criteria;
 import com.landawn.abacus.condition.Expression;
 import com.landawn.abacus.condition.In;
+import com.landawn.abacus.condition.Join;
 import com.landawn.abacus.condition.Junction;
+import com.landawn.abacus.condition.Limit;
 import com.landawn.abacus.condition.SubQuery;
 import com.landawn.abacus.core.DirtyMarkerUtil;
 import com.landawn.abacus.logging.Logger;
@@ -1157,6 +1161,98 @@ public abstract class CQLBuilder {
         sb.append(_SPACE_LIMIT_SPACE);
 
         sb.append(count);
+
+        return this;
+    }
+
+    public CQLBuilder append(final Condition cond) {
+        init(true);
+
+        if (cond instanceof Criteria) {
+            final Criteria criteria = (Criteria) cond;
+
+            final Collection<Join> joins = criteria.getJoins();
+
+            if (N.notNullOrEmpty(joins)) {
+                for (Join join : joins) {
+                    sb.append(_SPACE).append(join.getOperator()).append(_SPACE);
+
+                    if (join.getJoinEntities().size() == 1) {
+                        sb.append(join.getJoinEntities().get(0));
+                    } else {
+                        sb.append(WD._PARENTHESES_L);
+                        int idx = 0;
+
+                        for (String joinTableName : join.getJoinEntities()) {
+                            if (idx++ > 0) {
+                                sb.append(_COMMA_SPACE);
+                            }
+
+                            sb.append(joinTableName);
+                        }
+
+                        sb.append(WD._PARENTHESES_R);
+                    }
+
+                    appendCondition(((Clause) cond).getCondition());
+                }
+            }
+
+            final Cell where = criteria.getWhere();
+
+            if ((where != null)) {
+                sb.append(_SPACE).append(where.getOperator());
+                appendCondition(where.getCondition());
+            }
+
+            final Cell groupBy = criteria.getGroupBy();
+
+            if (groupBy != null) {
+                sb.append(_SPACE).append(groupBy.getOperator());
+                appendCondition(groupBy.getCondition());
+            }
+
+            final Cell having = criteria.getHaving();
+
+            if (having != null) {
+                sb.append(_SPACE).append(having.getOperator());
+                appendCondition(having.getCondition());
+            }
+
+            List<Cell> aggregations = criteria.getAggregation();
+
+            if (N.notNullOrEmpty(aggregations)) {
+                for (Cell aggregation : aggregations) {
+                    sb.append(_SPACE).append(aggregation.getOperator());
+                    appendCondition(aggregation.getCondition());
+                }
+            }
+
+            final Cell orderBy = criteria.getOrderBy();
+
+            if (orderBy != null) {
+                sb.append(_SPACE).append(orderBy.getOperator());
+                appendCondition(orderBy.getCondition());
+            }
+
+            final Limit limit = criteria.getLimit();
+
+            if (limit != null) {
+                if (N.notNullOrEmpty(limit.getExpr())) {
+                    sb.append(_SPACE).append(limit.getExpr());
+                } else {
+                    limit(limit.getCount());
+                }
+            }
+        } else if (cond instanceof Clause) {
+            sb.append(_SPACE).append(cond.getOperator());
+
+            appendCondition(((Clause) cond).getCondition());
+        } else {
+            sb.append(_SPACE_WHERE_SPACE);
+
+            appendCondition(cond);
+        }
 
         return this;
     }
