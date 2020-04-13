@@ -20,12 +20,14 @@ import static com.landawn.abacus.util.WD._PARENTHESES_L;
 import static com.landawn.abacus.util.WD._PARENTHESES_R;
 import static com.landawn.abacus.util.WD._SPACE;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -284,6 +286,31 @@ public abstract class CQLBuilder {
 
     /** The Constant SPACE_AS_SPACE. */
     static final String SPACE_AS_SPACE = WD.SPACE + WD.AS + WD.SPACE;
+
+    private static final Set<String> sqlKeyWords = new HashSet<>(1024);
+
+    static {
+        final Field[] fields = WD.class.getDeclaredFields();
+        int m = 0;
+
+        for (Field field : fields) {
+            m = field.getModifiers();
+
+            if (Modifier.isPublic(m) && Modifier.isStatic(m) && Modifier.isFinal(m) && field.getType().equals(String.class)) {
+                try {
+                    final String value = (String) field.get(null);
+
+                    for (String e : StringUtil.split(value, ' ', true)) {
+                        sqlKeyWords.add(e);
+                        sqlKeyWords.add(e.toUpperCase());
+                        sqlKeyWords.add(e.toLowerCase());
+                    }
+                } catch (Exception e) {
+                    // ignore, should never happen.
+                }
+            }
+        }
+    }
 
     /** The naming policy. */
     private final NamingPolicy namingPolicy;
@@ -1201,21 +1228,21 @@ public abstract class CQLBuilder {
             final Cell where = criteria.getWhere();
 
             if ((where != null)) {
-                sb.append(_SPACE).append(where.getOperator());
+                sb.append(_SPACE_WHERE_SPACE);
                 appendCondition(where.getCondition());
             }
 
             final Cell groupBy = criteria.getGroupBy();
 
             if (groupBy != null) {
-                sb.append(_SPACE).append(groupBy.getOperator());
+                sb.append(_SPACE_GROUP_BY_SPACE);
                 appendCondition(groupBy.getCondition());
             }
 
             final Cell having = criteria.getHaving();
 
             if (having != null) {
-                sb.append(_SPACE).append(having.getOperator());
+                sb.append(_SPACE_HAVING_SPACE);
                 appendCondition(having.getCondition());
             }
 
@@ -1223,7 +1250,7 @@ public abstract class CQLBuilder {
 
             if (N.notNullOrEmpty(aggregations)) {
                 for (Cell aggregation : aggregations) {
-                    sb.append(_SPACE).append(aggregation.getOperator());
+                    sb.append(_SPACE).append(aggregation.getOperator()).append(_SPACE);
                     appendCondition(aggregation.getCondition());
                 }
             }
@@ -1231,7 +1258,7 @@ public abstract class CQLBuilder {
             final Cell orderBy = criteria.getOrderBy();
 
             if (orderBy != null) {
-                sb.append(_SPACE).append(orderBy.getOperator());
+                sb.append(_SPACE_ORDER_BY_SPACE);
                 appendCondition(orderBy.getCondition());
             }
 
@@ -1245,12 +1272,10 @@ public abstract class CQLBuilder {
                 }
             }
         } else if (cond instanceof Clause) {
-            sb.append(_SPACE).append(cond.getOperator());
-
+            sb.append(_SPACE).append(cond.getOperator()).append(_SPACE);
             appendCondition(((Clause) cond).getCondition());
         } else {
             sb.append(_SPACE_WHERE_SPACE);
-
             appendCondition(cond);
         }
 
@@ -2177,11 +2202,13 @@ public abstract class CQLBuilder {
         return propColumnNameMap;
     }
 
-    private static String formalizeColumnName(final String propName, final NamingPolicy namingPolicy) {
-        if (namingPolicy == NamingPolicy.LOWER_CAMEL_CASE) {
-            return ClassUtil.formalizePropName(propName);
+    private static String formalizeColumnName(final String word, final NamingPolicy namingPolicy) {
+        if (sqlKeyWords.contains(word)) {
+            return word;
+        } else if (namingPolicy == NamingPolicy.LOWER_CAMEL_CASE) {
+            return ClassUtil.formalizePropName(word);
         } else {
-            return namingPolicy.convert(propName);
+            return namingPolicy.convert(word);
         }
     }
 
