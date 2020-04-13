@@ -2089,33 +2089,6 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * Formalize column name.
-     *
-     * @param propName
-     * @return
-     */
-    private String formalizeColumnName(final String propName) {
-        return formalizeColumnName(getPropColumnNameMap(entityClass, namingPolicy), propName);
-    }
-
-    /**
-     * Formalize column name.
-     *
-     * @param propColumnNameMap
-     * @param propName
-     * @return
-     */
-    private String formalizeColumnName(final Map<String, String> propColumnNameMap, final String propName) {
-        final String columnName = propColumnNameMap == null ? null : propColumnNameMap.get(propName);
-
-        if (columnName != null) {
-            return columnName;
-        }
-
-        return formalizeColumnName(propName, namingPolicy);
-    }
-
-    /**
      * Gets the prop column name map.
      *
      * @return
@@ -2202,6 +2175,11 @@ public abstract class CQLBuilder {
         return propColumnNameMap;
     }
 
+    private String formalizeColumnName(final String propName) {
+        return entityClass == null ? formalizeColumnName(propName, namingPolicy)
+                : formalizeColumnName(getPropColumnNameMap(entityClass, namingPolicy), propName);
+    }
+
     private static String formalizeColumnName(final String word, final NamingPolicy namingPolicy) {
         if (sqlKeyWords.contains(word)) {
             return word;
@@ -2210,6 +2188,16 @@ public abstract class CQLBuilder {
         } else {
             return namingPolicy.convert(word);
         }
+    }
+
+    private String formalizeColumnName(final Map<String, String> propColumnNameMap, final String propName) {
+        final String columnName = propColumnNameMap == null ? null : propColumnNameMap.get(propName);
+
+        if (columnName != null) {
+            return columnName;
+        }
+
+        return formalizeColumnName(propName, namingPolicy);
     }
 
     /**
@@ -2263,13 +2251,6 @@ public abstract class CQLBuilder {
         return cql();
     }
 
-    /**
-     * Parses the insert entity.
-     *
-     * @param instance
-     * @param entity
-     * @param excludedPropNames
-     */
     private static void parseInsertEntity(final CQLBuilder instance, final Object entity, final Set<String> excludedPropNames) {
         if (entity instanceof String) {
             instance.columnNames = N.asArray((String) entity);
