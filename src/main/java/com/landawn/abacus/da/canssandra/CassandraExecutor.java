@@ -1321,7 +1321,7 @@ public final class CassandraExecutor implements Closeable {
     public long count(final Class<?> targetClass, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, N.asList(CQLBuilder.COUNT_ALL), whereCause, 1);
 
-        return count(cp.cql, cp.parameters.toArray());
+        return queryForSingleResult(long.class, cp.cql, cp.parameters.toArray()).orElse(0L);
     }
 
     /**
