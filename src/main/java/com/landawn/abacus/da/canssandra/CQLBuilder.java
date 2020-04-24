@@ -38,9 +38,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.landawn.abacus.DirtyMarker;
 import com.landawn.abacus.annotation.Beta;
 import com.landawn.abacus.annotation.NonUpdatable;
+import com.landawn.abacus.annotation.NotColumn;
 import com.landawn.abacus.annotation.ReadOnly;
 import com.landawn.abacus.annotation.ReadOnlyId;
-import com.landawn.abacus.annotation.Transient;
 import com.landawn.abacus.condition.Between;
 import com.landawn.abacus.condition.Binary;
 import com.landawn.abacus.condition.Cell;
@@ -511,30 +511,30 @@ public abstract class CQLBuilder {
                 val[2] = N.newLinkedHashSet(entityPropNames);
                 val[3] = N.newLinkedHashSet(entityPropNames);
 
-                final Set<String> readOnlyPropNames = N.newHashSet();
+                final Set<String> nonUpdatableNonWritablePropNames = N.newHashSet();
                 final Set<String> nonUpdatablePropNames = N.newHashSet();
                 final Set<String> transientPropNames = N.newHashSet();
 
                 for (PropInfo propInfo : entityInfo.propInfoList) {
                     if (propInfo.isAnnotationPresent(ReadOnly.class) || propInfo.isAnnotationPresent(ReadOnlyId.class)) {
-                        readOnlyPropNames.add(propInfo.name);
+                        nonUpdatableNonWritablePropNames.add(propInfo.name);
                     }
 
                     if (propInfo.isAnnotationPresent(NonUpdatable.class)) {
                         nonUpdatablePropNames.add(propInfo.name);
                     }
 
-                    if (propInfo.isAnnotationPresent(Transient.class) || (propInfo.field != null && Modifier.isTransient(propInfo.field.getModifiers()))) {
-                        readOnlyPropNames.add(propInfo.name);
+                    if (propInfo.isTransient || propInfo.isAnnotationPresent(NotColumn.class)) {
+                        nonUpdatableNonWritablePropNames.add(propInfo.name);
                         transientPropNames.add(propInfo.name);
                     }
                 }
 
-                nonUpdatablePropNames.addAll(readOnlyPropNames);
+                nonUpdatablePropNames.addAll(nonUpdatableNonWritablePropNames);
 
                 val[0].removeAll(transientPropNames);
                 val[1].removeAll(transientPropNames);
-                val[2].removeAll(readOnlyPropNames);
+                val[2].removeAll(nonUpdatableNonWritablePropNames);
                 val[3].removeAll(nonUpdatablePropNames);
 
                 val[0] = ImmutableSet.of(val[0]);
