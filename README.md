@@ -6,12 +6,12 @@ Abacus Data Access&Analysis
  
 
 * ORMs for NoSQL: 
-[MongoCollectionExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/MongoCollectionExecutor_view.html), 
-[CassandraExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/CassandraExecutor_view.html) with [CQLBuilder](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/CQLBuilder_view.html), 
-[CouchbaseExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/CouchbaseExecutor_view.html), 
-[HBaseExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/HBaseExecutor_view.html), 
-[DynamoDBExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/DynamoDBExecutor_view.html) and 
-[Neo4jExecutor](https://cdn.staticaly.com/gh/landawn/abacus-da/master/docs/Neo4jExecutor_view.html).
+[MongoCollectionExecutor](https://htmlpreview.github.io/?https://github.com/landawn/abacus-da/master/docs/MongoCollectionExecutor_view.html), 
+[CassandraExecutor](https://htmlpreview.github.io/?https://github.com/landawn/abacus-da/master/docs/CassandraExecutor_view.html) with [CQLBuilder](https://htmlpreview.github.io/?https://github.com/landawn/abacus-da/master/docs/CQLBuilder_view.html), 
+[CouchbaseExecutor](https://htmlpreview.github.io/?https://github.com/landawn/abacus-da/master/docs/CouchbaseExecutor_view.html), 
+[HBaseExecutor](https://htmlpreview.github.io/?https://github.com/landawn/abacus-da/master/docs/HBaseExecutor_view.html), 
+[DynamoDBExecutor](https://htmlpreview.github.io/?https://github.com/landawn/abacus-da/master/docs/DynamoDBExecutor_view.html) and 
+[Neo4jExecutor](https://htmlpreview.github.io/?https://github.com/landawn/abacus-da/master/docs/Neo4jExecutor_view.html).
 
 
 ## Download/Installation & [Changes](https://github.com/landawn/abacus-da/blob/master/CHANGES.md):
