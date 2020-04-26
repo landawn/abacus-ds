@@ -331,12 +331,12 @@ public final class CouchbaseExecutor implements Closeable {
                 resultList.add(toEntity(targetClass, row));
             }
         } else {
-            final JsonObject first = rowList.get(0).value();
+            final JsonObject firstNonNull = rowList.get(0).value();
 
-            if (first.getNames().size() <= 2) {
-                final String propName = N.findFirst(first.getNames(), Fn.notEqual(_ID)).orElse(_ID);
+            if (firstNonNull.getNames().size() <= 2) {
+                final String propName = N.findFirst(firstNonNull.getNames(), Fn.notEqual(_ID)).orElse(_ID);
 
-                if (first.get(propName) != null && targetClass.isAssignableFrom(first.get(propName).getClass())) {
+                if (firstNonNull.get(propName) != null && targetClass.isAssignableFrom(firstNonNull.get(propName).getClass())) {
                     for (N1qlQueryRow row : rowList) {
                         resultList.add(row.value().get(propName));
                     }
@@ -346,8 +346,8 @@ public final class CouchbaseExecutor implements Closeable {
                     }
                 }
             } else {
-                throw new IllegalArgumentException(
-                        "Can't covert result with columns: " + first.getNames().toString() + " to class: " + ClassUtil.getCanonicalClassName(targetClass));
+                throw new IllegalArgumentException("Can't covert result with columns: " + firstNonNull.getNames().toString() + " to class: "
+                        + ClassUtil.getCanonicalClassName(targetClass));
             }
         }
 
@@ -1114,6 +1114,19 @@ public final class CouchbaseExecutor implements Closeable {
         }
     }
 
+    @SafeVarargs
+    public final <V> Optional<V> queryForSingleNonNull(final Class<V> targetClass, final String query, final Object... parameters) {
+        final N1qlQueryResult resultSet = execute(query, parameters);
+        final Iterator<N1qlQueryRow> it = resultSet.rows();
+        final JsonObject jsonObject = it.hasNext() ? it.next().value() : null;
+
+        if (jsonObject == null || jsonObject.size() == 0) {
+            return Optional.empty();
+        } else {
+            return Optional.of(N.convert(jsonObject.get(jsonObject.getNames().iterator().next()), targetClass));
+        }
+    }
+
     /**
      *
      * @param query
@@ -1870,6 +1883,16 @@ public final class CouchbaseExecutor implements Closeable {
             @Override
             public Nullable<V> call() throws Exception {
                 return queryForSingleResult(targetClass, query, parameters);
+            }
+        });
+    }
+
+    @SafeVarargs
+    public final <V> ContinuableFuture<Optional<V>> asyncQueryForSingleNonNull(final Class<V> targetClass, final String query, final Object... parameters) {
+        return asyncExecutor.execute(new Callable<Optional<V>>() {
+            @Override
+            public Optional<V> call() throws Exception {
+                return queryForSingleNonNull(targetClass, query, parameters);
             }
         });
     }

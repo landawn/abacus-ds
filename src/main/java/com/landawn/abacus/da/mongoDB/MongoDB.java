@@ -329,16 +329,16 @@ public final class MongoDB {
     public static <T> List<T> toList(final Class<T> targetClass, final MongoIterable<?> findIterable) {
         final Type<T> targetType = N.typeOf(targetClass);
         final List<Object> rowList = findIterable.into(new ArrayList<>());
-        final Optional<Object> first = N.firstNonNull(rowList);
+        final Optional<Object> firstNonNull = N.firstNonNull(rowList);
 
-        if (first.isPresent()) {
-            if (targetClass.isAssignableFrom(first.get().getClass())) {
+        if (firstNonNull.isPresent()) {
+            if (targetClass.isAssignableFrom(firstNonNull.get().getClass())) {
                 return (List<T>) rowList;
             } else {
                 final List<Object> resultList = new ArrayList<>(rowList.size());
 
                 if (targetType.isEntity() || targetType.isMap()) {
-                    if (first.get() instanceof Document) {
+                    if (firstNonNull.get() instanceof Document) {
                         for (Object row : rowList) {
                             resultList.add(toEntity(targetClass, (Document) row));
                         }
@@ -351,8 +351,8 @@ public final class MongoDB {
                             resultList.add(N.copy(targetClass, row));
                         }
                     }
-                } else if (first.get() instanceof Map && ((Map<String, Object>) first.get()).size() <= 2) {
-                    final Map<String, Object> m = (Map<String, Object>) first.get();
+                } else if (firstNonNull.get() instanceof Map && ((Map<String, Object>) firstNonNull.get()).size() <= 2) {
+                    final Map<String, Object> m = (Map<String, Object>) firstNonNull.get();
                     final String propName = N.findFirst(m.keySet(), Fn.notEqual(_ID)).orElse(_ID);
 
                     if (m.get(propName) != null && targetClass.isAssignableFrom(m.get(propName).getClass())) {
@@ -366,7 +366,7 @@ public final class MongoDB {
                     }
                 } else {
                     throw new IllegalArgumentException(
-                            "Can't covert document: " + first.toString() + " to class: " + ClassUtil.getCanonicalClassName(targetClass));
+                            "Can't covert document: " + firstNonNull.toString() + " to class: " + ClassUtil.getCanonicalClassName(targetClass));
                 }
 
                 return (List<T>) resultList;

@@ -531,7 +531,9 @@ public final class CassandraExecutor implements Closeable {
             }
         } else if (columnDefinitions.size() == 1) {
             if (rowList.size() > 0) {
-                if (rowList.get(0).getObject(0) != null && targetClass.isAssignableFrom(rowList.get(0).getObject(0).getClass())) {
+                final Optional<Row> firstNonNull = N.findFirstNonNull(rowList, it -> it.getObject(0) != null);
+
+                if (firstNonNull.isPresent() && targetClass.isAssignableFrom(firstNonNull.get().getObject(0).getClass())) {
                     for (Row row : rowList) {
                         resultList.add(row.getObject(0));
                     }
@@ -1574,6 +1576,22 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
+     * 
+     * @param <T>
+     * @param <V>
+     * @param targetClass
+     * @param valueClass
+     * @param propName
+     * @param whereCause
+     * @return
+     */
+    public <T, V> Optional<V> queryForSingleNonNull(final Class<T> targetClass, final Class<V> valueClass, final String propName, final Condition whereCause) {
+        final CP cp = prepareQuery(targetClass, Arrays.asList(propName), whereCause, 1);
+
+        return queryForSingleNonNull(valueClass, cp.cql, cp.parameters.toArray());
+    }
+
+    /**
      *
      * @param <T>
      * @param targetClass
@@ -1757,6 +1775,23 @@ public final class CassandraExecutor implements Closeable {
         final Row row = resultSet.one();
 
         return row == null ? (Nullable<E>) Nullable.empty() : Nullable.of(N.convert(row.getObject(0), valueClass));
+    }
+
+    /**
+     * Query for single result.
+     *
+     * @param <E>
+     * @param valueClass
+     * @param query
+     * @param parameters
+     * @return
+     */
+    @SafeVarargs
+    public final <E> Optional<E> queryForSingleNonNull(final Class<E> valueClass, final String query, final Object... parameters) {
+        final ResultSet resultSet = execute(query, parameters);
+        final Row row = resultSet.one();
+
+        return row == null ? (Optional<E>) Optional.empty() : Optional.of(N.convert(row.getObject(0), valueClass));
     }
 
     /**
@@ -2695,6 +2730,13 @@ public final class CassandraExecutor implements Closeable {
         return asyncQueryForSingleResult(valueClass, cp.cql, cp.parameters.toArray());
     }
 
+    public <T, V> ContinuableFuture<Optional<V>> asyncQueryForSingleNonNull(final Class<T> targetClass, final Class<V> valueClass, final String propName,
+            final Condition whereCause) {
+        final CP cp = prepareQuery(targetClass, Arrays.asList(propName), whereCause, 1);
+
+        return asyncQueryForSingleNonNull(valueClass, cp.cql, cp.parameters.toArray());
+    }
+
     /**
      * Async find first.
      *
@@ -2922,6 +2964,18 @@ public final class CassandraExecutor implements Closeable {
                 final Row row = resultSet.one();
 
                 return row == null ? (Nullable<T>) Nullable.empty() : Nullable.of(N.convert(row.getObject(0), valueClass));
+            }
+        });
+    }
+
+    @SafeVarargs
+    public final <T> ContinuableFuture<Optional<T>> asyncQueryForSingleNonNull(final Class<T> valueClass, final String query, final Object... parameters) {
+        return asyncExecute(query, parameters).map(new Throwables.Function<ResultSet, Optional<T>, RuntimeException>() {
+            @Override
+            public Optional<T> apply(final ResultSet resultSet) throws RuntimeException {
+                final Row row = resultSet.one();
+
+                return row == null ? (Optional<T>) Optional.empty() : Optional.of(N.convert(row.getObject(0), valueClass));
             }
         });
     }
