@@ -637,6 +637,22 @@ public final class MongoCollectionExecutor {
     }
 
     /**
+     * 
+     * @param <V>
+     * @param targetClass
+     * @param propName
+     * @param filter
+     * @return
+     */
+    public <V> Optional<V> queryForSingleNonNull(final Class<V> targetClass, final String propName, final Bson filter) {
+        final FindIterable<Document> findIterable = query(N.asList(propName), filter, null, 0, 1);
+
+        Document doc = findIterable.first();
+
+        return N.isNullOrEmpty(doc) ? (Optional<V>) Optional.empty() : Optional.of(N.convert(doc.get(propName), targetClass));
+    }
+
+    /**
      *
      * @param <T>
      * @param targetClass

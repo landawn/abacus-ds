@@ -608,9 +608,9 @@ public final class DynamoDBExecutor implements Closeable {
      * @return
      */
     public static <T> T toEntity(final Class<T> targetClass, final Map<String, AttributeValue> item) {
-        final Type<T> type = N.typeOf(targetClass);
+        final Type<T> targetType = N.typeOf(targetClass);
 
-        return toValue(type, targetClass, item);
+        return toValue(targetType, targetClass, item);
     }
 
     /**
@@ -832,12 +832,12 @@ public final class DynamoDBExecutor implements Closeable {
             throw new IllegalArgumentException("Offset and count can't be negative");
         }
 
-        final Type<T> type = N.typeOf(targetClass);
+        final Type<T> targetType = N.typeOf(targetClass);
         final List<T> resultList = new ArrayList<>();
 
         if (N.notNullOrEmpty(items)) {
             for (int i = offset, to = items.size(); i < to && count > 0; i++, count--) {
-                resultList.add(toValue(type, targetClass, items.get(i)));
+                resultList.add(toValue(targetType, targetClass, items.get(i)));
             }
         }
 
@@ -1456,12 +1456,12 @@ public final class DynamoDBExecutor implements Closeable {
             }
         };
 
-        final Type<T> type = N.typeOf(targetClass);
+        final Type<T> targetType = N.typeOf(targetClass);
 
         return Stream.of(iterator).map(new Function<Map<String, AttributeValue>, T>() {
             @Override
             public T apply(Map<String, AttributeValue> t) {
-                return toValue(type, targetClass, t);
+                return toValue(targetType, targetClass, t);
             }
         });
     }
@@ -1590,12 +1590,12 @@ public final class DynamoDBExecutor implements Closeable {
             }
         };
 
-        final Type<T> type = N.typeOf(targetClass);
+        final Type<T> targetType = N.typeOf(targetClass);
 
         return Stream.of(iterator).map(new Function<Map<String, AttributeValue>, T>() {
             @Override
             public T apply(Map<String, AttributeValue> t) {
-                return toValue(type, targetClass, t);
+                return toValue(targetType, targetClass, t);
             }
         });
     }

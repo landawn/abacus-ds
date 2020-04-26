@@ -327,7 +327,7 @@ public final class MongoDB {
      */
     @SuppressWarnings("rawtypes")
     public static <T> List<T> toList(final Class<T> targetClass, final MongoIterable<?> findIterable) {
-        final Type<T> type = N.typeOf(targetClass);
+        final Type<T> targetType = N.typeOf(targetClass);
         final List<Object> rowList = findIterable.into(new ArrayList<>());
         final Optional<Object> first = N.firstNonNull(rowList);
 
@@ -337,12 +337,12 @@ public final class MongoDB {
             } else {
                 final List<Object> resultList = new ArrayList<>(rowList.size());
 
-                if (type.isEntity() || type.isMap()) {
+                if (targetType.isEntity() || targetType.isMap()) {
                     if (first.get() instanceof Document) {
                         for (Object row : rowList) {
                             resultList.add(toEntity(targetClass, (Document) row));
                         }
-                    } else if (type.isMap()) {
+                    } else if (targetType.isMap()) {
                         for (Object row : rowList) {
                             resultList.add(Maps.entity2Map((Map) N.newInstance(targetClass), row));
                         }

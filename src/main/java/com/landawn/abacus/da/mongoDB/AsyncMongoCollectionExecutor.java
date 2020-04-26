@@ -787,6 +787,24 @@ public final class AsyncMongoCollectionExecutor {
     }
 
     /**
+     * Query for single result.
+     *
+     * @param <V> the value type
+     * @param targetClass
+     * @param propName
+     * @param filter
+     * @return
+     */
+    public <V> ContinuableFuture<Optional<V>> queryForSingleNonNull(final Class<V> targetClass, final String propName, final Bson filter) {
+        return asyncExecutor.execute(new Callable<Optional<V>>() {
+            @Override
+            public Optional<V> call() throws Exception {
+                return collExecutor.queryForSingleNonNull(targetClass, propName, filter);
+            }
+        });
+    }
+
+    /**
      *
      * @param filter
      * @return

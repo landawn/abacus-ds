@@ -313,7 +313,7 @@ public final class CouchbaseExecutor implements Closeable {
     public static <T> List<T> toList(Class<T> targetClass, N1qlQueryResult resultSet) {
         checkResultError(resultSet);
 
-        final Type<T> type = N.typeOf(targetClass);
+        final Type<T> targetType = N.typeOf(targetClass);
         final List<N1qlQueryRow> rowList = resultSet.allRows();
 
         if (N.isNullOrEmpty(rowList)) {
@@ -326,7 +326,7 @@ public final class CouchbaseExecutor implements Closeable {
             for (N1qlQueryRow row : rowList) {
                 resultList.add(row.value());
             }
-        } else if (type.isEntity() || type.isMap()) {
+        } else if (targetType.isEntity() || targetType.isMap()) {
             for (N1qlQueryRow row : rowList) {
                 resultList.add(toEntity(targetClass, row));
             }

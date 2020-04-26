@@ -520,12 +520,12 @@ public final class CassandraExecutor implements Closeable {
             return (List<T>) resultSet.all();
         }
 
-        final Type<T> type = N.typeOf(targetClass);
+        final Type<T> targetType = N.typeOf(targetClass);
         final ColumnDefinitions columnDefinitions = resultSet.getColumnDefinitions();
         final List<Row> rowList = resultSet.all();
         final List<Object> resultList = new ArrayList<>();
 
-        if (type.isEntity() || type.isMap()) {
+        if (targetType.isEntity() || targetType.isMap()) {
             for (Row row : rowList) {
                 resultList.add(toEntity(targetClass, row, columnDefinitions));
             }

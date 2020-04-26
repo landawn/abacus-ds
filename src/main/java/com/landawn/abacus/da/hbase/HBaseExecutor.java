@@ -404,12 +404,12 @@ public final class HBaseExecutor implements Closeable {
             throw new IllegalArgumentException("Offset and count can't be negative");
         }
 
-        final Type<T> type = N.typeOf(targetClass);
+        final Type<T> targetType = N.typeOf(targetClass);
 
-        final EntityInfo entityInfo = type.isEntity() ? ParserUtil.getEntityInfo(targetClass) : null;
-        final Method rowKeySetMethod = type.isEntity() ? getRowKeySetMethod(targetClass) : null;
+        final EntityInfo entityInfo = targetType.isEntity() ? ParserUtil.getEntityInfo(targetClass) : null;
+        final Method rowKeySetMethod = targetType.isEntity() ? getRowKeySetMethod(targetClass) : null;
         final Type<?> rowKeyType = rowKeySetMethod == null ? null : N.typeOf(rowKeySetMethod.getParameterTypes()[0]);
-        final Map<String, Map<String, Tuple2<String, Boolean>>> familyFieldNameMap = type.isEntity() ? getFamilyColumnFieldNameMap(targetClass)._1 : null;
+        final Map<String, Map<String, Tuple2<String, Boolean>>> familyFieldNameMap = targetType.isEntity() ? getFamilyColumnFieldNameMap(targetClass)._1 : null;
 
         final List<T> resultList = new ArrayList<>();
 
@@ -420,7 +420,7 @@ public final class HBaseExecutor implements Closeable {
             Result result = null;
 
             while (count-- > 0 && (result = resultScanner.next()) != null) {
-                resultList.add(toValue(type, targetClass, entityInfo, rowKeySetMethod, rowKeyType, familyFieldNameMap, result));
+                resultList.add(toValue(targetType, targetClass, entityInfo, rowKeySetMethod, rowKeyType, familyFieldNameMap, result));
             }
 
         } catch (IOException e) {
@@ -438,12 +438,12 @@ public final class HBaseExecutor implements Closeable {
      * @return
      */
     static <T> List<T> toList(final Class<T> targetClass, final List<Result> results) {
-        final Type<T> type = N.typeOf(targetClass);
+        final Type<T> targetType = N.typeOf(targetClass);
 
-        final EntityInfo entityInfo = type.isEntity() ? ParserUtil.getEntityInfo(targetClass) : null;
-        final Method rowKeySetMethod = type.isEntity() ? getRowKeySetMethod(targetClass) : null;
+        final EntityInfo entityInfo = targetType.isEntity() ? ParserUtil.getEntityInfo(targetClass) : null;
+        final Method rowKeySetMethod = targetType.isEntity() ? getRowKeySetMethod(targetClass) : null;
         final Type<?> rowKeyType = rowKeySetMethod == null ? null : N.typeOf(rowKeySetMethod.getParameterTypes()[0]);
-        final Map<String, Map<String, Tuple2<String, Boolean>>> familyFieldNameMap = type.isEntity() ? getFamilyColumnFieldNameMap(targetClass)._1 : null;
+        final Map<String, Map<String, Tuple2<String, Boolean>>> familyFieldNameMap = targetType.isEntity() ? getFamilyColumnFieldNameMap(targetClass)._1 : null;
 
         final List<T> resultList = new ArrayList<>(results.size());
 
@@ -453,7 +453,7 @@ public final class HBaseExecutor implements Closeable {
                     continue;
                 }
 
-                resultList.add(toValue(type, targetClass, entityInfo, rowKeySetMethod, rowKeyType, familyFieldNameMap, result));
+                resultList.add(toValue(targetType, targetClass, entityInfo, rowKeySetMethod, rowKeyType, familyFieldNameMap, result));
             }
         } catch (IOException e) {
             throw new UncheckedIOException(e);
@@ -470,10 +470,10 @@ public final class HBaseExecutor implements Closeable {
      * @return
      */
     public static <T> T toEntity(final Class<T> targetClass, final Result result) {
-        final Type<T> type = N.typeOf(targetClass);
+        final Type<T> targetType = N.typeOf(targetClass);
 
         try {
-            return toValue(type, targetClass, result);
+            return toValue(targetType, targetClass, result);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
         }
