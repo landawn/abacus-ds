@@ -1221,7 +1221,7 @@ public abstract class CQLBuilder {
                         sb.append(WD._PARENTHESES_R);
                     }
 
-                    appendCondition(((Clause) cond).getCondition());
+                    appendCondition(join.getCondition());
                 }
             }
 
