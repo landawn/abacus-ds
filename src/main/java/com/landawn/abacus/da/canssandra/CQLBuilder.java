@@ -2242,6 +2242,10 @@ public abstract class CQLBuilder {
     //        return false;
     //    }
 
+    public void println() {
+        N.println(cql());
+    }
+
     /**
      *
      * @return
