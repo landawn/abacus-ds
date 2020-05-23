@@ -638,9 +638,8 @@ public final class DynamoDBExecutor implements Closeable {
             if (N.isNullOrEmpty(item)) {
                 return null;
             }
-
-            @SuppressWarnings("deprecation")
-            final Map<String, String> column2FieldNameMap = com.landawn.abacus.util.InternalUtil.getColumn2FieldNameMap(targetClass);
+ 
+            final Map<String, String> column2FieldNameMap = ClassUtil.getColumn2FieldNameMap(targetClass);
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
             final T entity = N.newInstance(targetClass);
             String fieldName = null;

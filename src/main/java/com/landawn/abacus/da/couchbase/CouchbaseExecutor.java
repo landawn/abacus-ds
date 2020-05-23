@@ -462,9 +462,8 @@ public final class CouchbaseExecutor implements Closeable {
                 result.putAll(m);
                 return (T) result;
             }
-        } else if (ClassUtil.isEntity(targetClass)) {
-            @SuppressWarnings("deprecation")
-            final Map<String, String> column2FieldNameMap = com.landawn.abacus.util.InternalUtil.getColumn2FieldNameMap(targetClass);
+        } else if (ClassUtil.isEntity(targetClass)) { 
+            final Map<String, String> column2FieldNameMap = ClassUtil.getColumn2FieldNameMap(targetClass);
             final T entity = N.newInstance(targetClass);
             final List<String> columnNameList = new ArrayList<>(jsonObject.getNames());
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
