@@ -1708,7 +1708,7 @@ public abstract class CQLBuilder {
         String cql = null;
 
         try {
-            cql = sb.toString();
+            cql = sb.charAt(0) == ' ' ? sb.substring(1) : sb.toString();
         } finally {
             Objectory.recycle(sb);
             sb = null;
@@ -1747,8 +1747,9 @@ public abstract class CQLBuilder {
      * @param setForUpdate
      */
     void init(boolean setForUpdate) {
-        if (sb.length() > 0) {
+        // Note: any change, please take a look at: parse(final Class<?> entityClass, final Condition cond) first.
 
+        if (sb.length() > 0) {
             if (op == OperationType.UPDATE && setForUpdate && N.notNullOrEmpty(columnNameList)) {
                 set(columnNameList);
             }
@@ -2325,6 +2326,25 @@ public abstract class CQLBuilder {
         }
 
         /**
+         * To generate {@code cql} part for the specified {@code cond} only.
+         *
+         * @param cond
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder parse(final Condition cond, final Class<?> entityClass) {
+            N.checkArgNotNull(cond, "cond");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.entityClass = entityClass;
+            instance.op = OperationType.QUERY;
+            instance.append(cond);
+
+            return instance;
+        }
+
+        /**
          *
          * @param expr
          * @return
@@ -2741,6 +2761,25 @@ public abstract class CQLBuilder {
          */
         static ACCB createInstance() {
             return new ACCB();
+        }
+
+        /**
+         * To generate {@code cql} part for the specified {@code cond} only.
+         *
+         * @param cond
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder parse(final Condition cond, final Class<?> entityClass) {
+            N.checkArgNotNull(cond, "cond");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.entityClass = entityClass;
+            instance.op = OperationType.QUERY;
+            instance.append(cond);
+
+            return instance;
         }
 
         /**
@@ -3163,6 +3202,25 @@ public abstract class CQLBuilder {
         }
 
         /**
+         * To generate {@code cql} part for the specified {@code cond} only.
+         *
+         * @param cond
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder parse(final Condition cond, final Class<?> entityClass) {
+            N.checkArgNotNull(cond, "cond");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.entityClass = entityClass;
+            instance.op = OperationType.QUERY;
+            instance.append(cond);
+
+            return instance;
+        }
+
+        /**
          *
          * @param expr
          * @return
@@ -3576,6 +3634,25 @@ public abstract class CQLBuilder {
          */
         static PSC createInstance() {
             return new PSC();
+        }
+
+        /**
+         * To generate {@code cql} part for the specified {@code cond} only.
+         *
+         * @param cond
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder parse(final Condition cond, final Class<?> entityClass) {
+            N.checkArgNotNull(cond, "cond");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.entityClass = entityClass;
+            instance.op = OperationType.QUERY;
+            instance.append(cond);
+
+            return instance;
         }
 
         /**
@@ -3995,6 +4072,25 @@ public abstract class CQLBuilder {
         }
 
         /**
+         * To generate {@code cql} part for the specified {@code cond} only.
+         *
+         * @param cond
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder parse(final Condition cond, final Class<?> entityClass) {
+            N.checkArgNotNull(cond, "cond");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.entityClass = entityClass;
+            instance.op = OperationType.QUERY;
+            instance.append(cond);
+
+            return instance;
+        }
+
+        /**
          *
          * @param expr
          * @return
@@ -4408,6 +4504,25 @@ public abstract class CQLBuilder {
          */
         static PLC createInstance() {
             return new PLC();
+        }
+
+        /**
+         * To generate {@code cql} part for the specified {@code cond} only.
+         *
+         * @param cond
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder parse(final Condition cond, final Class<?> entityClass) {
+            N.checkArgNotNull(cond, "cond");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.entityClass = entityClass;
+            instance.op = OperationType.QUERY;
+            instance.append(cond);
+
+            return instance;
         }
 
         /**
@@ -4827,6 +4942,25 @@ public abstract class CQLBuilder {
         }
 
         /**
+         * To generate {@code cql} part for the specified {@code cond} only.
+         *
+         * @param cond
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder parse(final Condition cond, final Class<?> entityClass) {
+            N.checkArgNotNull(cond, "cond");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.entityClass = entityClass;
+            instance.op = OperationType.QUERY;
+            instance.append(cond);
+
+            return instance;
+        }
+
+        /**
          *
          * @param expr
          * @return
@@ -5243,6 +5377,25 @@ public abstract class CQLBuilder {
         }
 
         /**
+         * To generate {@code cql} part for the specified {@code cond} only.
+         *
+         * @param cond
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder parse(final Condition cond, final Class<?> entityClass) {
+            N.checkArgNotNull(cond, "cond");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.entityClass = entityClass;
+            instance.op = OperationType.QUERY;
+            instance.append(cond);
+
+            return instance;
+        }
+
+        /**
          *
          * @param expr
          * @return
@@ -5656,6 +5809,25 @@ public abstract class CQLBuilder {
          */
         static NLC createInstance() {
             return new NLC();
+        }
+
+        /**
+         * To generate {@code cql} part for the specified {@code cond} only.
+         *
+         * @param cond
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder parse(final Condition cond, final Class<?> entityClass) {
+            N.checkArgNotNull(cond, "cond");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.entityClass = entityClass;
+            instance.op = OperationType.QUERY;
+            instance.append(cond);
+
+            return instance;
         }
 
         /**
