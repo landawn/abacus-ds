@@ -598,7 +598,7 @@ public final class CassandraExecutor implements Closeable {
 
             return (T) map;
         } else if (ClassUtil.isEntity(targetClass)) { 
-            final Map<String, String> column2FieldNameMap = ClassUtil.getColumn2FieldNameMap(targetClass);
+            final Map<String, String> column2FieldNameMap = ClassUtil.getColumn2PropNameMap(targetClass);
             final T entity = N.newInstance(targetClass);
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
             PropInfo propInfo = null;

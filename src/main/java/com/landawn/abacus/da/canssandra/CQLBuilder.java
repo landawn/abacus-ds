@@ -75,7 +75,6 @@ import com.landawn.abacus.util.Pair;
 import com.landawn.abacus.util.SQLBuilder;
 import com.landawn.abacus.util.SQLParser;
 import com.landawn.abacus.util.SortDirection;
-import com.landawn.abacus.util.Splitter;
 import com.landawn.abacus.util.StringUtil;
 import com.landawn.abacus.util.Throwables;
 import com.landawn.abacus.util.WD;
@@ -101,23 +100,12 @@ import com.landawn.abacus.util.WD;
  * @since 0.8
  */
 public abstract class CQLBuilder {
-
-    /** The Constant logger. */
     private static final Logger logger = LoggerFactory.getLogger(CQLBuilder.class);
 
-    /** The Constant commaSplitter. */
-    private static final Splitter commaSplitter = Splitter.with(WD._COMMA).trim(true);
-
-    /** The Constant spaceSplitter. */
-    private static final Splitter spaceSplitter = Splitter.with(WD._COMMA).trim(true);
-
-    /** The Constant DISTINCT. */
     public static final String DISTINCT = WD.DISTINCT;
 
-    /** The Constant COUNT_ALL. */
     public static final String COUNT_ALL = "count(*)";
 
-    /** The Constant POOL_SIZE. */
     static final int POOL_SIZE;
 
     static {
@@ -126,10 +114,8 @@ public abstract class CQLBuilder {
         POOL_SIZE = Math.max(1000, Math.min(1000 * multi, 8192));
     }
 
-    /** The Constant entityTablePropColumnNameMap. */
     private static final Map<Class<?>, Map<NamingPolicy, Map<String, String>>> entityTablePropColumnNameMap = new ObjectPool<>(POOL_SIZE);
 
-    /** The Constant defaultPropNamesPool. */
     private static final Map<Class<?>, Set<String>[]> defaultPropNamesPool = new ObjectPool<>(POOL_SIZE);
 
     private static final Map<NamingPolicy, Map<Class<?>, String>> fullSelectPartsPool = new HashMap<>(NamingPolicy.values().length);
@@ -140,151 +126,102 @@ public abstract class CQLBuilder {
         }
     }
 
-    /** The Constant classTableNameMap. */
     private static final Map<Class<?>, String[]> classTableNameMap = new ConcurrentHashMap<>();
 
-    /** The Constant tableDeleteFrom. */
     private static final Map<String, char[]> tableDeleteFrom = new ConcurrentHashMap<>();
 
-    /** The Constant activeStringBuilderCounter. */
     private static final AtomicInteger activeStringBuilderCounter = new AtomicInteger();
 
-    /** The Constant _SPACE_USING_TIMESTAMP_SPACE. */
     static final char[] _SPACE_USING_TIMESTAMP_SPACE = " USING TIMESTAMP ".toCharArray();
 
-    /** The Constant _SPACE_USING_TTL_SPACE. */
     static final char[] _SPACE_USING_TTL_SPACE = " USING TTL ".toCharArray();
 
-    /** The Constant _SPACE_IF_SPACE. */
     static final char[] _SPACE_IF_SPACE = " IF ".toCharArray();
 
-    /** The Constant _SPACE_IF_EXISTS. */
     static final char[] _SPACE_IF_EXISTS = " IF EXISTS".toCharArray();
 
-    /** The Constant _SPACE_IF_NOT_EXISTS. */
     static final char[] _SPACE_IF_NOT_EXISTS = " IF NOT EXISTS".toCharArray();
 
-    /** The Constant _SPACE_ALLOW_FILTERING. */
     static final char[] _SPACE_ALLOW_FILTERING = " ALLOW FILTERING".toCharArray();
 
-    /** The Constant _INSERT. */
     static final char[] _INSERT = WD.INSERT.toCharArray();
 
-    /** The Constant _SPACE_INSERT_SPACE. */
     static final char[] _SPACE_INSERT_SPACE = (WD.SPACE + WD.INSERT + WD.SPACE).toCharArray();
 
-    /** The Constant _INTO. */
     static final char[] _INTO = WD.INTO.toCharArray();
 
-    /** The Constant _SPACE_INTO_SPACE. */
     static final char[] _SPACE_INTO_SPACE = (WD.SPACE + WD.INTO + WD.SPACE).toCharArray();
 
-    /** The Constant _VALUES. */
     static final char[] _VALUES = WD.VALUES.toCharArray();
 
-    /** The Constant _SPACE_VALUES_SPACE. */
     static final char[] _SPACE_VALUES_SPACE = (WD.SPACE + WD.VALUES + WD.SPACE).toCharArray();
 
-    /** The Constant _SELECT. */
     static final char[] _SELECT = WD.SELECT.toCharArray();
 
-    /** The Constant _SPACE_SELECT_SPACE. */
     static final char[] _SPACE_SELECT_SPACE = (WD.SPACE + WD.SELECT + WD.SPACE).toCharArray();
 
-    /** The Constant _FROM. */
     static final char[] _FROM = WD.FROM.toCharArray();
 
-    /** The Constant _SPACE_FROM_SPACE. */
     static final char[] _SPACE_FROM_SPACE = (WD.SPACE + WD.FROM + WD.SPACE).toCharArray();
 
-    /** The Constant _UPDATE. */
     static final char[] _UPDATE = WD.UPDATE.toCharArray();
 
-    /** The Constant _SPACE_UPDATE_SPACE. */
     static final char[] _SPACE_UPDATE_SPACE = (WD.SPACE + WD.UPDATE + WD.SPACE).toCharArray();
 
-    /** The Constant _SET. */
     static final char[] _SET = WD.SET.toCharArray();
 
-    /** The Constant _SPACE_SET_SPACE. */
     static final char[] _SPACE_SET_SPACE = (WD.SPACE + WD.SET + WD.SPACE).toCharArray();
 
-    /** The Constant _DELETE. */
     static final char[] _DELETE = WD.DELETE.toCharArray();
 
-    /** The Constant _SPACE_DELETE_SPACE. */
     static final char[] _SPACE_DELETE_SPACE = (WD.SPACE + WD.DELETE + WD.SPACE).toCharArray();
 
-    /** The Constant _USING. */
     static final char[] _USING = WD.USING.toCharArray();
 
-    /** The Constant _SPACE_USING_SPACE. */
     static final char[] _SPACE_USING_SPACE = (WD.SPACE + WD.USING + WD.SPACE).toCharArray();
 
-    /** The Constant _WHERE. */
     static final char[] _WHERE = WD.WHERE.toCharArray();
 
-    /** The Constant _SPACE_WHERE_SPACE. */
     static final char[] _SPACE_WHERE_SPACE = (WD.SPACE + WD.WHERE + WD.SPACE).toCharArray();
 
-    /** The Constant _GROUP_BY. */
     static final char[] _GROUP_BY = WD.GROUP_BY.toCharArray();
 
-    /** The Constant _SPACE_GROUP_BY_SPACE. */
     static final char[] _SPACE_GROUP_BY_SPACE = (WD.SPACE + WD.GROUP_BY + WD.SPACE).toCharArray();
 
-    /** The Constant _HAVING. */
     static final char[] _HAVING = WD.HAVING.toCharArray();
 
-    /** The Constant _SPACE_HAVING_SPACE. */
     static final char[] _SPACE_HAVING_SPACE = (WD.SPACE + WD.HAVING + WD.SPACE).toCharArray();
 
-    /** The Constant _ORDER_BY. */
     static final char[] _ORDER_BY = WD.ORDER_BY.toCharArray();
 
-    /** The Constant _SPACE_ORDER_BY_SPACE. */
     static final char[] _SPACE_ORDER_BY_SPACE = (WD.SPACE + WD.ORDER_BY + WD.SPACE).toCharArray();
 
-    /** The Constant _LIMIT. */
     static final char[] _LIMIT = (WD.SPACE + WD.LIMIT + WD.SPACE).toCharArray();
 
-    /** The Constant _SPACE_LIMIT_SPACE. */
     static final char[] _SPACE_LIMIT_SPACE = (WD.SPACE + WD.LIMIT + WD.SPACE).toCharArray();
 
-    /** The Constant _OFFSET. */
     static final char[] _OFFSET = WD.OFFSET.toCharArray();
 
-    /** The Constant _SPACE_OFFSET_SPACE. */
     static final char[] _SPACE_OFFSET_SPACE = (WD.SPACE + WD.OFFSET + WD.SPACE).toCharArray();
 
-    /** The Constant _AND. */
     static final char[] _AND = WD.AND.toCharArray();
 
-    /** The Constant _SPACE_AND_SPACE. */
     static final char[] _SPACE_AND_SPACE = (WD.SPACE + WD.AND + WD.SPACE).toCharArray();
 
-    /** The Constant _OR. */
     static final char[] _OR = WD.OR.toCharArray();
 
-    /** The Constant _SPACE_OR_SPACE. */
     static final char[] _SPACE_OR_SPACE = (WD.SPACE + WD.OR + WD.SPACE).toCharArray();
 
-    /** The Constant _AS. */
     static final char[] _AS = WD.AS.toCharArray();
 
-    /** The Constant _SPACE_AS_SPACE. */
     static final char[] _SPACE_AS_SPACE = (WD.SPACE + WD.AS + WD.SPACE).toCharArray();
 
-    /** The Constant _SPACE_EQUAL_SPACE. */
     static final char[] _SPACE_EQUAL_SPACE = (WD.SPACE + WD.EQUAL + WD.SPACE).toCharArray();
 
-    /** The Constant _SPACE_FOR_UPDATE. */
     static final char[] _SPACE_FOR_UPDATE = (WD.SPACE + WD.FOR_UPDATE).toCharArray();
 
-    /** The Constant _COMMA_SPACE. */
     static final char[] _COMMA_SPACE = WD.COMMA_SPACE.toCharArray();
 
-    /** The Constant SPACE_AS_SPACE. */
     static final String SPACE_AS_SPACE = WD.SPACE + WD.AS + WD.SPACE;
 
     private static final Set<String> sqlKeyWords = new HashSet<>(1024);
@@ -312,43 +249,34 @@ public abstract class CQLBuilder {
         }
     }
 
-    /** The naming policy. */
     private final NamingPolicy namingPolicy;
 
-    /** The cql policy. */
     private final CQLPolicy cqlPolicy;
 
-    /** The parameters. */
     private final List<Object> parameters = new ArrayList<>();
 
-    /** The sb. */
     private StringBuilder sb;
 
-    /** The op. */
     private OperationType op;
 
-    /** The entity class. */
     private Class<?> entityClass;
 
-    /** The table name. */
+    private String alias;
+
     private String tableName;
 
-    /** The predicates. */
-    private String predicates;
+    private String preselect;
 
-    /** The column names. */
     private String[] columnNames;
 
-    /** The column name list. */
     private Collection<String> columnNameList;
 
-    /** The column aliases. */
     private Map<String, String> columnAliases;
 
-    /** The props. */
+    private Map<String, Map<String, String>> aliasPropColumnNameMap;
+
     private Map<String, Object> props;
 
-    /** The props list. */
     private Collection<Map<String, Object>> propsList;
 
     /**
@@ -409,20 +337,26 @@ public abstract class CQLBuilder {
      * Gets the select prop names by class.
      *
      * @param entityClass
-     * @param includeSubEntityProperties
      * @param excludedPropNames
      * @return
      */
-    static Collection<String> getSelectPropNamesByClass(final Class<?> entityClass, final boolean includeSubEntityProperties,
-            final Set<String> excludedPropNames) {
+    static Collection<String> getSelectPropNamesByClass(final Class<?> entityClass, final Set<String> excludedPropNames) {
         final Collection<String>[] val = loadPropNamesByClass(entityClass);
-        final Collection<String> propNames = includeSubEntityProperties ? val[0] : val[1];
+        final Collection<String> propNames = val[0]; // includeSubEntityProperties ? val[0] : val[1];
 
         if (N.isNullOrEmpty(excludedPropNames)) {
             return propNames;
         } else {
-            final List<String> tmp = new ArrayList<>(propNames);
-            tmp.removeAll(excludedPropNames);
+            final List<String> tmp = new ArrayList<>(N.max(0, propNames.size() - excludedPropNames.size()));
+            int idx = 0;
+
+            for (String propName : propNames) {
+                if (!(excludedPropNames.contains(propName)
+                        || ((idx = propName.indexOf(WD._PERIOD)) > 0 && excludedPropNames.contains(propName.substring(0, idx))))) {
+                    tmp.add(propName);
+                }
+            }
+
             return tmp;
         }
     }
@@ -751,19 +685,46 @@ public abstract class CQLBuilder {
     }
 
     /**
+     * 
+     * @return
+     */
+    public CQLBuilder distinct() {
+        return preselect(DISTINCT);
+    }
+
+    /**
+     * 
+     * @param preselect <code>ALL | DISTINCT | DISTINCTROW...</code>
+     * @return
+     */
+    public CQLBuilder preselect(final String preselect) {
+        N.checkArgNotNull(preselect, "preselect");
+
+        if (sb.length() > 0) {
+            throw new IllegalStateException("'distinct|preselect' must be called before 'from' operation");
+        }
+
+        if (N.isNullOrEmpty(this.preselect)) {
+            this.preselect = preselect;
+        } else {
+            this.preselect += preselect;
+        }
+
+        return this;
+    }
+
+    /**
      *
      * @param expr
      * @return
      */
     public CQLBuilder from(String expr) {
         expr = expr.trim();
-        String tableName = expr.indexOf(WD._COMMA) > 0 ? commaSplitter.split(expr).get(0) : expr;
 
-        if (tableName.indexOf(WD.SPACE) > 0) {
-            tableName = spaceSplitter.split(tableName).get(0);
-        }
+        final int idx = expr.indexOf(WD._COMMA);
+        final String tableName = idx > 0 ? expr.substring(0, idx) : expr;
 
-        return from(tableName, expr);
+        return from(tableName.trim(), expr);
     }
 
     /**
@@ -774,16 +735,11 @@ public abstract class CQLBuilder {
     @SafeVarargs
     public final CQLBuilder from(final String... tableNames) {
         if (tableNames.length == 1) {
-            return from(tableNames[0]);
-        } else {
-            String tableName = tableNames[0].trim();
-
-            if (tableName.indexOf(WD.SPACE) > 0) {
-                tableName = spaceSplitter.split(tableName).get(0);
-            }
-
-            return from(tableName, StringUtil.join(tableNames, WD.COMMA_SPACE));
+            return from(tableNames[0].trim());
         }
+
+        final String tableName = tableNames[0].trim();
+        return from(tableName, StringUtil.join(tableNames, WD.COMMA_SPACE));
     }
 
     /**
@@ -792,39 +748,44 @@ public abstract class CQLBuilder {
      * @return
      */
     public CQLBuilder from(final Collection<String> tableNames) {
-        String tableName = tableNames.iterator().next().trim();
-
-        if (tableName.indexOf(WD.SPACE) > 0) {
-            tableName = spaceSplitter.split(tableName).get(0);
+        if (tableNames.size() == 1) {
+            return from(tableNames.iterator().next().trim());
         }
 
-        return from(tableName, StringUtil.join(tableNames, WD.SPACE));
+        final String tableName = tableNames.iterator().next().trim();
+        return from(tableName, StringUtil.join(tableNames, WD.COMMA_SPACE));
     }
 
     /**
      *
-     * @param tableAliases
+     * @param entityClass
      * @return
      */
-    public CQLBuilder from(final Map<String, String> tableAliases) {
-        String tableName = tableAliases.keySet().iterator().next().trim();
-
-        if (tableName.indexOf(WD.SPACE) > 0) {
-            tableName = spaceSplitter.split(tableName).get(0);
+    public CQLBuilder from(final Class<?> entityClass) {
+        if (this.entityClass == null) {
+            this.entityClass = entityClass;
         }
 
-        String expr = "";
+        return from(getTableName(entityClass, namingPolicy));
+    }
 
-        int i = 0;
-        for (Map.Entry<String, String> entry : tableAliases.entrySet()) {
-            if (i++ > 0) {
-                expr += WD.COMMA_SPACE;
-            }
+    /**
+     *
+     * @param entityClass
+     * @param alias
+     * @return
+     */
+    public CQLBuilder from(final Class<?> entityClass, final String alias) {
 
-            expr += (entry.getKey() + " " + entry.getValue());
+        if (this.entityClass == null) {
+            this.entityClass = entityClass;
         }
 
-        return from(tableName, expr);
+        if (N.isNullOrEmpty(alias)) {
+            return from(getTableName(entityClass, namingPolicy));
+        } else {
+            return from(getTableName(entityClass, namingPolicy) + " " + alias);
+        }
     }
 
     /**
@@ -834,30 +795,43 @@ public abstract class CQLBuilder {
      * @return
      */
     private CQLBuilder from(final String tableName, final String fromCause) {
-        if (op != OperationType.QUERY && op != OperationType.DELETE) {
+        if (op != OperationType.QUERY) {
             throw new RuntimeException("Invalid operation: " + op);
         }
 
-        if (op == OperationType.QUERY && N.isNullOrEmpty(columnNames) && N.isNullOrEmpty(columnNameList) && N.isNullOrEmpty(columnAliases)) {
+        if (N.isNullOrEmpty(columnNames) && N.isNullOrEmpty(columnNameList) && N.isNullOrEmpty(columnAliases)) {
             throw new RuntimeException("Column names or props must be set first by select");
         }
 
-        this.tableName = tableName;
+        int idx = tableName.indexOf(' ');
 
-        sb.append(op == OperationType.QUERY ? _SELECT : _DELETE);
-        sb.append(WD._SPACE);
-
-        if (N.notNullOrEmpty(predicates)) {
-            sb.append(predicates);
-            sb.append(WD._SPACE);
+        if (idx > 0) {
+            this.tableName = tableName.substring(0, idx).trim();
+            alias = tableName.substring(idx + 1).trim();
+        } else {
+            this.tableName = tableName.trim();
         }
 
-        final Map<String, String> propColumnNameMap = getPropColumnNameMap(entityClass, namingPolicy);
+        if (entityClass != null && N.notNullOrEmpty(alias)) {
+            addPropColumnMapForAlias(entityClass, alias);
+        }
+
+        sb.append(_SELECT);
+        sb.append(_SPACE);
+
+        if (N.notNullOrEmpty(preselect)) {
+            sb.append(preselect);
+            sb.append(_SPACE);
+        }
+
+        final boolean withAlias = N.notNullOrEmpty(alias);
+
+        final Map<String, String> propColumnNameMap = ClassUtil.getProp2ColumnNameMap(entityClass, namingPolicy);
 
         if (N.notNullOrEmpty(columnNames)) {
             if (columnNames.length == 1) {
                 final String columnName = StringUtil.trim(columnNames[0]);
-                int idx = columnName.indexOf(' ');
+                idx = columnName.indexOf(' ');
 
                 if (idx < 0) {
                     idx = columnName.indexOf(',');
@@ -866,9 +840,13 @@ public abstract class CQLBuilder {
                 if (idx > 0) {
                     sb.append(columnName);
                 } else {
+                    if (withAlias && columnName.indexOf(WD._PERIOD) < 0) {
+                        sb.append(alias).append(WD._PERIOD);
+                    }
+
                     sb.append(formalizeColumnName(propColumnNameMap, columnName));
 
-                    if (op == OperationType.QUERY && namingPolicy != NamingPolicy.LOWER_CAMEL_CASE && !WD.ASTERISK.equals(columnName)) {
+                    if (namingPolicy != NamingPolicy.LOWER_CAMEL_CASE && !WD.ASTERISK.equals(columnName)) {
                         sb.append(_SPACE_AS_SPACE);
 
                         sb.append(WD._QUOTATION_D);
@@ -886,13 +864,17 @@ public abstract class CQLBuilder {
                         sb.append(_COMMA_SPACE);
                     }
 
-                    int idx = columnName.indexOf(' ');
+                    idx = columnName.indexOf(' ');
 
                     if (idx > 0) {
                         int idx2 = columnName.indexOf(" AS ", idx);
 
                         if (idx2 < 0) {
                             idx2 = columnName.indexOf(" as ", idx);
+                        }
+
+                        if (withAlias && columnName.indexOf(WD._PERIOD) < 0) {
+                            sb.append(alias).append(WD._PERIOD);
                         }
 
                         sb.append(formalizeColumnName(propColumnNameMap, columnName.substring(0, idx).trim()));
@@ -903,9 +885,13 @@ public abstract class CQLBuilder {
                         sb.append(columnName.substring(idx2 > 0 ? idx2 + 4 : idx + 1).trim());
                         sb.append(WD._QUOTATION_D);
                     } else {
+                        if (withAlias && columnName.indexOf(WD._PERIOD) < 0) {
+                            sb.append(alias).append(WD._PERIOD);
+                        }
+
                         sb.append(formalizeColumnName(propColumnNameMap, columnName));
 
-                        if (op == OperationType.QUERY && namingPolicy != NamingPolicy.LOWER_CAMEL_CASE && !WD.ASTERISK.equals(columnName)) {
+                        if (namingPolicy != NamingPolicy.LOWER_CAMEL_CASE && !WD.ASTERISK.equals(columnName)) {
                             sb.append(_SPACE_AS_SPACE);
 
                             sb.append(WD._QUOTATION_D);
@@ -916,7 +902,7 @@ public abstract class CQLBuilder {
                 }
             }
         } else if (N.notNullOrEmpty(columnNameList)) {
-            if (entityClass != null && columnNameList == getSelectPropNamesByClass(entityClass, false, null)) {
+            if (entityClass != null && withAlias == false && columnNameList == getSelectPropNamesByClass(entityClass, null)) {
                 String fullSelectParts = fullSelectPartsPool.get(namingPolicy).get(entityClass);
 
                 if (N.isNullOrEmpty(fullSelectParts)) {
@@ -930,7 +916,7 @@ public abstract class CQLBuilder {
 
                         fullSelectParts += formalizeColumnName(propColumnNameMap, columnName);
 
-                        if (op == OperationType.QUERY && namingPolicy != NamingPolicy.LOWER_CAMEL_CASE && !WD.ASTERISK.equals(columnName)) {
+                        if (namingPolicy != NamingPolicy.LOWER_CAMEL_CASE && !WD.ASTERISK.equals(columnName)) {
                             fullSelectParts += " AS ";
 
                             fullSelectParts += WD.QUOTATION_D;
@@ -950,9 +936,13 @@ public abstract class CQLBuilder {
                         sb.append(_COMMA_SPACE);
                     }
 
+                    if (withAlias && columnName.indexOf(WD._PERIOD) < 0) {
+                        sb.append(alias).append(WD._PERIOD);
+                    }
+
                     sb.append(formalizeColumnName(propColumnNameMap, columnName));
 
-                    if (op == OperationType.QUERY && namingPolicy != NamingPolicy.LOWER_CAMEL_CASE && !WD.ASTERISK.equals(columnName)) {
+                    if (namingPolicy != NamingPolicy.LOWER_CAMEL_CASE && !WD.ASTERISK.equals(columnName)) {
                         sb.append(_SPACE_AS_SPACE);
 
                         sb.append(WD._QUOTATION_D);
@@ -968,6 +958,10 @@ public abstract class CQLBuilder {
                     sb.append(_COMMA_SPACE);
                 }
 
+                if (withAlias && entry.getKey().indexOf(WD._PERIOD) < 0) {
+                    sb.append(alias).append(WD._PERIOD);
+                }
+
                 sb.append(formalizeColumnName(propColumnNameMap, entry.getKey()));
 
                 if (N.notNullOrEmpty(entry.getValue())) {
@@ -978,10 +972,8 @@ public abstract class CQLBuilder {
                     sb.append(WD._QUOTATION_D);
                 }
             }
-        }
-
-        if (sb.charAt(sb.length() - 1) == ' ') {
-            sb.setLength(sb.length() - 1);
+        } else {
+            throw new UnsupportedOperationException("No select part specified");
         }
 
         sb.append(_SPACE_FROM_SPACE);
@@ -991,15 +983,12 @@ public abstract class CQLBuilder {
         return this;
     }
 
-    /**
-     *
-     * @param entityClass
-     * @return
-     */
-    public CQLBuilder from(final Class<?> entityClass) {
-        this.entityClass = entityClass;
+    private void addPropColumnMapForAlias(final Class<?> entityClass, final String alias) {
+        if (aliasPropColumnNameMap == null) {
+            aliasPropColumnNameMap = new HashMap<>();
+        }
 
-        return from(getTableName(entityClass, namingPolicy));
+        aliasPropColumnNameMap.put(alias, ClassUtil.getProp2ColumnNameMap(entityClass, namingPolicy));
     }
 
     /**
@@ -2468,134 +2457,6 @@ public abstract class CQLBuilder {
 
         /**
          *
-         * @param expr
-         * @return
-         */
-        public static CQLBuilder select(final String expr) {
-            return select(N.asArray(expr));
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        @SafeVarargs
-        public static CQLBuilder select(final String... columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNames = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass) {
-            return select(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.entityClass = entityClass;
-            instance.columnNameList = getSelectPropNamesByClass(entityClass, true, excludedPropNames);
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass) {
-            return selectFrom(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            return select(entityClass, excludedPropNames).from(entityClass);
-        }
-
-        /**
-         *
          * @param tableName
          * @return
          */
@@ -2728,6 +2589,120 @@ public abstract class CQLBuilder {
          */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        @SafeVarargs
+        public static CQLBuilder select(final String... columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNames = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        public static CQLBuilder select(final Collection<String> columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNameList = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnAliases
+         * @return
+         */
+        public static CQLBuilder select(final Map<String, String> columnAliases) {
+            N.checkArgNotNullOrEmpty(columnAliases, "columnAliases");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnAliases = columnAliases;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass) {
+            return select(entityClass, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.entityClass = entityClass;
+            instance.columnNameList = getSelectPropNamesByClass(entityClass, excludedPropNames);
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass) {
+            return selectFrom(entityClass, (String) null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias) {
+            return selectFrom(entityClass, alias, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            return selectFrom(entityClass, null, excludedPropNames);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias, final Set<String> excludedPropNames) {
+            return select(entityClass, excludedPropNames).from(entityClass, alias);
         }
     }
 
@@ -2906,134 +2881,6 @@ public abstract class CQLBuilder {
 
         /**
          *
-         * @param expr
-         * @return
-         */
-        public static CQLBuilder select(final String expr) {
-            return select(N.asArray(expr));
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        @SafeVarargs
-        public static CQLBuilder select(final String... columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNames = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass) {
-            return select(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.entityClass = entityClass;
-            instance.columnNameList = getSelectPropNamesByClass(entityClass, true, excludedPropNames);
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass) {
-            return selectFrom(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            return select(entityClass, excludedPropNames).from(entityClass);
-        }
-
-        /**
-         *
          * @param tableName
          * @return
          */
@@ -3166,6 +3013,120 @@ public abstract class CQLBuilder {
          */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        @SafeVarargs
+        public static CQLBuilder select(final String... columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNames = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        public static CQLBuilder select(final Collection<String> columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNameList = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnAliases
+         * @return
+         */
+        public static CQLBuilder select(final Map<String, String> columnAliases) {
+            N.checkArgNotNullOrEmpty(columnAliases, "columnAliases");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnAliases = columnAliases;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass) {
+            return select(entityClass, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.entityClass = entityClass;
+            instance.columnNameList = getSelectPropNamesByClass(entityClass, excludedPropNames);
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass) {
+            return selectFrom(entityClass, (String) null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias) {
+            return selectFrom(entityClass, alias, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            return selectFrom(entityClass, null, excludedPropNames);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias, final Set<String> excludedPropNames) {
+            return select(entityClass, excludedPropNames).from(entityClass, alias);
         }
     }
 
@@ -3344,134 +3305,6 @@ public abstract class CQLBuilder {
 
         /**
          *
-         * @param expr
-         * @return
-         */
-        public static CQLBuilder select(final String expr) {
-            return select(N.asArray(expr));
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        @SafeVarargs
-        public static CQLBuilder select(final String... columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNames = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass) {
-            return select(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.entityClass = entityClass;
-            instance.columnNameList = getSelectPropNamesByClass(entityClass, true, excludedPropNames);
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass) {
-            return selectFrom(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            return select(entityClass, excludedPropNames).from(entityClass);
-        }
-
-        /**
-         *
          * @param tableName
          * @return
          */
@@ -3604,6 +3437,120 @@ public abstract class CQLBuilder {
          */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        @SafeVarargs
+        public static CQLBuilder select(final String... columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNames = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        public static CQLBuilder select(final Collection<String> columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNameList = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnAliases
+         * @return
+         */
+        public static CQLBuilder select(final Map<String, String> columnAliases) {
+            N.checkArgNotNullOrEmpty(columnAliases, "columnAliases");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnAliases = columnAliases;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass) {
+            return select(entityClass, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.entityClass = entityClass;
+            instance.columnNameList = getSelectPropNamesByClass(entityClass, excludedPropNames);
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass) {
+            return selectFrom(entityClass, (String) null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias) {
+            return selectFrom(entityClass, alias, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            return selectFrom(entityClass, null, excludedPropNames);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias, final Set<String> excludedPropNames) {
+            return select(entityClass, excludedPropNames).from(entityClass, alias);
         }
     }
 
@@ -3779,134 +3726,6 @@ public abstract class CQLBuilder {
 
         /**
          *
-         * @param expr
-         * @return
-         */
-        public static CQLBuilder select(final String expr) {
-            return select(N.asArray(expr));
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        @SafeVarargs
-        public static CQLBuilder select(final String... columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNames = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass) {
-            return select(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.entityClass = entityClass;
-            instance.columnNameList = getSelectPropNamesByClass(entityClass, true, excludedPropNames);
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass) {
-            return selectFrom(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            return select(entityClass, excludedPropNames).from(entityClass);
-        }
-
-        /**
-         *
          * @param tableName
          * @return
          */
@@ -4039,6 +3858,120 @@ public abstract class CQLBuilder {
          */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        @SafeVarargs
+        public static CQLBuilder select(final String... columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNames = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        public static CQLBuilder select(final Collection<String> columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNameList = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnAliases
+         * @return
+         */
+        public static CQLBuilder select(final Map<String, String> columnAliases) {
+            N.checkArgNotNullOrEmpty(columnAliases, "columnAliases");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnAliases = columnAliases;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass) {
+            return select(entityClass, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.entityClass = entityClass;
+            instance.columnNameList = getSelectPropNamesByClass(entityClass, excludedPropNames);
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass) {
+            return selectFrom(entityClass, (String) null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias) {
+            return selectFrom(entityClass, alias, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            return selectFrom(entityClass, null, excludedPropNames);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias, final Set<String> excludedPropNames) {
+            return select(entityClass, excludedPropNames).from(entityClass, alias);
         }
     }
 
@@ -4214,134 +4147,6 @@ public abstract class CQLBuilder {
 
         /**
          *
-         * @param expr
-         * @return
-         */
-        public static CQLBuilder select(final String expr) {
-            return select(N.asArray(expr));
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        @SafeVarargs
-        public static CQLBuilder select(final String... columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNames = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass) {
-            return select(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.entityClass = entityClass;
-            instance.columnNameList = getSelectPropNamesByClass(entityClass, true, excludedPropNames);
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass) {
-            return selectFrom(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            return select(entityClass, excludedPropNames).from(entityClass);
-        }
-
-        /**
-         *
          * @param tableName
          * @return
          */
@@ -4474,6 +4279,120 @@ public abstract class CQLBuilder {
          */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        @SafeVarargs
+        public static CQLBuilder select(final String... columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNames = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        public static CQLBuilder select(final Collection<String> columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNameList = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnAliases
+         * @return
+         */
+        public static CQLBuilder select(final Map<String, String> columnAliases) {
+            N.checkArgNotNullOrEmpty(columnAliases, "columnAliases");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnAliases = columnAliases;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass) {
+            return select(entityClass, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.entityClass = entityClass;
+            instance.columnNameList = getSelectPropNamesByClass(entityClass, excludedPropNames);
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass) {
+            return selectFrom(entityClass, (String) null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias) {
+            return selectFrom(entityClass, alias, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            return selectFrom(entityClass, null, excludedPropNames);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias, final Set<String> excludedPropNames) {
+            return select(entityClass, excludedPropNames).from(entityClass, alias);
         }
     }
 
@@ -4649,134 +4568,6 @@ public abstract class CQLBuilder {
 
         /**
          *
-         * @param expr
-         * @return
-         */
-        public static CQLBuilder select(final String expr) {
-            return select(N.asArray(expr));
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        @SafeVarargs
-        public static CQLBuilder select(final String... columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNames = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass) {
-            return select(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.entityClass = entityClass;
-            instance.columnNameList = getSelectPropNamesByClass(entityClass, true, excludedPropNames);
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass) {
-            return selectFrom(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            return select(entityClass, excludedPropNames).from(entityClass);
-        }
-
-        /**
-         *
          * @param tableName
          * @return
          */
@@ -4909,6 +4700,120 @@ public abstract class CQLBuilder {
          */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        @SafeVarargs
+        public static CQLBuilder select(final String... columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNames = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        public static CQLBuilder select(final Collection<String> columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNameList = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnAliases
+         * @return
+         */
+        public static CQLBuilder select(final Map<String, String> columnAliases) {
+            N.checkArgNotNullOrEmpty(columnAliases, "columnAliases");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnAliases = columnAliases;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass) {
+            return select(entityClass, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.entityClass = entityClass;
+            instance.columnNameList = getSelectPropNamesByClass(entityClass, excludedPropNames);
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass) {
+            return selectFrom(entityClass, (String) null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias) {
+            return selectFrom(entityClass, alias, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            return selectFrom(entityClass, null, excludedPropNames);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias, final Set<String> excludedPropNames) {
+            return select(entityClass, excludedPropNames).from(entityClass, alias);
         }
     }
 
@@ -5084,134 +4989,6 @@ public abstract class CQLBuilder {
 
         /**
          *
-         * @param expr
-         * @return
-         */
-        public static CQLBuilder select(final String expr) {
-            return select(N.asArray(expr));
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        @SafeVarargs
-        public static CQLBuilder select(final String... columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNames = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass) {
-            return select(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.entityClass = entityClass;
-            instance.columnNameList = getSelectPropNamesByClass(entityClass, true, excludedPropNames);
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass) {
-            return selectFrom(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            return select(entityClass, excludedPropNames).from(entityClass);
-        }
-
-        /**
-         *
          * @param tableName
          * @return
          */
@@ -5344,6 +5121,120 @@ public abstract class CQLBuilder {
          */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        @SafeVarargs
+        public static CQLBuilder select(final String... columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNames = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        public static CQLBuilder select(final Collection<String> columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNameList = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnAliases
+         * @return
+         */
+        public static CQLBuilder select(final Map<String, String> columnAliases) {
+            N.checkArgNotNullOrEmpty(columnAliases, "columnAliases");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnAliases = columnAliases;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass) {
+            return select(entityClass, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.entityClass = entityClass;
+            instance.columnNameList = getSelectPropNamesByClass(entityClass, excludedPropNames);
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass) {
+            return selectFrom(entityClass, (String) null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias) {
+            return selectFrom(entityClass, alias, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            return selectFrom(entityClass, null, excludedPropNames);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias, final Set<String> excludedPropNames) {
+            return select(entityClass, excludedPropNames).from(entityClass, alias);
         }
     }
 
@@ -5519,134 +5410,6 @@ public abstract class CQLBuilder {
 
         /**
          *
-         * @param expr
-         * @return
-         */
-        public static CQLBuilder select(final String expr) {
-            return select(N.asArray(expr));
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        @SafeVarargs
-        public static CQLBuilder select(final String... columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNames = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass) {
-            return select(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.entityClass = entityClass;
-            instance.columnNameList = getSelectPropNamesByClass(entityClass, true, excludedPropNames);
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass) {
-            return selectFrom(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            return select(entityClass, excludedPropNames).from(entityClass);
-        }
-
-        /**
-         *
          * @param tableName
          * @return
          */
@@ -5779,6 +5542,120 @@ public abstract class CQLBuilder {
          */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        @SafeVarargs
+        public static CQLBuilder select(final String... columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNames = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        public static CQLBuilder select(final Collection<String> columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNameList = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnAliases
+         * @return
+         */
+        public static CQLBuilder select(final Map<String, String> columnAliases) {
+            N.checkArgNotNullOrEmpty(columnAliases, "columnAliases");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnAliases = columnAliases;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass) {
+            return select(entityClass, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.entityClass = entityClass;
+            instance.columnNameList = getSelectPropNamesByClass(entityClass, excludedPropNames);
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass) {
+            return selectFrom(entityClass, (String) null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias) {
+            return selectFrom(entityClass, alias, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            return selectFrom(entityClass, null, excludedPropNames);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias, final Set<String> excludedPropNames) {
+            return select(entityClass, excludedPropNames).from(entityClass, alias);
         }
     }
 
@@ -5954,134 +5831,6 @@ public abstract class CQLBuilder {
 
         /**
          *
-         * @param expr
-         * @return
-         */
-        public static CQLBuilder select(final String expr) {
-            return select(N.asArray(expr));
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        @SafeVarargs
-        public static CQLBuilder select(final String... columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNames = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnNames
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Collection<String> columnNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnNameList = columnNames;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param expr <code>ALL | DISTINCT | DISTINCTROW...</code>
-         * @param columnAliases
-         * @return
-         */
-        public static CQLBuilder select(final String expr, final Map<String, String> columnAliases) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.predicates = expr;
-            instance.columnAliases = columnAliases;
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass) {
-            return select(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            final CQLBuilder instance = createInstance();
-
-            instance.op = OperationType.QUERY;
-            instance.entityClass = entityClass;
-            instance.columnNameList = getSelectPropNamesByClass(entityClass, true, excludedPropNames);
-
-            return instance;
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass) {
-            return selectFrom(entityClass, null);
-        }
-
-        /**
-         *
-         * @param entityClass
-         * @param excludedPropNames
-         * @return
-         */
-        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
-            return select(entityClass, excludedPropNames).from(entityClass);
-        }
-
-        /**
-         *
          * @param tableName
          * @return
          */
@@ -6214,6 +5963,120 @@ public abstract class CQLBuilder {
          */
         public static CQLBuilder deleteFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
             return delete(entityClass, excludedPropNames).from(entityClass);
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        @SafeVarargs
+        public static CQLBuilder select(final String... columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNames = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnNames
+         * @return
+         */
+        public static CQLBuilder select(final Collection<String> columnNames) {
+            N.checkArgNotNullOrEmpty(columnNames, "columnNames");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnNameList = columnNames;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param columnAliases
+         * @return
+         */
+        public static CQLBuilder select(final Map<String, String> columnAliases) {
+            N.checkArgNotNullOrEmpty(columnAliases, "columnAliases");
+
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.columnAliases = columnAliases;
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass) {
+            return select(entityClass, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder select(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            final CQLBuilder instance = createInstance();
+
+            instance.op = OperationType.QUERY;
+            instance.entityClass = entityClass;
+            instance.columnNameList = getSelectPropNamesByClass(entityClass, excludedPropNames);
+
+            return instance;
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass) {
+            return selectFrom(entityClass, (String) null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias) {
+            return selectFrom(entityClass, alias, null);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final Set<String> excludedPropNames) {
+            return selectFrom(entityClass, null, excludedPropNames);
+        }
+
+        /**
+         *
+         * @param entityClass
+         * @param alias
+         * @param excludedPropNames
+         * @return
+         */
+        public static CQLBuilder selectFrom(final Class<?> entityClass, final String alias, final Set<String> excludedPropNames) {
+            return select(entityClass, excludedPropNames).from(entityClass, alias);
         }
     }
 

@@ -91,11 +91,11 @@ public class CQLBuilderTest extends AbstractNoSQLTest {
         N.println(cql);
         N.println(PSC.insert(props).into("account").parameters());
 
-        cql = SCCB.select(SCCB.DISTINCT, N.asList("firstName", "lastName")).from("account2", "account2").where("id > ?").cql();
+        cql = SCCB.select(N.asList("firstName", "lastName")).distinct().from("account2", "account2").where("id > ?").cql();
         N.println(cql);
 
         Map<String, String> m = N.asMap("firstName", "lastName");
-        cql = SCCB.select(SCCB.DISTINCT, m).from("account2", "account2").where("id > ?").cql();
+        cql = SCCB.select(m).distinct().from("account2", "account2").where("id > ?").cql();
         N.println(cql);
     }
 
@@ -113,10 +113,10 @@ public class CQLBuilderTest extends AbstractNoSQLTest {
         assertEquals(cql, SCCB.update("account").set(N.asList("id", "first_name")).where("id > 0").cql());
 
         cql = "UPDATE account SET id = 1, first_name = 'updatedFM' WHERE id > 0";
-        assertEquals(cql, SCCB.update("account").set(N.asMap("id", 1, "first_name", "updatedFM")).where("id > 0").cql());
+        assertEquals(cql, SCCB.update("account").set(N.asLinkedHashMap("id", 1, "first_name", "updatedFM")).where("id > 0").cql());
 
         cql = "UPDATE account SET id = ?, first_name = ? WHERE id > 0";
-        assertEquals(cql, SCCB.update("account").set(N.asMap("id", CF.QME, "first_name", CF.QME)).where("id > 0").cql());
+        assertEquals(cql, SCCB.update("account").set(N.asLinkedHashMap("id", CF.QME, "first_name", CF.QME)).where("id > 0").cql());
     }
 
     public void testCQLBuilder_2() {
