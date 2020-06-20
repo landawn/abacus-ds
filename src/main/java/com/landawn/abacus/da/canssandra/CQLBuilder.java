@@ -1271,6 +1271,12 @@ public abstract class CQLBuilder {
         return this;
     }
 
+    public CQLBuilder append(final String expr) {
+        sb.append(expr);
+
+        return this;
+    }
+
     /**
      *
      * @param expr
