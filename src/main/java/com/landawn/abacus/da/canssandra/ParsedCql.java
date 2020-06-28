@@ -34,42 +34,30 @@ import com.landawn.abacus.util.WD;
  */
 public final class ParsedCql {
 
-    /** The Constant EVICT_TIME. */
     private static final int EVICT_TIME = 60 * 1000;
 
-    /** The Constant LIVE_TIME. */
     private static final int LIVE_TIME = 24 * 60 * 60 * 1000;
 
-    /** The Constant MAX_IDLE_TIME. */
     private static final int MAX_IDLE_TIME = 24 * 60 * 60 * 1000;
 
-    /** The Constant namedCQLPrefixSet. */
     private static final Set<String> namedCQLPrefixSet = N.asSet(WD.INSERT, WD.SELECT, WD.UPDATE, WD.DELETE);
 
-    /** The Constant pool. */
     private static final KeyedObjectPool<String, PoolableWrapper<ParsedCql>> pool = PoolFactory.createKeyedObjectPool(10000, EVICT_TIME);
 
-    /** The Constant PREFIX_OF_NAMED_PARAMETER. */
     private static final String PREFIX_OF_NAMED_PARAMETER = ":";
 
-    /** The Constant LEFT_OF_IBATIS_NAMED_PARAMETER. */
     private static final String LEFT_OF_IBATIS_NAMED_PARAMETER = "#{";
 
-    /** The Constant RIGHT_OF_IBATIS_NAMED_PARAMETER. */
     private static final String RIGHT_OF_IBATIS_NAMED_PARAMETER = "}";
 
     private final String cql;
 
-    /** The pure CQL. */
     private final String parameterizedCql;
 
-    /** The named parameters. */
     private final Map<Integer, String> namedParameters;
 
-    /** The parameter count. */
     private final int parameterCount;
 
-    /** The attrs. */
     private final Map<String, String> attrs;
 
     /** 

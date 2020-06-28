@@ -36,46 +36,23 @@ import org.apache.hadoop.hbase.io.TimeRange;
  */
 public final class AnyGet extends AnyQuery<AnyGet> implements Row {
 
-    /** The get. */
     private final Get get;
 
-    /**
-     * Instantiates a new any get.
-     *
-     * @param rowKey
-     */
     AnyGet(Object rowKey) {
         super(new Get(toRowKeyBytes(rowKey)));
         this.get = (Get) query;
     }
 
-    /**
-     * Instantiates a new any get.
-     *
-     * @param rowKey
-     * @param rowOffset
-     * @param rowLength
-     */
     AnyGet(Object rowKey, int rowOffset, int rowLength) {
         super(new Get(toRowKeyBytes(rowKey), rowOffset, rowLength));
         this.get = (Get) query;
     }
 
-    /**
-     * Instantiates a new any get.
-     *
-     * @param rowKey
-     */
     AnyGet(ByteBuffer rowKey) {
         super(new Get(rowKey));
         this.get = (Get) query;
     }
 
-    /**
-     * Instantiates a new any get.
-     *
-     * @param get
-     */
     AnyGet(Get get) {
         super(get);
         this.get = (Get) query;
@@ -119,10 +96,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
         return new AnyGet(get);
     }
 
-    /**
-     *
-     * @return
-     */
     public Get val() {
         return get;
     }
@@ -440,18 +413,10 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
         return get.hasFamilies();
     }
 
-    /**
-     *
-     * @return
-     */
     public int numFamilies() {
         return get.numFamilies();
     }
 
-    /**
-     *
-     * @return
-     */
     public Set<byte[]> familySet() {
         return get.familySet();
     }
@@ -466,10 +431,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
         return get.compareTo(other);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return get.hashCode();
@@ -495,10 +456,6 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return get.toString();

@@ -48,27 +48,15 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class AsyncDynamoDBExecutor {
 
-    /** The db executor. */
     private final DynamoDBExecutor dbExecutor;
 
-    /** The async executor. */
     private final AsyncExecutor asyncExecutor;
 
-    /**
-     * Instantiates a new async dynamo DB executor.
-     *
-     * @param dbExecutor
-     * @param asyncExecutor
-     */
     AsyncDynamoDBExecutor(final DynamoDBExecutor dbExecutor, final AsyncExecutor asyncExecutor) {
         this.dbExecutor = dbExecutor;
         this.asyncExecutor = asyncExecutor;
     }
 
-    /**
-     *
-     * @return
-     */
     public DynamoDBExecutor sync() {
         return dbExecutor;
     }

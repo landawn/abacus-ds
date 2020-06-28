@@ -127,16 +127,12 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class CassandraExecutor implements Closeable {
 
-    /** The Constant EXISTS_SELECT_PROP_NAMES. */
     static final ImmutableList<String> EXISTS_SELECT_PROP_NAMES = ImmutableList.of("1");
 
-    /** The Constant COUNT_SELECT_PROP_NAMES. */
     static final ImmutableList<String> COUNT_SELECT_PROP_NAMES = ImmutableList.of(NSC.COUNT_ALL);
 
-    /** The Constant POOLABLE_LENGTH. */
     static final int POOLABLE_LENGTH = 1024;
 
-    /** The Constant namedDataType. */
     private static final Map<String, Class<?>> namedDataType = new HashMap<>();
 
     static {
@@ -177,51 +173,30 @@ public final class CassandraExecutor implements Closeable {
         namedDataType.put("CUSTOM", ByteBuffer.class);
     }
 
-    /** The stmt pool. */
     private final KeyedObjectPool<String, PoolableWrapper<Statement>> stmtPool = PoolFactory.createKeyedObjectPool(1024, 3000);
 
-    /** The pre stmt pool. */
     private final KeyedObjectPool<String, PoolableWrapper<PreparedStatement>> preStmtPool = PoolFactory.createKeyedObjectPool(1024, 3000);
 
-    /** The cql mapper. */
     private final CQLMapper cqlMapper;
 
-    /** The cluster. */
     private final Cluster cluster;
 
-    /** The session. */
     private final Session session;
 
-    /** The codec registry. */
     private final CodecRegistry codecRegistry;
 
-    /** The mapping manager. */
     private final MappingManager mappingManager;
 
-    /** The settings. */
     private final StatementSettings settings;
 
-    /** The naming policy. */
     private final NamingPolicy namingPolicy;
 
-    /** The async executor. */
     private final AsyncExecutor asyncExecutor;
 
-    /**
-     * Instantiates a new cassandra executor.
-     *
-     * @param session
-     */
     public CassandraExecutor(final Session session) {
         this(session, null);
     }
 
-    /**
-     * Instantiates a new cassandra executor.
-     *
-     * @param session
-     * @param settings
-     */
     public CassandraExecutor(final Session session, final StatementSettings settings) {
         this(session, settings, (AsyncExecutor) null);
     }
@@ -240,25 +215,10 @@ public final class CassandraExecutor implements Closeable {
         this(session, settings, null, null, asyncExecutor);
     }
 
-    /**
-     * Instantiates a new cassandra executor.
-     *
-     * @param session
-     * @param settings
-     * @param cqlMapper
-     */
     public CassandraExecutor(final Session session, final StatementSettings settings, final CQLMapper cqlMapper) {
         this(session, settings, cqlMapper, null);
     }
 
-    /**
-     * Instantiates a new cassandra executor.
-     *
-     * @param session
-     * @param settings
-     * @param cqlMapper
-     * @param namingPolicy
-     */
     public CassandraExecutor(final Session session, final StatementSettings settings, final CQLMapper cqlMapper, final NamingPolicy namingPolicy) {
         this(session, settings, cqlMapper, namingPolicy, null);
     }
@@ -293,26 +253,14 @@ public final class CassandraExecutor implements Closeable {
         this.asyncExecutor = asyncExecutor == null ? new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS) : asyncExecutor;
     }
 
-    /**
-     *
-     * @return
-     */
     AsyncExecutor asyncExecutor() {
         return asyncExecutor;
     }
 
-    /**
-     *
-     * @return
-     */
     public Cluster cluster() {
         return cluster;
     }
 
-    /**
-     *
-     * @return
-     */
     public Session session() {
         return session;
     }
@@ -327,7 +275,6 @@ public final class CassandraExecutor implements Closeable {
         return mappingManager.mapper(targetClass);
     }
 
-    /** The Constant entityKeyNamesMap. */
     private static final Map<Class<?>, Tuple2<ImmutableList<String>, ImmutableSet<String>>> entityKeyNamesMap = new ConcurrentHashMap<>();
 
     /**
@@ -2501,7 +2448,6 @@ public final class CassandraExecutor implements Closeable {
         return asyncQuery(targetClass, cp.cql, cp.parameters.toArray());
     }
 
-    /** The Constant boolean_mapper. */
     private static final Throwables.Function<Nullable<Boolean>, OptionalBoolean, RuntimeException> boolean_mapper = new Throwables.Function<Nullable<Boolean>, OptionalBoolean, RuntimeException>() {
         @Override
         public OptionalBoolean apply(Nullable<Boolean> t) throws RuntimeException {
@@ -2522,7 +2468,6 @@ public final class CassandraExecutor implements Closeable {
         return asyncQueryForSingleResult(targetClass, Boolean.class, propName, whereCause).map(boolean_mapper);
     }
 
-    /** The Constant char_mapper. */
     private static final Throwables.Function<Nullable<Character>, OptionalChar, RuntimeException> char_mapper = new Throwables.Function<Nullable<Character>, OptionalChar, RuntimeException>() {
         @Override
         public OptionalChar apply(Nullable<Character> t) throws RuntimeException {
@@ -2543,7 +2488,6 @@ public final class CassandraExecutor implements Closeable {
         return asyncQueryForSingleResult(targetClass, Character.class, propName, whereCause).map(char_mapper);
     }
 
-    /** The Constant byte_mapper. */
     private static final Throwables.Function<Nullable<Byte>, OptionalByte, RuntimeException> byte_mapper = new Throwables.Function<Nullable<Byte>, OptionalByte, RuntimeException>() {
         @Override
         public OptionalByte apply(Nullable<Byte> t) throws RuntimeException {
@@ -2564,7 +2508,6 @@ public final class CassandraExecutor implements Closeable {
         return asyncQueryForSingleResult(targetClass, Byte.class, propName, whereCause).map(byte_mapper);
     }
 
-    /** The Constant short_mapper. */
     private static final Throwables.Function<Nullable<Short>, OptionalShort, RuntimeException> short_mapper = new Throwables.Function<Nullable<Short>, OptionalShort, RuntimeException>() {
         @Override
         public OptionalShort apply(Nullable<Short> t) throws RuntimeException {
@@ -2585,7 +2528,6 @@ public final class CassandraExecutor implements Closeable {
         return asyncQueryForSingleResult(targetClass, Short.class, propName, whereCause).map(short_mapper);
     }
 
-    /** The Constant int_mapper. */
     private static final Throwables.Function<Nullable<Integer>, OptionalInt, RuntimeException> int_mapper = new Throwables.Function<Nullable<Integer>, OptionalInt, RuntimeException>() {
         @Override
         public OptionalInt apply(Nullable<Integer> t) throws RuntimeException {
@@ -2606,7 +2548,6 @@ public final class CassandraExecutor implements Closeable {
         return asyncQueryForSingleResult(targetClass, Integer.class, propName, whereCause).map(int_mapper);
     }
 
-    /** The Constant long_mapper. */
     private static final Throwables.Function<Nullable<Long>, OptionalLong, RuntimeException> long_mapper = new Throwables.Function<Nullable<Long>, OptionalLong, RuntimeException>() {
         @Override
         public OptionalLong apply(Nullable<Long> t) throws RuntimeException {
@@ -2627,7 +2568,6 @@ public final class CassandraExecutor implements Closeable {
         return asyncQueryForSingleResult(targetClass, Long.class, propName, whereCause).map(long_mapper);
     }
 
-    /** The Constant float_mapper. */
     private static final Throwables.Function<Nullable<Float>, OptionalFloat, RuntimeException> float_mapper = new Throwables.Function<Nullable<Float>, OptionalFloat, RuntimeException>() {
         @Override
         public OptionalFloat apply(Nullable<Float> t) throws RuntimeException {
@@ -2648,7 +2588,6 @@ public final class CassandraExecutor implements Closeable {
         return asyncQueryForSingleResult(targetClass, Float.class, propName, whereCause).map(float_mapper);
     }
 
-    /** The Constant double_mapper. */
     private static final Throwables.Function<Nullable<Double>, OptionalDouble, RuntimeException> double_mapper = new Throwables.Function<Nullable<Double>, OptionalDouble, RuntimeException>() {
         @Override
         public OptionalDouble apply(Nullable<Double> t) throws RuntimeException {
@@ -2788,7 +2727,6 @@ public final class CassandraExecutor implements Closeable {
         return asyncStream(targetClass, cp.cql, cp.parameters.toArray());
     }
 
-    /** The Constant exists_mapper. */
     private static final Throwables.Function<ResultSet, Boolean, RuntimeException> exists_mapper = new Throwables.Function<ResultSet, Boolean, RuntimeException>() {
         @Override
         public Boolean apply(ResultSet resultSet) throws RuntimeException {
@@ -2808,7 +2746,6 @@ public final class CassandraExecutor implements Closeable {
         return asyncExecute(query, parameters).map(exists_mapper);
     }
 
-    /** The Constant long_mapper2. */
     private static final Throwables.Function<Nullable<Long>, Long, RuntimeException> long_mapper2 = new Throwables.Function<Nullable<Long>, Long, RuntimeException>() {
         @Override
         public Long apply(Nullable<Long> t) throws RuntimeException {

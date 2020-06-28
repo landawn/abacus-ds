@@ -21,9 +21,6 @@ package com.landawn.abacus.da.hadoop;
  */
 public final class HDFSUtil {
 
-    /**
-     * Instantiates a new HDFS util.
-     */
     private HDFSUtil() {
         // utility class.
     }

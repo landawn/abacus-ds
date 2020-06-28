@@ -126,42 +126,25 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class HBaseExecutor implements Closeable {
 
-    /** The Constant EMPTY_QULIFIER. */
     static final String EMPTY_QULIFIER = N.EMPTY_STRING;
 
-    /** The Constant familyQualifierBytesPool. */
     private static final Map<String, byte[]> familyQualifierBytesPool = new ConcurrentHashMap<>();
 
-    /** The Constant classRowkeySetMethodPool. */
     private static final Map<Class<?>, Method> classRowkeySetMethodPool = new ConcurrentHashMap<>();
 
     private static final Map<Class<?>, Map<NamingPolicy, Map<String, Tuple3<String, String, Boolean>>>> classFamilyColumnNamePool = new ConcurrentHashMap<>();
     private static final Map<Class<?>, Tuple2<Map<String, Map<String, Tuple2<String, Boolean>>>, Map<String, String>>> classFamilyColumnFieldNamePool = new ConcurrentHashMap<>();
 
-    /** The admin. */
     private final Admin admin;
 
-    /** The conn. */
     private final Connection conn;
 
-    /** The async H base executor. */
     private final AsyncHBaseExecutor asyncHBaseExecutor;
 
-    /**
-     * Instantiates a new h base executor.
-     *
-     * @param conn
-     */
     public HBaseExecutor(final Connection conn) {
         this(conn, new AsyncExecutor(Math.max(IOUtil.CPU_CORES, 8), Math.max(IOUtil.CPU_CORES, 64), 180L, TimeUnit.SECONDS));
     }
 
-    /**
-     * Instantiates a new h base executor.
-     *
-     * @param conn
-     * @param asyncExecutor
-     */
     public HBaseExecutor(final Connection conn, final AsyncExecutor asyncExecutor) {
         try {
             admin = conn.getAdmin();
@@ -174,26 +157,14 @@ public final class HBaseExecutor implements Closeable {
         this.asyncHBaseExecutor = new AsyncHBaseExecutor(this, asyncExecutor);
     }
 
-    /**
-     *
-     * @return
-     */
     public Admin admin() {
         return admin;
     }
 
-    /**
-     *
-     * @return
-     */
     public Connection connection() {
         return conn;
     }
 
-    /**
-     *
-     * @return
-     */
     public AsyncHBaseExecutor async() {
         return asyncHBaseExecutor;
     }

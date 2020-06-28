@@ -40,24 +40,14 @@ import org.apache.hadoop.hbase.security.visibility.CellVisibility;
  */
 abstract class AnyMutation<AM extends AnyMutation<AM>> extends AnyOperationWithAttributes<AM> implements Row {
 
-    /** The mutation. */
     protected final Mutation mutation;
 
-    /**
-     * Instantiates a new any mutation.
-     *
-     * @param mutation
-     */
     protected AnyMutation(final Mutation mutation) {
         super(mutation);
 
         this.mutation = mutation;
     }
 
-    /**
-     *
-     * @return
-     */
     public CellScanner cellScanner() {
         return mutation.cellScanner();
     }
@@ -419,10 +409,6 @@ abstract class AnyMutation<AM extends AnyMutation<AM>> extends AnyOperationWithA
         return mutation.size();
     }
 
-    /**
-     *
-     * @return
-     */
     public int numFamilies() {
         return mutation.numFamilies();
     }

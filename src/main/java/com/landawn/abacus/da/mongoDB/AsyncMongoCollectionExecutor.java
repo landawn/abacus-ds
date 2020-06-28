@@ -58,27 +58,15 @@ import com.mongodb.client.result.UpdateResult;
  */
 public final class AsyncMongoCollectionExecutor {
 
-    /** The coll executor. */
     private final MongoCollectionExecutor collExecutor;
 
-    /** The async executor. */
     private final AsyncExecutor asyncExecutor;
 
-    /**
-     * Instantiates a new async mongo collection executor.
-     *
-     * @param collExecutor
-     * @param asyncExecutor
-     */
     AsyncMongoCollectionExecutor(final MongoCollectionExecutor collExecutor, final AsyncExecutor asyncExecutor) {
         this.collExecutor = collExecutor;
         this.asyncExecutor = asyncExecutor;
     }
 
-    /**
-     *
-     * @return
-     */
     public MongoCollectionExecutor sync() {
         return collExecutor;
     }
@@ -125,10 +113,6 @@ public final class AsyncMongoCollectionExecutor {
         });
     }
 
-    /**
-     *
-     * @return
-     */
     public ContinuableFuture<Long> count() {
         return asyncExecutor.execute(new Callable<Long>() {
             @Override

@@ -48,104 +48,48 @@ import com.landawn.abacus.util.Tuple.Tuple3;
  */
 public final class AnyPut extends AnyMutation<AnyPut> {
 
-    /** The put. */
     private final Put put;
 
-    /**
-     * Instantiates a new any put.
-     *
-     * @param rowKey
-     */
     AnyPut(final Object rowKey) {
         super(new Put(toRowBytes(rowKey)));
         this.put = (Put) mutation;
     }
 
-    /**
-     * Instantiates a new any put.
-     *
-     * @param rowKey
-     * @param timestamp
-     */
     AnyPut(final Object rowKey, final long timestamp) {
         super(new Put(toRowBytes(rowKey), timestamp));
         this.put = (Put) mutation;
     }
 
-    /**
-     * Instantiates a new any put.
-     *
-     * @param rowKey
-     * @param rowOffset
-     * @param rowLength
-     */
     AnyPut(final Object rowKey, final int rowOffset, final int rowLength) {
         super(new Put(toRowBytes(rowKey), rowOffset, rowLength));
         this.put = (Put) mutation;
     }
 
-    /**
-     * Instantiates a new any put.
-     *
-     * @param rowKey
-     * @param rowOffset
-     * @param rowLength
-     * @param timestamp
-     */
     AnyPut(final Object rowKey, int rowOffset, int rowLength, final long timestamp) {
         super(new Put(toRowBytes(rowKey), rowOffset, rowLength, timestamp));
         this.put = (Put) mutation;
     }
 
-    /**
-     * Instantiates a new any put.
-     *
-     * @param rowKey
-     * @param rowIsImmutable
-     */
     AnyPut(final Object rowKey, final boolean rowIsImmutable) {
         super(new Put(toRowBytes(rowKey), rowIsImmutable));
         this.put = (Put) mutation;
     }
 
-    /**
-     * Instantiates a new any put.
-     *
-     * @param rowKey
-     * @param timestamp
-     * @param rowIsImmutable
-     */
     AnyPut(final Object rowKey, final long timestamp, final boolean rowIsImmutable) {
         super(new Put(toRowBytes(rowKey), timestamp, rowIsImmutable));
         this.put = (Put) mutation;
     }
 
-    /**
-     * Instantiates a new any put.
-     *
-     * @param rowKey
-     */
     AnyPut(final ByteBuffer rowKey) {
         super(new Put(rowKey));
         this.put = (Put) mutation;
     }
 
-    /**
-     * Instantiates a new any put.
-     *
-     * @param rowKey
-     * @param timestamp
-     */
     AnyPut(final ByteBuffer rowKey, final long timestamp) {
         super(new Put(rowKey, timestamp));
         this.put = (Put) mutation;
     }
 
-    /**
-     * Instantiates a new any put.
-     *
-     * @param putToCopy
-     */
     AnyPut(final Put putToCopy) {
         super(new Put(putToCopy));
         this.put = (Put) mutation;
@@ -465,10 +409,6 @@ public final class AnyPut extends AnyMutation<AnyPut> {
         return anyPut;
     }
 
-    /**
-     *
-     * @return
-     */
     public Put val() {
         return put;
     }
@@ -656,10 +596,6 @@ public final class AnyPut extends AnyMutation<AnyPut> {
         return this;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return put.hashCode();
@@ -685,10 +621,6 @@ public final class AnyPut extends AnyMutation<AnyPut> {
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return put.toString();

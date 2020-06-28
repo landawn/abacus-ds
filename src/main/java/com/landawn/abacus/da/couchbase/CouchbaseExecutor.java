@@ -103,10 +103,8 @@ public final class CouchbaseExecutor implements Closeable {
      */
     public static final String ID = "id";
 
-    /** The Constant POOLABLE_LENGTH. */
     static final int POOLABLE_LENGTH = 1024;
 
-    /** The Constant supportedTypes. */
     static final Set<Class<?>> supportedTypes = N.newHashSet();
 
     static {
@@ -119,66 +117,33 @@ public final class CouchbaseExecutor implements Closeable {
         supportedTypes.add(JsonArray.class);
     }
 
-    /** The Constant classIdSetMethodPool. */
     private static final Map<Class<?>, Method> classIdSetMethodPool = new ConcurrentHashMap<>();
 
-    /** The Constant bucketIdNamePool. */
     private static final Map<String, String> bucketIdNamePool = new ConcurrentHashMap<>();
 
-    /** The stmt pool. */
     private final KeyedObjectPool<String, PoolableWrapper<N1qlQuery>> stmtPool = PoolFactory.createKeyedObjectPool(1024, 3000);
     // private final KeyedObjectPool<String, Wrapper<N1qlQueryPlan>> preStmtPool = PoolFactory.createKeyedObjectPool(1024, 3000);
 
-    /** The cluster. */
     private final Cluster cluster;
 
-    /** The bucket. */
     private final Bucket bucket;
 
-    /** The sql mapper. */
     private final SQLMapper sqlMapper;
 
-    /** The async executor. */
     private final AsyncExecutor asyncExecutor;
 
-    /**
-     * Instantiates a new couchbase executor.
-     *
-     * @param cluster
-     */
     public CouchbaseExecutor(Cluster cluster) {
         this(cluster, cluster.openBucket());
     }
 
-    /**
-     * Instantiates a new couchbase executor.
-     *
-     * @param cluster
-     * @param bucket
-     */
     public CouchbaseExecutor(Cluster cluster, Bucket bucket) {
         this(cluster, bucket, null);
     }
 
-    /**
-     * Instantiates a new couchbase executor.
-     *
-     * @param cluster
-     * @param bucket
-     * @param sqlMapper
-     */
     public CouchbaseExecutor(Cluster cluster, Bucket bucket, final SQLMapper sqlMapper) {
         this(cluster, bucket, sqlMapper, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
     }
 
-    /**
-     * Instantiates a new couchbase executor.
-     *
-     * @param cluster
-     * @param bucket
-     * @param sqlMapper
-     * @param asyncExecutor
-     */
     public CouchbaseExecutor(Cluster cluster, Bucket bucket, final SQLMapper sqlMapper, final AsyncExecutor asyncExecutor) {
         this.cluster = cluster;
         this.bucket = bucket;
@@ -186,18 +151,10 @@ public final class CouchbaseExecutor implements Closeable {
         this.asyncExecutor = asyncExecutor;
     }
 
-    /**
-     *
-     * @return
-     */
     public Cluster cluster() {
         return cluster;
     }
 
-    /**
-     *
-     * @return
-     */
     public Bucket bucket() {
         return bucket;
     }

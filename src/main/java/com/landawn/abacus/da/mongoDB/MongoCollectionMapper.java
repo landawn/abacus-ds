@@ -55,27 +55,15 @@ import com.mongodb.client.result.UpdateResult;
  */
 public final class MongoCollectionMapper<T> {
 
-    /** The coll executor. */
     private final MongoCollectionExecutor collExecutor;
 
-    /** The target class. */
     private final Class<T> targetClass;
 
-    /**
-     * Instantiates a new mongo collection mapper.
-     *
-     * @param collExecutor
-     * @param targetClass
-     */
     MongoCollectionMapper(final MongoCollectionExecutor collExecutor, final Class<T> targetClass) {
         this.collExecutor = collExecutor;
         this.targetClass = targetClass;
     }
 
-    /**
-     *
-     * @return
-     */
     public MongoCollectionExecutor collExecutor() {
         return collExecutor;
     }
@@ -107,10 +95,6 @@ public final class MongoCollectionMapper<T> {
         return collExecutor.exists(filter);
     }
 
-    /**
-     *
-     * @return
-     */
     public long count() {
         return collExecutor.count();
     }

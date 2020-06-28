@@ -86,52 +86,30 @@ public final class MongoDB {
      */
     public static final String ID = "id";
 
-    /** The Constant jsonParser. */
     private static final JSONParser jsonParser = ParserFactory.createJSONParser();
 
-    /** The Constant codecRegistry. */
     // private static CodecRegistry codecRegistry = CodecRegistries.fromCodecs(new CalendarCodec(), new TimeCodec(), new TimestampCodec());
     private static final CodecRegistry codecRegistry = CodecRegistries.fromRegistries(MongoClient.getDefaultCodecRegistry(), new GeneralCodecRegistry());
 
-    /** The Constant classIdSetMethodPool. */
     private static final Map<Class<?>, Method> classIdSetMethodPool = new ConcurrentHashMap<>();
 
-    /** The coll executor pool. */
     private final Map<String, MongoCollectionExecutor> collExecutorPool = new ConcurrentHashMap<>();
 
-    /** The coll mapper pool. */
     private final Map<Class<?>, MongoCollectionMapper<?>> collMapperPool = new ConcurrentHashMap<>();
 
-    /** The mongo DB. */
     private final MongoDatabase mongoDB;
 
-    /** The async executor. */
     private final AsyncExecutor asyncExecutor;
 
-    /**
-     * Instantiates a new mongo DB.
-     *
-     * @param mongoDB
-     */
     public MongoDB(final MongoDatabase mongoDB) {
         this(mongoDB, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
     }
 
-    /**
-     * Instantiates a new mongo DB.
-     *
-     * @param mongoDB
-     * @param asyncExecutor
-     */
     public MongoDB(final MongoDatabase mongoDB, final AsyncExecutor asyncExecutor) {
         this.mongoDB = mongoDB.withCodecRegistry(codecRegistry);
         this.asyncExecutor = asyncExecutor;
     }
 
-    /**
-     *
-     * @return
-     */
     public MongoDatabase db() {
         return mongoDB;
     }

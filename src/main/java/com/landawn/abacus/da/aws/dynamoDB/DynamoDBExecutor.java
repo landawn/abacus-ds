@@ -80,62 +80,32 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class DynamoDBExecutor implements Closeable {
 
-    /** The Constant attrValueType. */
     private static final Type<AttributeValue> attrValueType = N.typeOf(AttributeValue.class);
 
-    /** The dynamo DB. */
     private final AmazonDynamoDBClient dynamoDB;
 
-    /** The mapper. */
     private final DynamoDBMapper mapper;
 
-    /** The async DB executor. */
     private final AsyncDynamoDBExecutor asyncDBExecutor;
 
-    /**
-     * Instantiates a new dynamo DB executor.
-     *
-     * @param dynamoDB
-     */
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB) {
         this(dynamoDB, null);
     }
 
-    /**
-     * Instantiates a new dynamo DB executor.
-     *
-     * @param dynamoDB
-     * @param config
-     */
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB, final DynamoDBMapperConfig config) {
         this(dynamoDB, config, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
     }
 
-    /**
-     * Instantiates a new dynamo DB executor.
-     *
-     * @param dynamoDB
-     * @param config
-     * @param asyncExecutor
-     */
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB, final DynamoDBMapperConfig config, final AsyncExecutor asyncExecutor) {
         this.dynamoDB = dynamoDB;
         this.asyncDBExecutor = new AsyncDynamoDBExecutor(this, asyncExecutor);
         this.mapper = config == null ? new DynamoDBMapper(dynamoDB) : new DynamoDBMapper(dynamoDB, config);
     }
 
-    /**
-     *
-     * @return
-     */
     public AmazonDynamoDBClient dynamoDB() {
         return dynamoDB;
     }
 
-    /**
-     *
-     * @return
-     */
     public DynamoDBMapper dynamoDBMapper() {
         return mapper;
     }
@@ -176,10 +146,6 @@ public final class DynamoDBExecutor implements Closeable {
         return new Mapper<T>(targetEntityClass, this, tableName, namingPolicy);
     }
 
-    /**
-     *
-     * @return
-     */
     public AsyncDynamoDBExecutor async() {
         return asyncDBExecutor;
     }

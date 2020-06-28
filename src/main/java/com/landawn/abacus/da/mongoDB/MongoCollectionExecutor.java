@@ -71,51 +71,29 @@ import com.mongodb.client.result.UpdateResult;
  */
 public final class MongoCollectionExecutor {
 
-    /** The Constant _$. */
     private static final String _$ = "$";
 
-    /** The Constant _$SET. */
     private static final String _$SET = "$set";
 
-    /** The Constant _$GROUP. */
     private static final String _$GROUP = "$group";
 
-    /** The Constant _$SUM. */
     private static final String _$SUM = "$sum";
 
-    /** The Constant _COUNT. */
     private static final String _COUNT = "count";
 
-    /** The coll. */
     private final MongoCollection<Document> coll;
 
-    /** The async coll executor. */
     private final AsyncMongoCollectionExecutor asyncCollExecutor;
 
-    /**
-     * Instantiates a new mongo collection executor.
-     *
-     * @param dbExecutor
-     * @param coll
-     * @param asyncExecutor
-     */
     MongoCollectionExecutor(final MongoDB dbExecutor, final MongoCollection<Document> coll, final AsyncExecutor asyncExecutor) {
         this.coll = coll;
         this.asyncCollExecutor = new AsyncMongoCollectionExecutor(this, asyncExecutor);
     }
 
-    /**
-     *
-     * @return
-     */
     public MongoCollection<Document> coll() {
         return coll;
     }
 
-    /**
-     *
-     * @return
-     */
     public AsyncMongoCollectionExecutor async() {
         return asyncCollExecutor;
     }
@@ -147,10 +125,6 @@ public final class MongoCollectionExecutor {
         return count(filter, new CountOptions().limit(1)) > 0;
     }
 
-    /**
-     *
-     * @return
-     */
     public long count() {
         return coll.countDocuments();
     }

@@ -40,12 +40,8 @@ import org.apache.hadoop.hbase.io.TimeRange;
  */
 public final class AnyScan extends AnyQuery<AnyScan> {
 
-    /** The scan. */
     private final Scan scan;
 
-    /**
-     * Instantiates a new any scan.
-     */
     AnyScan() {
         super(new Scan());
         this.scan = (Scan) query;
@@ -90,30 +86,16 @@ public final class AnyScan extends AnyQuery<AnyScan> {
         this.scan = (Scan) query;
     }
 
-    /**
-     * Instantiates a new any scan.
-     *
-     * @param scan
-     */
     AnyScan(final Scan scan) {
         super(scan);
         this.scan = (Scan) query;
     }
 
-    /**
-     * Instantiates a new any scan.
-     *
-     * @param get
-     */
     AnyScan(final Get get) {
         super(get);
         this.scan = (Scan) query;
     }
 
-    /**
-     *
-     * @return
-     */
     public static AnyScan create() {
         return new AnyScan();
     }
@@ -186,10 +168,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
         return new AnyScan(get);
     }
 
-    /**
-     *
-     * @return
-     */
     public Scan val() {
         return scan;
     }
@@ -212,10 +190,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
         return scan.hasFamilies();
     }
 
-    /**
-     *
-     * @return
-     */
     public int numFamilies() {
         return scan.numFamilies();
     }
@@ -957,10 +931,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
         return this;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return scan.hashCode();
@@ -986,10 +956,6 @@ public final class AnyScan extends AnyQuery<AnyScan> {
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return scan.toString();

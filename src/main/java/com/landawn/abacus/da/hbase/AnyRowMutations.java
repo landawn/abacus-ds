@@ -68,10 +68,6 @@ public final class AnyRowMutations implements Row {
         return new AnyRowMutations(rowKey, initialCapacity);
     }
 
-    /**
-     *
-     * @return
-     */
     public RowMutations val() {
         return rowMutations;
     }
@@ -111,10 +107,6 @@ public final class AnyRowMutations implements Row {
         return rowMutations.compareTo(row);
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     @SuppressWarnings("deprecation")
     public int hashCode() {
@@ -142,10 +134,6 @@ public final class AnyRowMutations implements Row {
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return rowMutations.toString();

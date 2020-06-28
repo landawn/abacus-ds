@@ -52,32 +52,19 @@ import com.landawn.abacus.util.XMLUtil;
  */
 public final class CQLMapper {
 
-    /** The Constant CQL_MAPPER. */
     public static final String CQL_MAPPER = "cqlMapper";
 
-    /** The Constant CQL. */
     public static final String CQL = "cql";
 
-    /** The Constant ID. */
     public static final String ID = "id";
 
-    /** The Constant TIMEOUT. */
     static final String TIMEOUT = "timeout";
 
-    /** The cql map. */
     private final Map<String, ParsedCql> cqlMap = new LinkedHashMap<>();
 
-    /**
-     * Instantiates a new CQL mapper.
-     */
     public CQLMapper() {
     }
 
-    /**
-     * Instantiates a new CQL mapper.
-     *
-     * @param filePath it could be multiple file paths separated by ',' or ';'
-     */
     public CQLMapper(String filePath) {
         this();
 
@@ -128,10 +115,6 @@ public final class CQLMapper {
         }
     }
 
-    /**
-     *
-     * @return
-     */
     public Set<String> keySet() {
         return cqlMap.keySet();
     }
@@ -227,10 +210,6 @@ public final class CQLMapper {
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return cqlMap.hashCode();
@@ -246,10 +225,6 @@ public final class CQLMapper {
         return this == obj || (obj instanceof CQLMapper && N.equals(((CQLMapper) obj).cqlMap, cqlMap));
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return cqlMap.toString();

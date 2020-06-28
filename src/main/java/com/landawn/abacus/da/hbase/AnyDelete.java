@@ -34,72 +34,33 @@ import org.apache.hadoop.hbase.client.Delete;
  */
 public final class AnyDelete extends AnyMutation<AnyDelete> {
 
-    /** The delete. */
     private final Delete delete;
 
-    /**
-     * Instantiates a new any delete.
-     *
-     * @param rowKey
-     */
     AnyDelete(final Object rowKey) {
         super(new Delete(toRowKeyBytes(rowKey)));
         this.delete = (Delete) mutation;
     }
 
-    /**
-     * Instantiates a new any delete.
-     *
-     * @param rowKey
-     * @param timestamp
-     */
     AnyDelete(final Object rowKey, final long timestamp) {
         super(new Delete(toRowKeyBytes(rowKey), timestamp));
         this.delete = (Delete) mutation;
     }
 
-    /**
-     * Instantiates a new any delete.
-     *
-     * @param rowKey
-     * @param rowOffset
-     * @param rowLength
-     */
     AnyDelete(final Object rowKey, final int rowOffset, final int rowLength) {
         super(new Delete(toRowKeyBytes(rowKey), rowOffset, rowLength));
         this.delete = (Delete) mutation;
     }
 
-    /**
-     * Instantiates a new any delete.
-     *
-     * @param rowKey
-     * @param rowOffset
-     * @param rowLength
-     * @param timestamp
-     */
     AnyDelete(final Object rowKey, final int rowOffset, final int rowLength, final long timestamp) {
         super(new Delete(toRowKeyBytes(rowKey), rowOffset, rowLength, timestamp));
         this.delete = (Delete) mutation;
     }
 
-    /**
-     * Instantiates a new any delete.
-     *
-     * @param rowKey
-     * @param timestamp
-     * @param familyMap
-     */
     AnyDelete(final Object rowKey, final long timestamp, final NavigableMap<byte[], List<Cell>> familyMap) {
         super(new Delete(toRowBytes(rowKey), timestamp, familyMap));
         this.delete = (Delete) mutation;
     }
 
-    /**
-     * Instantiates a new any delete.
-     *
-     * @param deleteToCopy delete to copy
-     */
     AnyDelete(final Delete deleteToCopy) {
         super(new Delete(deleteToCopy));
         this.delete = (Delete) mutation;
@@ -167,10 +128,6 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
         return new AnyDelete(deleteToCopy);
     }
 
-    /**
-     *
-     * @return
-     */
     public Delete val() {
         return delete;
     }
@@ -408,10 +365,6 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
         return this;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return delete.hashCode();
@@ -437,10 +390,6 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return delete.toString();

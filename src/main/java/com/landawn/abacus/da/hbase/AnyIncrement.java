@@ -82,10 +82,6 @@ public final class AnyIncrement extends AnyMutation<AnyIncrement> {
         return new AnyIncrement(incrementToCopy);
     }
 
-    /**
-     *
-     * @return
-     */
     public Increment val() {
         return increment;
     }
@@ -210,10 +206,6 @@ public final class AnyIncrement extends AnyMutation<AnyIncrement> {
         return this;
     }
 
-    /**
-     *
-     * @return
-     */
     @SuppressWarnings("deprecation")
     @Override
     public int hashCode() {
@@ -241,10 +233,6 @@ public final class AnyIncrement extends AnyMutation<AnyIncrement> {
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return increment.toString();

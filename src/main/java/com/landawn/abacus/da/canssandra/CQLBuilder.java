@@ -279,12 +279,6 @@ public abstract class CQLBuilder {
 
     private Collection<Map<String, Object>> propsList;
 
-    /**
-     * Instantiates a new CQL builder.
-     *
-     * @param namingPolicy
-     * @param cqlPolicy
-     */
     CQLBuilder(final NamingPolicy namingPolicy, final CQLPolicy cqlPolicy) {
         if (activeStringBuilderCounter.incrementAndGet() > 1024) {
             logger.error("Too many(" + activeStringBuilderCounter.get()
@@ -1651,10 +1645,6 @@ public abstract class CQLBuilder {
         return this;
     }
 
-    /**
-     *
-     * @return
-     */
     public CQLBuilder ifExists() {
         init(true);
 
@@ -1676,10 +1666,6 @@ public abstract class CQLBuilder {
         return this;
     }
 
-    /**
-     *
-     * @return
-     */
     public CQLBuilder allowFiltering() {
         init(true);
 
@@ -1720,10 +1706,6 @@ public abstract class CQLBuilder {
         return cql;
     }
 
-    /**
-     *
-     * @return
-     */
     public List<Object> parameters() {
         return parameters;
     }
@@ -2242,10 +2224,6 @@ public abstract class CQLBuilder {
         N.println(cql());
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return cql();

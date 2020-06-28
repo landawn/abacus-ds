@@ -28,14 +28,8 @@ import org.apache.hadoop.hbase.client.OperationWithAttributes;
  */
 abstract class AnyOperationWithAttributes<AOWA extends AnyOperationWithAttributes<AOWA>> extends AnyOperation<AOWA> {
 
-    /** The ap. */
     protected final OperationWithAttributes owa;
 
-    /**
-     * Instantiates a new any operation with attributes.
-     *
-     * @param owa
-     */
     protected AnyOperationWithAttributes(final OperationWithAttributes owa) {
         super(owa);
         this.owa = owa;

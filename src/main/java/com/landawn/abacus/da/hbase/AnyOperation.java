@@ -31,14 +31,8 @@ import com.landawn.abacus.exception.UncheckedIOException;
  */
 abstract class AnyOperation<AO extends AnyOperation<AO>> {
 
-    /** The op. */
     protected final Operation op;
 
-    /**
-     * Instantiates a new any operation.
-     *
-     * @param op
-     */
     protected AnyOperation(final Operation op) {
         this.op = op;
     }
@@ -52,10 +46,6 @@ abstract class AnyOperation<AO extends AnyOperation<AO>> {
         return op.getFingerprint();
     }
 
-    /**
-     *
-     * @return
-     */
     public Map<String, Object> toMap() {
         return op.toMap();
     }
@@ -69,10 +59,6 @@ abstract class AnyOperation<AO extends AnyOperation<AO>> {
         return op.toMap(maxCols);
     }
 
-    /**
-     *
-     * @return
-     */
     public String toJSON() {
         try {
             return op.toJSON();
@@ -94,10 +80,6 @@ abstract class AnyOperation<AO extends AnyOperation<AO>> {
         }
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return op.toString();

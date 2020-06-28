@@ -81,10 +81,6 @@ public final class AnyAppend extends AnyMutation<AnyAppend> {
         return new AnyAppend(appendToCopy);
     }
 
-    /**
-     *
-     * @return
-     */
     public Append val() {
         return append;
     }
@@ -191,10 +187,6 @@ public final class AnyAppend extends AnyMutation<AnyAppend> {
         return this;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public int hashCode() {
         return append.hashCode();
@@ -220,10 +212,6 @@ public final class AnyAppend extends AnyMutation<AnyAppend> {
         return false;
     }
 
-    /**
-     *
-     * @return
-     */
     @Override
     public String toString() {
         return append.toString();

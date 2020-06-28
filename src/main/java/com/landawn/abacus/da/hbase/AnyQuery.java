@@ -37,14 +37,8 @@ import org.apache.hadoop.hbase.security.visibility.Authorizations;
  */
 abstract class AnyQuery<AQ extends AnyQuery<AQ>> extends AnyOperationWithAttributes<AQ> {
 
-    /** The query. */
     protected final Query query;
 
-    /**
-     * Instantiates a new any query.
-     *
-     * @param query
-     */
     protected AnyQuery(final Query query) {
         super(query);
         this.query = query;

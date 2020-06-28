@@ -49,27 +49,15 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class AsyncHBaseExecutor {
 
-    /** The hbase executor. */
     private final HBaseExecutor hbaseExecutor;
 
-    /** The async executor. */
     private final AsyncExecutor asyncExecutor;
 
-    /**
-     * Instantiates a new async H base executor.
-     *
-     * @param hbaseExecutor
-     * @param asyncExecutor
-     */
     AsyncHBaseExecutor(final HBaseExecutor hbaseExecutor, final AsyncExecutor asyncExecutor) {
         this.hbaseExecutor = hbaseExecutor;
         this.asyncExecutor = asyncExecutor;
     }
 
-    /**
-     *
-     * @return
-     */
     public HBaseExecutor sync() {
         return hbaseExecutor;
     }
