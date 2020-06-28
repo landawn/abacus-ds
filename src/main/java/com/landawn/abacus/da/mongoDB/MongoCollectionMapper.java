@@ -48,7 +48,6 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
 /**
- * The Class MongoCollectionMapper.
  *
  * @author Haiyang Li
  * @param <T>

@@ -65,7 +65,6 @@ import com.mongodb.client.result.DeleteResult;
 import com.mongodb.client.result.UpdateResult;
 
 /**
- * The Class MongoCollectionExecutor.
  *
  * @author Haiyang Li
  * @since 0.8

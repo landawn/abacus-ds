@@ -15,7 +15,6 @@
 package com.landawn.abacus.da.hadoop;
 
 /**
- * The Class HDFSUtil.
  *
  * @author Haiyang Li
  * @since 0.8
