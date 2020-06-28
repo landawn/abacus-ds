@@ -280,7 +280,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
      *             Use {@code setTimestamp(long)} instead
      */
     @Deprecated
-    public AnyGet setTimeStamp(long timestamp)  {
+    public AnyGet setTimeStamp(long timestamp) {
         try {
             get.setTimeStamp(timestamp);
         } catch (IOException e) {
@@ -308,7 +308,7 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
      *             {@code readVersions(int)} instead.
      */
     @Deprecated
-    public AnyGet setMaxVersions(int maxVersions)  {
+    public AnyGet setMaxVersions(int maxVersions) {
         try {
             get.setMaxVersions(maxVersions);
         } catch (IOException e) {

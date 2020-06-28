@@ -154,7 +154,7 @@ public final class AnyIncrement extends AnyMutation<AnyIncrement> {
      * @param maxStamp maximum timestamp value, exclusive
      * @return this
      */
-    public AnyIncrement setTimeRange(long minStamp, long maxStamp)  {
+    public AnyIncrement setTimeRange(long minStamp, long maxStamp) {
         try {
             increment.setTimeRange(minStamp, maxStamp);
         } catch (IOException e) {

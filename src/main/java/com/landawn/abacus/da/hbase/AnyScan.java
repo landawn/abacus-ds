@@ -381,7 +381,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      *             Use {@code setTimestamp(long)} instead
      */
     @Deprecated
-    public AnyScan setTimeStamp(long timestamp)  {
+    public AnyScan setTimeStamp(long timestamp) {
         try {
             scan.setTimeStamp(timestamp);
         } catch (IOException e) {
@@ -573,7 +573,7 @@ public final class AnyScan extends AnyQuery<AnyScan> {
      * @return
      */
     public AnyScan readVersions(int maxVersions) {
-            scan.readVersions(maxVersions);
+        scan.readVersions(maxVersions);
 
         return this;
     }

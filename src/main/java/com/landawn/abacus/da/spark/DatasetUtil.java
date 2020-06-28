@@ -19,7 +19,7 @@ package com.landawn.abacus.da.spark;
 /**
  * https://spark.apache.org/docs/latest/api/java/org/apache/spark/sql/Dataset.html
  */
- class DatasetUtil {
+class DatasetUtil {
 
     private DatasetUtil() {
         // singleton

@@ -638,7 +638,7 @@ public final class DynamoDBExecutor implements Closeable {
             if (N.isNullOrEmpty(item)) {
                 return null;
             }
- 
+
             final Map<String, String> column2FieldNameMap = ClassUtil.getColumn2PropNameMap(targetClass);
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
             final T entity = N.newInstance(targetClass);

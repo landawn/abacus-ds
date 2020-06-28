@@ -73,7 +73,7 @@ abstract class AnyOperation<AO extends AnyOperation<AO>> {
      *
      * @return
      */
-    public String toJSON()  {
+    public String toJSON() {
         try {
             return op.toJSON();
         } catch (IOException e) {
@@ -86,7 +86,7 @@ abstract class AnyOperation<AO extends AnyOperation<AO>> {
      * @param maxCols
      * @return
      */
-    public String toJSON(final int maxCols)  {
+    public String toJSON(final int maxCols) {
         try {
             return op.toJSON(maxCols);
         } catch (IOException e) {

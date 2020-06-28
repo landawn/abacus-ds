@@ -26,7 +26,7 @@ import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.Objectory;
 import com.landawn.abacus.util.SQLParser;
 import com.landawn.abacus.util.WD;
- 
+
 /**
  *
  * @author Haiyang Li
@@ -57,7 +57,7 @@ public final class ParsedCql {
 
     /** The Constant RIGHT_OF_IBATIS_NAMED_PARAMETER. */
     private static final String RIGHT_OF_IBATIS_NAMED_PARAMETER = "}";
- 
+
     private final String cql;
 
     /** The pure CQL. */

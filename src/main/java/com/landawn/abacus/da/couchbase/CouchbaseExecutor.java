@@ -462,7 +462,7 @@ public final class CouchbaseExecutor implements Closeable {
                 result.putAll(m);
                 return (T) result;
             }
-        } else if (ClassUtil.isEntity(targetClass)) { 
+        } else if (ClassUtil.isEntity(targetClass)) {
             final Map<String, String> column2FieldNameMap = ClassUtil.getColumn2PropNameMap(targetClass);
             final T entity = N.newInstance(targetClass);
             final List<String> columnNameList = new ArrayList<>(jsonObject.getNames());
