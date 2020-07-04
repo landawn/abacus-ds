@@ -77,10 +77,10 @@ public final class CQLMapper {
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void loadFrom(String filePath) throws UncheckedIOException {
-        String[] filePaths = Splitter.with(WD.COMMA).trim(true).splitToArray(filePath);
+        String[] filePaths = Splitter.with(WD.COMMA).trimResults().splitToArray(filePath);
 
         if (filePaths.length == 1) {
-            filePaths = Splitter.with(WD.SEMICOLON).trim(true).splitToArray(filePath);
+            filePaths = Splitter.with(WD.SEMICOLON).trimResults().splitToArray(filePath);
         }
 
         for (String subFilePath : filePaths) {
@@ -160,6 +160,14 @@ public final class CQLMapper {
         cqlMap.remove(id);
     }
 
+    public CQLMapper copy() {
+        final CQLMapper copy = new CQLMapper();
+
+        copy.cqlMap.putAll(this.cqlMap);
+
+        return copy;
+    }
+
     /**
      *
      * @param file
@@ -208,6 +216,10 @@ public final class CQLMapper {
         } finally {
             IOUtil.close(os);
         }
+    }
+
+    public boolean isEmpty() {
+        return cqlMap.isEmpty();
     }
 
     @Override

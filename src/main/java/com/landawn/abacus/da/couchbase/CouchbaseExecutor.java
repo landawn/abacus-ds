@@ -544,6 +544,7 @@ public final class CouchbaseExecutor implements Closeable {
      * @param obj an array of pairs of property name and value, or Map<String, Object>, or an entity with getter/setter methods.
      * @return
      */
+    @SuppressWarnings("deprecation")
     public static JsonObject toJsonObject(final Object obj) {
         Map<String, Object> m = null;
 
@@ -552,7 +553,7 @@ public final class CouchbaseExecutor implements Closeable {
         } else if (ClassUtil.isEntity(obj.getClass())) {
             m = Maps.entity2Map(obj);
         } else if (obj instanceof Object[]) {
-            m = N.asProps(obj);
+            m = N.asProps((Object[]) obj);
         } else {
             throw new IllegalArgumentException("The parameters must be a Map, or an entity class with getter/setter methods");
         }
