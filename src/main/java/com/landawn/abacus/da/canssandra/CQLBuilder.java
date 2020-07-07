@@ -272,8 +272,6 @@ public abstract class CQLBuilder {
 
     private Map<String, String> columnAliases;
 
-    private Map<String, Map<String, String>> aliasPropColumnNameMap;
-
     private Map<String, Object> props;
 
     private Collection<Map<String, Object>> propsList;
@@ -776,7 +774,7 @@ public abstract class CQLBuilder {
             throw new RuntimeException("Invalid operation: " + op);
         }
 
-        if (op == OperationType.QUERY && N.isNullOrEmpty(columnNames) && N.isNullOrEmpty(columnNames) && N.isNullOrEmpty(columnAliases)) {
+        if (op == OperationType.QUERY && N.isNullOrEmpty(columnNames) && N.isNullOrEmpty(columnAliases)) {
             throw new RuntimeException("Column names or props must be set first by select");
         }
 
@@ -791,10 +789,6 @@ public abstract class CQLBuilder {
             this.tableName = tableName.trim();
         }
 
-        if (entityClass != null && N.notNullOrEmpty(alias)) {
-            addPropColumnMapForAlias(entityClass, alias);
-        }
-
         sb.append(op == OperationType.QUERY ? _SELECT : _DELETE);
         sb.append(WD._SPACE);
 
@@ -802,6 +796,7 @@ public abstract class CQLBuilder {
             sb.append(preselect);
             sb.append(_SPACE);
         }
+
         final boolean isForSelect = op == OperationType.QUERY;
         final boolean withAlias = N.notNullOrEmpty(alias);
 
@@ -861,14 +856,6 @@ public abstract class CQLBuilder {
         sb.append(fromCause);
 
         return this;
-    }
-
-    private void addPropColumnMapForAlias(final Class<?> entityClass, final String alias) {
-        if (aliasPropColumnNameMap == null) {
-            aliasPropColumnNameMap = new HashMap<>();
-        }
-
-        aliasPropColumnNameMap.put(alias, propColumnNameMap);
     }
 
     /**
@@ -1944,38 +1931,6 @@ public abstract class CQLBuilder {
             }
 
             return;
-        } else {
-            if (aliasPropColumnNameMap != null && aliasPropColumnNameMap.size() > 0) {
-                int index = propName.indexOf('.');
-
-                if (index > 0) {
-                    final String propTableAlias = propName.substring(0, index);
-                    final Map<String, String> newPropColumnNameMap = aliasPropColumnNameMap.get(propTableAlias);
-
-                    if (newPropColumnNameMap != null) {
-                        final String newPropName = propName.substring(index + 1);
-                        columnName = newPropColumnNameMap.get(newPropName);
-
-                        if (columnName != null) {
-                            sb.append(propTableAlias + "." + columnName);
-
-                            if (isForSelect) {
-                                sb.append(_SPACE_AS_SPACE);
-                                sb.append(WD._QUOTATION_D);
-
-                                if (withClassAlias) {
-                                    sb.append(classAlias).append(WD._PERIOD);
-                                }
-
-                                sb.append(N.notNullOrEmpty(propAlias) ? propAlias : propName);
-                                sb.append(WD._QUOTATION_D);
-                            }
-
-                            return;
-                        }
-                    }
-                }
-            }
         }
 
         if (N.notNullOrEmpty(propAlias)) {
@@ -2071,24 +2026,6 @@ public abstract class CQLBuilder {
                 return columnName;
             } else {
                 return alias + "." + columnName;
-            }
-        }
-
-        if (aliasPropColumnNameMap != null && aliasPropColumnNameMap.size() > 0) {
-            int index = propName.indexOf('.');
-
-            if (index > 0) {
-                final String propTableAlias = propName.substring(0, index);
-                final Map<String, String> newPropColumnNameMap = aliasPropColumnNameMap.get(propTableAlias);
-
-                if (newPropColumnNameMap != null) {
-                    final String newPropName = propName.substring(index + 1);
-                    columnName = newPropColumnNameMap.get(newPropName);
-
-                    if (columnName != null) {
-                        return propTableAlias + "." + columnName;
-                    }
-                }
             }
         }
 
