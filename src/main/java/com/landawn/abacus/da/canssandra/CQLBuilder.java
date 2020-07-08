@@ -2047,10 +2047,10 @@ public abstract class CQLBuilder {
         String columnName = propColumnNameMap == null ? null : propColumnNameMap.get(propName);
 
         if (columnName != null) {
-            if (N.isNullOrEmpty(alias)) {
-                return columnName;
-            } else {
+            if (alias != null && alias.length() > 0 && propName.indexOf(WD._PERIOD) < 0) {
                 return alias + "." + columnName;
+            } else {
+                return columnName;
             }
         }
 
@@ -2082,7 +2082,7 @@ public abstract class CQLBuilder {
     }
 
     @SuppressWarnings("deprecation")
-    static ImmutableMap<String, String> getProp2ColumnNameMap(final Class<?> entityClass, final NamingPolicy namingPolicy) { 
+    static ImmutableMap<String, String> getProp2ColumnNameMap(final Class<?> entityClass, final NamingPolicy namingPolicy) {
         return SQLBuilder.getProp2ColumnNameMap(entityClass, namingPolicy);
     }
 
