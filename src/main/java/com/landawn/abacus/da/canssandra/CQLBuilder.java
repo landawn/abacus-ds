@@ -78,6 +78,7 @@ import com.landawn.abacus.util.SQLParser;
 import com.landawn.abacus.util.SortDirection;
 import com.landawn.abacus.util.StringUtil;
 import com.landawn.abacus.util.Throwables;
+import com.landawn.abacus.util.Tuple.Tuple2;
 import com.landawn.abacus.util.WD;
 
 /**
@@ -261,7 +262,7 @@ public abstract class CQLBuilder {
 
     private Class<?> entityClass;
 
-    private Map<String, String> propColumnNameMap;
+    private ImmutableMap<String, Tuple2<String, Boolean>> propColumnNameMap;
 
     private String alias;
 
@@ -1928,20 +1929,20 @@ public abstract class CQLBuilder {
         appendColumnName(propColumnNameMap, propName);
     }
 
-    private void appendColumnName(final Map<String, String> propColumnNameMap, final String propName) {
+    private void appendColumnName(final ImmutableMap<String, Tuple2<String, Boolean>> propColumnNameMap, final String propName) {
         appendColumnName(propColumnNameMap, propName, null, false, null, false);
     }
 
-    private void appendColumnName(final Map<String, String> propColumnNameMap, final String propName, final String propAlias, final boolean withClassAlias,
-            final String classAlias, final boolean isForSelect) {
-        String columnName = propColumnNameMap == null ? null : propColumnNameMap.get(propName);
+    private void appendColumnName(final ImmutableMap<String, Tuple2<String, Boolean>> propColumnNameMap, final String propName, final String propAlias,
+            final boolean withClassAlias, final String classAlias, final boolean isForSelect) {
+        final Tuple2<String, Boolean> tp = propColumnNameMap == null ? null : propColumnNameMap.get(propName);
 
-        if (columnName != null) {
-            if (alias != null && alias.length() > 0 && propName.indexOf(WD._PERIOD) < 0) {
+        if (tp != null) {
+            if (tp._2.booleanValue() && alias != null && alias.length() > 0) {
                 sb.append(alias).append(WD._PERIOD);
             }
 
-            sb.append(columnName);
+            sb.append(tp._1);
 
             if (isForSelect) {
                 sb.append(_SPACE_AS_SPACE);
@@ -2043,14 +2044,14 @@ public abstract class CQLBuilder {
         }
     }
 
-    private String formalizeColumnName(final Map<String, String> propColumnNameMap, final String propName) {
-        String columnName = propColumnNameMap == null ? null : propColumnNameMap.get(propName);
+    private String formalizeColumnName(final ImmutableMap<String, Tuple2<String, Boolean>> propColumnNameMap, final String propName) {
+        final Tuple2<String, Boolean> tp = propColumnNameMap == null ? null : propColumnNameMap.get(propName);
 
-        if (columnName != null) {
-            if (alias != null && alias.length() > 0 && propName.indexOf(WD._PERIOD) < 0) {
-                return alias + "." + columnName;
+        if (tp != null) {
+            if (tp._2.booleanValue() && alias != null && alias.length() > 0) {
+                return alias + "." + tp._1;
             } else {
-                return columnName;
+                return tp._1;
             }
         }
 
@@ -2082,7 +2083,7 @@ public abstract class CQLBuilder {
     }
 
     @SuppressWarnings("deprecation")
-    static ImmutableMap<String, String> getProp2ColumnNameMap(final Class<?> entityClass, final NamingPolicy namingPolicy) {
+    static ImmutableMap<String, Tuple2<String, Boolean>> getProp2ColumnNameMap(final Class<?> entityClass, final NamingPolicy namingPolicy) {
         return SQLBuilder.getProp2ColumnNameMap(entityClass, namingPolicy);
     }
 
