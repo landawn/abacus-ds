@@ -306,7 +306,7 @@ public final class CassandraExecutor implements Closeable {
      * @param entityClass
      * @return
      */
-    private static List<String> getKeyNames(final Class<?> entityClass) {
+    private static ImmutableList<String> getKeyNames(final Class<?> entityClass) {
         Tuple2<ImmutableList<String>, ImmutableSet<String>> tp = entityKeyNamesMap.get(entityClass);
 
         if (tp == null) {
@@ -613,7 +613,7 @@ public final class CassandraExecutor implements Closeable {
     static Condition ids2Cond(final Class<?> targetClass, final Object... ids) {
         N.checkArgNotNullOrEmpty(ids, "ids");
 
-        final List<String> keyNames = getKeyNames(targetClass);
+        final ImmutableList<String> keyNames = getKeyNames(targetClass);
 
         if (keyNames.size() == 1 && ids.length == 1) {
             return CF.eq(keyNames.get(0), ids[0]);
@@ -640,7 +640,7 @@ public final class CassandraExecutor implements Closeable {
      */
     static Condition entity2Cond(final Object entity) {
         final Class<?> targetClass = entity.getClass();
-        final List<String> keyNames = getKeyNames(targetClass);
+        final ImmutableList<String> keyNames = getKeyNames(targetClass);
 
         if (keyNames.size() == 1) {
             return CF.eq(keyNames.get(0), ClassUtil.getPropValue(entity, keyNames.get(0)));
@@ -1253,7 +1253,7 @@ public final class CassandraExecutor implements Closeable {
      * @return true, if successful
      */
     public boolean exists(final Class<?> targetClass, final Condition whereCause) {
-        final List<String> keyNames = getKeyNames(targetClass);
+        final ImmutableList<String> keyNames = getKeyNames(targetClass);
         final CP cp = prepareQuery(targetClass, keyNames, whereCause, 1);
         final ResultSet resultSet = execute(cp);
 
@@ -2380,7 +2380,7 @@ public final class CassandraExecutor implements Closeable {
      * @return
      */
     public ContinuableFuture<Boolean> asyncExists(final Class<?> targetClass, final Condition whereCause) {
-        final List<String> keyNames = getKeyNames(targetClass);
+        final ImmutableList<String> keyNames = getKeyNames(targetClass);
         final CP cp = prepareQuery(targetClass, keyNames, whereCause, 1);
 
         return asyncExists(cp.cql, cp.parameters.toArray());
