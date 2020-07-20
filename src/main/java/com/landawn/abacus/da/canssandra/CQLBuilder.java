@@ -280,6 +280,8 @@ public abstract class CQLBuilder {
 
     private Collection<Map<String, Object>> propsList;
 
+    private boolean isForConditionOnly = false;
+
     CQLBuilder(final NamingPolicy namingPolicy, final CQLPolicy cqlPolicy) {
         if (activeStringBuilderCounter.incrementAndGet() > 1024) {
             logger.error("Too many(" + activeStringBuilderCounter.get()
@@ -1090,7 +1092,10 @@ public abstract class CQLBuilder {
             sb.append(_SPACE).append(cond.getOperator()).append(_SPACE);
             appendCondition(((Clause) cond).getCondition());
         } else {
-            sb.append(_SPACE_WHERE_SPACE);
+            if (!isForConditionOnly) {
+                sb.append(_SPACE_WHERE_SPACE);
+            }
+            
             appendCondition(cond);
         }
 
@@ -2138,6 +2143,7 @@ public abstract class CQLBuilder {
             instance.entityClass = entityClass;
             instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
+            instance.isForConditionOnly = true;
             instance.append(cond);
 
             return instance;
@@ -2568,6 +2574,7 @@ public abstract class CQLBuilder {
             instance.entityClass = entityClass;
             instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
+            instance.isForConditionOnly = true;
             instance.append(cond);
 
             return instance;
@@ -2998,6 +3005,7 @@ public abstract class CQLBuilder {
             instance.entityClass = entityClass;
             instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
+            instance.isForConditionOnly = true;
             instance.append(cond);
 
             return instance;
@@ -3425,6 +3433,7 @@ public abstract class CQLBuilder {
             instance.entityClass = entityClass;
             instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
+            instance.isForConditionOnly = true;
             instance.append(cond);
 
             return instance;
@@ -3852,6 +3861,7 @@ public abstract class CQLBuilder {
             instance.entityClass = entityClass;
             instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
+            instance.isForConditionOnly = true;
             instance.append(cond);
 
             return instance;
@@ -4279,6 +4289,7 @@ public abstract class CQLBuilder {
             instance.entityClass = entityClass;
             instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
+            instance.isForConditionOnly = true;
             instance.append(cond);
 
             return instance;
@@ -4706,6 +4717,7 @@ public abstract class CQLBuilder {
             instance.entityClass = entityClass;
             instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
+            instance.isForConditionOnly = true;
             instance.append(cond);
 
             return instance;
@@ -5133,6 +5145,7 @@ public abstract class CQLBuilder {
             instance.entityClass = entityClass;
             instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
+            instance.isForConditionOnly = true;
             instance.append(cond);
 
             return instance;
@@ -5560,6 +5573,7 @@ public abstract class CQLBuilder {
             instance.entityClass = entityClass;
             instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
+            instance.isForConditionOnly = true;
             instance.append(cond);
 
             return instance;
