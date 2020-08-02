@@ -177,7 +177,6 @@ public final class CQLMapper {
         OutputStream os = null;
 
         try {
-
             Document doc = XMLUtil.createDOMParser(true, true).newDocument();
             Element cqlMapperNode = doc.createElement(CQLMapper.CQL_MAPPER);
 
