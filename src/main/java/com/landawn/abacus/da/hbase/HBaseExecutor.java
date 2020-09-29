@@ -1004,7 +1004,7 @@ public final class HBaseExecutor implements Closeable {
      * @return
      */
     public <T, K> HBaseMapper<T, K> mapper(final Class<T> targetEntityClass, final String tableName, final NamingPolicy namingPolicy) {
-        return new HBaseMapper<T, K>(targetEntityClass, this, tableName, namingPolicy);
+        return new HBaseMapper<>(targetEntityClass, this, tableName, namingPolicy);
     }
 
     /**

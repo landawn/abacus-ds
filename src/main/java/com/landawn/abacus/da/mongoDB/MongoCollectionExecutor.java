@@ -1190,9 +1190,9 @@ public final class MongoCollectionExecutor {
 
         for (Object entity : entities) {
             if (entity instanceof Document) {
-                list.add(new InsertOneModel<Document>((Document) entity));
+                list.add(new InsertOneModel<>((Document) entity));
             } else {
-                list.add(new InsertOneModel<Document>(MongoDB.toDocument(entity)));
+                list.add(new InsertOneModel<>(MongoDB.toDocument(entity)));
             }
         }
 

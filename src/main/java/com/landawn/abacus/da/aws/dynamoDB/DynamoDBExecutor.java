@@ -143,7 +143,7 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     public <T> Mapper<T> mapper(final Class<T> targetEntityClass, final String tableName, final NamingPolicy namingPolicy) {
-        return new Mapper<T>(targetEntityClass, this, tableName, namingPolicy);
+        return new Mapper<>(targetEntityClass, this, tableName, namingPolicy);
     }
 
     public AsyncDynamoDBExecutor async() {

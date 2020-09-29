@@ -37,7 +37,7 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class Neo4jExecutor {
 
-    private final LinkedBlockingQueue<Session> sessionPool = new LinkedBlockingQueue<Session>(8192);
+    private final LinkedBlockingQueue<Session> sessionPool = new LinkedBlockingQueue<>(8192);
 
     private final SessionFactory sessionFactory;
 
