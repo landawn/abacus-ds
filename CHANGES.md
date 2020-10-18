@@ -1,3 +1,8 @@
+### 1.9.25
+
+* Improvements and bug fix.
+
+
 ### 1.9.24
 
 * Refactoring `CQLBuilder`.
