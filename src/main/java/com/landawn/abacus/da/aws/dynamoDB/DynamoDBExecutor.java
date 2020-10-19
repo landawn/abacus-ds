@@ -301,7 +301,7 @@ public final class DynamoDBExecutor implements Closeable {
                     "The parameters must be the pairs of property name and value, or Map, or an entity class with getter/setter methods.");
         }
 
-        final Map<String, AttributeValue> item = new LinkedHashMap<>(N.initHashCapacity(a.length / 2));
+        final Map<String, AttributeValue> item = N.newLinkedHashMap(a.length / 2);
 
         for (int i = 0; i < a.length; i++) {
             item.put((String) a[i], attrValueOf(a[++i]));
@@ -364,7 +364,7 @@ public final class DynamoDBExecutor implements Closeable {
                     "The parameters must be the pairs of property name and value, or Map, or an entity class with getter/setter methods.");
         }
 
-        final Map<String, AttributeValueUpdate> item = new LinkedHashMap<>(N.initHashCapacity(a.length / 2));
+        final Map<String, AttributeValueUpdate> item = N.newLinkedHashMap(a.length / 2);
 
         for (int i = 0; i < a.length; i++) {
             item.put((String) a[i], attrValueUpdateOf(a[++i]));
@@ -676,8 +676,7 @@ public final class DynamoDBExecutor implements Closeable {
             return (T) tmp;
         } else if (N.notNullOrEmpty(x.getM())) {
             final Map<String, AttributeValue> attrMap = x.getM();
-            final Map<String, Object> tmp = attrMap instanceof HashMap ? new HashMap<>(N.initHashCapacity(attrMap.size()))
-                    : new LinkedHashMap<>(N.initHashCapacity(attrMap.size()));
+            final Map<String, Object> tmp = attrMap instanceof HashMap ? N.newHashMap(attrMap.size()) : N.newLinkedHashMap(attrMap.size());
 
             for (Map.Entry<String, AttributeValue> entry : attrMap.entrySet()) {
                 tmp.put(entry.getKey(), toValue(entry.getValue()));

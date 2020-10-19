@@ -290,7 +290,7 @@ public final class CassandraExecutor implements Closeable {
     public static void registerKeys(Class<?> entityClass, Collection<String> keyNames) {
         N.checkArgument(N.notNullOrEmpty(keyNames), "'keyNames' can't be null or empty");
 
-        final Set<String> keyNameSet = N.newLinkedHashSet(N.initHashCapacity(keyNames.size()));
+        final Set<String> keyNameSet = N.newLinkedHashSet(keyNames.size());
 
         for (String keyName : keyNames) {
             keyNameSet.add(ClassUtil.getPropNameByMethod(ClassUtil.getPropGetMethod(entityClass, keyName)));

@@ -487,7 +487,7 @@ public abstract class CQLBuilder {
      */
     @Beta
     static Map<String, Expression> named(final String... propNames) {
-        final Map<String, Expression> m = new LinkedHashMap<>(N.initHashCapacity(propNames.length));
+        final Map<String, Expression> m = N.newLinkedHashMap(propNames.length);
 
         for (String propName : propNames) {
             m.put(propName, CF.QME);
@@ -503,7 +503,7 @@ public abstract class CQLBuilder {
      */
     @Beta
     static Map<String, Expression> named(final Collection<String> propNames) {
-        final Map<String, Expression> m = new LinkedHashMap<>(N.initHashCapacity(propNames.size()));
+        final Map<String, Expression> m = new LinkedHashMap<>(propNames.size());
 
         for (String propName : propNames) {
             m.put(propName, CF.QME);
@@ -1095,7 +1095,7 @@ public abstract class CQLBuilder {
             if (!isForConditionOnly) {
                 sb.append(_SPACE_WHERE_SPACE);
             }
-            
+
             appendCondition(cond);
         }
 
@@ -1285,7 +1285,7 @@ public abstract class CQLBuilder {
             final Collection<String> propNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
             final Set<String> dirtyPropNames = DirtyMarkerUtil.isDirtyMarker(entityClass) ? DirtyMarkerUtil.dirtyPropNames((DirtyMarker) entity) : null;
             final boolean isEmptyDirtyPropNames = N.isNullOrEmpty(dirtyPropNames);
-            final Map<String, Object> props = N.newHashMap(N.initHashCapacity(N.isNullOrEmpty(dirtyPropNames) ? propNames.size() : dirtyPropNames.size()));
+            final Map<String, Object> props = N.newHashMap(N.isNullOrEmpty(dirtyPropNames) ? propNames.size() : dirtyPropNames.size());
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(entityClass);
 
             for (String propName : propNames) {
@@ -2076,7 +2076,7 @@ public abstract class CQLBuilder {
         } else {
             final Class<?> entityClass = entity.getClass();
             final Collection<String> propNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
-            final Map<String, Object> map = N.newHashMap(N.initHashCapacity(propNames.size()));
+            final Map<String, Object> map = N.newHashMap(propNames.size());
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(entityClass);
 
             for (String propName : propNames) {
