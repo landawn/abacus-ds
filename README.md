@@ -26,7 +26,7 @@ compile 'com.landawn:abacus-da:1.9.25'
 
 
 ### Functional Programming:
-(It's very important to learn Lambdas and Stream APIs in Java 8 to get the best user experiences with the APIs provided in abacus-util)
+(It's very important to learn Lambdas and Stream APIs in Java 8 to get the best user experiences with the APIs provided in abacus-common)
 
 [What's New in Java 8](https://leanpub.com/whatsnewinjava8/read)
 
@@ -43,7 +43,7 @@ compile 'com.landawn:abacus-da:1.9.25'
 Please refer to [Wiki](https://github.com/landawn/abacus-da/wiki)
 
 
-## Also See: [abacus-util](https://github.com/landawn/abacus-util), [abacus-jdbc](https://github.com/landawn/abacus-jdbc), [abacus-extra](https://github.com/landawn/abacus-extra).
+## Also See: [abacus-common](https://github.com/landawn/abacus-common), [abacus-jdbc](https://github.com/landawn/abacus-jdbc), [abacus-extra](https://github.com/landawn/abacus-extra).
 
 
 ## Recommended Java programming libraries/frameworks:
