@@ -49,7 +49,7 @@ public final class AnyRowMutations implements Row {
     }
 
     AnyRowMutations(final byte[] rowKey, final int initialCapacity) {
-        this.rowMutations = new RowMutations(rowKey);
+        this.rowMutations = new RowMutations(rowKey, initialCapacity);
     }
 
     public static AnyRowMutations of(final Object rowKey) {

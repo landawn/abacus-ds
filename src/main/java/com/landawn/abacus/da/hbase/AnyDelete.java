@@ -105,7 +105,7 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
      * @return
      */
     public static AnyDelete of(final Object rowKey, final int rowOffset, final int rowLength, final long timestamp) {
-        return new AnyDelete(rowKey, timestamp);
+        return new AnyDelete(rowKey, rowOffset, rowLength, timestamp);
     }
 
     /**

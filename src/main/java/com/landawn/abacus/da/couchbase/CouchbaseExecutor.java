@@ -829,7 +829,7 @@ public final class CouchbaseExecutor implements Closeable {
      * @param doc
      * @return
      */
-    private <T> T toEntityForGet(final Class<T> targetClass, final JsonDocument doc) {
+    private static <T> T toEntityForGet(final Class<T> targetClass, final JsonDocument doc) {
         if ((doc == null || doc.content() == null || doc.content().size() == 0)) {
             return null;
         }
@@ -1327,7 +1327,7 @@ public final class CouchbaseExecutor implements Closeable {
      * @param obj
      * @return
      */
-    private <T> Document<T> toDocument(final Object obj) {
+    private static <T> Document<T> toDocument(final Object obj) {
         final Class<?> cls = obj.getClass();
 
         if (Document.class.isAssignableFrom(cls)) {
@@ -1345,7 +1345,7 @@ public final class CouchbaseExecutor implements Closeable {
      * @param document
      * @return
      */
-    private <T> T toEntityForUpdate(Class<T> cls, final Document<?> document) {
+    private static <T> T toEntityForUpdate(Class<T> cls, final Document<?> document) {
         if (cls.isAssignableFrom(document.getClass())) {
             return (T) document;
         } else {

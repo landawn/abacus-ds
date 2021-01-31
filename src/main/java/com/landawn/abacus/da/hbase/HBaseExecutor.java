@@ -486,6 +486,7 @@ public final class HBaseExecutor implements Closeable {
         }
     }
 
+    @SuppressWarnings("null")
     private static <T> T toValue(final Type<T> type, final Class<T> targetClass, final EntityInfo entityInfo, final Method rowKeySetMethod,
             final Type<?> rowKeyType, final Map<String, Map<String, Tuple2<String, Boolean>>> familyFieldNameMap, final Result result) throws IOException {
         if (type.isMap()) {
@@ -1011,7 +1012,7 @@ public final class HBaseExecutor implements Closeable {
      *
      * @param table
      */
-    private void closeQuietly(final Table table) {
+    private static void closeQuietly(final Table table) {
         IOUtil.closeQuietly(table);
     }
 
@@ -1463,7 +1464,7 @@ public final class HBaseExecutor implements Closeable {
      * @param targetClass
      * @return
      */
-    private <T> Function<Result, T> toEntity(final Class<T> targetClass) {
+    private static <T> Function<Result, T> toEntity(final Class<T> targetClass) {
         return new Function<Result, T>() {
             @Override
             public T apply(Result t) {

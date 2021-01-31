@@ -124,9 +124,9 @@ public final class DynamoDBExecutor implements Closeable {
 
     public <T> Mapper<T> mapper(final Class<T> targetEntityClass) {
         @SuppressWarnings("rawtypes")
-        Mapper mapper = mapperPool.get(targetEntityClass);
+        Mapper result = mapperPool.get(targetEntityClass);
 
-        if (mapper == null) {
+        if (result == null) {
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetEntityClass);
 
             if (entityInfo.tableName.isEmpty()) {
@@ -134,12 +134,12 @@ public final class DynamoDBExecutor implements Closeable {
                         + " must be annotated with com.landawn.abacus.annotation.Table or javax.persistence.Table. Otherwise call  HBaseExecutor.mapper(final String tableName, final Class<T> targetEntityClass) instead");
             }
 
-            mapper = mapper(targetEntityClass, entityInfo.tableName.get(), NamingPolicy.LOWER_CAMEL_CASE);
+            result = mapper(targetEntityClass, entityInfo.tableName.get(), NamingPolicy.LOWER_CAMEL_CASE);
 
-            mapperPool.put(targetEntityClass, mapper);
+            mapperPool.put(targetEntityClass, result);
         }
 
-        return mapper;
+        return result;
     }
 
     public <T> Mapper<T> mapper(final Class<T> targetEntityClass, final String tableName, final NamingPolicy namingPolicy) {
@@ -1569,7 +1569,7 @@ public final class DynamoDBExecutor implements Closeable {
      * @param items
      * @return
      */
-    private Iterator<Map<String, AttributeValue>> iterate(final List<Map<String, AttributeValue>> items) {
+    private static Iterator<Map<String, AttributeValue>> iterate(final List<Map<String, AttributeValue>> items) {
         return N.isNullOrEmpty(items) ? ObjIterator.<Map<String, AttributeValue>> empty() : items.iterator();
     }
 

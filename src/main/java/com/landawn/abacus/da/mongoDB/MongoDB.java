@@ -145,7 +145,7 @@ public final class MongoDB {
         MongoCollectionExecutor collExecutor = collExecutorPool.get(collectionName);
 
         if (collExecutor == null) {
-            collExecutor = new MongoCollectionExecutor(this, mongoDB.getCollection(collectionName), asyncExecutor);
+            collExecutor = new MongoCollectionExecutor(mongoDB.getCollection(collectionName), asyncExecutor);
             collExecutorPool.put(collectionName, collExecutor);
         }
 
@@ -486,7 +486,7 @@ public final class MongoDB {
      * @return
      */
     public static String toJSON(final BasicDBObject bsonObject) {
-        return bsonObject instanceof Map ? N.toJSON(bsonObject) : N.toJSON(bsonObject.toMap());
+        return N.toJSON(bsonObject);
     }
 
     /**

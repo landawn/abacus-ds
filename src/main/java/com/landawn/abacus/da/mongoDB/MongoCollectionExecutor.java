@@ -85,7 +85,7 @@ public final class MongoCollectionExecutor {
 
     private final AsyncMongoCollectionExecutor asyncCollExecutor;
 
-    MongoCollectionExecutor(final MongoDB dbExecutor, final MongoCollection<Document> coll, final AsyncExecutor asyncExecutor) {
+    MongoCollectionExecutor(final MongoCollection<Document> coll, final AsyncExecutor asyncExecutor) {
         this.coll = coll;
         this.asyncCollExecutor = new AsyncMongoCollectionExecutor(this, asyncExecutor);
     }
@@ -632,7 +632,7 @@ public final class MongoCollectionExecutor {
      * @param findIterable
      * @return
      */
-    private <T> T toEntity(final Class<T> targetClass, final FindIterable<Document> findIterable) {
+    private static <T> T toEntity(final Class<T> targetClass, final FindIterable<Document> findIterable) {
         final Document doc = findIterable.first();
 
         return N.isNullOrEmpty(doc) ? null : MongoDB.toEntity(targetClass, doc);
@@ -870,7 +870,7 @@ public final class MongoCollectionExecutor {
      * @param targetClass
      * @return
      */
-    private <T> Function<Document, T> toEntity(final Class<T> targetClass) {
+    private static <T> Function<Document, T> toEntity(final Class<T> targetClass) {
         return new Function<Document, T>() {
             @Override
             public T apply(Document t) {
@@ -1380,7 +1380,7 @@ public final class MongoCollectionExecutor {
      * @param update
      * @return
      */
-    private Bson checkUpdate(final Object update) {
+    private static Bson checkUpdate(final Object update) {
         Bson bson = update instanceof Bson ? (Bson) update : MongoDB.toDocument(update, true);
 
         if (bson instanceof Document) {
@@ -1406,7 +1406,7 @@ public final class MongoCollectionExecutor {
      * @param objectId
      * @return
      */
-    private ObjectId createObjectId(final String objectId) {
+    private static ObjectId createObjectId(final String objectId) {
         if (N.isNullOrEmpty(objectId)) {
             throw new IllegalArgumentException("Object id cant' be null or empty");
         }
@@ -1420,7 +1420,7 @@ public final class MongoCollectionExecutor {
      * @param objectId
      * @return
      */
-    private Bson createFilter(final ObjectId objectId) {
+    private static Bson createFilter(final ObjectId objectId) {
         return new Document(MongoDB._ID, objectId);
     }
 
@@ -1430,7 +1430,7 @@ public final class MongoCollectionExecutor {
      * @param obj
      * @return
      */
-    private Document createDocument(final Object obj) {
+    private static Document createDocument(final Object obj) {
         return obj instanceof Document ? (Document) obj : MongoDB.toDocument(obj);
     }
 }

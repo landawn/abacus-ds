@@ -155,7 +155,7 @@ public final class CassandraExecutor implements Closeable {
 
         try {
             namedDataType.put("DATE", ClassUtil.forClass("com.datastax.driver.core.LocalDate"));
-        } catch (Exception e) {
+        } catch (@SuppressWarnings("unused") Exception e) {
             // ignore
         }
 
@@ -628,7 +628,7 @@ public final class CassandraExecutor implements Closeable {
             return and;
         } else {
             throw new IllegalArgumentException("The number: " + ids.length + " of input ids doesn't match the (registered) key names: "
-                    + (keyNames == null ? "[id]" : N.toString(keyNames)) + " in class: " + ClassUtil.getCanonicalClassName(targetClass));
+                    + (N.isNullOrEmpty(keyNames) ? "[id]" : N.toString(keyNames)) + " in class: " + ClassUtil.getCanonicalClassName(targetClass));
         }
     }
 
@@ -2768,118 +2768,109 @@ public final class CassandraExecutor implements Closeable {
 
     /**
      * Async query for boolean.
-     *
-     * @param <T>
+     * 
      * @param query
      * @param parameters
      * @return
      */
     @SafeVarargs
-    public final <T> ContinuableFuture<OptionalBoolean> asyncQueryForBoolean(final String query, final Object... parameters) {
+    public final ContinuableFuture<OptionalBoolean> asyncQueryForBoolean(final String query, final Object... parameters) {
         return asyncQueryForSingleResult(Boolean.class, query, parameters).map(boolean_mapper);
     }
 
     /**
      * Async query for char.
-     *
-     * @param <T>
+     * 
      * @param query
      * @param parameters
      * @return
      */
     @SafeVarargs
-    public final <T> ContinuableFuture<OptionalChar> asyncQueryForChar(final String query, final Object... parameters) {
+    public final ContinuableFuture<OptionalChar> asyncQueryForChar(final String query, final Object... parameters) {
         return asyncQueryForSingleResult(Character.class, query, parameters).map(char_mapper);
     }
 
     /**
      * Async query for byte.
-     *
-     * @param <T>
+     * 
      * @param query
      * @param parameters
      * @return
      */
     @SafeVarargs
-    public final <T> ContinuableFuture<OptionalByte> asyncQueryForByte(final String query, final Object... parameters) {
+    public final ContinuableFuture<OptionalByte> asyncQueryForByte(final String query, final Object... parameters) {
         return asyncQueryForSingleResult(Byte.class, query, parameters).map(byte_mapper);
     }
 
     /**
      * Async query for short.
-     *
-     * @param <T>
+     * 
      * @param query
      * @param parameters
      * @return
      */
     @SafeVarargs
-    public final <T> ContinuableFuture<OptionalShort> asyncQueryForShort(final String query, final Object... parameters) {
+    public final ContinuableFuture<OptionalShort> asyncQueryForShort(final String query, final Object... parameters) {
         return asyncQueryForSingleResult(Short.class, query, parameters).map(short_mapper);
     }
 
     /**
      * Async query for int.
-     *
-     * @param <T>
+     * 
      * @param query
      * @param parameters
      * @return
      */
     @SafeVarargs
-    public final <T> ContinuableFuture<OptionalInt> asyncQueryForInt(final String query, final Object... parameters) {
+    public final ContinuableFuture<OptionalInt> asyncQueryForInt(final String query, final Object... parameters) {
         return asyncQueryForSingleResult(Integer.class, query, parameters).map(int_mapper);
     }
 
     /**
      * Async query for long.
-     *
-     * @param <T>
+     * 
      * @param query
      * @param parameters
      * @return
      */
     @SafeVarargs
-    public final <T> ContinuableFuture<OptionalLong> asyncQueryForLong(final String query, final Object... parameters) {
+    public final ContinuableFuture<OptionalLong> asyncQueryForLong(final String query, final Object... parameters) {
         return asyncQueryForSingleResult(Long.class, query, parameters).map(long_mapper);
     }
 
     /**
      * Async query for float.
-     *
-     * @param <T>
+     * 
      * @param query
      * @param parameters
      * @return
      */
     @SafeVarargs
-    public final <T> ContinuableFuture<OptionalFloat> asyncQueryForFloat(final String query, final Object... parameters) {
+    public final ContinuableFuture<OptionalFloat> asyncQueryForFloat(final String query, final Object... parameters) {
         return asyncQueryForSingleResult(Float.class, query, parameters).map(float_mapper);
     }
 
     /**
      * Async query for double.
-     *
-     * @param <T>
+     * 
      * @param query
      * @param parameters
      * @return
      */
     @SafeVarargs
-    public final <T> ContinuableFuture<OptionalDouble> asyncQueryForDouble(final String query, final Object... parameters) {
+    public final ContinuableFuture<OptionalDouble> asyncQueryForDouble(final String query, final Object... parameters) {
         return asyncQueryForSingleResult(Double.class, query, parameters).map(double_mapper);
     }
 
     /**
      * Async query for string.
-     *
-     * @param <T>
+     * 
      * @param query
      * @param parameters
      * @return
      */
     @SafeVarargs
-    public final <T> ContinuableFuture<Nullable<String>> asyncQueryForString(final String query, final Object... parameters) {
+    public final ContinuableFuture<Nullable<String>> asyncQueryForString(final String query, final Object... parameters) {
         return asyncQueryForSingleResult(String.class, query, parameters);
     }
 
@@ -3474,13 +3465,13 @@ public final class CassandraExecutor implements Closeable {
     public abstract static class UDTCodec<T> extends TypeCodec<T> {
 
         /** The inner codec. */
-        private final TypeCodec<UDTValue> innerCodec;
+        private final TypeCodec<UDTValue> _innerCodec;
 
         /** The user type. */
-        private final UserType userType;
+        private final UserType _userType;
 
         /** The java type. */
-        private final Class<T> javaType;
+        private final Class<T> _javaType;
 
         /**
          * Instantiates a new UDT codec.
@@ -3490,9 +3481,9 @@ public final class CassandraExecutor implements Closeable {
          */
         public UDTCodec(TypeCodec<UDTValue> innerCodec, Class<T> javaType) {
             super(innerCodec.getCqlType(), javaType);
-            this.innerCodec = innerCodec;
-            this.userType = (UserType) innerCodec.getCqlType();
-            this.javaType = javaType;
+            this._innerCodec = innerCodec;
+            this._userType = (UserType) innerCodec.getCqlType();
+            this._javaType = javaType;
         }
 
         /**
@@ -3516,7 +3507,7 @@ public final class CassandraExecutor implements Closeable {
          */
         @Override
         public ByteBuffer serialize(T value, ProtocolVersion protocolVersion) throws InvalidTypeException {
-            return innerCodec.serialize(serialize(value), protocolVersion);
+            return _innerCodec.serialize(serialize(value), protocolVersion);
         }
 
         /**
@@ -3528,7 +3519,7 @@ public final class CassandraExecutor implements Closeable {
          */
         @Override
         public T deserialize(ByteBuffer bytes, ProtocolVersion protocolVersion) throws InvalidTypeException {
-            return deserialize(innerCodec.deserialize(bytes, protocolVersion));
+            return deserialize(_innerCodec.deserialize(bytes, protocolVersion));
         }
 
         /**
@@ -3539,7 +3530,7 @@ public final class CassandraExecutor implements Closeable {
          */
         @Override
         public T parse(String value) throws InvalidTypeException {
-            return N.isNullOrEmpty(value) ? null : N.fromJSON(javaType, value);
+            return N.isNullOrEmpty(value) ? null : N.fromJSON(_javaType, value);
         }
 
         /**
@@ -3559,7 +3550,7 @@ public final class CassandraExecutor implements Closeable {
          * @return
          */
         protected UDTValue newUDTValue() {
-            return userType.newValue();
+            return _userType.newValue();
         }
 
         /**

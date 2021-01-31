@@ -74,7 +74,7 @@ public final class AnyAppend extends AnyMutation<AnyAppend> {
     }
 
     public static AnyAppend of(byte[] rowKey, long timestamp, NavigableMap<byte[], List<Cell>> familyMap) {
-        return new AnyAppend(rowKey);
+        return new AnyAppend(rowKey, timestamp, familyMap);
     }
 
     public static AnyAppend of(final Append appendToCopy) {

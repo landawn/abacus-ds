@@ -75,7 +75,7 @@ public final class AnyIncrement extends AnyMutation<AnyIncrement> {
     }
 
     public static AnyIncrement of(byte[] rowKey, long timestamp, NavigableMap<byte[], List<Cell>> familyMap) {
-        return new AnyIncrement(rowKey);
+        return new AnyIncrement(rowKey, timestamp, familyMap);
     }
 
     public static AnyIncrement of(Increment incrementToCopy) {
