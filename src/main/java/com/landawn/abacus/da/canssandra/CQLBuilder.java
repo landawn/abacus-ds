@@ -1478,29 +1478,29 @@ public abstract class CQLBuilder {
      * @return
      */
     public CP pair() {
-        return new CP(cql(), _parameters);
+        final String cql = cql();
+
+        return new CP(cql, _parameters);
     }
 
-    /**
-     *
-     * @param <T>
-     * @param <EX>
-     * @param func
-     * @return
-     * @throws EX the ex
-     */
-    public <T, EX extends Exception> T apply(final Throwables.Function<? super CP, T, EX> func) throws EX {
+    public <T, E extends Exception> T apply(final Throwables.Function<? super CP, T, E> func) throws E {
         return func.apply(this.pair());
     }
 
-    /**
-     *
-     * @param <EX>
-     * @param consumer
-     * @throws EX the ex
-     */
-    public <EX extends Exception> void accept(final Throwables.Consumer<? super CP, EX> consumer) throws EX {
+    public <T, E extends Exception> T apply(final Throwables.BiFunction<? super String, ? super List<Object>, T, E> func) throws E {
+        final CP cp = this.pair();
+
+        return func.apply(cp.cql, cp.parameters);
+    }
+
+    public <E extends Exception> void accept(final Throwables.Consumer<? super CP, E> consumer) throws E {
         consumer.accept(this.pair());
+    }
+
+    public <E extends Exception> void accept(final Throwables.BiConsumer<? super String, ? super List<Object>, E> consumer) throws E {
+        final CP cp = this.pair();
+
+        consumer.accept(cp.cql, cp.parameters);
     }
 
     /**
