@@ -1,3 +1,8 @@
+### 1.9.27
+
+* Improvements and bug fix.
+
+
 ### 1.9.26
 
 * Improvements and bug fix.

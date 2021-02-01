@@ -21,7 +21,7 @@ Abacus Data Access&Analysis
 * Gradle:
 ```gradle
 // JDK 1.8 or above:
-compile 'com.landawn:abacus-da:1.9.26'
+compile 'com.landawn:abacus-da:1.9.27'
 ```
 
 
