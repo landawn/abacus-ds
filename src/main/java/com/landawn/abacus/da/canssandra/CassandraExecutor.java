@@ -79,6 +79,7 @@ import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.Clazz;
 import com.landawn.abacus.util.ContinuableFuture;
+import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.ImmutableList;
 import com.landawn.abacus.util.ImmutableSet;
 import com.landawn.abacus.util.MutableInt;
@@ -126,6 +127,9 @@ import com.landawn.abacus.util.stream.Stream;
  * @since 0.8
  */
 public final class CassandraExecutor implements Closeable {
+
+    static final AsyncExecutor DEFAULT_ASYNC_EXECUTOR = new AsyncExecutor(Math.min(Math.max(64, IOUtil.CPU_CORES * 8), (IOUtil.MAX_MEMORY_IN_MB / 1024) * 32),
+            Math.max(256, (IOUtil.MAX_MEMORY_IN_MB / 1024) * 64), 180L, TimeUnit.SECONDS);
 
     static final ImmutableList<String> EXISTS_SELECT_PROP_NAMES = ImmutableList.of("1");
 
@@ -250,7 +254,7 @@ public final class CassandraExecutor implements Closeable {
 
         this.cqlMapper = cqlMapper;
         this.namingPolicy = namingPolicy == null ? NamingPolicy.LOWER_CASE_WITH_UNDERSCORE : namingPolicy;
-        this.asyncExecutor = asyncExecutor == null ? new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS) : asyncExecutor;
+        this.asyncExecutor = asyncExecutor == null ? DEFAULT_ASYNC_EXECUTOR : asyncExecutor;
     }
 
     AsyncExecutor asyncExecutor() {

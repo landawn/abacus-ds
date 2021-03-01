@@ -128,6 +128,9 @@ public final class HBaseExecutor implements Closeable {
 
     static final String EMPTY_QULIFIER = N.EMPTY_STRING;
 
+    static final AsyncExecutor DEFAULT_ASYNC_EXECUTOR = new AsyncExecutor(Math.min(Math.max(64, IOUtil.CPU_CORES * 8), (IOUtil.MAX_MEMORY_IN_MB / 1024) * 32),
+            Math.max(256, (IOUtil.MAX_MEMORY_IN_MB / 1024) * 64), 180L, TimeUnit.SECONDS);
+
     private static final Map<String, byte[]> familyQualifierBytesPool = new ConcurrentHashMap<>();
 
     private static final Map<Class<?>, Method> classRowkeySetMethodPool = new ConcurrentHashMap<>();
@@ -142,7 +145,7 @@ public final class HBaseExecutor implements Closeable {
     private final AsyncHBaseExecutor asyncHBaseExecutor;
 
     public HBaseExecutor(final Connection conn) {
-        this(conn, new AsyncExecutor(Math.max(IOUtil.CPU_CORES, 8), Math.max(IOUtil.CPU_CORES, 64), 180L, TimeUnit.SECONDS));
+        this(conn, DEFAULT_ASYNC_EXECUTOR);
     }
 
     public HBaseExecutor(final Connection conn, final AsyncExecutor asyncExecutor) {

@@ -53,6 +53,7 @@ import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.ContinuableFuture;
 import com.landawn.abacus.util.Fn;
+import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.Maps;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.ParsedSql;
@@ -103,6 +104,9 @@ public final class CouchbaseExecutor implements Closeable {
      */
     public static final String ID = "id";
 
+    static final AsyncExecutor DEFAULT_ASYNC_EXECUTOR = new AsyncExecutor(Math.min(Math.max(64, IOUtil.CPU_CORES * 8), (IOUtil.MAX_MEMORY_IN_MB / 1024) * 32),
+            Math.max(256, (IOUtil.MAX_MEMORY_IN_MB / 1024) * 64), 180L, TimeUnit.SECONDS);
+
     static final int POOLABLE_LENGTH = 1024;
 
     static final Set<Class<?>> supportedTypes = N.newHashSet();
@@ -141,7 +145,7 @@ public final class CouchbaseExecutor implements Closeable {
     }
 
     public CouchbaseExecutor(Cluster cluster, Bucket bucket, final SQLMapper sqlMapper) {
-        this(cluster, bucket, sqlMapper, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
+        this(cluster, bucket, sqlMapper, DEFAULT_ASYNC_EXECUTOR);
     }
 
     public CouchbaseExecutor(Cluster cluster, Bucket bucket, final SQLMapper sqlMapper, final AsyncExecutor asyncExecutor) {

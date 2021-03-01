@@ -65,6 +65,7 @@ import com.landawn.abacus.parser.ParserUtil.PropInfo;
 import com.landawn.abacus.type.Type;
 import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
+import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
 import com.landawn.abacus.util.ObjIterator;
@@ -80,6 +81,9 @@ import com.landawn.abacus.util.stream.Stream;
  */
 public final class DynamoDBExecutor implements Closeable {
 
+    static final AsyncExecutor DEFAULT_ASYNC_EXECUTOR = new AsyncExecutor(Math.min(Math.max(64, IOUtil.CPU_CORES * 8), (IOUtil.MAX_MEMORY_IN_MB / 1024) * 32),
+            Math.max(256, (IOUtil.MAX_MEMORY_IN_MB / 1024) * 64), 180L, TimeUnit.SECONDS);
+
     private static final Type<AttributeValue> attrValueType = N.typeOf(AttributeValue.class);
 
     private final AmazonDynamoDBClient dynamoDB;
@@ -93,7 +97,7 @@ public final class DynamoDBExecutor implements Closeable {
     }
 
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB, final DynamoDBMapperConfig config) {
-        this(dynamoDB, config, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
+        this(dynamoDB, config, DEFAULT_ASYNC_EXECUTOR);
     }
 
     public DynamoDBExecutor(final AmazonDynamoDBClient dynamoDB, final DynamoDBMapperConfig config, final AsyncExecutor asyncExecutor) {

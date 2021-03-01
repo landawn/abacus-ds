@@ -51,6 +51,7 @@ import com.landawn.abacus.type.Type;
 import com.landawn.abacus.util.AsyncExecutor;
 import com.landawn.abacus.util.ClassUtil;
 import com.landawn.abacus.util.Fn;
+import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.Maps;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.ObjectPool;
@@ -86,6 +87,9 @@ public final class MongoDB {
      */
     public static final String ID = "id";
 
+    static final AsyncExecutor DEFAULT_ASYNC_EXECUTOR = new AsyncExecutor(Math.min(Math.max(64, IOUtil.CPU_CORES * 8), (IOUtil.MAX_MEMORY_IN_MB / 1024) * 32),
+            Math.max(256, (IOUtil.MAX_MEMORY_IN_MB / 1024) * 64), 180L, TimeUnit.SECONDS);
+
     private static final JSONParser jsonParser = ParserFactory.createJSONParser();
 
     // private static CodecRegistry codecRegistry = CodecRegistries.fromCodecs(new CalendarCodec(), new TimeCodec(), new TimestampCodec());
@@ -102,7 +106,7 @@ public final class MongoDB {
     private final AsyncExecutor asyncExecutor;
 
     public MongoDB(final MongoDatabase mongoDB) {
-        this(mongoDB, new AsyncExecutor(8, 64, 180L, TimeUnit.SECONDS));
+        this(mongoDB, DEFAULT_ASYNC_EXECUTOR);
     }
 
     public MongoDB(final MongoDatabase mongoDB, final AsyncExecutor asyncExecutor) {
