@@ -309,11 +309,11 @@ public abstract class CQLBuilder {
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(entityClass);
 
             if (entityInfo.tableName.isPresent()) {
-                entityTableNames = Array.repeat(entityInfo.tableName.get(), 3);
+                entityTableNames = Array.repeat(entityInfo.tableName.get(), 4);
             } else {
                 final String simpleClassName = ClassUtil.getSimpleClassName(entityClass);
                 entityTableNames = new String[] { ClassUtil.toLowerCaseWithUnderscore(simpleClassName), ClassUtil.toUpperCaseWithUnderscore(simpleClassName),
-                        ClassUtil.toCamelCase(simpleClassName) };
+                        ClassUtil.toCamelCase(simpleClassName), simpleClassName };
             }
 
             classTableNameMap.put(entityClass, entityTableNames);
@@ -326,8 +326,11 @@ public abstract class CQLBuilder {
             case UPPER_CASE_WITH_UNDERSCORE:
                 return entityTableNames[1];
 
-            default:
+            case LOWER_CAMEL_CASE:
                 return entityTableNames[2];
+
+            default:
+                return entityTableNames[3];
         }
     }
 
@@ -833,7 +836,7 @@ public abstract class CQLBuilder {
 
                         fullSelectParts += formalizeColumnName(propColumnNameMap, columnName);
 
-                        if (namingPolicy != NamingPolicy.LOWER_CAMEL_CASE && !WD.ASTERISK.equals(columnName)) {
+                        if ((namingPolicy != NamingPolicy.LOWER_CAMEL_CASE && namingPolicy != NamingPolicy.NO_CHANGE) && !WD.ASTERISK.equals(columnName)) {
                             fullSelectParts += " AS ";
 
                             fullSelectParts += WD.QUOTATION_D;
@@ -2062,7 +2065,7 @@ public abstract class CQLBuilder {
     }
 
     static String formalizeColumnName(final String word, final NamingPolicy namingPolicy) {
-        if (sqlKeyWords.contains(word)) {
+        if (sqlKeyWords.contains(word) || namingPolicy == NamingPolicy.NO_CHANGE) {
             return word;
         } else if (namingPolicy == NamingPolicy.LOWER_CAMEL_CASE) {
             return ClassUtil.formalizePropName(word);
