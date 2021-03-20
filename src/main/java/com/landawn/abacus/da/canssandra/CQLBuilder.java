@@ -1858,6 +1858,10 @@ public abstract class CQLBuilder {
                         sb.append(PLC.select(subQuery.getSelectPropNames()).from(subQuery.getEntityClass()).append(subCond).cql());
                     } else if (this instanceof NLC) {
                         sb.append(NLC.select(subQuery.getSelectPropNames()).from(subQuery.getEntityClass()).append(subCond).cql());
+                    } else if (this instanceof NSB) {
+                        sb.append(NSB.select(subQuery.getSelectPropNames()).from(subQuery.getEntityClass()).append(subCond).cql());
+                    } else if (this instanceof PSB) {
+                        sb.append(PSB.select(subQuery.getSelectPropNames()).from(subQuery.getEntityClass()).append(subCond).cql());
                     } else {
                         throw new RuntimeException("Unsupproted subQuery condition: " + cond);
                     }
@@ -1874,6 +1878,10 @@ public abstract class CQLBuilder {
                         sb.append(PLC.select(subQuery.getSelectPropNames()).from(subQuery.getEntityName()).append(subCond).cql());
                     } else if (this instanceof NLC) {
                         sb.append(NLC.select(subQuery.getSelectPropNames()).from(subQuery.getEntityName()).append(subCond).cql());
+                    } else if (this instanceof NSB) {
+                        sb.append(NSB.select(subQuery.getSelectPropNames()).from(subQuery.getEntityName()).append(subCond).cql());
+                    } else if (this instanceof PSB) {
+                        sb.append(PSB.select(subQuery.getSelectPropNames()).from(subQuery.getEntityName()).append(subCond).cql());
                     } else {
                         throw new RuntimeException("Unsupproted subQuery condition: " + cond);
                     }
