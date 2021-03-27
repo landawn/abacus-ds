@@ -891,18 +891,12 @@ public final class HBaseExecutor implements Closeable {
     /**
      *
      * @param entities <code>AnyPut</code> or entity with getter/setter methods
-     * @return
-     * @deprecated replaced by {@code AnyPut.from(Collection)}
+     * @return 
+     * @deprecated Use {@link AnyPut#toPut(Collection<?>)} instead
      */
     @Deprecated
     public static List<Put> toPut(final Collection<?> entities) {
-        final List<Put> puts = new ArrayList<>(entities.size());
-
-        for (Object entity : entities) {
-            puts.add(entity instanceof AnyPut ? ((AnyPut) entity).val() : toAnyPut(entity).val());
-        }
-
-        return puts;
+        return AnyPut.toPut(entities);
     }
 
     /**
@@ -910,47 +904,33 @@ public final class HBaseExecutor implements Closeable {
      * @param entities <code>AnyPut</code> or entity with getter/setter methods
      * @param namingPolicy
      * @return
-     * @deprecated replaced by {@code AnyPut.from(Collection, NamingPolicy)}
+     * @deprecated Use {@link AnyPut#toPut(Collection<?>,NamingPolicy)} instead
      */
     @Deprecated
     public static List<Put> toPut(final Collection<?> entities, final NamingPolicy namingPolicy) {
-        final List<Put> puts = new ArrayList<>(entities.size());
-
-        for (Object entity : entities) {
-            puts.add(entity instanceof AnyPut ? ((AnyPut) entity).val() : toAnyPut(entity, namingPolicy).val());
-        }
-
-        return puts;
+        return AnyPut.toPut(entities, namingPolicy);
     }
 
     /**
      *
      * @param anyGets
      * @return
+     * @deprecated Use {@link AnyGet#toGet(Collection<AnyGet>)} instead
      */
+    @Deprecated
     public static List<Get> toGet(final Collection<AnyGet> anyGets) {
-        final List<Get> gets = new ArrayList<>(anyGets.size());
-
-        for (AnyGet anyGet : anyGets) {
-            gets.add(anyGet.val());
-        }
-
-        return gets;
+        return AnyGet.toGet(anyGets);
     }
 
     /**
      *
      * @param anyDeletes
      * @return
+     * @deprecated Use {@link AnyDelete#toDelete(Collection<AnyDelete>)} instead
      */
+    @Deprecated
     public static List<Delete> toDelete(final Collection<AnyDelete> anyDeletes) {
-        final List<Delete> deletes = new ArrayList<>(anyDeletes.size());
-
-        for (AnyDelete anyDelete : anyDeletes) {
-            deletes.add(anyDelete.val());
-        }
-
-        return deletes;
+        return AnyDelete.toDelete(anyDeletes);
     }
 
     /**
@@ -1116,7 +1096,7 @@ public final class HBaseExecutor implements Closeable {
      * @throws UncheckedIOException the unchecked IO exception
      */
     public List<Boolean> exists(final String tableName, final Collection<AnyGet> anyGets) throws UncheckedIOException {
-        return existsAll(tableName, toGet(anyGets));
+        return existsAll(tableName, AnyGet.toGet(anyGets));
     }
 
     /**
@@ -1129,7 +1109,7 @@ public final class HBaseExecutor implements Closeable {
      */
     @Deprecated
     public List<Boolean> existsAll(final String tableName, final Collection<AnyGet> anyGets) throws UncheckedIOException {
-        return existsAll(tableName, toGet(anyGets));
+        return existsAll(tableName, AnyGet.toGet(anyGets));
     }
 
     // There is no too much benefit to add method for "Object rowKey"
@@ -1202,7 +1182,7 @@ public final class HBaseExecutor implements Closeable {
      * @throws UncheckedIOException the unchecked IO exception
      */
     public List<Result> get(final String tableName, final Collection<AnyGet> anyGets) throws UncheckedIOException {
-        return get(tableName, toGet(anyGets));
+        return get(tableName, AnyGet.toGet(anyGets));
     }
 
     // There is no too much benefit to add method for "Object rowKey"
@@ -1529,7 +1509,7 @@ public final class HBaseExecutor implements Closeable {
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void put(final String tableName, final Collection<AnyPut> anyPuts) throws UncheckedIOException {
-        put(tableName, toPut(anyPuts));
+        put(tableName, AnyPut.toPut(anyPuts));
     }
 
     // There is no too much benefit to add method for "Object rowKey"
@@ -1597,7 +1577,7 @@ public final class HBaseExecutor implements Closeable {
      * @throws UncheckedIOException the unchecked IO exception
      */
     public void delete(final String tableName, final Collection<AnyDelete> anyDeletes) throws UncheckedIOException {
-        delete(tableName, toDelete(anyDeletes));
+        delete(tableName, AnyDelete.toDelete(anyDeletes));
     }
 
     /**
@@ -2199,7 +2179,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         public List<Boolean> exists(final List<AnyGet> anyGets) throws UncheckedIOException {
-            return hbaseExecutor.exists(tableName, toGet(anyGets));
+            return hbaseExecutor.exists(tableName, AnyGet.toGet(anyGets));
         }
 
         public T get(final AnyGet anyGet) throws UncheckedIOException {

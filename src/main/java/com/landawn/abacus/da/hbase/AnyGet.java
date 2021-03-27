@@ -19,6 +19,9 @@ import static com.landawn.abacus.da.hbase.HBaseExecutor.toRowKeyBytes;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.NavigableSet;
 import java.util.Set;
@@ -459,5 +462,20 @@ public final class AnyGet extends AnyQuery<AnyGet> implements Row {
     @Override
     public String toString() {
         return get.toString();
+    }
+
+    /**
+     *
+     * @param anyGets
+     * @return
+     */
+    public static List<Get> toGet(final Collection<AnyGet> anyGets) {
+        final List<Get> gets = new ArrayList<>(anyGets.size());
+
+        for (AnyGet anyGet : anyGets) {
+            gets.add(anyGet.val());
+        }
+
+        return gets;
     }
 }

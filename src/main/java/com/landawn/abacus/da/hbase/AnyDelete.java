@@ -19,6 +19,8 @@ import static com.landawn.abacus.da.hbase.HBaseExecutor.toRowBytes;
 import static com.landawn.abacus.da.hbase.HBaseExecutor.toRowKeyBytes;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.NavigableMap;
 
@@ -393,5 +395,20 @@ public final class AnyDelete extends AnyMutation<AnyDelete> {
     @Override
     public String toString() {
         return delete.toString();
+    }
+
+    /**
+     *
+     * @param anyDeletes
+     * @return
+     */
+    public static List<Delete> toDelete(final Collection<AnyDelete> anyDeletes) {
+        final List<Delete> deletes = new ArrayList<>(anyDeletes.size());
+
+        for (AnyDelete anyDelete : anyDeletes) {
+            deletes.add(anyDelete.val());
+        }
+
+        return deletes;
     }
 }

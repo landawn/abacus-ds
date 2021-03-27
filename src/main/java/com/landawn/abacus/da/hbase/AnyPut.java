@@ -625,4 +625,35 @@ public final class AnyPut extends AnyMutation<AnyPut> {
     public String toString() {
         return put.toString();
     }
+
+    /**
+     *
+     * @param entities <code>AnyPut</code> or entity with getter/setter methods
+     * @return 
+     */
+    public static List<Put> toPut(final Collection<?> entities) {
+        final List<Put> puts = new ArrayList<>(entities.size());
+
+        for (Object entity : entities) {
+            puts.add(entity instanceof AnyPut ? ((AnyPut) entity).val() : AnyPut.from(entity).val());
+        }
+
+        return puts;
+    }
+
+    /**
+     *
+     * @param entities <code>AnyPut</code> or entity with getter/setter methods
+     * @param namingPolicy
+     * @return 
+     */
+    public static List<Put> toPut(final Collection<?> entities, final NamingPolicy namingPolicy) {
+        final List<Put> puts = new ArrayList<>(entities.size());
+
+        for (Object entity : entities) {
+            puts.add(entity instanceof AnyPut ? ((AnyPut) entity).val() : AnyPut.from(entity, namingPolicy).val());
+        }
+
+        return puts;
+    }
 }
