@@ -43,7 +43,6 @@ import com.datastax.driver.core.ConsistencyLevel;
 import com.datastax.driver.core.DataType;
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ProtocolVersion;
-import com.datastax.driver.core.ResultSet;
 import com.datastax.driver.core.Row;
 import com.datastax.driver.core.Session;
 import com.datastax.driver.core.Statement;
@@ -347,7 +346,7 @@ public final class CassandraExecutor implements Closeable {
      * @param resultSet
      * @return
      */
-    public static DataSet extractData(final ResultSet resultSet) {
+    public static DataSet extractData(final com.datastax.driver.core.ResultSet resultSet) {
         return extractData(null, resultSet);
     }
 
@@ -357,7 +356,7 @@ public final class CassandraExecutor implements Closeable {
      * @param resultSet
      * @return
      */
-    public static DataSet extractData(final Class<?> targetClass, final ResultSet resultSet) {
+    public static DataSet extractData(final Class<?> targetClass, final com.datastax.driver.core.ResultSet resultSet) {
         final boolean isEntity = targetClass != null && ClassUtil.isEntity(targetClass);
         final boolean isMap = targetClass != null && Map.class.isAssignableFrom(targetClass);
         final ColumnDefinitions columnDefinitions = resultSet.getColumnDefinitions();
@@ -466,7 +465,7 @@ public final class CassandraExecutor implements Closeable {
      * @param resultSet
      * @return
      */
-    public static <T> List<T> toList(final Class<T> targetClass, final ResultSet resultSet) {
+    public static <T> List<T> toList(final Class<T> targetClass, final com.datastax.driver.core.ResultSet resultSet) {
         if (targetClass.isAssignableFrom(Row.class)) {
             return (List<T>) resultSet.all();
         }
@@ -2017,7 +2016,7 @@ public final class CassandraExecutor implements Closeable {
      * @return
      */
     public ResultSet execute(final String query) {
-        return session.execute(prepareStatement(query));
+        return ResultSetImpl.wrap(session.execute(prepareStatement(query)));
     }
 
     /**
@@ -2028,7 +2027,7 @@ public final class CassandraExecutor implements Closeable {
      */
     @SafeVarargs
     public final ResultSet execute(final String query, final Object... parameters) {
-        return session.execute(prepareStatement(query, parameters));
+        return ResultSetImpl.wrap(session.execute(prepareStatement(query, parameters)));
     }
 
     /**
@@ -2037,7 +2036,7 @@ public final class CassandraExecutor implements Closeable {
      * @return
      */
     public ResultSet execute(final Statement statement) {
-        return session.execute(statement);
+        return ResultSetImpl.wrap(session.execute(statement));
     }
 
     /**
@@ -3144,7 +3143,7 @@ public final class CassandraExecutor implements Closeable {
      * @return
      */
     public ContinuableFuture<ResultSet> asyncExecute(final String query) {
-        return ContinuableFuture.wrap(session.executeAsync(query));
+        return ContinuableFuture.wrap(session.executeAsync(query)).map(ResultSetImpl::wrap);
     }
 
     /**
@@ -3155,7 +3154,7 @@ public final class CassandraExecutor implements Closeable {
      */
     @SafeVarargs
     public final ContinuableFuture<ResultSet> asyncExecute(final String query, final Object... parameters) {
-        return ContinuableFuture.wrap(session.executeAsync(query, parameters));
+        return ContinuableFuture.wrap(session.executeAsync(query, parameters)).map(ResultSetImpl::wrap);
     }
 
     /**
@@ -3164,7 +3163,7 @@ public final class CassandraExecutor implements Closeable {
      * @return
      */
     public final ContinuableFuture<ResultSet> asyncExecute(final Statement statement) {
-        return ContinuableFuture.wrap(session.executeAsync(statement));
+        return ContinuableFuture.wrap(session.executeAsync(statement)).map(ResultSetImpl::wrap);
     }
 
     /**
