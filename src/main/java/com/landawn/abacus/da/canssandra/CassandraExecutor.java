@@ -123,6 +123,8 @@ import com.landawn.abacus.util.stream.Stream;
  * @see CQLBuilder
  * @see {@link com.datastax.driver.core.Cluster}
  * @see {@link com.datastax.driver.core.Session}
+ * @see com.landawn.abacus.condition.ConditionFactory
+ * @see com.landawn.abacus.condition.ConditionFactory.CF
  * @since 0.8
  */
 public final class CassandraExecutor implements Closeable {
@@ -704,6 +706,8 @@ public final class CassandraExecutor implements Closeable {
      * @param whereCause
      * @return
      * @throws DuplicatedResultException the duplicated result exception
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> Optional<T> get(final Class<T> targetClass, final Condition whereCause) throws DuplicatedResultException {
         return get(targetClass, null, whereCause);
@@ -717,6 +721,8 @@ public final class CassandraExecutor implements Closeable {
      * @param whereCause
      * @return
      * @throws DuplicatedResultException if more than one record found.
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> Optional<T> get(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause)
             throws DuplicatedResultException {
@@ -760,6 +766,8 @@ public final class CassandraExecutor implements Closeable {
      * @param whereCause
      * @return
      * @throws DuplicatedResultException the duplicated result exception
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> T gett(final Class<T> targetClass, final Condition whereCause) throws DuplicatedResultException {
         return gett(targetClass, null, whereCause);
@@ -774,6 +782,8 @@ public final class CassandraExecutor implements Closeable {
      * @param whereCause
      * @return
      * @throws DuplicatedResultException if more than one record found.
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> T gett(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) throws DuplicatedResultException {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 2);
@@ -1184,6 +1194,8 @@ public final class CassandraExecutor implements Closeable {
      * @param targetClass
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public ResultSet delete(final Class<?> targetClass, final Condition whereCause) {
         return delete(targetClass, null, whereCause);
@@ -1254,6 +1266,8 @@ public final class CassandraExecutor implements Closeable {
      * @param targetClass
      * @param whereCause
      * @return true, if successful
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public boolean exists(final Class<?> targetClass, final Condition whereCause) {
         final ImmutableList<String> keyNames = getKeyNames(targetClass);
@@ -1268,6 +1282,8 @@ public final class CassandraExecutor implements Closeable {
      * @param targetClass
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public long count(final Class<?> targetClass, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, N.asList(CQLBuilder.COUNT_ALL), whereCause, 1);
@@ -1281,6 +1297,8 @@ public final class CassandraExecutor implements Closeable {
      * @param targetClass
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> Optional<T> findFirst(final Class<T> targetClass, final Condition whereCause) {
         return findFirst(targetClass, null, whereCause);
@@ -1293,6 +1311,8 @@ public final class CassandraExecutor implements Closeable {
      * @param selectPropNames
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> Optional<T> findFirst(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause, 1);
@@ -1306,6 +1326,8 @@ public final class CassandraExecutor implements Closeable {
      * @param targetClass
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> List<T> list(final Class<T> targetClass, final Condition whereCause) {
         return list(targetClass, null, whereCause);
@@ -1318,6 +1340,8 @@ public final class CassandraExecutor implements Closeable {
      * @param selectPropNames
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> List<T> list(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
@@ -1331,6 +1355,8 @@ public final class CassandraExecutor implements Closeable {
      * @param targetClass
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> DataSet query(final Class<T> targetClass, final Condition whereCause) {
         return query(targetClass, null, whereCause);
@@ -1343,6 +1369,8 @@ public final class CassandraExecutor implements Closeable {
      * @param selectPropNames
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> DataSet query(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);
@@ -1358,6 +1386,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     @Beta
     public <T> OptionalBoolean queryForBoolean(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1372,6 +1402,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     @Beta
     public <T> OptionalChar queryForChar(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1386,6 +1418,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     @Beta
     public <T> OptionalByte queryForByte(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1400,6 +1434,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     @Beta
     public <T> OptionalShort queryForShort(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1414,6 +1450,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     @Beta
     public <T> OptionalInt queryForInt(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1428,6 +1466,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     @Beta
     public <T> OptionalLong queryForLong(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1442,6 +1482,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     @Beta
     public <T> OptionalFloat queryForFloat(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1456,6 +1498,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     @Beta
     public <T> OptionalDouble queryForDouble(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1470,6 +1514,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     @Beta
     public <T> Nullable<String> queryForString(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1484,6 +1530,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     @Beta
     public <T> Nullable<Date> queryForDate(final Class<T> targetClass, final String propName, final Condition whereCause) {
@@ -1500,6 +1548,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     @Beta
     public <T, E extends Date> Nullable<E> queryForDate(final Class<T> targetClass, final Class<E> valueClass, final String propName,
@@ -1517,6 +1567,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T, V> Nullable<V> queryForSingleResult(final Class<T> targetClass, final Class<V> valueClass, final String propName, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, Arrays.asList(propName), whereCause, 1);
@@ -1533,6 +1585,8 @@ public final class CassandraExecutor implements Closeable {
      * @param propName
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T, V> Optional<V> queryForSingleNonNull(final Class<T> targetClass, final Class<V> valueClass, final String propName, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, Arrays.asList(propName), whereCause, 1);
@@ -1546,6 +1600,8 @@ public final class CassandraExecutor implements Closeable {
      * @param targetClass
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final Condition whereCause) {
         return stream(targetClass, null, whereCause);
@@ -1558,6 +1614,8 @@ public final class CassandraExecutor implements Closeable {
      * @param selectPropNames
      * @param whereCause
      * @return
+     * @see com.landawn.abacus.condition.ConditionFactory
+     * @see com.landawn.abacus.condition.ConditionFactory.CF
      */
     public <T> Stream<T> stream(final Class<T> targetClass, final Collection<String> selectPropNames, final Condition whereCause) {
         final CP cp = prepareQuery(targetClass, selectPropNames, whereCause);

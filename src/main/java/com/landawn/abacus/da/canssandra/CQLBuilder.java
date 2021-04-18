@@ -100,6 +100,8 @@ import com.landawn.abacus.util.WD;
  *
  * @author Haiyang Li
  * @since 0.8
+ * @see com.landawn.abacus.condition.ConditionFactory
+ * @see com.landawn.abacus.condition.ConditionFactory.CF
  */
 public abstract class CQLBuilder {
 
