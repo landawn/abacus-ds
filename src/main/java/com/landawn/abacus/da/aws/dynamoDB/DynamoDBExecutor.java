@@ -2070,7 +2070,7 @@ public final class DynamoDBExecutor implements Closeable {
         /**
          * 
          * @return
-         * @deprecated replaced with {@link Filters#builder()}
+         * @deprecated replaced by {@link Filters#builder()}
          */
         @Deprecated
         public static ConditionBuilder create() {
