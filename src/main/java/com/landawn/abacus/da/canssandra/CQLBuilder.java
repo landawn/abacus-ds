@@ -1481,9 +1481,9 @@ public abstract class CQLBuilder {
             activeStringBuilderCounter.decrementAndGet();
         }
 
-        if (logger.isDebugEnabled()) {
-            logger.debug(cql);
-        }
+        //    if (logger.isDebugEnabled()) {
+        //        logger.debug(cql);
+        //    }
 
         return cql;
     }
