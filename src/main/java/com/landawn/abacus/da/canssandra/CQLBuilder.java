@@ -73,7 +73,7 @@ import com.landawn.abacus.util.NamingPolicy;
 import com.landawn.abacus.util.ObjectPool;
 import com.landawn.abacus.util.Objectory;
 import com.landawn.abacus.util.OperationType;
-import com.landawn.abacus.util.SQLBuilder;
+import com.landawn.abacus.util.QueryUtil;
 import com.landawn.abacus.util.SQLParser;
 import com.landawn.abacus.util.SortDirection;
 import com.landawn.abacus.util.StringUtil;
@@ -666,14 +666,14 @@ public abstract class CQLBuilder {
     public CQLBuilder into(final Class<?> entityClass) {
         if (this.entityClass == null) {
             this.entityClass = entityClass;
-            this.propColumnNameMap = getProp2ColumnNameMap(this.entityClass, this.namingPolicy);
+            this.propColumnNameMap = prop2ColumnNameMap(this.entityClass, this.namingPolicy);
         }
 
         return into(getTableName(entityClass, namingPolicy));
     }
 
     /**
-     * 
+     *
      * @return
      */
     public CQLBuilder distinct() {
@@ -681,7 +681,7 @@ public abstract class CQLBuilder {
     }
 
     /**
-     * 
+     *
      * @param preselect <code>ALL | DISTINCT | DISTINCTROW...</code>
      * @return
      */
@@ -757,7 +757,7 @@ public abstract class CQLBuilder {
     public CQLBuilder from(final Class<?> entityClass) {
         if (this.entityClass == null) {
             this.entityClass = entityClass;
-            this.propColumnNameMap = getProp2ColumnNameMap(this.entityClass, this.namingPolicy);
+            this.propColumnNameMap = prop2ColumnNameMap(this.entityClass, this.namingPolicy);
         }
 
         return from(getTableName(entityClass, namingPolicy));
@@ -773,7 +773,7 @@ public abstract class CQLBuilder {
     public CQLBuilder from(final Class<?> entityClass, final String alias) {
         if (this.entityClass == null) {
             this.entityClass = entityClass;
-            this.propColumnNameMap = getProp2ColumnNameMap(this.entityClass, this.namingPolicy);
+            this.propColumnNameMap = prop2ColumnNameMap(this.entityClass, this.namingPolicy);
         }
 
         if (N.isNullOrEmpty(alias)) {
@@ -1302,7 +1302,7 @@ public abstract class CQLBuilder {
         } else {
             final Class<?> entityClass = entity.getClass();
             this.entityClass = entityClass;
-            this.propColumnNameMap = getProp2ColumnNameMap(this.entityClass, this.namingPolicy);
+            this.propColumnNameMap = prop2ColumnNameMap(this.entityClass, this.namingPolicy);
             final Collection<String> propNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
             final Set<String> dirtyPropNames = DirtyMarkerUtil.isDirtyMarker(entityClass) ? DirtyMarkerUtil.dirtyPropNames((DirtyMarker) entity) : null;
             final boolean isEmptyDirtyPropNames = N.isNullOrEmpty(dirtyPropNames);
@@ -1326,7 +1326,7 @@ public abstract class CQLBuilder {
      */
     public CQLBuilder set(Class<?> entityClass) {
         this.entityClass = entityClass;
-        this.propColumnNameMap = getProp2ColumnNameMap(this.entityClass, this.namingPolicy);
+        this.propColumnNameMap = prop2ColumnNameMap(this.entityClass, this.namingPolicy);
 
         return set(entityClass, null);
     }
@@ -1339,7 +1339,7 @@ public abstract class CQLBuilder {
      */
     public CQLBuilder set(Class<?> entityClass, final Set<String> excludedPropNames) {
         this.entityClass = entityClass;
-        this.propColumnNameMap = getProp2ColumnNameMap(this.entityClass, this.namingPolicy);
+        this.propColumnNameMap = prop2ColumnNameMap(this.entityClass, this.namingPolicy);
 
         return set(getUpdatePropNamesByClass(entityClass, excludedPropNames));
     }
@@ -2124,8 +2124,8 @@ public abstract class CQLBuilder {
     }
 
     @SuppressWarnings("deprecation")
-    static ImmutableMap<String, Tuple2<String, Boolean>> getProp2ColumnNameMap(final Class<?> entityClass, final NamingPolicy namingPolicy) {
-        return SQLBuilder.getProp2ColumnNameMap(entityClass, namingPolicy);
+    static ImmutableMap<String, Tuple2<String, Boolean>> prop2ColumnNameMap(final Class<?> entityClass, final NamingPolicy namingPolicy) {
+        return QueryUtil.prop2ColumnNameMap(entityClass, namingPolicy);
     }
 
     enum CQLPolicy {
@@ -2168,7 +2168,7 @@ public abstract class CQLBuilder {
             final CQLBuilder instance = createInstance();
 
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
             instance.isForConditionOnly = true;
             instance.append(cond);
@@ -2248,7 +2248,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entity.getClass();
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
 
             parseInsertEntity(instance, entity, excludedPropNames);
 
@@ -2275,7 +2275,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -2334,7 +2334,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.UPDATE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.tableName = getTableName(entityClass, NamingPolicy.LOWER_CASE_WITH_UNDERSCORE);
             instance.columnNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
 
@@ -2399,7 +2399,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.DELETE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getDeletePropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -2507,7 +2507,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.QUERY;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getSelectPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -2591,7 +2591,7 @@ public abstract class CQLBuilder {
             final CQLBuilder instance = createInstance();
 
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
             instance.isForConditionOnly = true;
             instance.append(cond);
@@ -2671,7 +2671,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entity.getClass();
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
 
             parseInsertEntity(instance, entity, excludedPropNames);
 
@@ -2698,7 +2698,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -2757,7 +2757,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.UPDATE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.tableName = getTableName(entityClass, NamingPolicy.UPPER_CASE_WITH_UNDERSCORE);
             instance.columnNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
 
@@ -2822,7 +2822,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.DELETE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getDeletePropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -2930,7 +2930,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.QUERY;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getSelectPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -3013,7 +3013,7 @@ public abstract class CQLBuilder {
             final CQLBuilder instance = createInstance();
 
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
             instance.isForConditionOnly = true;
             instance.append(cond);
@@ -3093,7 +3093,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entity.getClass();
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
 
             parseInsertEntity(instance, entity, excludedPropNames);
 
@@ -3120,7 +3120,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -3179,7 +3179,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.UPDATE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.tableName = getTableName(entityClass, NamingPolicy.LOWER_CAMEL_CASE);
             instance.columnNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
 
@@ -3244,7 +3244,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.DELETE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getDeletePropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -3352,7 +3352,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.QUERY;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getSelectPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -3432,7 +3432,7 @@ public abstract class CQLBuilder {
             final CQLBuilder instance = createInstance();
 
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
             instance.isForConditionOnly = true;
             instance.append(cond);
@@ -3512,7 +3512,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entity.getClass();
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
 
             parseInsertEntity(instance, entity, excludedPropNames);
 
@@ -3539,7 +3539,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -3598,7 +3598,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.UPDATE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.tableName = getTableName(entityClass, NamingPolicy.NO_CHANGE);
             instance.columnNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
 
@@ -3663,7 +3663,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.DELETE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getDeletePropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -3771,7 +3771,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.QUERY;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getSelectPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -3851,7 +3851,7 @@ public abstract class CQLBuilder {
             final CQLBuilder instance = createInstance();
 
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
             instance.isForConditionOnly = true;
             instance.append(cond);
@@ -3931,7 +3931,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entity.getClass();
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
 
             parseInsertEntity(instance, entity, excludedPropNames);
 
@@ -3958,7 +3958,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -4017,7 +4017,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.UPDATE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.tableName = getTableName(entityClass, NamingPolicy.LOWER_CASE_WITH_UNDERSCORE);
             instance.columnNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
 
@@ -4082,7 +4082,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.DELETE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getDeletePropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -4190,7 +4190,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.QUERY;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getSelectPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -4270,7 +4270,7 @@ public abstract class CQLBuilder {
             final CQLBuilder instance = createInstance();
 
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
             instance.isForConditionOnly = true;
             instance.append(cond);
@@ -4350,7 +4350,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entity.getClass();
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
 
             parseInsertEntity(instance, entity, excludedPropNames);
 
@@ -4377,7 +4377,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -4436,7 +4436,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.UPDATE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.tableName = getTableName(entityClass, NamingPolicy.UPPER_CASE_WITH_UNDERSCORE);
             instance.columnNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
 
@@ -4501,7 +4501,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.DELETE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getDeletePropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -4609,7 +4609,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.QUERY;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getSelectPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -4689,7 +4689,7 @@ public abstract class CQLBuilder {
             final CQLBuilder instance = createInstance();
 
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
             instance.isForConditionOnly = true;
             instance.append(cond);
@@ -4769,7 +4769,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entity.getClass();
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
 
             parseInsertEntity(instance, entity, excludedPropNames);
 
@@ -4796,7 +4796,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -4855,7 +4855,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.UPDATE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.tableName = getTableName(entityClass, NamingPolicy.LOWER_CAMEL_CASE);
             instance.columnNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
 
@@ -4920,7 +4920,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.DELETE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getDeletePropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -5028,7 +5028,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.QUERY;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getSelectPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -5109,7 +5109,7 @@ public abstract class CQLBuilder {
             final CQLBuilder instance = createInstance();
 
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
             instance.isForConditionOnly = true;
             instance.append(cond);
@@ -5189,7 +5189,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entity.getClass();
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
 
             parseInsertEntity(instance, entity, excludedPropNames);
 
@@ -5216,7 +5216,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -5275,7 +5275,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.UPDATE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.tableName = getTableName(entityClass, NamingPolicy.NO_CHANGE);
             instance.columnNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
 
@@ -5340,7 +5340,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.DELETE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getDeletePropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -5448,7 +5448,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.QUERY;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getSelectPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -5529,7 +5529,7 @@ public abstract class CQLBuilder {
             final CQLBuilder instance = createInstance();
 
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
             instance.isForConditionOnly = true;
             instance.append(cond);
@@ -5609,7 +5609,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entity.getClass();
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
 
             parseInsertEntity(instance, entity, excludedPropNames);
 
@@ -5636,7 +5636,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -5695,7 +5695,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.UPDATE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.tableName = getTableName(entityClass, NamingPolicy.LOWER_CASE_WITH_UNDERSCORE);
             instance.columnNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
 
@@ -5760,7 +5760,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.DELETE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getDeletePropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -5868,7 +5868,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.QUERY;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getSelectPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -5949,7 +5949,7 @@ public abstract class CQLBuilder {
             final CQLBuilder instance = createInstance();
 
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
             instance.isForConditionOnly = true;
             instance.append(cond);
@@ -6029,7 +6029,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entity.getClass();
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
 
             parseInsertEntity(instance, entity, excludedPropNames);
 
@@ -6056,7 +6056,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -6115,7 +6115,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.UPDATE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.tableName = getTableName(entityClass, NamingPolicy.UPPER_CASE_WITH_UNDERSCORE);
             instance.columnNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
 
@@ -6180,7 +6180,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.DELETE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getDeletePropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -6288,7 +6288,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.QUERY;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getSelectPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -6368,7 +6368,7 @@ public abstract class CQLBuilder {
             final CQLBuilder instance = createInstance();
 
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.op = OperationType.QUERY;
             instance.isForConditionOnly = true;
             instance.append(cond);
@@ -6448,7 +6448,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entity.getClass();
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
 
             parseInsertEntity(instance, entity, excludedPropNames);
 
@@ -6475,7 +6475,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.ADD;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getInsertPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -6534,7 +6534,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.UPDATE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.tableName = getTableName(entityClass, NamingPolicy.LOWER_CAMEL_CASE);
             instance.columnNames = getUpdatePropNamesByClass(entityClass, excludedPropNames);
 
@@ -6599,7 +6599,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.DELETE;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getDeletePropNamesByClass(entityClass, excludedPropNames);
 
             return instance;
@@ -6707,7 +6707,7 @@ public abstract class CQLBuilder {
 
             instance.op = OperationType.QUERY;
             instance.entityClass = entityClass;
-            instance.propColumnNameMap = getProp2ColumnNameMap(instance.entityClass, instance.namingPolicy);
+            instance.propColumnNameMap = prop2ColumnNameMap(instance.entityClass, instance.namingPolicy);
             instance.columnNames = getSelectPropNamesByClass(entityClass, excludedPropNames);
 
             return instance;

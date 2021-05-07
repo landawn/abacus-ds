@@ -69,6 +69,7 @@ import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
 import com.landawn.abacus.util.ObjIterator;
+import com.landawn.abacus.util.QueryUtil;
 import com.landawn.abacus.util.function.Function;
 import com.landawn.abacus.util.stream.Stream;
 
@@ -609,7 +610,7 @@ public final class DynamoDBExecutor implements Closeable {
                 return null;
             }
 
-            final Map<String, String> column2FieldNameMap = ClassUtil.getColumn2PropNameMap(targetClass);
+            final Map<String, String> column2FieldNameMap = QueryUtil.getColumn2PropNameMap(targetClass);
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
             final T entity = N.newInstance(targetClass);
             String fieldName = null;
@@ -1607,7 +1608,7 @@ public final class DynamoDBExecutor implements Closeable {
             N.checkArgument(ClassUtil.isEntity(targetEntityClass), "{} is not an entity class with getter/setter method", targetEntityClass);
 
             @SuppressWarnings("deprecation")
-            final List<String> idPropNames = ClassUtil.getIdFieldNames(targetEntityClass);
+            final List<String> idPropNames = QueryUtil.getIdFieldNames(targetEntityClass);
 
             if (idPropNames.size() != 1) {
                 throw new IllegalArgumentException(
@@ -2068,7 +2069,7 @@ public final class DynamoDBExecutor implements Closeable {
         }
 
         /**
-         * 
+         *
          * @return
          * @deprecated replaced by {@link Filters#builder()}
          */

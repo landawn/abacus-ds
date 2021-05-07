@@ -84,6 +84,7 @@ import com.landawn.abacus.util.ImmutableSet;
 import com.landawn.abacus.util.MutableInt;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
+import com.landawn.abacus.util.QueryUtil;
 import com.landawn.abacus.util.Throwables;
 import com.landawn.abacus.util.Tuple;
 import com.landawn.abacus.util.Tuple.Tuple2;
@@ -288,7 +289,7 @@ public final class CassandraExecutor implements Closeable {
      * @param keyNames
      * @see com.landawn.abacus.annotation.Id
      * @see javax.persistence.Id
-     * 
+     *
      * @deprecated please defined or annotated the key/id field by {@code @Id}
      */
     @Deprecated
@@ -316,7 +317,7 @@ public final class CassandraExecutor implements Closeable {
 
         if (tp == null) {
             @SuppressWarnings("deprecation")
-            List<String> idPropNames = ClassUtil.getIdFieldNames(entityClass);
+            List<String> idPropNames = QueryUtil.getIdFieldNames(entityClass);
             tp = Tuple.<ImmutableList<String>, ImmutableSet<String>> of(ImmutableList.copyOf(idPropNames), ImmutableSet.copyOf(idPropNames));
             entityKeyNamesMap.put(entityClass, tp);
         }
@@ -335,7 +336,7 @@ public final class CassandraExecutor implements Closeable {
 
         if (tp == null) {
             @SuppressWarnings("deprecation")
-            final List<String> idPropNames = ClassUtil.getIdFieldNames(entityClass);
+            final List<String> idPropNames = QueryUtil.getIdFieldNames(entityClass);
             tp = Tuple.<ImmutableList<String>, ImmutableSet<String>> of(ImmutableList.copyOf(idPropNames), ImmutableSet.copyOf(idPropNames));
             entityKeyNamesMap.put(entityClass, tp);
         }
@@ -550,7 +551,7 @@ public final class CassandraExecutor implements Closeable {
 
             return (T) map;
         } else if (ClassUtil.isEntity(targetClass)) {
-            final Map<String, String> column2FieldNameMap = ClassUtil.getColumn2PropNameMap(targetClass);
+            final Map<String, String> column2FieldNameMap = QueryUtil.getColumn2PropNameMap(targetClass);
             final T entity = N.newInstance(targetClass);
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
             PropInfo propInfo = null;
@@ -1577,7 +1578,7 @@ public final class CassandraExecutor implements Closeable {
     }
 
     /**
-     * 
+     *
      * @param <T>
      * @param <V>
      * @param targetClass
@@ -1962,7 +1963,7 @@ public final class CassandraExecutor implements Closeable {
      * @param statement
      * @return
      */
-    public final <T> Stream<T> stream(final Class<T> targetClass, final Statement statement) {
+    public <T> Stream<T> stream(final Class<T> targetClass, final Statement statement) {
         return Stream.of(execute(statement).iterator()).map(new Function<Row, T>() {
             @Override
             public T apply(Row row) {
@@ -1979,7 +1980,7 @@ public final class CassandraExecutor implements Closeable {
      * @param parameters
      * @return
      */
-    public final <T> Stream<T> stream(final Statement statement, final BiFunction<ColumnDefinitions, Row, T> rowMapper) {
+    public <T> Stream<T> stream(final Statement statement, final BiFunction<ColumnDefinitions, Row, T> rowMapper) {
         N.checkArgNotNull(rowMapper, "rowMapper");
 
         return Stream.of(execute(statement).iterator()).map(new Function<Row, T>() {
@@ -2829,7 +2830,7 @@ public final class CassandraExecutor implements Closeable {
 
     /**
      * Async query for boolean.
-     * 
+     *
      * @param query
      * @param parameters
      * @return
@@ -2841,7 +2842,7 @@ public final class CassandraExecutor implements Closeable {
 
     /**
      * Async query for char.
-     * 
+     *
      * @param query
      * @param parameters
      * @return
@@ -2853,7 +2854,7 @@ public final class CassandraExecutor implements Closeable {
 
     /**
      * Async query for byte.
-     * 
+     *
      * @param query
      * @param parameters
      * @return
@@ -2865,7 +2866,7 @@ public final class CassandraExecutor implements Closeable {
 
     /**
      * Async query for short.
-     * 
+     *
      * @param query
      * @param parameters
      * @return
@@ -2877,7 +2878,7 @@ public final class CassandraExecutor implements Closeable {
 
     /**
      * Async query for int.
-     * 
+     *
      * @param query
      * @param parameters
      * @return
@@ -2889,7 +2890,7 @@ public final class CassandraExecutor implements Closeable {
 
     /**
      * Async query for long.
-     * 
+     *
      * @param query
      * @param parameters
      * @return
@@ -2901,7 +2902,7 @@ public final class CassandraExecutor implements Closeable {
 
     /**
      * Async query for float.
-     * 
+     *
      * @param query
      * @param parameters
      * @return
@@ -2913,7 +2914,7 @@ public final class CassandraExecutor implements Closeable {
 
     /**
      * Async query for double.
-     * 
+     *
      * @param query
      * @param parameters
      * @return
@@ -2925,7 +2926,7 @@ public final class CassandraExecutor implements Closeable {
 
     /**
      * Async query for string.
-     * 
+     *
      * @param query
      * @param parameters
      * @return
@@ -3152,7 +3153,7 @@ public final class CassandraExecutor implements Closeable {
         });
     }
 
-    public final <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final Statement statement) {
+    public <T> ContinuableFuture<Stream<T>> asyncStream(final Class<T> targetClass, final Statement statement) {
         return asyncExecute(statement).map(new Throwables.Function<ResultSet, Stream<T>, RuntimeException>() {
             @Override
             public Stream<T> apply(final ResultSet resultSet) throws RuntimeException {
@@ -3166,7 +3167,7 @@ public final class CassandraExecutor implements Closeable {
         });
     }
 
-    public final <T> ContinuableFuture<Stream<T>> asyncStream(final Statement statement, final BiFunction<ColumnDefinitions, Row, T> rowMapper) {
+    public <T> ContinuableFuture<Stream<T>> asyncStream(final Statement statement, final BiFunction<ColumnDefinitions, Row, T> rowMapper) {
         return asyncExecute(statement).map(new Throwables.Function<ResultSet, Stream<T>, RuntimeException>() {
             @Override
             public Stream<T> apply(final ResultSet resultSet) throws RuntimeException {
@@ -3220,7 +3221,7 @@ public final class CassandraExecutor implements Closeable {
      * @param statement
      * @return
      */
-    public final ContinuableFuture<ResultSet> asyncExecute(final Statement statement) {
+    public ContinuableFuture<ResultSet> asyncExecute(final Statement statement) {
         return ContinuableFuture.wrap(session.executeAsync(statement)).map(ResultSetImpl::wrap);
     }
 
@@ -3469,7 +3470,7 @@ public final class CassandraExecutor implements Closeable {
         return stmt;
     }
 
-    /** 
+    /**
      *
      * @param cql
      * @return

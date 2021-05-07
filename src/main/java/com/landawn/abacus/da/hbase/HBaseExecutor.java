@@ -65,6 +65,7 @@ import com.landawn.abacus.util.HBaseColumn;
 import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.NamingPolicy;
+import com.landawn.abacus.util.QueryUtil;
 import com.landawn.abacus.util.Tuple;
 import com.landawn.abacus.util.Tuple.Tuple2;
 import com.landawn.abacus.util.Tuple.Tuple3;
@@ -75,43 +76,43 @@ import com.landawn.abacus.util.stream.Stream;
 
 /**
  * It's a simple wrapper of HBase Java client.
- * 
+ *
  * <br />
  * <br />
- * 
+ *
  * By default, the field name in the class is mapped to {@code Column Family} in HBase table and {@code Column} name will be empty String {@code ""} if there is no annotation {@code Column/ColumnFamily} added to the class/field and the field type is not an entity with getter/setter methods.
  * <br />
  * For example:
- * <pre> 
+ * <pre>
     public static class Account {
         {@literal @}Id
         private String id; // columnFamily/Column in HBase will be: "id:"
         private String gui; // columnFamily/Column in HBase will be: "gui:"
-        private Name name;  // columnFamily/Column in HBase will be: "name:firstName" and "name:lastName" 
+        private Name name;  // columnFamily/Column in HBase will be: "name:firstName" and "name:lastName"
         private String emailAddress; // columnFamily/Column in HBase will be: "emailAddress:"
     }
 
     public static class Name {
-        private String firstName; // columnFamily/Column in HBase will be: "name:firstName" 
-        private String lastName; // columnFamily/Column in HBase will be: "name:lastName" 
+        private String firstName; // columnFamily/Column in HBase will be: "name:firstName"
+        private String lastName; // columnFamily/Column in HBase will be: "name:lastName"
     }
  * </pre>
- * 
+ *
  * But if the class is annotated by {@literal @}ColumnFamily, the field name in the class will be mapped to {@code Column} in HBase table.
- * 
- * <pre> 
+ *
+ * <pre>
     {@literal @}ColumnFamily("columnFamily2B");
     public static class Account {
         {@literal @}Id
         private String id; // columnFamily/Column in HBase will be: "columnFamily2B:id"
-        {@literal @}Column("guid") 
+        {@literal @}Column("guid")
         private String gui; // columnFamily/Column in HBase will be: "columnFamily2B:guid"
         {@literal @}ColumnFamily("fullName")
         private Name name;  // columnFamily/Column in HBase will be: "fullName:givenName" and "fullName:lastName"
         {@literal @}ColumnFamily("email")
         private String emailAddress; // columnFamily/Column in HBase will be: "email:emailAddress"
     }
-    
+
     public static class Name {
         {@literal @}Column("givenName")
         private String firstName;
@@ -179,7 +180,7 @@ public final class HBaseExecutor implements Closeable {
      * @param rowKeyPropertyName
      * @see com.landawn.abacus.annotation.Id
      * @see javax.persistence.Id
-     * 
+     *
      * @deprecated please defined or annotated the key/id field by {@code @Id}
      */
     @Deprecated
@@ -218,7 +219,7 @@ public final class HBaseExecutor implements Closeable {
         Method rowKeySetMethod = classRowkeySetMethodPool.get(targetClass);
 
         if (rowKeySetMethod == null) {
-            final List<String> ids = ClassUtil.getIdFieldNames(targetClass);
+            final List<String> ids = QueryUtil.getIdFieldNames(targetClass);
 
             if (ids.size() > 1) {
                 throw new IllegalArgumentException("Multiple ids: " + ids + " defined/annotated in class: " + ClassUtil.getCanonicalClassName(targetClass));
@@ -891,7 +892,7 @@ public final class HBaseExecutor implements Closeable {
     /**
      *
      * @param entities <code>AnyPut</code> or entity with getter/setter methods
-     * @return 
+     * @return
      * @deprecated Use {@link AnyPut#toPut(Collection<?>)} instead
      */
     @Deprecated
@@ -952,7 +953,7 @@ public final class HBaseExecutor implements Closeable {
     private final Map<Class<?>, HBaseMapper> mapperPool = new ConcurrentHashMap<>();
 
     /**
-     * 
+     *
      * @param <T>
      * @param <K>
      * @param targetEntityClass
@@ -979,7 +980,7 @@ public final class HBaseExecutor implements Closeable {
     }
 
     /**
-     * 
+     *
      * @param <T>
      * @param <K>
      * @param targetEntityClass
@@ -2059,7 +2060,7 @@ public final class HBaseExecutor implements Closeable {
             N.checkArgument(ClassUtil.isEntity(targetEntityClass), "{} is not an entity class with getter/setter method", targetEntityClass);
 
             @SuppressWarnings("deprecation")
-            final List<String> idPropNames = ClassUtil.getIdFieldNames(targetEntityClass);
+            final List<String> idPropNames = QueryUtil.getIdFieldNames(targetEntityClass);
 
             if (idPropNames.size() != 1) {
                 throw new IllegalArgumentException(
@@ -2075,7 +2076,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         /**
-         * 
+         *
          * @param rowKey
          * @return
          * @throws UncheckedIOException
@@ -2085,7 +2086,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         /**
-         * 
+         *
          * @param rowKeys
          * @return
          * @throws UncheckedIOException
@@ -2097,7 +2098,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         /**
-         * 
+         *
          * @param rowKey
          * @return
          * @throws UncheckedIOException
@@ -2107,7 +2108,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         /**
-         * 
+         *
          * @param rowKeys
          * @return
          * @throws UncheckedIOException
@@ -2119,7 +2120,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         /**
-         * 
+         *
          * @param entityToPut
          * @throws UncheckedIOException
          */
@@ -2128,7 +2129,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         /**
-         * 
+         *
          * @param entitiesToPut
          * @throws UncheckedIOException
          */
@@ -2137,7 +2138,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         /**
-         * 
+         *
          * @param entityToDelete
          * @throws UncheckedIOException
          */
@@ -2146,7 +2147,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         /**
-         * 
+         *
          * @param entitiesToDelete
          * @throws UncheckedIOException
          */
@@ -2155,7 +2156,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         /**
-         * 
+         *
          * @param rowKey
          * @throws UncheckedIOException
          */
@@ -2164,7 +2165,7 @@ public final class HBaseExecutor implements Closeable {
         }
 
         /**
-         * 
+         *
          * @param rowKeys
          * @throws UncheckedIOException
          */

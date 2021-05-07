@@ -57,6 +57,7 @@ import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.Maps;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.ParsedSql;
+import com.landawn.abacus.util.QueryUtil;
 import com.landawn.abacus.util.SQLMapper;
 import com.landawn.abacus.util.u.Nullable;
 import com.landawn.abacus.util.u.Optional;
@@ -170,7 +171,7 @@ public final class CouchbaseExecutor implements Closeable {
      * @param idPropertyName
      * @see com.landawn.abacus.annotation.Id
      * @see javax.persistence.Id
-     * 
+     *
      * @deprecated please defined or annotated the key/id field by {@code @Id}
      */
     @Deprecated
@@ -365,7 +366,7 @@ public final class CouchbaseExecutor implements Closeable {
         Method idSetMethod = classIdSetMethodPool.get(targetClass);
 
         if (idSetMethod == null) {
-            final List<String> idFieldNames = ClassUtil.getIdFieldNames(targetClass);
+            final List<String> idFieldNames = QueryUtil.getIdFieldNames(targetClass);
             Method idPropSetMethod = null;
             Class<?> parameterType = null;
 
@@ -424,7 +425,7 @@ public final class CouchbaseExecutor implements Closeable {
                 return (T) result;
             }
         } else if (ClassUtil.isEntity(targetClass)) {
-            final Map<String, String> column2FieldNameMap = ClassUtil.getColumn2PropNameMap(targetClass);
+            final Map<String, String> column2FieldNameMap = QueryUtil.getColumn2PropNameMap(targetClass);
             final T entity = N.newInstance(targetClass);
             final List<String> columnNameList = new ArrayList<>(jsonObject.getNames());
             final EntityInfo entityInfo = ParserUtil.getEntityInfo(targetClass);
@@ -2511,7 +2512,7 @@ public final class CouchbaseExecutor implements Closeable {
         }
     }
 
-    /** 
+    /**
      *
      * @param sql
      * @return

@@ -55,6 +55,7 @@ import com.landawn.abacus.util.IOUtil;
 import com.landawn.abacus.util.Maps;
 import com.landawn.abacus.util.N;
 import com.landawn.abacus.util.ObjectPool;
+import com.landawn.abacus.util.QueryUtil;
 import com.landawn.abacus.util.u.Optional;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
@@ -196,7 +197,7 @@ public final class MongoDB {
      * @param idPropertyName
      * @see com.landawn.abacus.annotation.Id
      * @see javax.persistence.Id
-     * 
+     *
      * @deprecated please defined or annotated the key/id field by {@code @Id}
      */
     @Deprecated
@@ -256,11 +257,11 @@ public final class MongoDB {
                     final Set<String> columnNames = N.newLinkedHashSet();
                     @SuppressWarnings("rawtypes")
                     final List<Map<String, Object>> tmp = (List) rowList;
-            
+
                     for (Map<String, Object> row : tmp) {
                         columnNames.addAll(row.keySet());
                     }
-            
+
                     return N.newDataSet(columnNames, rowList);
                 } else {
                     return N.newDataSet(selectPropNames, rowList);
@@ -428,7 +429,7 @@ public final class MongoDB {
         Method idSetMethod = classIdSetMethodPool.get(targetClass);
 
         if (idSetMethod == null) {
-            final List<String> idFieldNames = ClassUtil.getIdFieldNames(targetClass);
+            final List<String> idFieldNames = QueryUtil.getIdFieldNames(targetClass);
             Method idPropSetMethod = null;
             Class<?> parameterType = null;
 
