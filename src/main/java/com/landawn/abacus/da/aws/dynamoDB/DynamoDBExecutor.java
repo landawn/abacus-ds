@@ -1620,7 +1620,7 @@ public final class DynamoDBExecutor implements Closeable {
             this.tableName = tableName;
             this.entityInfo = ParserUtil.getEntityInfo(targetEntityClass);
             this.keyPropInfos = Stream.of(idPropNames).map(it -> entityInfo.getPropInfo(it)).toList();
-            this.keyPropNames = Stream.of(keyPropInfos).map(it -> N.isNullOrEmpty(it.columnName.orNull()) ? it.name : it.columnName.orNull()).toList();
+            this.keyPropNames = Stream.of(keyPropInfos).map(it -> N.isNullOrEmpty(it.columnName.orElseNull()) ? it.name : it.columnName.orElseNull()).toList();
 
             this.namingPolicy = namingPolicy == null ? NamingPolicy.LOWER_CAMEL_CASE : namingPolicy;
         }
